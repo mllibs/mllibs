@@ -15,51 +15,8 @@
     --operator_color: #a221f2;
     --font_color: #3c3836; /* general font */
     --variable2_color: #b16286; /*self keyworda */
-    --box_color: #fffdee66;
+    --box_color: %s;
 }
-
-
-/* h1, .h1 { */
-/*     font-family: "Trebuchet MS", sans-serif; */
-/*     font-size: 2em !important; */
-/*     letter-spacing: 1px; */
-/*     /1* border-bottom: 3px solid #497564; *1/ */
-/*     /1* text-transform: uppercase; *1/ */
-/*     color: var(--header1_color); */
-/*     border-bottom: 3px solid var(--header1_color); */
-/* } */
-
-/* h1.title{ */
-/*     padding:5px */
-/* } */
-
-/* div.title { */
-/*     text-align: center; */
-/*     background-color: #d3e6d23d; */
-/*     height:3em; */
-/*     border-radius: 10px; */
-/*     box-shadow: 3px 3px #536f533d; */
-/*     margin-bottom: 8px; */
-/* } */
-
-/* h2, .h2 { */
-/*     font-family: "Trebuchet MS"; */
-/*     font-size: 1.7em !important; */
-/*     color: var(--header2_color); */
-/* } */
-
-/* h3, .h3 { */
-/*     font-family: "Trebuchet MS"; */
-/*     font-size: 1.4em !important; */
-/*     color: var(--header3_color); */
-/* } */
-
-/* .jp-mod-active .jp-Collapser-child{ */
-/*     background-color: #d79921; */
-/* } */
-/* .output { */
-/*     flex-direction: row; */
-/* } */
 
 .cm-s-jupyter span.cm-variable-2{
     color: var(--variable2_color);
@@ -104,53 +61,6 @@
 body[data-jp-theme-light="true"] .jp-Notebook .CodeMirror.cm-s-jupyter{
     background-color: var(--box_color) !important;
 }
-
-/* body[data-jp-theme-light="true"] .lm-Widget.p-Widget.jp-CodeMirrorEditor.jp-Editor.jp-InputArea-editor { */
-/*     border-color: #9b9b99 !important; */
-/*     border-style: solid none none !important; */
-/*     border-width: 2px medium medium !important; */
-/*     border-radius: 0; */
-/* } */
-
-/* /1* --- for rendering submitted notebook --- *1/ */
-/* div.text_cell_render h1 { */
-/*     font-family: "Trebuchet MS", sans-serif; */
-/*     font-size: 2em !important; */
-/*     letter-spacing: 1px; */
-/*     border-bottom: 3px solid var(--header1_color); */
-/*     /1* text-transform: uppercase; *1/ */
-/*     color: var(--header1_color); */
-/*     padding: 0px; */
-/*     margin-top: 5px; */
-/* } */
-
-/* div.text_cell_render h2 { */
-/*     font-family: "Trebuchet MS"; */
-/*     font-size: 1.7em !important; */
-/*     color: var(--header2_color); */
-/* } */
-
-/* div.text_cell_render h3 { */
-/*     font-family: "Trebuchet MS"; */
-/*     font-size: 1.4em !important; */
-/*     color: var(--header3_color); */
-/* } */
-
-/* .highlight .nn{ */
-/*     color: black; */
-/* } */
-
-/* .n{ */
-/*     color: black */
-/* } */
-
-/* .o{ */
-/*     color: black */
-/* } */
-
-/* .p{ */
-/*     color: black */
-/* } */
 
 .highlight .s1 {
     color: var(--string_color);
@@ -258,10 +168,6 @@ div.output_subarea.output_text{
 .jp-RenderedHTMLCommon :not(pre) > code{
     background-color: transparent !important;
 }
-
-/* h1.header { */
-/*     color: white !important; */
-/* } */
 
 .insights {
     line-height: 1.7em;
