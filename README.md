@@ -83,7 +83,17 @@ Here are some anwsers:
 
 
 #### **Package aims to provide:**
-- A userfiendly way introduction to Machine Learning for someone new to the field and have little knowledge of programming
+- A userfiendly way introduction to Machine Learning for someone new to the field that have little knowledge of programming
+
+
+#### **Kaggle Notebook:**
+
+Kaggle is used as a testing platform: **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
+
+
+#### **Components**
+- `nlp module` - stores all created submodules 
+- `nlp interpreter` - main module that interprets user text
 
 
 #### **Kaggle** | **Github** version: 
