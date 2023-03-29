@@ -6,9 +6,10 @@
 #### **About mllibs:**
 - Automation is quite an important concept in programming
 - `functional` or `class` based approaches to automation are two methods commonly used
-- One other approach we can utilise for automation is via human written text
 
-Let's take a look at how we would simplify our code using `functions`
+[mllibs] Hello! :)
+
+[mllibs] Let's take a look at how we would simplify our code using `functions`
 
 ```python
 def fib_list(n):
@@ -22,7 +23,7 @@ def fib_list(n):
 fib_list(5) # [0, 1, 1, 2, 3]
 ```
 
-Let's take a look at how we wold simplify our code using a `class`
+[mllibs] Let's take a look at how we wold simplify our code using a `class`
 
 ```python
 
@@ -43,12 +44,34 @@ fib = fib_list(5)
 fib.get_list() # [0, 1, 1, 2, 3]
 ```
 
-In a nutshell, mmlibs aims to provide the following automation 
+#### [begginer] has endered the chat!
+
+[mllibs] All fine and dandy! These two methods ...
+
+#### [begginer] What, I don't understand the above code :( pls explain? 
+
+[mllibs] Hmm :/ Perhaps if you would just write it in the language you understand 
 
 ```python
 input = 'calculate the fibonacci sequence for the value of 5'
 nlp_interpreter(input) # [0, 1, 1, 2, 3]
 ```
+
+#### [beginner] Okay :3 I don't know what fibanaci sequence is??
+
+[mllibs] Hmm, well the interpreter can provide some short explanations ...
+
+#### [GTP50] has entered the chat 
+#### [GTP50] I provide all explations to everything, need no say more beginner
+#### [GTP50] In mathematics, the Fibonacci sequence is a sequence in which each number is the sum of the two preceding ones. Individual numbers in the Fibonacci sequence are known as Fibonacci numbers, commonly denoted Fn . The sequence commonly starts from 0 and 1, although some authors start the sequence from 1 and 1 or sometimes (as did Fibonacci) from 1 and 2. Starting from 0 and 1, the first few values in the sequence are:[1]
+
+
+A tiling with squares whose side lengths are successive Fibonacci numbers: 1, 1, 2, 3, 5, 8, 13 and 21.
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144.
+The Fibonacci numbers were first described in Indian mathematics,[2][3][4] as early as 200 BC in work by Pingala on enumerating possible patterns of Sanskrit poetry formed from syllables of two lengths. They are named after the Italian mathematician Leonardo of Pisa, later known as Fibonacci, who introduced the sequence to Western European mathematics in his 1202 book Liber Abaci.[5] 
+
+[mllibs] X_X
+
 
 #### **Why does this library exist:**
 
@@ -61,7 +84,6 @@ Here are some anwsers:
 
 #### **Package aims to provide:**
 - A userfiendly way introduction to Machine Learning for someone new to the field and have little knowledge of programming
-
 
 
 #### **Kaggle** | **Github** version: 
