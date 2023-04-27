@@ -12,7 +12,7 @@
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
 - Often we see people create **functions** and **classes** to simplify the process of achieving something (which is good practice)
 - Likewise, **NLP interpreters** follow this trend as well, except, in this case our only inputs for activating certain code is **natural language**
-- In python, we can interpret **natural language** in the form of **string** type data
+- Using python, we can interpret **natural language** in the form of **string** type data, using **natural langauge interpreters**
 
 <br>
 
@@ -81,7 +81,7 @@ Here are some anwsers:
 
 #### **PROJECT STATUS**
 
-The project is still in testing phase:
+- `mllibs` is usable, but still very raw, I'm constantly trying way to improve and clean the code structure
 - If you would like to try it out, you can simply fork the notebook **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
 
 <br>
