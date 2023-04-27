@@ -189,11 +189,7 @@ interpreter.exec('create a scatterplot using data with x dimension1 y dimension2
 
 ```
 
+#### **PROJECT STATUS**
 
-<br>
+The project is still in testing phase, if you would like to try it out, you can simply fork the notebook **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
 
-#### **KAGGLE NOTEBOOK**
-
-The projet is still in testing phase, if you would like to try it out, you can simply fork the notebook on Kaggle
-
-The library is currently in testing phase: **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
