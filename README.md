@@ -78,37 +78,120 @@ Here are some anwsers:
 
 
 #### **LIBRARY COMPONENTS**
-- `nlp module` - stores all created submodules 
-- `nlp interpreter` - main module that interprets user text
+
+`mllibs` consists of two parts:
+
+(1) modules associated with the **interpreter**
+
+- `nlpm` - groups together everything required for the interpreter module `nlpi`
+- `nlpi` - main interpreter component module (requires `nlpm` instance)
+- `snlpi` - single request interpreter module (uses `nlpi`)
+- `mnlpi` - multiple request interpreter module (uses `nlpi`)
+- `interface` - interactive module (chat type)
+
+(2) custom added modules, for mllibs these library are associated with **machine learning**
+
+- `loader` - file management module, who's role is to access data, so it can be used (testing module)
+- `simple_eda` - exploratory data analysis module (testing module)
+- `eda_plot` - exploratory data analysis module associated with static graph plots (utilises seaborn)
+- `encoder` - nlp related module for converting text to numeric representation (text encoding)
+- `embedding` - nlp related module for generating embeddings for tokenised text data
+- `cleantext` - nlp related module for cleaning input text data
+- `sklinear` - Linear Regression module (testing module)
+- `hf_pipeline` - nlp related module for accessing huggingface pipelines
+
+<br>
+
+#### **MODULE COMPONENT STRUCTURE**
+
+Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
+
+```python
+
+# sample module class structure
+class sample(nlpi):
+    
+    # called in nlpm
+    def __init__(self,nlp_config):
+        self.name = 'sample'             # unique module name identifier (used in nlpm/nlpi)
+        self.nlp_config = nlp_config  # text based info related to module (used in nlpm/nlpi)
+        
+    # called in nlpi
+    def sel(self,args:dict):
+        
+        self.select = args['pred_task']
+        self.args = args
+        
+        if(self.select == 'function'):
+            self.function(self.args)
+        
+    # use standard or static methods
+        
+    def function(self,args:dict):
+        pass
+        
+    @staticmethod
+    def function(args:dict):
+        pass
+    
+
+corpus_sample = OrderedDict({"function":['task']}
+info_sample = {'function': {'module':'sample',
+                            'action':'action',
+                            'topic':'topic',
+                            'subtopic':'sub topic',
+                            'input_format':'input format for data',
+                            'output_format':'output format for data',
+                            'description':'write description'}}
+                         
+# configuration dictionary (passed in nlpm)
+configure_sample = {'corpus':corpus_sample,'info':info_sample}
+
+```
+
+<br>
+
+#### **CREATING A COLLECTION**
+
+First we need to combine all our module components together, this will link all passed modules together
+
+```python
+
+collection = nlpm()
+collection.load([loader(configure_loader),
+                 simple_eda(configure_eda),
+                 encoder(configure_nlpencoder),
+                 embedding(configure_nlpembed),
+                 cleantext(configure_nlptxtclean),
+                 sklinear(configure_sklinear),
+                 hf_pipeline(configure_hfpipe),
+                 eda_plot(configure_edaplt)])
+                 
+```
+
+Then we need to train `interpreter` models
+
+```python
+collection.train()
+```
+
+Lastly, pass the collection of modules (`nlpm` instance) to the interpreter `nlpi` 
+
+```python
+interpreter = nlpi(collection)
+```
+
+class `nlpi` can be used with method `exec` for user input interpretation
+
+```python
+
+interpreter.exec('create a scatterplot using data with x dimension1 y dimension2')
+
+```
+
+
+<br>
 
 #### **KAGGLE NOTEBOOK**
 
-Kaggle is used as a testing platform: **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
-
-#### **Kaggle** | **Github** version: 
-- **<code>[ml-models](https://www.kaggle.com/datasets/shtrausslearning/ml-models)</code>** **0.0.1** | **<code>[mllibs](https://github.com/shtrausslearning/mllibs)</code>** **0.0.1**
-
-#### pypi version:
-[![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs)
-
-#### **src** content:
-- `bl_regressor` - Bayesian Linear Regression Class
-- `gmm` - Gaussian Mixture Clustering Class
-- `gp_bclassifier` - Gaussian Process Binary Classification Class
-- `gp_regressor` - Gaussian Process Regression Class
-- `gpr_bclassifier` - Gaussian Process Regression Class (Turned Binary Classifier)
-- `kriging_regressor` - Universal Kriging Regression Class
-
-#### Installation:
-
-```python
-!pip install mllibs
-```
-
-#### **Used in Notebooks (Examples):**
-- **[Gaussian Processes | Airfoil Noise Modeling](https://www.kaggle.com/code/shtrausslearning/gaussian-processes-airfoil-noise-modeling)**
-- **[Geospatial Data Visualisation | Australia](https://www.kaggle.com/code/shtrausslearning/geospatial-data-visualisation-australia)**
-- **[Bayesian Regression | House Price Prediction](https://www.kaggle.com/code/shtrausslearning/bayesian-regression-house-price-prediction)**
-- **[Heart Disease | Gaussian Process Models](https://www.kaggle.com/code/shtrausslearning/heart-disease-gaussian-process-models)**
-- **[Spectogram Broadband Model & Peak Identifier](https://www.kaggle.com/code/shtrausslearning/spectogram-broadband-model-peak-identifier)**
-- **[CFD Trade-Off Study Visualisation | Response Model](https://www.kaggle.com/code/shtrausslearning/cfd-trade-off-study-visualisation-response-model)** 
+The library is currently in testing phase: **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
