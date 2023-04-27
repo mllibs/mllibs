@@ -1,9 +1,10 @@
 ![](https://i.imgur.com/y9vUpa0.png)
 
-#### **Project Information**
+#### **PROJECT INFORMATION**
 ![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://badgen.net/badge/status/WIP/blue) 
 
-#### **About mllibs:**
+#### **ABOUT PROJECT**
+
 - **mllibs** is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - In this notebook, we look at implementing an **NLP interpreter** module for ML related operations
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
@@ -11,9 +12,11 @@
 - Likewise, **NLP interpreters** follow this trend as well, except, in this case our only inputs for activating certain code is **natural language**
 - In python, we can interpret **natural language** in the form of **string** type data
 
-[mllibs] Hello! :)
+<br>
 
-[mllibs] Let's take a look at how we would simplify our code using `functions`
+#### **AUTOMATION EXAMPLES**
+
+(1) Let's take a look at how we would simplify our code using `functions`
 
 ```python
 def fib_list(n):
@@ -27,7 +30,7 @@ def fib_list(n):
 fib_list(5) # [0, 1, 1, 2, 3]
 ```
 
-[mllibs] Let's take a look at how we wold simplify our code using a `class`
+(2) Let's take a look at how we wold simplify our code using a `class` structure:
 
 ```python
 
@@ -48,36 +51,18 @@ fib = fib_list(5)
 fib.get_list() # [0, 1, 1, 2, 3]
 ```
 
-#### [begginer] has endered the chat!
+Such approaches presume we have coding knowledge, our next approach doesn't require such knowledge
 
-[mllibs] All fine and dandy! These two methods ...
-
-#### [begginer] What, I don't understand the above code :( pls explain? 
-
-[mllibs] Hmm :/ Perhaps if you would just write it in the language you understand 
+(3) Let's take a look how we could simplify this using **language**
 
 ```python
 input = 'calculate the fibonacci sequence for the value of 5'
 nlp_interpreter(input) # [0, 1, 1, 2, 3]
 ```
 
-#### [beginner] Okay :3 I don't know what fibanaci sequence is??
+<br>
 
-[mllibs] Hmm, well the interpreter can provide some short explanations ...
-
-#### [GPT50] has entered the chat 
-#### [GPT50] I provide all explations to everything, need no say more beginner
-#### [GPT50] In mathematics, the Fibonacci sequence is a sequence in which each number is the sum of the two preceding ones. Individual numbers in the Fibonacci sequence are known as Fibonacci numbers, commonly denoted Fn . The sequence commonly starts from 0 and 1, although some authors start the sequence from 1 and 1 or sometimes (as did Fibonacci) from 1 and 2. Starting from 0 and 1, the first few values in the sequence are:[1]
-
-
-A tiling with squares whose side lengths are successive Fibonacci numbers: 1, 1, 2, 3, 5, 8, 13 and 21.
-0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144.
-The Fibonacci numbers were first described in Indian mathematics,[2][3][4] as early as 200 BC in work by Pingala on enumerating possible patterns of Sanskrit poetry formed from syllables of two lengths. They are named after the Italian mathematician Leonardo of Pisa, later known as Fibonacci, who introduced the sequence to Western European mathematics in his 1202 book Liber Abaci.[5] 
-
-[mllibs] X_X
-
-
-#### **Why does this library exist:**
+#### **WHY THIS LIBRARY EXISTS**
 
 A good question to ask ourselves is why would this be needed?
 
@@ -89,16 +74,16 @@ Here are some anwsers:
 #### **Package aims to provide:**
 - A userfiendly way introduction to Machine Learning for someone new to the field that have little knowledge of programming
 
-
-#### **Kaggle Notebook:**
-
-Kaggle is used as a testing platform: **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
+<br>
 
 
-#### **Components**
+#### **LIBRARY COMPONENTS**
 - `nlp module` - stores all created submodules 
 - `nlp interpreter` - main module that interprets user text
 
+#### **KAGGLE NOTEBOOK**
+
+Kaggle is used as a testing platform: **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
 
 #### **Kaggle** | **Github** version: 
 - **<code>[ml-models](https://www.kaggle.com/datasets/shtrausslearning/ml-models)</code>** **0.0.1** | **<code>[mllibs](https://github.com/shtrausslearning/mllibs)</code>** **0.0.1**
