@@ -4,6 +4,8 @@
 
 #### **1. ABOUT PROJECT**
 
+***
+
 - **mllibs** is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - In this notebook, we look at implementing an **NLP interpreter** module for ML related operations
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
@@ -13,7 +15,9 @@
 
 <br>
 
-#### **2. AUTOMATION EXAMPLES**
+#### **2. CODE AUTOMATION**
+
+***
 
 I'm sure most people are familiar with code automation:
 
@@ -61,7 +65,11 @@ input = 'calculate the fibonacci sequence for the value of 5'
 nlp_interpreter(input) # [0, 1, 1, 2, 3]
 ```
 
+<br>
+
 #### **3. LETS LOOK AT AN EXAMPLE**
+
+***
 
 Let's check out one example of how it works; let's visualise some data by requesting:
 
@@ -74,6 +82,8 @@ Our cell output will be:
 <br>
 
 #### **4. WHY THIS LIBRARY EXISTS**
+
+***
 
 A good question to ask ourselves is why would this be needed?
 
@@ -90,15 +100,16 @@ Here are some anwsers:
 
 #### **PROJECT STATUS**
 
+***
+
 - `mllibs` is usable, but still very raw, I'm constantly trying way to improve and clean the code structure
 - If you would like to try it out, you can simply fork the notebook **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
 
 <br>
 
-
-### **MLLIBS COMPONENTS**
-
 #### **LIBRARY COMPONENTS**
+
+***
 
 `mllibs` consists of two parts:
 
@@ -124,6 +135,8 @@ Here are some anwsers:
 <br>
 
 #### **MODULE COMPONENT STRUCTURE**
+
+***
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
 
@@ -173,6 +186,8 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 <br>
 
 #### **CREATING A COLLECTION**
+
+***
 
 First we need to combine all our module components together, this will link all passed modules together
 
