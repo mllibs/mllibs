@@ -2,10 +2,13 @@
 from mllibs.nlpi import nlpi
 from mllibs.nlpm import nlpm
 
-# 
+# import additional modules
 from mllibs.mloader import loader,configure_loader
 from mllibs.mseda import simple_eda,configure_eda
 from mllibs.meda_splot import eda_plot, configure_edaplt
+from mllibs.meda_scplot import eda_colplot, configure_colplot
+from mllibs.mpd_df import dataframe_oper, configure_pda
+from mllibs.mnlp_encoder import encoder, configure_nlpencoder
 
 
 # single command interpreter, multiple command interpreter & interface (chat)
@@ -71,11 +74,12 @@ class interface(snlpi,mnlpi,nlpi):
     def prestart(self):
 
         collection = nlpm()
-        collection.load([loader(configure_loader),
-                         simple_eda(configure_eda),
-                         eda_plot(configure_edaplt),
-                        # eda_colplot(configure_colplot),
-                        # encoder(configure_nlpencoder),
+        collection.load([loader(configure_loader),        # load data
+                         simple_eda(configure_eda),       # pandas dataframe information
+                         eda_plot(configure_edaplt),      # standard visuals
+                         eda_colplot(configure_colplot),  # column based visuals
+                         dataframe_oper(configure_pda),   # pandas dataframe operations
+                         encoder(configure_nlpencoder),
                         # embedding(configure_nlpembed),
                         # cleantext(configure_nlptxtclean),
                         # sklinear(configure_sklinear),

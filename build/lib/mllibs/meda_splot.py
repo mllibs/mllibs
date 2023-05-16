@@ -15,6 +15,13 @@ def hex_to_rgb(h):
 palette = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252']
 palette_rgb = [hex_to_rgb(x) for x in palette]
 
+'''
+
+Standard seaborn library visualisations
+
+
+'''
+
 
 # sample module class structure
 class eda_plot(nlpi):
@@ -161,9 +168,15 @@ class eda_plot(nlpi):
             'grid.linestyle': '--'
         })
         
+        if(args['bw'] is None):
+            bw = 0.8
+        else:
+            bw = eval(args['bw'])
+        
         sns.boxplot(x=args['x'], 
                     y=args['y'],
                     hue=args['hue'],
+                    width=bw,
                     palette=palette,
                     data=args['data'])
         
@@ -222,9 +235,16 @@ class eda_plot(nlpi):
             'grid.linestyle': '--'
         })
         
+        # bar width
+        if(args['bw'] is None):
+            bw = 'auto'
+        else:
+            bw = eval(args['bw'])
+        
         sns.histplot(x=args['x'], 
                      y=args['y'],
                      hue = args['hue'],
+                     bins = bw,
                      palette = palette,
                      data=args['data'])
         
@@ -252,6 +272,7 @@ class eda_plot(nlpi):
         sns.kdeplot(x=args['x'],
                     y=args['y'],
                     palette=palette,
+                    fill=nlpi.pp['fill'],
                     data = args['data'],
                     hue = args['hue'])
         

@@ -2,7 +2,7 @@
 from mllibs.nlpm import nlpm
 import numpy as np
 import pandas as pd
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, WhitespaceTokenizer 
 
 
 def hex_to_rgb(h):
@@ -244,27 +244,33 @@ class nlpi(nlpm):
     def sort_module_args(self):
         
         # acceptable data types
-        accept_types = (str,list,dict,pd.DataFrame,pd.Series)
+#        accept_types = (str,list,dict,pd.DataFrame,pd.Series)
         
+        # input format 
         in_format = self.module.mod_summary.loc[self.task_name,'input_format']
-        if(self.verbose): print(f'required input format for task {self.task_name}: {in_format}')
-        
+            
         # dataframe containing information of data sources of tokens
         available_data = self.token_info[['data','dtype']].dropna() 
-        len_data = len(available_data)
+        len_data = len(available_data) # number of rows of data
         
-        # if we only have one type, then it is the data we need
-        if(len_data == 1):            
-            
-            # if available data matches input function input requirement
+        '''
+        
+        One data source token is found
+        
+        '''
+        
+        # if we only have data token, it should be the required function input
+        
+        if(len_data == 1):
+        
             ldtype = available_data.loc[available_data.index,'dtype'].values[0]
             ldata = self.get_td(available_data.index)
             
             if(ldtype == in_format):
-                if(self.verbose): print('found matching type data!')
                 self.module_args['data'] = self.get_td(available_data.index)
+                
             else:
-                if(self.verbose): print('trying to convert data to required format!')
+                
                 # try to convert input data to dataframe
                 if(in_format == 'pd.DataFrame'):
                     self.module_args['data'] = self.convert_to_df(ldata)
@@ -272,11 +278,28 @@ class nlpi(nlpm):
                     self.module_args['data'] = self.convert_to_list(ldata)
             
         elif(len_data > 1):
+            
+            # match to input requirement
             data_type_match = available_data[available_data['dtype'] == in_format]
+            
+            # in most cases, there should be only 1 data source passed to funct
             if(len(data_type_match) == 1):
                 self.module_args['data'] = self.get_td(data_type_match.index)
+                
+            # pandas operations can require two (eg. concat)
+            elif(len(data_type_match) == 2):
+                
+                self.module_args['data'] = []
+                for idx in list(data_type_match.index):
+                    self.module_args['data'].append(self.get_td(idx))
+                    
+            else:
+                
+                print('[note] more than 2 data sources found')
+
+                
         else:
-            raise NameError('Function input data has not been set!')
+            print('[note] no data has been set')
                         
 #       read output format          
         out_format = self.module.mod_summary.loc[self.task_name,:]['output_format']    
@@ -286,6 +309,10 @@ class nlpi(nlpm):
         Check for column related tokens 
         
         '''
+                
+        # indicies for tokens
+        tokeniser = WhitespaceTokenizer()
+        tokens_index = list(tokeniser.span_tokenize(self.command))  
         
         # we actually have column (from dataframe) data
     
@@ -293,23 +320,24 @@ class nlpi(nlpm):
         len_col_data = len(col_data)
         column_tokens = list(col_data.index)
         
-        if(len_col_data is not 0):            
+        if(len_col_data is not 0):
+            
+            # for each token that was found in dataframe columns            
             for token in column_tokens:
                 
-                if(out_format == 'figure'):   
-                    if(self.tokens[self.tokens.index(token)-1] == 'x'):
-                        self.module_args['x'] = token
-                    if(self.tokens[self.tokens.index(token)-1] == 'y'):
-                        self.module_args['y'] = token
-                    if(self.tokens[self.tokens.index(token)-1] == 'hue'):
-                        self.module_args['hue'] = token
-                    if(self.tokens[self.tokens.index(token)-1] == 'col'):
-                        self.module_args['col'] = token
-                    if(self.tokens[self.tokens.index(token)-1] == 'row'):
-                        self.module_args['row'] = token
-                    if(self.tokens[self.tokens.index(token)-1] == 'target'):
-                        self.module_args['target'] = token
+                # find index where it is located in input command
+                matched_index_in_tokens = self.command.index(token)
                 
+                # all possible options we are interested
+                lst_options = ['x','y','hue','col','row','target','val']
+                
+                for option in lst_options:
+                    
+                    for ii,segment in enumerate(tokens_index):
+                        if(matched_index_in_tokens in segment):
+                            if(self.tokens[ii-1] == option):
+                                self.module_args[option] = token
+
                         
         '''
         
@@ -345,12 +373,33 @@ class nlpi(nlpm):
                 
             #if(token in lst_target):
              #   self.module_args['target'] = self.get_td(self.tokens[ii+1])
+             
+             
+        ''' find general tokens '''
+        
+        # lets find some general tokens 
+        
+        for ii,token in enumerate(self.tokens):
+            
+            if(self.tokens[self.tokens.index(token)-1] == 'agg'):
+                self.module_args['agg'] = token
+            if(self.tokens[self.tokens.index(token)-1] == 'join'):
+                self.module_args['join'] = token
+            if(self.tokens[self.tokens.index(token)-1] == 'axis'):
+                self.module_args['axis'] = token
+            if(self.tokens[self.tokens.index(token)-1] == 'bw'):
+                self.module_args['bw'] = token
+
                 
     # tokenisers, return list of tokens          
                 
     @staticmethod
     def nltk_tokeniser(text):
         return word_tokenize(text)
+        
+    @staticmethod
+    def nltk_wtokeniser(text):
+        return WhitespaceTokenizer().tokenize(text)
            
     def do(self,command:str,args:dict):
         
@@ -368,7 +417,8 @@ class nlpi(nlpm):
         self.module_args = {'pred_task': None, 'data': None,'subset': None,
                             'features': None, 'target' : None,
                             'x': None, 'y': None, 'hue': None,'col':None,'row':None,
-                            'col_wrap':None,'kind':'scatter',
+                            'col_wrap':None,'kind':'scatter', 'val':None, 'agg':'mean',
+                            'join':'inner','axis':'0','bw':None,
                             'figsize':[None,None]}
         
         # update argument dictionary if it was set
@@ -379,7 +429,8 @@ class nlpi(nlpm):
         ''' Tokenise Input Command '''
         
         # tokenise input, unigram. bigram and trigram
-        self.tokens = self.nltk_tokeniser(self.command)    
+#        self.tokens = self.nltk_tokeniser(self.command)    
+        self.tokens = self.nltk_wtokeniser(self.command)
         self.bigram_tokens = self.n_grams(self.tokens,2)
         self.trigram_tokens = self.n_grams(self.tokens,3)
         
@@ -428,4 +479,3 @@ class nlpi(nlpm):
             pass
         else:
             nlpi.memory_output.append(np.nan) # initialise output data (overwritten in module.function
-        

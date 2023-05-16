@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mllibs
-Version: 0.0.1
+Version: 0.0.4
 Summary: Simplifying machine learning
 Home-page: https://github.com/shtrausslearning/mllibs
 Author: Andrey Shtrauss
@@ -15,5 +15,5 @@ Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
-# mllibs
+UNKNOWN
 

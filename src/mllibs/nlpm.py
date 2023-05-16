@@ -220,7 +220,8 @@ class nlpm:
         
         ''' Preprocess text data '''
         
-        vect = CountVectorizer()
+        # vect = CountVectorizer()
+        vect = CountVectorizer(tokenizer=lambda x: word_tokenize(x))
 #         lvect = clone(vect)
         
         # lemmatiser

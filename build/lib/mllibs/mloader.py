@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from collections import OrderedDict
 from mllibs.nlpi import nlpi
 
@@ -80,8 +81,8 @@ class loader(nlpi):
                 dict_storage = {}
                 for i,df in enumerate(lst):
                     dict_storage[lst_names[i]] = df
-            
-                nlpi.memory_output[lst_names[i]] = dict_storage
+    
+                nlpi.memory_output.append(dict_storage)
                     
             else:
 

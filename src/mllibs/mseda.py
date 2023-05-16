@@ -3,8 +3,13 @@ import pandas as pd
 from collections import OrderedDict
 from mllibs.nlpi import nlpi
     
-# class that will store task methods
-# can utilise interpreter methods
+'''
+
+
+Simple DataFrame EDA operations
+
+
+'''
 
 class simple_eda(nlpi):
     
@@ -12,8 +17,9 @@ class simple_eda(nlpi):
         self.name = 'eda'             # unique module name identifier
         self.nlp_config = nlp_config  # text based info related to module
         self.select = None            # store index which module was activated
-        self.data = None              # store data which is to be used in activated function
-        self.args = None              # store all module arguments which were passed to module
+        self.data = None              # store data which is to be used in activated 
+        # store all module arguments which were passed to module
+        self.args = None              
     
     # describe contents of class
                     
@@ -71,6 +77,8 @@ corpus_eda = OrderedDict({
     
                 'show_info' : ['show data information',
                                'show dataset information',
+                               'show dataframe information',
+                               'show dataframe info',
                                'data info',
                                'df info',
                                'dataframe information',
@@ -80,6 +88,7 @@ corpus_eda = OrderedDict({
               "show_missing":['find missing data',
                               'missing data.',
                               'data missing',
+                              'show missing data',
                               'show missing data in columns',
                               'show column missing data',
                               'column missing data',
@@ -87,19 +96,22 @@ corpus_eda = OrderedDict({
                               'print missing data'],
 
             'show_stats': ['show describe',
+                           'show statistics',
+                           'show stats'
+                           'show dataframe statistics',
                            'statistics',
-                          'statistics minimum',
-                          'statistics maximum',
-                          'statistics mean',
-                          'stats minimum',
-                          'stats maximum',
-                          'stats mean',
-                          'pandas describe',
-                          'pandas statistics',
-                          'pandas stats'
-                          'statistics dataframe',
-                          'dataframe statistics'  
-                          'tabular statistics'],
+                           'statistics minimum',
+                           'statistics maximum',
+                           'statistics mean',
+                           'stats minimum',
+                           'stats maximum',
+                           'stats mean',
+                           'pandas describe',
+                           'pandas statistics',
+                           'pandas stats'
+                           'statistics dataframe',
+                           'dataframe statistics'  
+                           'tabular statistics'],
             
             'show_dtypes': ['show dataframe dtypes',
                             'show data types',
@@ -117,6 +129,7 @@ corpus_eda = OrderedDict({
                           'create correlation',
                           'correlation',
                           'show feature correlation',
+                          'show correlation',
                           'genenerate correlation matrix',
                           'show correlation matrix',
                           'show correlation of features'],
