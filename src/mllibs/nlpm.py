@@ -19,7 +19,7 @@ with zipfile.ZipFile(wordn,"r") as zip_ref:
     zip_ref.extractall(wordnt)
 
 from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, WhitespaceTokenizer
 
 
 '''
@@ -221,34 +221,39 @@ class nlpm:
         ''' Preprocess text data '''
         
         # vect = CountVectorizer()
-        vect = CountVectorizer(tokenizer=lambda x: word_tokenize(x))
+#        vect = CountVectorizer(tokenizer=lambda x: word_tokenize(x))
+        vect = CountVectorizer(tokenizer=lambda x: WhitespaceTokenizer().tokenize(x))
 #         lvect = clone(vect)
         
         # lemmatiser
-        lemma = WordNetLemmatizer() 
+#        lemma = WordNetLemmatizer() 
         
         # define a function for preprocessing
-        def clean(text):
-            tokens = word_tokenize(text) #tokenize the text
-            clean_list = [] 
-            for token in tokens:
-                clean_list.append(lemma.lemmatize(token)) #lemmatizing and appends to clean_list
-            return " ".join(clean_list)# joins the tokens
+#        def clean(text):
+#            tokens = word_tokenize(text) #tokenize the text
+#            clean_list = [] 
+#            for token in tokens:
+#                lemmatizing and appends to clean_list
+#                clean_list.append(lemma.lemmatize(token)) 
+#            return " ".join(clean_list)# joins the tokens
 
-        # clean corpus
-        corpus['text'] = corpus['text'].apply(clean)
+#         clean corpus
+#        corpus['text'] = corpus['text'].apply(clean)
         
         ''' Convert text to numeric representation '''
         
         vect.fit(corpus['text']) # input into vectoriser is a series
+        
         vectors = vect.transform(corpus['text']) # sparse matrix
         self.vectoriser[module_name] = vect  # store vectoriser 
 
         ''' Make training data '''
+        
         X = np.asarray(vectors.todense())
         y = corpus['class'].values.astype('int')
 
         ''' Train model on numeric corpus '''
+        
         model_lr = LogisticRegression()
         model = clone(model_lr)
         model.fit(X,y)

@@ -56,9 +56,18 @@ class eda_colplot(nlpi):
         
         num,cat = self.split_types(args['data'])
             
+        if(args['x'] is not None):
+            xloc = args['data'][args['x']]
+        else:
+            xloc = None
+            
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
-            palette = palette_rgb[:len(hueloc.value_counts())]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
             hueloc = None
             palette = palette_rgb
@@ -113,9 +122,18 @@ class eda_colplot(nlpi):
         else:
             xloc = None
             
+        if(args['x'] is not None):
+            xloc = args['data'][args['x']]
+        else:
+            xloc = None
+            
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
-            palette = palette_rgb[:len(hueloc.value_counts())]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
             hueloc = None
             palette = palette_rgb
@@ -173,7 +191,11 @@ class eda_colplot(nlpi):
             
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
-            palette = palette_rgb[:len(hueloc.value_counts())]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
             hueloc = None
             palette = palette_rgb

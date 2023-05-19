@@ -61,15 +61,17 @@ class eda_plot(nlpi):
       
     @staticmethod
     def seaborn_scatterplot(args:dict):
-    
+           
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            if(type(nlpi.pp['stheme']) is list):
-                palette = nlpi.pp['stheme'][:subgroups]
-            else:
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
                 palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = nlpi.pp['stheme']
+            hueloc = None
+            palette = palette_rgb
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -80,9 +82,9 @@ class eda_plot(nlpi):
         sns.scatterplot(x=args['x'], 
                         y=args['y'],
                         hue=args['hue'],
-                    alpha= nlpi.pp['alpha'],
-                    linewidth=nlpi.pp['mew'],
-                    edgecolor=nlpi.pp['mec'],
+                        alpha= nlpi.pp['alpha'],
+                        linewidth=nlpi.pp['mew'],
+                        edgecolor=nlpi.pp['mec'],
                         s = nlpi.pp['s'],
                         data=args['data'],
                         palette=palette)
@@ -96,10 +98,15 @@ class eda_plot(nlpi):
     def seaborn_lmplot(args:dict):
     
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            palette = nlpi.pp['stheme'][:subgroups]
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = nlpi.pp['stheme']
+            hueloc = None
+            palette = palette_rgb
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -121,13 +128,15 @@ class eda_plot(nlpi):
     def seaborn_relplot(args:dict):
             
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            if(type(nlpi.pp['stheme']) is list):
-                palette = nlpi.pp['stheme'][:subgroups]
-            else:
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
                 palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = nlpi.pp['stheme']            
+            hueloc = None
+            palette = palette_rgb           
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -157,9 +166,14 @@ class eda_plot(nlpi):
     def seaborn_boxplot(args:dict):
         
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            palette = palette_rgb[:subgroups]
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
+            hueloc = None
             palette = palette_rgb
             
         sns.set_style("whitegrid", {
@@ -187,10 +201,15 @@ class eda_plot(nlpi):
     def seaborn_violinplot(args:dict):
         
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            palette = nlpi.pp['stheme'][:subgroups]
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = nlpi.pp['stheme']
+            hueloc = None
+            palette = palette_rgb
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -221,13 +240,15 @@ class eda_plot(nlpi):
     def seaborn_histplot(args:dict):
         
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            if(type(nlpi.pp['stheme']) is list):
-                palette = nlpi.pp['stheme'][:subgroups]
-            elif(type(nlpi.pp['stheme']) is str):
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
                 palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = nlpi.pp['stheme']
+            hueloc = None
+            palette = palette_rgb
 
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -255,13 +276,15 @@ class eda_plot(nlpi):
     def seaborn_kdeplot(args:dict):
             
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            if(type(nlpi.pp['stheme']) is list):
-                palette = nlpi.pp['stheme'][:subgroups]
-            else:
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
                 palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = None
+            hueloc = None
+            palette = palette_rgb
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -301,6 +324,7 @@ class eda_plot(nlpi):
         else:
             hueloc = None
             palette = nlpi.pp['stheme']
+        
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -328,13 +352,15 @@ class eda_plot(nlpi):
     def seaborn_lineplot(args:dict):
     
         if(args['hue'] is not None):
-            subgroups = len(args['data'][args['hue']].value_counts())
-            if(type(nlpi.pp['stheme']) is list):
-                palette = nlpi.pp['stheme'][:subgroups]
-            else:
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
                 palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
         else:
-            palette = nlpi.pp['stheme']
+            hueloc = None
+            palette = palette_rgb
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -354,12 +380,23 @@ class eda_plot(nlpi):
         plt.show()
         nlpi.resetpp()
                 
-    @staticmethod
-    def seaborn_heatmap(args:dict):
+    def seaborn_heatmap(self,args:dict):
         
-        corr_mat = args['data'].corr().round(2);   
-        sns.heatmap(corr_mat,vmin=-0.5,vmax=0.5,center=0, 
-                    cmap='YlGnBu',square=True,lw=2,annot=True,cbar=False)    
+        if(args['hue'] is not None):
+            hueloc = args['data'][args['hue']]
+            if(type(nlpi.pp['stheme']) is str):
+                palette = nlpi.pp['stheme']
+            else:
+                palette = palette_rgb[:len(hueloc.value_counts())]
+                
+        else:
+            hueloc = None
+            palette = palette_rgb
+        
+        num,cat = self.split_types(args['data'])
+        sns.heatmap(num,cmap=palette,
+                    square=True,lw=2,
+                    annot=True,cbar=True)    
     
         
 corpus_edaplt = OrderedDict({  
@@ -438,12 +475,11 @@ corpus_edaplt = OrderedDict({
                                            'create lineplot',
                                            'make lineplot'],
                              
-                             'scorrplot' : ['create seaborn correlation plot',
-                                              'make correlation plot',
-                                              'correlation plot',
-                                              'correlation figure',
-                                              'make correlation figure',
-                                              'visualise correlation figure']                               
+                             'scorrplot' : ['create seaborn heatmap plot',
+                                              'make seaborn heatmap plot',
+                                              'create heatmap plot',
+                                              'make heatmap figure',
+                                              'visualise heatmap figure']                               
                             
                             })
                             

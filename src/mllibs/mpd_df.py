@@ -3,6 +3,13 @@ import pandas as pd
 from collections import OrderedDict
 from mllibs.nlpi import nlpi
 
+'''
+
+Pandas DataFrame related Operations
+
+
+'''
+
 
 # sample module class structure
 class dataframe_oper(nlpi):
@@ -70,33 +77,39 @@ class dataframe_oper(nlpi):
         
     def subset_label(self,args:dict):
     
-        df1 = args['data'][0]
-        df2 = args['data'][1]
+        if(type(args['data']) is list):
+        
+            df1 = args['data'][0]
+            df2 = args['data'][1]
+        
+            def subset_merge(df1:pd.DataFrame,df2:pd.DataFrame):
+                
+                diff_1 = set(df1.columns) - set(df2.columns)
+                diff_2 = set(df2.columns) - set(df1.columns)
+                if(len(diff_1) != 0 and len(diff_2) == 0):
+                    target = diff_1
+                elif(len(diff_1) == 0 and len(diff_2) == 0):
+                    target = diff_2
+                elif(len(diff_1) > 1 or len(diff_2) > 1):
+                    print('more than one column name missmatch!')
+                elif(len(diff_1) == 0 and len(diff_2) == 0):
+                    print('columns are identical')
     
-        def subset_merge(df1:pd.DataFrame,df2:pd.DataFrame):
+                df1['set'] = 'first'
+                df2['set'] = 'second'
+                
+                return pd.concat([df1,df2],axis=0)
+    
+            merged_df = subset_merge(df1,df2)
+            merged_df.reset_index(inplace=True)
+            nlpi.memory_output.append(merged_df)
             
-            diff_1 = set(df1.columns) - set(df2.columns)
-            diff_2 = set(df2.columns) - set(df1.columns)
-            if(len(diff_1) != 0 and len(diff_2) == 0):
-                target = diff_1
-            elif(len(diff_1) == 0 and len(diff_2) == 0):
-                target = diff_2
-            elif(len(diff_1) > 1 or len(diff_2) > 1):
-                print('more than one column name missmatch!')
-            elif(len(diff_1) == 0 and len(diff_2) == 0):
-                print('columns are identical')
+'''
 
-            df1['set'] = 'first'
-            df2['set'] = 'second'
-            
-            return pd.concat([df1,df2],axis=0)
+Corpus
 
-        merged_df = subset_merge(df1,df2)
-        merged_df.reset_index(inplace=True)
-        
-        
-        
-        nlpi.memory_output.append(merged_df)
+
+'''
         
         
 corpus_pda = OrderedDict({})
@@ -126,7 +139,16 @@ corpus_pda['subset_concat'] = ['merge subsets',
 								  'compare subset df',
            					  'label subset dataframes',
             					  'create subset dataframe labels',
+        
 ]
+ 
+'''
+
+Module Information Dictionary
+
+
+'''
+
  
 info_pda = {}
              

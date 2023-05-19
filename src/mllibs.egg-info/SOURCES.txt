@@ -4,6 +4,7 @@ setup.cfg
 setup.py
 src/mllibs/__init__.py
 src/mllibs/interface.py
+src/mllibs/mdsplit.py
 src/mllibs/meda_scplot.py
 src/mllibs/meda_splot.py
 src/mllibs/mloader.py

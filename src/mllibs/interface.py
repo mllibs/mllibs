@@ -9,6 +9,7 @@ from mllibs.meda_splot import eda_plot, configure_edaplt
 from mllibs.meda_scplot import eda_colplot, configure_colplot
 from mllibs.mpd_df import dataframe_oper, configure_pda
 from mllibs.mnlp_encoder import encoder, configure_nlpencoder
+from mllibs.mdsplit import make_fold,configure_makefold
 
 
 # single command interpreter, multiple command interpreter & interface (chat)
@@ -80,6 +81,7 @@ class interface(snlpi,mnlpi,nlpi):
                          eda_colplot(configure_colplot),  # column based visuals
                          dataframe_oper(configure_pda),   # pandas dataframe operations
                          encoder(configure_nlpencoder),
+                         make_fold(configure_makefold)
                         # embedding(configure_nlpembed),
                         # cleantext(configure_nlptxtclean),
                         # sklinear(configure_sklinear),

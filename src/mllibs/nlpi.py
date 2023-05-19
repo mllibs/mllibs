@@ -32,7 +32,7 @@ class nlpi(nlpm):
         nlpi.iter = -1                         # execution iteraction counter
         
         # class plot parameters
-        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':False,'stheme':palette_rgb,'s':30}
+        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'stheme':palette_rgb,'s':30}
         
     def setpp(self,params:dict):
         if(type(params) is not dict):
@@ -43,7 +43,7 @@ class nlpi(nlpm):
    
     @classmethod
     def resetpp(cls):
-        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':False,'stheme':palette_rgb,'s':30}
+        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'stheme':palette_rgb,'s':30}
 
     # Check all available data sources, update dsources dictionary
                     
@@ -204,8 +204,7 @@ class nlpi(nlpm):
 #         recommender_module = self.module.recommend_module(self.command) # module recommend
 #         print(ms_name,recommender_module)
         
-        
-        if(self.verbose): print(f'using module: {ms_name}')
+        print(f'using module: {ms_name}')
         
         # Available tasks 
     
@@ -216,7 +215,7 @@ class nlpi(nlpm):
         # [2] name o the module task to be called
         t_name = lst_tasks[t_pred] 
         
-        if(self.verbose): print(f'Executing Module Task: {t_name}')
+        print(f'Executing Module Task: {t_name}')
 
         # store predictions
         self.task_pred = t_pred
@@ -242,10 +241,7 @@ class nlpi(nlpm):
             raise TypeError('Could not convert input data to list')
     
     def sort_module_args(self):
-        
-        # acceptable data types
-#        accept_types = (str,list,dict,pd.DataFrame,pd.Series)
-        
+                
         # input format 
         in_format = self.module.mod_summary.loc[self.task_name,'input_format']
             
@@ -389,6 +385,12 @@ class nlpi(nlpm):
                 self.module_args['axis'] = token
             if(self.tokens[self.tokens.index(token)-1] == 'bw'):
                 self.module_args['bw'] = token
+            if(self.tokens[self.tokens.index(token)-1] == 'splits'):
+                self.module_args['splits'] = token    
+            if(self.tokens[self.tokens.index(token)-1] == 'shuffle'):
+                self.module_args['shuffle'] = token    
+            if(self.tokens[self.tokens.index(token)-1] == 'rs'):
+                self.module_args['rs'] = token    
 
                 
     # tokenisers, return list of tokens          
@@ -419,7 +421,8 @@ class nlpi(nlpm):
                             'x': None, 'y': None, 'hue': None,'col':None,'row':None,
                             'col_wrap':None,'kind':'scatter', 'val':None, 'agg':'mean',
                             'join':'inner','axis':'0','bw':None,
-                            'figsize':[None,None]}
+                            'figsize':[None,None],'test_size':'0.3',
+                            'splits':'3','shuffle':'True','rs':'32'}
         
         # update argument dictionary if it was set
         
