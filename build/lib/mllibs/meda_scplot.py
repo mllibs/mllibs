@@ -83,8 +83,6 @@ class eda_colplot(nlpi):
             plot_axes = [ax[i]]
             
             sns.set_style("whitegrid", {
-            "ytick.major.size": 0.1,
-            "ytick.minor.size": 0.05,
             'grid.linestyle': '--'})
     
             sns.kdeplot(data=args['data'],
@@ -146,8 +144,6 @@ class eda_colplot(nlpi):
             plot_axes = [ax[i]]
             
             sns.set_style("whitegrid", {
-            "ytick.major.size": 0.1,
-            "ytick.minor.size": 0.05,
             'grid.linestyle': '--'})
 
 
@@ -207,10 +203,7 @@ class eda_colplot(nlpi):
         for i, column in enumerate(columns):
             plot_axes = [ax[i]]
             
-            
             sns.set_style("whitegrid", {
-            "ytick.major.size": 0.1,
-            "ytick.minor.size": 0.05,
             'grid.linestyle': '--'})
 
             sns.scatterplot(
@@ -234,6 +227,7 @@ class eda_colplot(nlpi):
             ax[i].axis('off')
         
         plt.tight_layout()
+        plt.show()
     
 
 corpus_colplot = OrderedDict({"col_kde":['plot column feature kernel density estimation',

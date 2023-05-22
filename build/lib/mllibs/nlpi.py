@@ -2,6 +2,8 @@
 from mllibs.nlpm import nlpm
 import numpy as np
 import pandas as pd
+import random
+import panel as pn
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer 
 
 
@@ -21,6 +23,8 @@ class nlpi(nlpm):
     def __init__(self,module=None,verbose=0):
         
         self.module = module                  # collection of modules
+        self._make_task_info()                # create self.task_info
+        
         self.data = {}                        # dictionary for storing data
         self.dsources = {}                    # store all data source keys
         self.token_data = []                  # store all token data
@@ -56,7 +60,6 @@ class nlpi(nlpm):
         print(lst_data,'\n')
         
                
-        
     def store(self,data,name):
         self.data[name] = data
         
@@ -99,12 +102,11 @@ class nlpi(nlpm):
         ''' keys '''
         # list all available data sources
         lst_data = list(self.data.keys())            # lsit of data has been loaded
-        lst_globals = list(globals().keys())         # list of global variable names
-        lst_all = [lst_data,lst_globals] # list of all data source names
+        lst_all = [lst_data] # list of all data source names
         
         ''' values '''
         # available data locations
-        sources = [self.data,globals()]
+        sources = [self.data]
         
         # cycle through all available key names    
         dict_tokens = {}
@@ -391,6 +393,14 @@ class nlpi(nlpm):
                 self.module_args['shuffle'] = token    
             if(self.tokens[self.tokens.index(token)-1] == 'rs'):
                 self.module_args['rs'] = token    
+            if(self.tokens[self.tokens.index(token)-1] == 'threshold'):
+                self.module_args['threshold'] = token           
+            if(self.tokens[self.tokens.index(token)-1] == 'scale'):
+                self.module_args['scale'] = token    
+            if(self.tokens[self.tokens.index(token)-1] == 'eps'):
+                self.module_args['eps'] = token    
+            if(self.tokens[self.tokens.index(token)-1] == 'min_samples'):
+                self.module_args['min_samples'] = token 
 
                 
     # tokenisers, return list of tokens          
@@ -402,6 +412,28 @@ class nlpi(nlpm):
     @staticmethod
     def nltk_wtokeniser(text):
         return WhitespaceTokenizer().tokenize(text)
+        
+    # show task information summary
+        
+    def _make_task_info(self):
+    
+        td = self.module.task_dict
+        ts = self.module.mod_summary
+    
+        outs = {}
+        for k,v in td.items():
+            for l,w in v.items():
+                r = random.choice(w)
+                outs[l] = r
+    
+        show = pd.Series(outs,index=outs.keys()).to_frame()
+        show.columns = ['sample']
+    
+        show_all = pd.concat([show,ts],axis=1)
+        showlimit = show_all.iloc[:,:8]
+        showlimit = showlimit[['module','sample','topic','input_format','description']]
+        self.task_info = showlimit
+        
            
     def do(self,command:str,args:dict):
         
@@ -422,14 +454,19 @@ class nlpi(nlpm):
                             'col_wrap':None,'kind':'scatter', 'val':None, 'agg':'mean',
                             'join':'inner','axis':'0','bw':None,
                             'figsize':[None,None],'test_size':'0.3',
-                            'splits':'3','shuffle':'True','rs':'32'}
+                            'splits':'3','shuffle':'True','rs':'32',
+                            'threshold':None,'eps':None,'min_samples':None,'scale':None}
         
         # update argument dictionary if it was set
         
         if(args is not None):
             self.module_args.update(args)
             
-        ''' Tokenise Input Command '''
+        ''' 
+        
+        Tokenise Input Command 
+        
+        '''
         
         # tokenise input, unigram. bigram and trigram
 #        self.tokens = self.nltk_tokeniser(self.command)    
@@ -450,11 +487,21 @@ class nlpi(nlpm):
         self.token_info.index = self.token_info['token']
         del self.token_info['token']
         
-        ''' Determine which models to load & predict which task to execute '''
+        ''' 
+        
+        Determine which models to load & predict which task to execute 
+        
+        
+        '''
         
         self.do_predict() # task_pred, module_name
         
-        ''' Some logical tests '''
+        ''' 
+        
+        Some logical tests 
+        
+        
+        '''
         
         self.check_data()
         self.sort_module_args()
@@ -469,8 +516,13 @@ class nlpi(nlpm):
         nlpi.iter += 1
         
         self.module_args['pred_task'] = self.task_name
-        nlpi.memory_name.append(self.task_name)  # list of executed tasks
-        task_info = self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] # task information series
+        
+        # list of executed tasks
+        nlpi.memory_name.append(self.task_name)  
+        
+        # task information series
+        task_info = self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] 
+        
         nlpi.memory_stack.append(task_info)
         nlpi.memory_info = pd.concat(self.memory_stack,axis=1) # stack task information order
         
@@ -478,7 +530,9 @@ class nlpi(nlpm):
         self.module.functions[self.module_name].sel(self.module_args)
         
         # if not data has been added
+        # initialise output data (overwritten in module.function
+        
         if(len(nlpi.memory_output) == nlpi.iter+1):
             pass
         else:
-            nlpi.memory_output.append(np.nan) # initialise output data (overwritten in module.function
+            nlpi.memory_output.append(np.nan) 

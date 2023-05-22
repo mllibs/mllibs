@@ -225,6 +225,7 @@ class eda_plot(nlpi):
         
         sns.despine(left=True, bottom=True)
         plt.show()
+        nlpi.resetpp()
         
     @staticmethod
     def seaborn_residplot(args:dict):
@@ -271,6 +272,7 @@ class eda_plot(nlpi):
         
         sns.despine(left=True, bottom=True)
         plt.show()
+        nlpi.resetpp()
         
     @staticmethod
     def seaborn_kdeplot(args:dict):
@@ -301,6 +303,7 @@ class eda_plot(nlpi):
         
         sns.despine(left=True, bottom=True)
         plt.show()
+        nlpi.resetpp()
         
     @staticmethod
     def split_types(df):
@@ -344,7 +347,7 @@ class eda_plot(nlpi):
                                's':nlpi.pp['s']})   
         
         sns.despine(left=True, bottom=True)
-        plt.show()       
+        plt.show()
         nlpi.resetpp()
         
         
@@ -395,14 +398,18 @@ class eda_plot(nlpi):
         
         num,cat = self.split_types(args['data'])
         sns.heatmap(num,cmap=palette,
-                    square=True,lw=2,
+                    square=False,lw=2,
                     annot=True,cbar=True)    
+                    
+        plt.show()
+        nlpi.resetpp()
     
         
 corpus_edaplt = OrderedDict({  
                             
                             
                             'sscatterplot':['create seaborn scatter plot',
+                                            ''
                                            'make seaborn scatter plot',
                                            'make seaborn scatterplot',
                                            'create seaborn scatterplot',
