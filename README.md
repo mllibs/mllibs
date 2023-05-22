@@ -92,13 +92,13 @@ Here are some anwsers:
 > - The same goes for the topic 'Machine Learning', there are quite a few concepts to remember
 
 
-#### **Package aims to provide:**
+#### **4. Package aims to provide:**
 - A userfiendly way introduction to Machine Learning for someone new to the field that have little knowledge of programming
 
 <br>
 
 
-#### **PROJECT STATUS**
+#### **5. PROJECT STATUS**
 
 ***
 
@@ -107,7 +107,7 @@ Here are some anwsers:
 
 <br>
 
-#### **LIBRARY COMPONENTS**
+#### **6. LIBRARY COMPONENTS**
 
 ***
 
@@ -134,7 +134,7 @@ Here are some anwsers:
 
 <br>
 
-#### **MODULE COMPONENT STRUCTURE**
+#### **7. MODULE COMPONENT STRUCTURE**
 
 ***
 
@@ -185,7 +185,7 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 <br>
 
-#### **CREATING A COLLECTION**
+#### **8. CREATING A COLLECTION**
 
 ***
 
