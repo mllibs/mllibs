@@ -8,9 +8,10 @@ from mllibs.mseda import simple_eda,configure_eda
 from mllibs.meda_splot import eda_plot, configure_edaplt
 from mllibs.meda_scplot import eda_colplot, configure_colplot
 from mllibs.mpd_df import dataframe_oper, configure_pda
-from mllibs.mnlp_encoder import encoder, configure_nlpencoder
+from mllibs.mencoder import encoder, configure_nlpencoder
 from mllibs.mdsplit import make_fold,configure_makefold
 from mllibs.moutliers import data_outliers,configure_outliers
+from mllibs.membedding import embedding,configure_nlpembed
 
 # single command interpreter, multiple command interpreter & interface (chat)
 
@@ -82,7 +83,7 @@ class interface(snlpi,mnlpi,nlpi):
                          encoder(configure_nlpencoder),
                          make_fold(configure_makefold),
                          data_outliers(configure_outliers),
-                        # embedding(configure_nlpembed),
+                         embedding(configure_nlpembed),
                         # cleantext(configure_nlptxtclean),
                         # sklinear(configure_sklinear),
                         # hf_pipeline(configure_hfpipe),

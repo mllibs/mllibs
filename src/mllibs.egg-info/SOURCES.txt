@@ -7,8 +7,9 @@ src/mllibs/interface.py
 src/mllibs/mdsplit.py
 src/mllibs/meda_scplot.py
 src/mllibs/meda_splot.py
+src/mllibs/membedding.py
+src/mllibs/mencoder.py
 src/mllibs/mloader.py
-src/mllibs/mnlp_encoder.py
 src/mllibs/moutliers.py
 src/mllibs/mpd_df.py
 src/mllibs/mseda.py

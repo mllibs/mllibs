@@ -5,6 +5,7 @@ import pandas as pd
 import random
 import panel as pn
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer 
+from inspect import isfunction
 
 
 def hex_to_rgb(h):
@@ -81,7 +82,11 @@ class nlpi(nlpm):
     def exists(var):
          return var in globals()
         
-    ''' Check if token names are in data sources '''
+    ''' 
+    
+    Check if token names are in data sources 
+    
+    '''
     
     # get token data
     def get_td(self,token):
@@ -91,6 +96,7 @@ class nlpi(nlpm):
     
     def glr(self):
         return nlpi.memory_output[nlpi.iter]
+        
     
     def check_data(self):
         
@@ -139,6 +145,16 @@ class nlpi(nlpm):
                     self.token_info.loc[token,'dtype'] = 'list'   
                 elif(type(value) is eval('str')):
                     self.token_info.loc[token,'dtype'] = 'str'   
+                    
+                # if token correponds to a function; 
+                elif(isfunction(value)):
+                    self.token_info.loc[token,'dtype'] = 'function'
+                    
+                    for ii,token in enumerate(self.tokens):
+                        if(self.tokens[self.tokens.index(token)-1] == 'tokeniser'):
+                            self.module_args['tokeniser'] = value
+                
+                
         else:
             pass
         
@@ -185,6 +201,13 @@ class nlpi(nlpm):
     def n_grams(tokens,n):
         lst_bigrams = [' '.join(i) for i in [tokens[i:i+n] for i in range(len(tokens)-n+1)]]
         return lst_bigrams
+    
+        
+    ''' 
+    
+    Execute user input 
+    
+    '''
     
     def __getitem__(self,command:str):
         self.exec(command,args=None)
@@ -237,7 +260,7 @@ class nlpi(nlpm):
     @staticmethod
     def convert_to_list(ldata):
         
-        if(type(data) is str):
+        if(type(ldata) is str):
             return [ldata]
         else:
             raise TypeError('Could not convert input data to list')
@@ -401,6 +424,26 @@ class nlpi(nlpm):
                 self.module_args['eps'] = token    
             if(self.tokens[self.tokens.index(token)-1] == 'min_samples'):
                 self.module_args['min_samples'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'ngram_range'):
+                self.module_args['ngram_range'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'min_df'):
+                self.module_args['min_df'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'max_df'):
+                self.module_args['max_df'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'use_idf'):
+                self.module_args['use_idf'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'smooth_idf'):
+                self.module_args['smooth_idf'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'dim'):
+                self.module_args['dim'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'window'):
+                self.module_args['window'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'epoch'):
+                self.module_args['epoch'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'lr'):
+                self.module_args['lr'] = token 
+            if(self.tokens[self.tokens.index(token)-1] == 'maxlen'):
+                self.module_args['maxlen'] = token 
 
                 
     # tokenisers, return list of tokens          
@@ -455,7 +498,10 @@ class nlpi(nlpm):
                             'join':'inner','axis':'0','bw':None,
                             'figsize':[None,None],'test_size':'0.3',
                             'splits':'3','shuffle':'True','rs':'32',
-                            'threshold':None,'eps':None,'min_samples':None,'scale':None}
+                            'threshold':None,'eps':None,'min_samples':None,'scale':None,
+                            'ngram_range':'(1,1)','min_df':"1","max_df":"1",
+                            'tokeniser':None,'use_idf':'True','smooth_idf':'True',
+                            'dim':None,'window':None,'epoch':None,'lr':None,'maxlen':None}
         
         # update argument dictionary if it was set
         
@@ -469,7 +515,6 @@ class nlpi(nlpm):
         '''
         
         # tokenise input, unigram. bigram and trigram
-#        self.tokens = self.nltk_tokeniser(self.command)    
         self.tokens = self.nltk_wtokeniser(self.command)
         self.bigram_tokens = self.n_grams(self.tokens,2)
         self.trigram_tokens = self.n_grams(self.tokens,3)
