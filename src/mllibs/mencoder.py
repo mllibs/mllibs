@@ -108,11 +108,28 @@ class encoder(nlpi):
 
     def cv(self,data:pd.DataFrame,args):
         
+        # define default parameters
+        
+        if(args['ngram_range'] is not None):
+            ngram_range = eval(args['ngram_range'])
+        else:
+            ngram_range = (1,1)   
+            
+        if(args['min_df'] is not None):
+            min_df = eval(args['min_df'])
+        else:
+            min_df = 1
+            
+        if(args['max_df'] is not None):
+            max_df = eval(args['max_df'])
+        else:
+            max_df = 1.0
+        
         # create new object
         data = deepcopy(data)
-        vectoriser = CountVectorizer(ngram_range=eval(args['ngram_range']),
-                                     min_df=eval(args['min_df']),
-                                     max_df=eval(args['max_df']),
+        vectoriser = CountVectorizer(ngram_range=ngram_range,
+                                     min_df=min_df,
+                                     max_df=max_df,
                                      tokenizer=args['tokeniser'])
         
         if(len(self.subset) == 0):
@@ -154,15 +171,40 @@ class encoder(nlpi):
     
     def tfidf(self,data:pd.DataFrame,args):
         
+        if(args['ngram_range'] is not None):
+            ngram_range = eval(args['ngram_range'])
+        else:
+            ngram_range = (1,1)   
+            
+        if(args['min_df'] is not None):
+            min_df = eval(args['min_df'])
+        else:
+            min_df = 1
+            
+        if(args['max_df'] is not None):
+            max_df = eval(args['max_df'])
+        else:
+            max_df = 1.0
+            
+        if(args['smooth_idf'] is not None):
+            smooth_idf = eval(args['smooth_idf'])
+        else:
+            smooth_idf = True
+            
+        if(args['use_idf'] is not None):
+            use_idf = eval(args['use_idf'])
+        else:
+            use_idf = True
+        
         # create new object
         data = deepcopy(data)
         
-        vectoriser = TfidfVectorizer(ngram_range=eval(args['ngram_range']),
-                                     min_df=eval(args['min_df']),
-                                     max_df=eval(args['max_df']),
+        vectoriser = TfidfVectorizer(ngram_range=ngram_range,
+                                     min_df=min_df,
+                                     max_df=max_df,
                                      tokenizer=args['tokeniser'],
-                                     use_idf=eval(args['use_idf']),
-                                     smooth_idf=eval(args['smooth_idf']))
+                                     use_idf=use_idf,
+                                     smooth_idf=smooth_idf)
                                      
 #        vectoriser = TfidfVectorizer()                           
         

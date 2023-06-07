@@ -12,6 +12,7 @@ from mllibs.mencoder import encoder, configure_nlpencoder
 from mllibs.mdsplit import make_fold,configure_makefold
 from mllibs.moutliers import data_outliers,configure_outliers
 from mllibs.membedding import embedding,configure_nlpembed
+from mllibs.mtextnorm import cleantext, configure_nlptxtclean
 
 # single command interpreter, multiple command interpreter & interface (chat)
 
@@ -84,10 +85,10 @@ class interface(snlpi,mnlpi,nlpi):
                          make_fold(configure_makefold),
                          data_outliers(configure_outliers),
                          embedding(configure_nlpembed),
-                        # cleantext(configure_nlptxtclean),
+                         cleantext(configure_nlptxtclean),
                         # sklinear(configure_sklinear),
                         # hf_pipeline(configure_hfpipe),
-                        # data_outliers(configure_outliers),
+                
                         ])
 
 

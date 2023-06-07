@@ -60,9 +60,113 @@ class nlpi(nlpm):
         print('inputs:')
         print(lst_data,'\n')
         
-               
-    def store(self,data,name):
-        self.data[name] = data
+    ''' 
+    
+    store data 
+    
+    '''
+    
+    @staticmethod
+    def split_types(df):
+        numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']  
+        numeric = df.select_dtypes(include=numerics)
+        categorical = df.select_dtypes(exclude=numerics)
+        return list(numeric.columns),list(categorical.columns)
+    
+        
+    def store(self,data,name:str,info:str=None):
+        
+		# dictionary to store data information
+        datainfo = {'data':None,'subset':None,
+                    'features':None,'target':None,
+                    'cat':None,'num':None,
+                    'miss':None,'corpus':None}
+                    
+        ''' 1. DESCRIPTION TOKENISATION '''
+                    
+        if(info is not None):
+            
+            dtokens = self.nltk_wtokeniser(info) # unigram
+            dbgtokens = self.n_grams(dtokens,2) # bigram
+            
+            
+            # store target variable token name
+            
+            if(isinstance(data,pd.DataFrame)):
+                
+                ''' Find Target Variable Tokens '''
+                
+                # no check is done to confirm it exists in data
+            
+                # loop through bigram tokens
+                
+                for ii,token in enumerate(dbgtokens):
+                    if(dbgtokens[dbgtokens.index(token)-1] == 'target variable'):
+                        datainfo['target'] = token
+
+                if(datainfo['target'] is None):
+                    
+                    # loop through tokens
+                
+                    for ii,token in enumerate(dtokens):
+                        if(dtokens[dtokens.index(token)-1] == 'target'):
+                            if(datainfo['target'] is None):
+                                datainfo['target'] = token
+                            
+                    
+        ''' 2. Fill out information about dataset '''
+                    
+        if(isinstance(data,pd.DataFrame)):
+            
+            ''' Set DataFrame Dtypes '''
+            # column names of numerical and non numerical features
+                
+            datainfo['num'],datainfo['cat'] = self.split_types(data)
+            
+            ''' Missing Data '''
+            # check if we have missing data
+            
+            missing = data.isna().sum().sum()
+            
+            if(missing > 0):
+                datainfo['miss'] = True
+            else:
+                datainfo['miss'] = False
+                
+            ''' Column names '''
+                
+            datainfo['features'] = list(data.columns)
+            
+            if(datainfo['target'] is not None):
+                datainfo['features'].remove(datainfo['target'])
+                
+            
+            ''' Check for corpus columns '''
+                
+            # a corpus column is defined as a column with tokenisable text of length > 5
+                
+            col_corpus = []
+            for col in data.columns:
+                token_len = [] 
+                for ii,row in enumerate(data[col]):
+                    if(ii<5):
+                        try:
+                            token_len.append(len(WhitespaceTokenizer().tokenize(row)))
+                        except:
+                            pass
+                        
+                tokens = len([*filter(lambda x: x >= 5, token_len)]) > 0
+                if(tokens):
+                    col_corpus.append(col)
+                        
+            datainfo['corpus'] = col_corpus            
+                    
+                
+        ''' Store Data '''
+                 
+        datainfo['data'] = data
+        self.data[name] = datainfo
+        
         
     def debug(self):
         
@@ -87,16 +191,16 @@ class nlpi(nlpm):
     Check if token names are in data sources 
     
     '''
-    
+	
     # get token data
+	
     def get_td(self,token):
         return self.token_data[int(self.token_info.loc[token,'data'])]
     
     # get last result
     
     def glr(self):
-        return nlpi.memory_output[nlpi.iter]
-        
+        return nlpi.memory_output[nlpi.iter]     
     
     def check_data(self):
         
@@ -104,26 +208,16 @@ class nlpi(nlpm):
         self.token_info['data'] = np.nan  # store data type if present
         self.token_info['dtype'] = np.nan  # store data type if present
         self.token_info['data'] = self.token_info['data'].astype('Int64')
-                
-        ''' keys '''
-        # list all available data sources
-        lst_data = list(self.data.keys())            # lsit of data has been loaded
-        lst_all = [lst_data] # list of all data source names
-        
-        ''' values '''
-        # available data locations
-        sources = [self.data]
-        
+                    
         # cycle through all available key names    
         dict_tokens = {}
-        for ii,lst in enumerate(lst_all):        
-            for source_name in lst:
-                if(source_name in self.tokens):     
-                    if(source_name in dict_tokens):
-                        print('another data source found, overwriting')
-                        dict_tokens[source_name] = sources[ii][source_name]
-                    else:
-                        dict_tokens[source_name] = sources[ii][source_name]
+        for source_name in list(self.data.keys()):
+            if(source_name in self.tokens):     
+                if(source_name in dict_tokens):
+                    print('another data source found, overwriting')
+                    dict_tokens[source_name] = self.data[source_name]['data']
+                else:
+                    dict_tokens[source_name] = self.data[source_name]['data']
                     
         ''' if we have found matching tokens '''
                     
@@ -499,9 +593,11 @@ class nlpi(nlpm):
                             'figsize':[None,None],'test_size':'0.3',
                             'splits':'3','shuffle':'True','rs':'32',
                             'threshold':None,'eps':None,'min_samples':None,'scale':None,
-                            'ngram_range':'(1,1)','min_df':"1","max_df":"1",
-                            'tokeniser':None,'use_idf':'True','smooth_idf':'True',
-                            'dim':None,'window':None,'epoch':None,'lr':None,'maxlen':None}
+                            'ngram_range':None,'min_df':None,'max_df':None,""
+                            'tokeniser':None,'use_idf':None,'smooth_idf':None,
+                            'dim':None,'window':None,
+                            'epoch':None,'lr':None,'maxlen':None,'const':None,
+                            'neg_sample':None,'batch':None}
         
         # update argument dictionary if it was set
         

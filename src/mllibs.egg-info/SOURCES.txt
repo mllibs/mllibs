@@ -13,6 +13,7 @@ src/mllibs/mloader.py
 src/mllibs/moutliers.py
 src/mllibs/mpd_df.py
 src/mllibs/mseda.py
+src/mllibs/mtextnorm.py
 src/mllibs/nlpi.py
 src/mllibs/nlpm.py
 src/mllibs.egg-info/PKG-INFO
