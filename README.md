@@ -186,6 +186,8 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 #### **8. CREATING A COLLECTION**
 
+There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
+
 ***
 
 First we need to combine all our module components together, this will link all passed modules together
@@ -213,14 +215,20 @@ collection.train()
 Lastly, pass the collection of modules (`nlpm` instance) to the interpreter `nlpi` 
 
 ```python
-interpreter = nlpi(collection)
+session = nlpi(collection)
 ```
 
 class `nlpi` can be used with method `exec` for user input interpretation
 
 ```python
 
-interpreter.exec('create a scatterplot using data with x dimension1 y dimension2')
+session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
+The faster way, includes all loaded modules and groups them together for us:
+
+```python
+from mllibs.interface import interface
+session = interface()
+```
