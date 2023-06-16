@@ -226,6 +226,8 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
+***
+
 The faster way, includes all loaded modules and groups them together for us:
 
 ```python
