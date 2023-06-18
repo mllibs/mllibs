@@ -122,14 +122,7 @@ Here are some anwsers:
 
 (2) custom added modules, for mllibs these library are associated with **machine learning**
 
-- `loader` - file management module, who's role is to access data, so it can be used (testing module)
-- `simple_eda` - exploratory data analysis module (testing module)
-- `eda_plot` - exploratory data analysis module associated with static graph plots (utilises seaborn)
-- `encoder` - nlp related module for converting text to numeric representation (text encoding)
-- `embedding` - nlp related module for generating embeddings for tokenised text data
-- `cleantext` - nlp related module for cleaning input text data
-- `sklinear` - Linear Regression module (testing module)
-- `hf_pipeline` - nlp related module for accessing huggingface pipelines
+You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks
 
 <br>
 
