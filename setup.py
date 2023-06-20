@@ -1,14 +1,7 @@
-from setuptools import setup
-
-from make_sphinx_documentation import BuildDocsCommand
-
-BuildDocsCommand.sourcedir = "docs"
-
-setup(
-    cmdclass={
-        'build_docs': BuildDocsCommand, # Run to build the documentation
-    },
-)
+from setuptools import setup, find_packages
 
 
+setup(packages=find_packages(where="src"),
+      package_dir={"": "src"},
+      package_data={"": ["corpus/*.txt"]})
 

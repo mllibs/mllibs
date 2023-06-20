@@ -134,7 +134,6 @@ info_loader = {'kaggle_folders':{'module':'loader',
                                  'topic':'system operation',
                                  'subtopic':'find folder contents',
                                  'input_format':'None',
-                                 'output_format':'list',
                                  'description':'store kaggle input folder content pathways'},
                   
                  'find_csv':{'module':'loader',
@@ -142,7 +141,6 @@ info_loader = {'kaggle_folders':{'module':'loader',
                              'topic':'system operation',
                              'subtopic':'find folder contents',
                              'input_format':'None',
-                             'output_format':'list',
                              'description':'show input folder content pathways'},
                  
                  'store_csv': {'module':'loader',
@@ -150,7 +148,6 @@ info_loader = {'kaggle_folders':{'module':'loader',
                                'topic':'system operation',
                                'subtopic':'read csv data',
                                'input_format':'None',
-                               'output_format':'list',
                                'description':'find and store CSV format data'},
                   
                  }

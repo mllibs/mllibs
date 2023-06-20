@@ -409,7 +409,6 @@ corpus_edaplt = OrderedDict({
                             
                             
                             'sscatterplot':['create seaborn scatter plot',
-                                            ''
                                            'make seaborn scatter plot',
                                            'make seaborn scatterplot',
                                            'create seaborn scatterplot',
@@ -497,7 +496,6 @@ info_edaplt = {
                               'topic':'topic',
                               'subtopic':'sub topic',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'make a scatter plot using seaborn, bivariate or multivariate'},    
 
              'srelplot':     {'module':'eda_plot',
@@ -505,7 +503,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Create a seaborn relation plot using relplot, we can use columns and rows to show differences in data'},
                
              'sboxplot':     {'module':'eda_plot',
@@ -513,7 +510,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Create a seaborn box plot using boxpot, they show quartiles and outliers'},            
                
               'sresidplot':   {'module':'eda_plot',
@@ -521,7 +517,6 @@ info_edaplt = {
                                'topic':'exploratory data analysis (eda)',
                                'subtopic':'scatter figure',
                                'input_format':'pd.DataFrame',
-                               'output_format':'figure',
                                'description':'Create a seaborn residual plot'},
                
                'sviolinplot':  {'module':'eda_plot',
@@ -529,7 +524,6 @@ info_edaplt = {
                                 'topic':'exploratory data analysis (eda)',
                                 'subtopic':'scatter figure',
                                 'input_format':'pd.DataFrame',
-                                'output_format':'figure',
                                 'description':'Create a seaborn violin plot'},       
                
                'shistplot':  {'module':'eda_plot',
@@ -537,7 +531,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Create a seaborn histogram plot'},
                
                'skdeplot':  {'module':'eda_plot',
@@ -545,7 +538,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Create a seaborn kernel density estimation plot (kde)'} ,
                
                'slmplot':  {'module':'eda_plot',
@@ -553,7 +545,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Create a seaborn regression model fit'} ,
         
                'spairplot':  {'module':'eda_plot',
@@ -561,7 +552,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Make a seaborn pairplot using seaborn'},
                
                 'slineplot':  {'module':'eda_plot',
@@ -569,7 +559,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Make a seaborn lineplot using seaborn'},
                
                 'scorrplot':  {'module':'eda_plot',
@@ -577,7 +566,6 @@ info_edaplt = {
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'scatter figure',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'Make a seaborn heatmap figure/plot of correlation values'},               
                         
               }

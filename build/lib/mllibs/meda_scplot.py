@@ -265,7 +265,6 @@ info_colplot = {'col_kde':    {'module':'eda_colplot',
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'column eda',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'visualise/plot column feature kernel density estimation plot'},
                
                'col_box':     {'module':'eda_colplot',
@@ -273,7 +272,6 @@ info_colplot = {'col_kde':    {'module':'eda_colplot',
                               'topic':'exploratory data analysis (eda)',
                               'subtopic':'column eda',
                               'input_format':'pd.DataFrame',
-                              'output_format':'figure',
                               'description':'visualise/plot column feature boxplot'},
                 
 
@@ -282,7 +280,6 @@ info_colplot = {'col_kde':    {'module':'eda_colplot',
                                   'topic':'exploratory data analysis (eda)',
                                   'subtopic':'column eda',
                                   'input_format':'pd.DataFrame',
-                                  'output_format':'figure',
                                   'description':'visualise/plot column feature scatterplot'}
                
                }

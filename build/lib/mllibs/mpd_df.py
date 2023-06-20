@@ -157,7 +157,6 @@ info_pda['groupby'] = {'module':'pd_df',
                       'topic':'topic',
                       'subtopic':'sub topic',
                       'input_format':'pd.DataFrame',
-                      'output_format':'figure',
                       'description':'pandas groupby operation, data wrangling with index, column and values'}
 
 info_pda['concat'] = {'module':'pd_df',
@@ -165,7 +164,6 @@ info_pda['concat'] = {'module':'pd_df',
                       'topic':'topic',
                       'subtopic':'sub topic',
                       'input_format':'pd.DataFrame',
-                      'output_format':'figure',
                       'description':'merge together two dataframes'}
                       
 info_pda['subset_concat'] = {'module':'pd_df',
@@ -173,7 +171,6 @@ info_pda['subset_concat'] = {'module':'pd_df',
                       		 'topic':'topic',
                       		 'subtopic':'sub topic',
 		                      'input_format':'pd.DataFrame',
-       			               'output_format':'figure',
               			        'description':'label two subset dataframes'}
 
 

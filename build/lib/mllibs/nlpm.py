@@ -1,6 +1,7 @@
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel,sigmoid_kernel
 from sklearn.base import clone
@@ -8,6 +9,8 @@ from collections import OrderedDict
 import numpy as np
 import pandas as pd
 import zipfile
+import pkgutil
+import io
 
 import nltk
 nltk.download('wordnet')
@@ -16,7 +19,7 @@ wordn = '/usr/share/nltk_data/corpora/wordnet.zip'
 wordnt = '/usr/share/nltk_data/corpora/'
 
 with zipfile.ZipFile(wordn,"r") as zip_ref:
-    zip_ref.extractall(wordnt)
+     zip_ref.extractall(wordnt)
 
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer
@@ -35,12 +38,12 @@ NLPM class
 '''
 
 
-
 class nlpm:
     
     def __init__(self):
         self.task_dict = {} # stores the input task variation dictionary (prepare)
         self.functions = {} # stores model associate function class (prepare) 
+        self.model_class = {}
         
     # Convert lists of text to dataframe with label
     
@@ -64,6 +67,8 @@ class nlpm:
     # load module & prepare module content data
     
     '''     
+    
+    # group together all module data & construct corpuses
             
     def load(self,modules:list):
             
@@ -71,15 +76,19 @@ class nlpm:
             
             print('loading modules ...')
             
+            # dictionary for storing model label (text not numeric)
+            self.label = {} 
+            
             # combined module information/option dictionaries
             
             lst_module_info = []; lst_corpus = []; dict_task_names = {}
             for module in modules:  
                 
-                self.functions[module.name] = module          # store module functions
+                # store module functions
+                self.functions[module.name] = module
                 
                 # combine corpuses of modules
-                tdf_corpus = module.nlp_config['corpus']
+                tdf_corpus = module.nlp_config['corpus'] # get dictionary with corpus
                 df_corpus = pd.DataFrame(dict([(key,pd.Series(value)) for key,value in tdf_corpus.items()]))          
                 dict_task_names[module.name] = list(df_corpus.columns)  # save order of module task names
                 
@@ -92,6 +101,9 @@ class nlpm:
                 df_opt = pd.DataFrame(dict([(key,pd.Series(value)) for key,value in tdf_opt.items()]))
                 lst_module_info.append(df_opt)
 
+            # update label dictionary to include loaded modules
+            self.label.update(dict_task_names)  
+                
             ''' Step 1 : Create Task Corpuses (dataframe) '''
                 
             # task corpus (contains no label)
@@ -120,9 +132,10 @@ class nlpm:
             df_opt = pd.concat(module_groupby).reset_index(drop=True)
             df_opt.index = combined_opt_index
             
-            # task orders
+            # module order for ms
             self.mod_order = unique_module_groupby
-            self.label = {}
+            
+            ''' Step 4 : labels for other models (based on provided info) '''
             
             # generate task labels    
             encoder = LabelEncoder()
@@ -131,21 +144,21 @@ class nlpm:
             
             encoder = clone(encoder)
             df_opt['module_id'] = encoder.fit_transform(df_opt['module'])   
-            self.label['ms'] = encoder.classes_
+            self.label['ms'] = list(encoder.classes_)
             
             encoder = clone(encoder)
             df_opt['action_id'] = encoder.fit_transform(df_opt['action'])
-            self.label['act'] = encoder.classes_
+            self.label['act'] = list(encoder.classes_)
             
             encoder = clone(encoder)
             df_opt['topic_id'] = encoder.fit_transform(df_opt['topic'])
-            self.label['top'] = encoder.classes_
+            self.label['top'] = list(encoder.classes_)
             
             encoder = clone(encoder)
             df_opt['subtopic_id'] = encoder.fit_transform(df_opt['subtopic'])
-            self.label['sub'] = encoder.classes_
+            self.label['sub'] = list(encoder.classes_)
             
-            # Main Data 
+            # Main Summary
             self.mod_summary = df_opt
             
             # created self.mod_summary
@@ -209,11 +222,19 @@ class nlpm:
             self.corpus_top = prepare_corpus('topic_id') # topic task dataframe
             self.corpus_sub = prepare_corpus('subtopic_id') # subtopic tasks dataframe
             
-            print('done ...')
+               
     
         else:
             raise TypeError('please make input a list of modules!')
             
+    ''' 
+    
+    MACHINE LEARNING LOOP 
+    
+    '''
+    
+    # countvectoriser
+    # logistic regression
 
     
     def mlloop(self,corpus,module_name):
@@ -272,7 +293,7 @@ class nlpm:
     
     def train(self,type='mlloop'):
                     
-        if(type is 'mlloop'):
+        if(type == 'mlloop'):
         
             self.vectoriser = {} # stores vectoriser
             self.model = {}   # storage for models
@@ -296,9 +317,129 @@ class nlpm:
     #         self.train_loop(self.corpus_top,'top',lvect)
     #         lvect = clone(vect)
     #         self.train_loop(self.corpus_sub,'sub',lvect)
+    
+            self.toksub_model()
+            self.ner_tokentag_model()
 
             print('models trained...')
         
+    '''
+    ///////////////////////////////////////////////////////////////
+    
+    ADDITIONAL MODELS
+    
+    ///////////////////////////////////////////////////////////////
+    
+    ''' 
+    
+    ''' 
+    
+    1. CREATE SUBSET DETERMINATION MODEL 
+    
+    create multiclass classification model which will determine 
+    which approach to utilise for the selection of subset features    
+    
+    '''
+     
+    def toksub_model(self):
+        
+       
+        # corpus
+        lst_data = ['select all but','all features except for','all features except',
+                    'select all features except for','all but','all except','all columns but',
+            
+                    'features','with features','select features','select only','select','only columns',
+                    
+                    'imported list','from imported data','select features from list',
+                    'from imported list','select data from list','columns from data',
+                    
+                    'numerical features only','numeric features','values','numerical features','values only',
+                    
+                    'categorical features only','categorical','select categorical','categorical only','categoric',
+
+        'select all', 'get all','choose all','pick all']
+                    
+                    
+        # [0] select all but X
+        # [1] select only X
+        # [2] select from list
+        # [3] select numeric only
+        # [4] select categorical
+        
+        lst_tag = [0,0,0,0,0,0,0, 
+                   1,1,1,1,1,1,
+                   2,2,2,2,2,2,
+                   3,3,3,3,3,
+                   4,4,4,4,4,
+                   5,5,5,5]
+                  
+                  
+        data = pd.DataFrame({'corpus':lst_data,'label':lst_tag})
+
+        vectoriser = CountVectorizer(stop_words=['using','use'])
+        X = vectoriser.fit_transform(list(data['corpus'])).toarray()
+        y = data['label'].values
+
+        model = LogisticRegression().fit(X,y)
+        
+        self.vectoriser['token_subset'] = vectoriser
+        self.model['token_subset'] = model      
+        self.label['token_subset'] = ['allbut','only','fromdata','numeric','categorical','all']
+
+    '''
+    //////////////////////////////////////////////////////////////////
+    
+    2. NER sentence splitting model 
+    identify key tokens; features, target, subset & data
+
+    //////////////////////////////////////////////////////////////////                
+    '''
+        
+    def ner_tokentag_model(self):
+
+        flatten = lambda l: [item for sublist in l for item in sublist]
+        
+        def tokenise(text):
+            return WhitespaceTokenizer().tokenize(text)
+        
+        typea = ['features','feature list','feature columns','independent']
+        typeb = ['target','target column','target variable','dependent']
+        typec = ['subset','subset columns']
+        typed = ['data','data source','source']
+        type_all = typea + typeb + typec + typed
+        tokens = [tokenise(i) for i in type_all]
+        unique_tokens = flatten(tokens)
+        
+        #with open('corpus/wordlist.10000.txt') as f:
+            #lines = f.readlines()
+             
+        f = pkgutil.get_data('mllibs',"corpus/wordlist.10000.txt")
+        content = io.TextIOWrapper(io.BytesIO(f), encoding='utf-8')
+        lines = content.readlines()
+        
+           
+        cleaned = []
+        for line in lines:
+            removen = line.rstrip()
+            if removen not in unique_tokens:
+                cleaned.append(removen)
+                
+        corpus = typea + typeb + typec + typed + cleaned
+        labels = [0,0,0,0,1,1,1,1,2,2,3,3,3] + [4 for i in range(len(cleaned))]
+        data = pd.DataFrame({'corpus':corpus,'label':labels})
+        
+        vectoriser = CountVectorizer(ngram_range=(1,2))
+        X = vectoriser.fit_transform(data['corpus']).toarray()
+        y = data['label'].values
+        
+        # we have a dissbalanced class model, so lets use class_weight
+        model = DecisionTreeClassifier(class_weight={0:0.25,1:0.25,2:0.25,3:0.25,4:0.0001})
+        model.fit(X,y)
+        model.predict(X)
+        
+        self.vectoriser['token_ner'] = vectoriser
+        self.model['token_ner'] = model      
+        self.label['token_ner'] = ['features','target','subset','data','other']             
         
     '''
     
@@ -316,8 +457,8 @@ class nlpm:
     
     def test_name(self,name:str,command:str):
         pred_per = self.test(name,command)     # percentage prediction for all classes
-        idx_pred = np.argmax(pred_per)          # index of highest prob 
-        pred_name = list(self.model.keys())[idx_pred] # name of highest prob
+        idx_pred = np.argmax(pred_per)          # index of highest prob         
+        pred_name = self.label[name][idx_pred]  # get the name of the model class
         return pred_name
     
     # for testing only

@@ -84,27 +84,8 @@ class embedding(nlpi):
         # give unique identifier to each unique token
         word2id = {word:idx for idx,word in enumerate(token_set)} 
         id2word = {idx:word for idx,word in enumerate(token_set)}
-        
-        if(args['dim'] is not None):
-            embeddings = eval(args['dim'])
-        else:
-            embeddings = 5
-        
-        if(args['epoch'] is not None):
-            epochs = eval(args['epoch'])
-        else:
-            epochs = 100
+        pre = {'dim':5,'epoch':100,'window':2,'lr':0.001}
             
-        if(args['window'] is not None):
-            window = eval(args['window'])
-        else:
-            window = 2
-            
-        if(args['lr'] is not None):
-            lr = eval(args['lr'])
-        else:
-            lr = 0.001
-
         # print(token_set) # vocabulary
         vocab_size = len(token_set)  # size of vocabulary
 
@@ -114,6 +95,7 @@ class embedding(nlpi):
             return val_context
 
         context_pairs = []
+        window = self.sfp(args,pre,'window')
 
         # loop through all possible cases 
         for i in range(window,len(tokens) - window):
@@ -150,14 +132,14 @@ class embedding(nlpi):
                 x = self.active(x)
                 return x
 
-        model = CBOW(vocab_size,embeddings)    
+        model = CBOW(vocab_size,self.sfp(args,pre,'dim'))    
         criterion = nn.NLLLoss()
-        optimiser = Adam(model.parameters(),lr=lr)
+        optimiser = Adam(model.parameters(),lr=self.sfp(args,pre,'lr'))
 
         # training loop
 
         lst_loss = []
-        for epoch in range(epochs):
+        for epoch in range(self.sfp(args,pre,'epoch')):
 
             loss = 0.0
             for context,target in context_pairs:
@@ -174,7 +156,11 @@ class embedding(nlpi):
             lst_loss.append(float(loss.detach().numpy()))
 
         embeds = list(model.parameters())[0].detach().numpy()
-        nlpi.memory_output.append(pd.DataFrame(embeds,index=id2word.values())) 
+        nlpi.memory_output.append({'data':pd.DataFrame(embeds,index=id2word.values()),
+                                   'context_pair':context_pairs,
+                                   'model':model,
+                                   'dict':word2id})
+                                    
         
     '''
     
@@ -183,30 +169,11 @@ class embedding(nlpi):
     
     '''       
             
-    def sg(self,corpus:list,args):
-        
-        if(args['dim'] is not None):
-            embed_size = eval(args['dim'])
-        else:
-            embed_size = 5
+    def sg(self,corpus:list,args):     
+                     
+        pre = {'dim':5,'epoch':50,'window':2,'lr':0.001,'batch':10}
             
-        if(args['epoch'] is not None):
-            epochs = eval(args['epoch'])
-        else:
-            epochs = 50
-                
-        if(args['window'] is not None):
-            window = eval(args['window'])
-        else:
-            window = 2
-                
-        if(args['lr'] is not None):
-            lr = eval(args['lr'])
-        else:
-            lr = 0.001
-            
-        # helper functions
-        
+        # helper functions     
         flatten = lambda l: [item for sublist in l for item in sublist]
         
         def prepare_sequence(seq, word2index):
@@ -258,7 +225,6 @@ class embedding(nlpi):
         
         stopwords = word_count.most_common()[:border] + list(reversed(word_count.most_common()))[:border]
         stopwords = [s[0] for s in stopwords]
-    
         
         vocab = list(set(flatten(tokens)) - set(stopwords))
         vocab.append('<UNK>')
@@ -289,7 +255,7 @@ class embedding(nlpi):
             return train_data
     
         # create skipgram pairs (list of tuples)
-        train_data = create_data(ws=window)
+        train_data = create_data(ws=self.sfp(args,pre,'window'))
         
         # change it to tensor format   
         X_p = []; y_p = []
@@ -328,22 +294,22 @@ class embedding(nlpi):
                 embeds = self.embedding_v(inputs)       
                 return embeds  
                 
-        BATCH_SIZE = 10
+        BATCH_SIZE = self.sfp(args,pre,'batch')
         VOCAB_SIZE = len(word2index)
     
         # initialise model weights
-        model = skipgram_model(VOCAB_SIZE, embed_size)
+        model = skipgram_model(VOCAB_SIZE,self.sfp(args,pre,'dim'))
     
         if USE_CUDA:
             model = model.cuda()
     
         # network optimiser
-        optimizer = optim.Adam(model.parameters(), lr=lr)
+        optimizer = optim.Adam(model.parameters(), lr=self.sfp(args,pre,'lr'))
             
         ''' TRAINING LOOP '''
     
         losses = []
-        for epoch in range(epochs):
+        for epoch in range(self.sfp(args,pre,'epoch')):
         
            # loop through batches
             for i, batch in enumerate(getBatch(BATCH_SIZE, train_data)):
@@ -377,7 +343,13 @@ class embedding(nlpi):
         vectors = pd.DataFrame(embeds,index=index2word.values())
         
         # save embedding values
-        nlpi.memory_output.append(vectors)
+        
+        nlpi.memory_output.append({'data':vectors,
+                                   'skipgram':train_data,
+                                   'tokeniser':tokeniser,
+                                   'stopwords':stopwords,
+                                   'model':model,
+                                   'dict':word2index})
         
         
     '''
@@ -498,9 +470,9 @@ class embedding(nlpi):
         
         unigram_table = []
         for vo in vocab:
-            unigram_table.extend([vo] * int(((word_count[vo]/num_total_words)**0.75)/self.sfp(args,pre,'const')))
-    
-        
+            unigram_table.extend([vo] * int(((word_count[vo]/num_total_words)**0.75)/self.sfp(args,pre,'const'))) 
+   
+
         ''' MODEL ARCHITECTURE '''
         
         class skipgram_model(nn.Module):
@@ -599,9 +571,12 @@ class embedding(nlpi):
          
         vectors = pd.DataFrame(embeds,index=index2word.values())
         
-        # save embedding values
-        nlpi.memory_output.append(vectors)
-        
+        # save embedding values    
+        nlpi.memory_output.append({'data':vectors,
+                                   'skipgram':train_data,
+                                   'tokeniser':tokeniser,
+                                   'model':model,
+                                   'dict':word2index})     
      
     ''' 
     
@@ -611,6 +586,8 @@ class embedding(nlpi):
     # Word2Vec Embedding Generation
     
     def word2vec(self,data:list,args):
+        
+        pre = {'epoch':50,'dim':5,'lr':0.025,'min_df':1,'window':4}
     
         corpus = pd.Series(data)
     
@@ -636,45 +613,17 @@ class embedding(nlpi):
     
         # Set Model Parametere                                                                                      
         sample = 1e-3                # Downsample setting for frequent words
-        
-        
-        if(args['dim'] is not None):
-            vector_size = eval(args['dim'])
-        else:
-            vector_size = 5
-            
-        if(args['window'] is not None):
-            window = eval(args['window'])
-        else:
-            window = 4
-            
-        if(args['epoch'] is not None):
-            epoch = eval(args['epoch'])
-        else:
-            epoch = 50
-            
-        if(args['lr'] is not None):
-            alpha = eval(args['lr'])
-        else:
-            alpha = 0.025
-            
-        if(args['min_df'] is not None):
-            min_df = eval(args['min_df'])
-        else:
-            min_df = 1
 
         # Word2Vec Model
         w2v_model = w2v.Word2Vec(tokenized_corpus, 
-                         vector_size=vector_size, 
-                         window=window,  # context window
-                         min_count=min_df,
+                         vector_size=self.sfp(args,pre,'dim'), 
+                         window=self.sfp(args,pre,'window'),  # context window
+                         min_count=self.sfp(args,pre,'min_df'),
                          sample=sample, 
-                         alpha=alpha,
-                         epochs=epoch)   
-        
-        
+                         alpha=self.sfp(args,pre,'lr'),
+                         epochs=self.sfp(args,pre,'epoch'))   
+              
         vocab_len = len(w2v_model.wv)
-
         
         np_list = []
         for word in w2v_model.wv.index_to_key:
@@ -682,7 +631,8 @@ class embedding(nlpi):
     
         # Calculate mean array of selected document words
         X = pd.DataFrame(np.stack(np_list).T,columns = w2v_model.wv.index_to_key).T
-        nlpi.memory_output.append(X)
+        nlpi.memory_output.append({'data':X,
+                                   'model':w2v_model})
         
     
     ''' FASTTEXT WORD EMBEDDINGS USING GENSIM '''
@@ -690,6 +640,7 @@ class embedding(nlpi):
         
     def efasttext(self,data:list,args):
     
+        pre = {'epoch':50,'dim':5,'lr':0.025,'min_df':1,'window':4}
         corpus = pd.Series(data)
     
         wpt = nltk.WordPunctTokenizer()
@@ -716,44 +667,16 @@ class embedding(nlpi):
         # Set Model Parametere                                                                                             
         sample = 1e-3                # Downsample setting for frequent words
         
-        
-        if(args['dim'] is not None):
-            vector_size = eval(args['dim'])
-        else:
-            vector_size = 5
-            
-        if(args['window'] is not None):
-            window = eval(args['window'])
-        else:
-            window = 4
-            
-        if(args['epoch'] is not None):
-            epoch = eval(args['epoch'])
-        else:
-            epoch = 50
-            
-        if(args['lr'] is not None):
-            alpha = eval(args['lr'])
-        else:
-            alpha = 0.025
-            
-        if(args['min_df'] is not None):
-            min_df = eval(args['min_df'])
-        else:
-            min_df = 1
-            
-        # Word2Vec Model
+        # FastText Model
         ft_model = FastText(tokenized_corpus, 
-                         vector_size=vector_size, 
-                         window=window,  # context window
-                         min_count=min_df,
+                         vector_size=self.sfp(args,pre,'dim'), 
+                         window=self.sfp(args,pre,'window'),  # context window
+                         min_count=self.sfp(args,pre,'min_df'),
                          sample=sample, 
-                         alpha=alpha,
-                         epochs=epoch)   
-        
+                         alpha=self.sfp(args,pre,'lr'),
+                         epochs=self.sfp(args,pre,'epoch'))   
         
         vocab_len = len(ft_model.wv)
-        
         
         np_list = []
         for word in ft_model.wv.index_to_key:
@@ -761,7 +684,8 @@ class embedding(nlpi):
     
         # Calculate mean array of selected document words
         X = pd.DataFrame(np.stack(np_list).T,columns = ft_model.wv.index_to_key).T
-        nlpi.memory_output.append(X)
+        nlpi.memory_output.append({'data':X,
+                                   'model':ft_model})
 
         
         
@@ -818,7 +742,8 @@ dict_nlpembed = {'embed_cbow':  ['cbow embeddings',
                              'fasttext embeddings',
                              'fasttext embedding']
                                             
-                    }
+                }
+
 
 # Other useful information about the task
 info_nlpembed = {
@@ -826,46 +751,62 @@ info_nlpembed = {
                                   'action':'embedding generation',
                                   'topic':'natural language processing',
                                   'subtopic':'feature generation',
-                                 'input_format':'list',
-                                 'output_format':'pd.DataFrame',
-                                 'description': 'create embedding vectors for input text using CBOW approach'},
+                                  'input_format':'list',
+                                  'output':'data context_pair model dict',
+                                  'description': 'create embedding vectors for input text using CBOW approach',
+                                  'token_compat':'data',
+                                  'arg_compat':'dim epoch window lr'
+                                 
+                                 },
 
                     'embed_sg':{'module':'nlp_embedding',
                                   'action':'embedding generation',
                                   'topic':'natural language processing',
                                   'subtopic':'feature generation',
-                                 'input_format':'list',
-                                 'output_format':'pd.DataFrame',
-                                  'description':'create embedding vectors for input text using skip gram approach'},
-
+                                  'input_format':'list',
+                                  'output':'data skipgram tokeniser stopword model dict',
+                                  'description':'create embedding vectors for input text using skip gram approach',
+                                  'token_compat':'data',
+                                  'arg_compat':'dim epoch window lr batch'
+                               
+                               },
 
                     'embed_sgns':{'module':'nlp_embedding',
                                   'action':'embedding generation',
                                   'topic':'natural language processing',
                                   'subtopic':'feature generation',
-                                 'input_format':'list',
-                                 'output_format':'pd.DataFrame',
-                                  'description':'create embedding vectors for input text using skip gram approach with negative sampling'},
+                                  'input_format':'list',
+                                  'output':'data skipgram tokeniser model dict',
+                                  'description':'create embedding vectors for input text using skip gram approach with negative sampling',
+                                  'token_compat':'data',
+                                  'arg_compat':'dim epoch window lr batch neg_sample min_df const'
+                                 
+                                 },
 
                     'w2v':{'module':'nlp_embedding',
                                     'action':'embedding generation',
                                     'topic':'natural language processing',
                                     'subtopic':'feature generation',
                                     'input_format':'list',
-                                    'output_format':'pd.DataFrame',
-                                    'description':'create embedding vectors using gensim, word2vec model'},
-
+                                    'output': 'data model',
+                                    'description':'create embedding vectors using gensim, word2vec model',
+                                    'token_compat':'data',
+                                    'arg_compat':'dim epoch window lr min_df'                            
+                           
+                          },
+    
 
                     'fasttext':{'module':'nlp_embedding',
-                                    'action':'embedding generation',
-                                    'topic':'natural language processing',
-                                    'subtopic':'feature generation',
-                                    'input_format':'list',
-                                    'output_format':'pd.DataFrame',
-                                    'description':'create embedding vectors using gensim, fasttext model'},
+                                'action':'embedding generation',
+                                'topic':'natural language processing',
+                                'subtopic':'feature generation',
+                                'input_format':'list',
+                                'output':'data model',
+                                'description':'create embedding vectors using gensim, fasttext model',
+                                'token_compat':'data',
+                                'arg_compat':'dim epoch window lr min_df'
+                               },
 
-
-      
                  }
 
 configure_nlpembed = {'corpus':dict_nlpembed,'info':info_nlpembed}

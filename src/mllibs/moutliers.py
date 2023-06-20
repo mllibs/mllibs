@@ -254,7 +254,6 @@ info_outliers = {'outlier_iqr': {'module':'outliers',
                                 'topic':'topic',
                                 'subtopic':'sub topic',
                                 'input_format':'pd.DataFrame',
-                                'output_format':'dict',
                                 'description':'find outliers using inter quartile range (IQR)'},
               
              'outlier_zscore': {'module':'outliers',
@@ -262,7 +261,6 @@ info_outliers = {'outlier_iqr': {'module':'outliers',
                                 'topic':'topic',
                                 'subtopic':'sub topic',
                                 'input_format':'pd.DataFrame',
-                                'output_format':'dict',
                                 'description':'find outliers using zscore'},
                  
                 
@@ -271,7 +269,6 @@ info_outliers = {'outlier_iqr': {'module':'outliers',
                                 'topic':'topic',
                                 'subtopic':'sub topic',
                                 'input_format':'pd.DataFrame',
-                                'output_format':'dict',
                                 'description':'find outliers using normal distribution'},
                  
                  
@@ -280,7 +277,6 @@ info_outliers = {'outlier_iqr': {'module':'outliers',
                                 'topic':'topic',
                                 'subtopic':'sub topic',
                                 'input_format':'pd.DataFrame',
-                                'output_format':'dict',
                                 'description':'find outliers using unsupervised learning algorithm DBSCAN'},
 
                  

@@ -6,7 +6,14 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import train_test_split
 
 
-# sample module class structure
+'''
+
+Split Data into Subsets 
+
+
+'''
+
+
 class make_fold(nlpi):
     
     # called in nlpm
@@ -27,50 +34,73 @@ class make_fold(nlpi):
         elif(self.select == 'tts_label'):
             self.tts_label(self.args)
         
-    # use standard or static methods
+    # Kfold splitting
         
     def kfold_label(self,args:dict):
        
         kf = KFold(n_splits=eval(args['splits']), 
                    shuffle=eval(args['shuffle']), 
-                    random_state=eval(args['rs']))
+                   random_state=eval(args['rs']))
                     
         for i, (_, v_ind) in enumerate(kf.split(args['data'])):
             args['data'].loc[args['data'].index[v_ind], 'kfold'] = f"fold{i+1}"
-            
-        nlpi.memory_output.append(args['data'])
+        
+        # store relevant data about operation
+        nlpi.memory_output.append({'data':args['data'],
+                                   'shuffle':args['shuffle'],
+                                   'n_splits':args['splits'],
+                                   'split':kf,
+                                   'rs':args['rs']}) 
                     
+    # Stratified kfold splitting             
     
     def skfold_label(self,args:dict):
+        
+        if(type(args['y']) is str):
 
-        kf = StratifiedKFold(n_splits=eval(args['splits']), 
-                             shuffle=eval(args['shuffle']), 
-                             random_state=eval(args['rs']))
-                    
-        for i, (_, v_ind) in enumerate(kf.split(args['data'],args['data'][[args['y']]])):
-            args['data'].loc[args['data'].index[v_ind], 'skfold'] = f"fold{i+1}"
+            kf = StratifiedKFold(n_splits=eval(args['splits']), 
+                                 shuffle=eval(args['shuffle']), 
+                                 random_state=eval(args['rs']))
+                        
+            for i, (_, v_ind) in enumerate(kf.split(args['data'],args['data'][[args['y']]])):
+                args['data'].loc[args['data'].index[v_ind], 'skfold'] = f"fold{i+1}"
+                
+            # store relevant data about operation
+            nlpi.memory_output.append({'data':args['data'],
+                                       'shuffle':args['shuffle'],
+                                       'n_splits':args['splits'],
+                                       'stratify':args['y'],
+                                       'split':kf,
+                                       'rs':args['rs']}) 
+        else:
+            print('specify y data token for stratification!')    
+            nlpi.memory_output(None)                           
             
-        nlpi.memory_output.append(args['data']) 
         
-        
-    # train test split labeling (one df only)
+    # Train test split labeling (one df only)
         
     def tts_label(self,args:dict):
         
         train, test = train_test_split(args['data'],
                                        test_size=eval(args['test_size']),
                                        shuffle=eval(args['shuffle']),
-                                       stratify=args['y'])
+                                       stratify=args['y'],
+                                       random_state=eval(args['rs'])
+                                       )
         
         train['tts'] = 'train'
         test['tts'] = 'test'
         ldf = pd.concat([train,test],axis=0)
         ldf = ldf.sort_index()
         
-        nlpi.memory_output.append(ldf) 
-        
-        
-
+        # store relevant data about operation
+        nlpi.memory_output.append({'data':ldf,
+                                   'stratified':args['y'],
+                                   'shuffle':args['shuffle'],
+                                   'stratify':args['y'],
+                                   'test_size':args['test_size'],
+                                   'rs':args['rs']}
+                                   )
    
 '''
 
@@ -110,15 +140,14 @@ info_makefold = {'kfold_label': {'module':'make_folds',
                             'topic':'topic',
                             'subtopic':'sub topic',
                             'input_format':'pd.DataFrame',
-                            'output_format':'pd.DataFrame',
-                            'description':'generate kfolds labels for dataframe'},
+                            'description':'generate kfolds labels for dataframe',
+                            'arg_compat':'splits shuffle rs'},
                             
                 'skfold_label': {'module':'make_folds',
                             'action':'action',
                             'topic':'topic',
                             'subtopic':'sub topic',
                             'input_format':'pd.DataFrame',
-                            'output_format':'pd.DataFrame',
                             'description':'generate stratified kfolds labels for dataframe'},
 
                 'tts_label': {'module':'make_folds',
@@ -126,7 +155,6 @@ info_makefold = {'kfold_label': {'module':'make_folds',
                             'topic':'topic',
                             'subtopic':'sub topic',
                             'input_format':'pd.DataFrame',
-                            'output_format':'pd.DataFrame',
                             'description':'generate train-test-split labels for dataframe'}
                             
                                  

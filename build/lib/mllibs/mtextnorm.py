@@ -309,7 +309,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'general cleaning of input text data, normalise text, remove punctuation, stop words and lemmatise '},
 
                     'lemma_text':{'module':'nlp_cleantext',
@@ -317,7 +316,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'transform word',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'lemmatisation of input text data'},
                           
                     'norm_text':{'module':'nlp_cleantext',
@@ -325,7 +323,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'transform word',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'lower the register of text data'},
                     
                     'convert_emoji':{'module':'nlp_cleantext',
@@ -333,7 +330,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'transalte emoji icons in text data to interpretable names'},
                     
 
@@ -342,7 +338,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'remove emoji icons in text data'},
                     
                     
@@ -351,7 +346,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'remove special characters such as punctuation, brackets and alike from text data'},
 
 
@@ -360,7 +354,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'remove website links related to http and www from text'},                
                     
                     
@@ -369,7 +362,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'remove numerical values from text'},                 
 
                     
@@ -378,7 +370,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'remove white space (blanks) from text data'},
                     
                     'stemmer':{'module':'nlp_cleantext',
@@ -386,7 +377,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                  'topic':'natural language processing',
                                   'subtopic':'text cleaning',
                                  'input_format':'pd.Series',
-                                 'output_format':'pd.Series',
                                  'description':'modify the text data to its most basic/stem form'},
 
                     
@@ -395,7 +385,6 @@ info_nlptxtclean = {'clean_text':{'module':'nlp_cleantext',
                                      'topic':'natural language processing',
                                     'subtopic':'text cleaning',
                                     'input_format':'pd.Series',
-                                    'output_format':'pd.Series',
                                     'description':'remove twitter account handles from text data'}     
 
                     

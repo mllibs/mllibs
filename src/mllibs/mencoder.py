@@ -11,6 +11,12 @@ import torch
 from nltk.tokenize import word_tokenize
 from torch.nn.utils.rnn import pad_sequence
 
+'''
+
+Encoding Text Data
+
+'''
+
 class encoder(nlpi):
     
     def __init__(self,nlp_config):
@@ -19,6 +25,32 @@ class encoder(nlpi):
         self.select = None
         self.data = None
         self.args = None
+        
+    # verbose output
+        
+    @staticmethod
+    def verbose_set(verbose):
+        print(f'set {verbose}')
+          
+    # set function parameter (related to activation)
+            
+    @staticmethod
+    def sfp(args,preset,key:str):
+        
+        if(args[key] is not None):
+            return eval(args[key])
+        else:
+            return preset[key] 
+        
+    # set general parameter
+        
+    @staticmethod
+    def sgp(args,key:str):
+        
+        if(args[key] is not None):
+            return eval(args[key])
+        else:
+            return None
            
     # make selection  
 
@@ -45,44 +77,37 @@ class encoder(nlpi):
             
             
     ''' One Hot Encode DataFrame '''
-    # supports subset - if column name tag is present aside from input data, 
-    #                   each column will be one hot encoded
             
     def ohe(self,data:pd.DataFrame,args):
            
         # if just data is specified
-        if(len(self.subset) == 0):
-        
+        if(self.subset is None):     
             df_matrix = pd.get_dummies(data)
-            nlpi.memory_output.append(df_matrix)
-        
-        else:
-            
+            nlpi.memory_output.append({'data':df_matrix})
+        else:      
             df_matrix = pd.get_dummies(data,columns=self.subset)
-            nlpi.memory_output.append(df_matrix)
+            nlpi.memory_output.append({'data':df_matrix})
                    
         
     ''' Label Encode DataFrame column '''
-    # supports subset, meant to be used in a dataframe 
-    # does not support pd.Series -> convert to df with one column
 
     def le(self,data:pd.DataFrame,args):
         
         encoder = LabelEncoder()
         data = deepcopy(data)
         
-        if(len(self.subset) == 0):
+        if(self.subset is None):
         
-            lencoder = clone(encoder)
+            lencoder = clone(encoder)           
             vectors = lencoder.fit_transform(data)
             df_matrix = pd.DataFrame(vectors,columns=list(data.columns))
-            nlpi.memory_output.append(df_matrix)   
+            nlpi.memory_output.append({'data':df_matrix,
+                                      'vectoriser':lencoder})   
             
         else:
             
             lst_df = []
-            for column in self.subset:
-            
+            for column in self.subset:    
                 lencoder = clone(encoder)
                 vectors = lencoder.fit_transform(data[[column]])
                 df_matrix = pd.DataFrame(vectors,columns=[column])
@@ -96,49 +121,35 @@ class encoder(nlpi):
             if(len(lst_df) > 1):
                 grouped_labels = pd.concat(lst_df,axis=1)
                 add_label = pd.concat([data,grouped_labels],axis=1)
-                nlpi.memory_output.append(add_label)
-                
-            else:
-            
+                nlpi.memory_output.append({'data':add_label,
+                                          'vectoriser':lencoder})      
+            else:     
                 add_label = pd.concat([data,lst_df[0]],axis=1)
-                nlpi.memory_output.append(add_label)
+                nlpi.memory_output.append({'data':add_label,
+                                      'vectoriser':lencoder})      
                 
    
-    # standard count vectoriser
+    ''' CountVectoriser '''
 
     def cv(self,data:pd.DataFrame,args):
-        
-        # define default parameters
-        
-        if(args['ngram_range'] is not None):
-            ngram_range = eval(args['ngram_range'])
-        else:
-            ngram_range = (1,1)   
-            
-        if(args['min_df'] is not None):
-            min_df = eval(args['min_df'])
-        else:
-            min_df = 1
-            
-        if(args['max_df'] is not None):
-            max_df = eval(args['max_df'])
-        else:
-            max_df = 1.0
-        
-        # create new object
+                    
+        # preset value dictionary
+        pre = {'ngram_range':(1,1),'min_df':1,'max_df':1.0}
         data = deepcopy(data)
-        vectoriser = CountVectorizer(ngram_range=ngram_range,
-                                     min_df=min_df,
-                                     max_df=max_df,
+        
+        vectoriser = CountVectorizer(ngram_range=self.sfp(args,pre,'ngram_range'),
+                                     min_df=self.sfp(args,pre,'min_df'),
+                                     max_df=self.sfp(args,pre,'max_df'),
                                      tokenizer=args['tokeniser'])
         
-        if(len(self.subset) == 0):
+        if(self.subset is None):
         
             data = data.iloc[:,0] # we know it has to be one column 
             vectors = vectoriser.fit_transform(list(data))        
             df_matrix = pd.DataFrame(vectors.todense(),
                                      columns=vectoriser.get_feature_names_out())
-            nlpi.memory_output.append(df_matrix)
+            nlpi.memory_output.append({'data':df_matrix,
+                                       'vectoriser':vectoriser})
             
         else:
             
@@ -149,7 +160,8 @@ class encoder(nlpi):
                 df_matrix = pd.DataFrame(vectors.todense(),
                                          columns=vectoriser.get_feature_names_out())
 
-                lst_df.append(df_matrix)
+                nlpi.memory_output.append({'data':df_matrix,
+                                       'vectoriser':lvectoriser})
                 
             # remove rows
             data.drop(self.subset,axis=1,inplace=True)
@@ -159,62 +171,43 @@ class encoder(nlpi):
             if(len(lst_df) > 1):
                 grouped_labels = pd.concat(lst_df,axis=1)
                 add_label = pd.concat([data,grouped_labels],axis=1)
-                nlpi.memory_output.append(add_label)
+                nlpi.memory_output.append({'data':add_label,
+                                          'vectoriser':lvectoriser})
                 
             else:
             
                 add_label = pd.concat([data,lst_df[0]],axis=1)
-                nlpi.memory_output.append(add_label)
+                nlpi.memory_output.append({'data':add_label,
+                                          'vectoriser':lvectoriser})
             
     
-    # tfidf vectoriser
+    ''' TF-IDF '''
     
     def tfidf(self,data:pd.DataFrame,args):
-        
-        if(args['ngram_range'] is not None):
-            ngram_range = eval(args['ngram_range'])
-        else:
-            ngram_range = (1,1)   
             
-        if(args['min_df'] is not None):
-            min_df = eval(args['min_df'])
-        else:
-            min_df = 1
-            
-        if(args['max_df'] is not None):
-            max_df = eval(args['max_df'])
-        else:
-            max_df = 1.0
-            
-        if(args['smooth_idf'] is not None):
-            smooth_idf = eval(args['smooth_idf'])
-        else:
-            smooth_idf = True
-            
-        if(args['use_idf'] is not None):
-            use_idf = eval(args['use_idf'])
-        else:
-            use_idf = True
+        pre = {'ngram_range':(1,1),'min_df':1,'max_df':1.0,
+               'smooth_idf':True,'use_idf':True}
         
         # create new object
         data = deepcopy(data)
         
-        vectoriser = TfidfVectorizer(ngram_range=ngram_range,
-                                     min_df=min_df,
-                                     max_df=max_df,
+        vectoriser = TfidfVectorizer(ngram_range=self.sfp(args,pre,'ngram_range'),
+                                     min_df=self.sfp(args,pre,'min_df'),
+                                     max_df=self.sfp(args,pre,'max_df'),
                                      tokenizer=args['tokeniser'],
-                                     use_idf=use_idf,
-                                     smooth_idf=smooth_idf)
-                                     
-#        vectoriser = TfidfVectorizer()                           
+                                     use_idf=self.sfp(args,pre,'use_idf'),
+                                     smooth_idf=self.sfp(args,pre,'smooth_idf'))                      
         
-        if(len(self.subset) == 0):
+        ''' Subset Treatment '''
+        
+        if(self.subset is None):
         
             data = data.iloc[:,0] # we know it has to be one column 
             vectors = vectoriser.fit_transform(list(data))        
             df_matrix = pd.DataFrame(vectors.todense(),
                                      columns=vectoriser.get_feature_names_out())
-            nlpi.memory_output.append(df_matrix)
+            nlpi.memory_output.append({'data':df_matrix,
+                                       'vectoriser':vectoriser})
             
         else:
             
@@ -223,7 +216,7 @@ class encoder(nlpi):
                 lvectoriser = clone(vectoriser)
                 vectors = vectoriser.fit_transform(list(data[column]))        
                 df_matrix = pd.DataFrame(vectors.todense(),
-                                         columns=vectoriser.get_feature_names_out())
+                                         columns=lvectoriser.get_feature_names_out())
 
                 lst_df.append(df_matrix)
                 
@@ -235,19 +228,16 @@ class encoder(nlpi):
             if(len(lst_df) > 1):
                 grouped_labels = pd.concat(lst_df,axis=1)
                 add_label = pd.concat([data,grouped_labels],axis=1)
-                nlpi.memory_output.append(add_label)
+                nlpi.memory_output.append({'data':add_label,
+                                          'vectoriser':lvectoriser})
                 
             else:
             
                 add_label = pd.concat([data,lst_df[0]],axis=1)
-                nlpi.memory_output.append(add_label)
+                nlpi.memory_output.append({'data':add_label,
+                                       'vectoriser':vectoriser})
         
-    ''' 
-    
-    Encode a corpus of documents to a numeric tensor
-    
-    '''
-    
+    ''' Encode a corpus of documents to a numeric tensor '''
                 
     def text_torch_encoding(self,data:list,args):
         
@@ -275,22 +265,20 @@ class encoder(nlpi):
         vals = [torch.tensor([word2id[token] for token in document]) for document in lst_tokens]
         padded_vals = pad_sequence(vals).transpose(1,0)
     
-        
         # pad tensor if required    
         if(args['maxlen'] is not None):
             padded_vals = padded_vals[:,:eval(args['maxlen'])]
     
-        nlpi.memory_output.append(padded_vals)
+        nlpi.memory_output.append({'data':padded_vals,'dict':word2id})
+        
     
-        
-        
 # corpus for module
 dict_nlpencode = {'encoding_ohe':['one hot encode',
-                                 'one-hot-encode',
-                                 'ohe',
-                                 'one-hot encode',
-                                 'encode with one-hot-encoding',
-                                 'encoded with ohe'],
+                                  'one-hot-encode',
+                                  'ohe',
+                                  'one-hot encode',
+                                  'encode with one-hot-encoding',
+                                  'encoded with ohe'],
             
                  'encoding_label': ['label encode',
                                     'encode label',
@@ -307,67 +295,70 @@ dict_nlpencode = {'encoding_ohe':['one hot encode',
                                        'CountVectorizer'],
                                  
                   'tfidf_vectoriser': ['tfidf vectorise',
-                                      'tfidf vectorisation',
-                                      'tfidf',
-                                      'vectorisation using tfidf',
-                                      'TfidfVectorizer'],
+                                       'tfidf vectorisation',
+                                       'tfidf',
+                                       'vectorisation using tfidf',
+                                       'TfidfVectorizer'],
                                       
                   'torch_text_encode': ['encode documents into tensor',
                                         'encode document into tensor'
-                                       'encode corpus into tensor',
-                                       'torch encode documents',
-                                       'encode documents for torch',
-                                       'encode document for torch'
-                                       'encode corpus for torch',
-                                       'encode text corpus for torch',
-                                       'encode document corpus for torch',
-                                       'encode text corpus for torch']
-                  
-                 }
+                                        'encode corpus into tensor',
+                                        'torch encode documents',
+                                        'encode documents for torch',
+                                        'encode document for torch'
+                                        'encode corpus for torch',
+                                        'encode text corpus for torch',
+                                        'encode document corpus for torch',
+                                        'encode text corpus for torch']}
 
 # Other useful information about the task
 info_nlpencode = {'encoding_ohe':{'module':'nlp_encoder',
                                   'action':'create encoding',
-                                 'topic':'natural language processing',
+                                  'topic':'natural language processing',
                                   'subtopic':'create features',
-                                 'input_format':'pd.DataFrame',
-                                 'output_format':'pd.DataFrame',
-                                 'description':'create numerical represention of feature columns containing string names'},
+                                  'input_format':'pd.DataFrame',
+                                  'output':'data',
+                                  'description':'create numerical represention of feature columns containing string names',
+                                  'token_compat':'data subset'},
                   
                  'encoding_label':{'module':'nlp_encoder',
                                    'action':'create encoding',
                                    'topic':'natural language processing',
-                                    'subtopic':'label encoding',
+                                   'subtopic':'label encoding',
                                    'input_format':'pd.DataFrame',
-                                   'output_format':'pd.Series',
-                                   'description':'create numerical presentation of target label containing string names'},
+                                   'output': 'data vectoriser',
+                                   'description':'create numerical presentation of target label containing string names',
+                                   'token_compat':'data subset',},
                  
                  'count_vectoriser': {'module':'nlp_encoder',
                                       'action':'create encoding',
                                       'topic':'natural language processing',
                                       'subtopic':'feature generation',
                                       'input_format':'pd.DataFrame',
-                                      'output_format':'pd.DataFrame',
-                                      'description':'Convert a collection of text documents to a matrix of token counts (unigrams)'},
-                  
+                                      'output': 'data vectoriser',
+                                      'description':'Convert a collection of text documents to a matrix of token counts (unigrams)',
+                                      'token_compat':'data subset',
+                                      'arg_compat':'ngram_range min_df max_df tokeniser'},
                   
                  'tfidf_vectoriser': {'module':'nlp_encoder',
                                       'action':'create encoding',
                                       'topic':'natural language processing',
                                       'subtopic':'feature generation',
                                       'input_format':'pd.DataFrame',
-                                      'output_format':'pd.DataFrame',
-                                      'description':'Convert a collection of raw documents to a matrix of TF-IDF features'},
-
+                                      'output': 'data vectoriser',
+                                      'description':'Convert a collection of raw documents to a matrix of TF-IDF features',
+                                      'token_compat':'data subset',
+                                      'arg_compat':'ngram_range min_df max_df use_idf smooth_idf tokeniser'},
 
                  'torch_text_encode': {'module':'nlp_encoder',
-                                      'action':'create encoding',
-                                      'topic':'natural language processing',
-                                      'subtopic':'feature generation',
-                                      'input_format':'list',
-                                      'output_format':'torch.tensor',
-                                      'description':'Encode documents into numeric representation & add padding to create tensor of identical length'}
-
+                                       'action':'create encoding',
+                                       'topic':'natural language processing',
+                                       'subtopic':'feature generation',
+                                       'input_format':'list',
+                                       'output':'data',
+                                       'description':'Encode documents into numeric representation & add padding to create tensor of identical length',
+                                       'token_compat':'data',
+                                       'arg_compat': 'maxlen'}
                  }
 
 configure_nlpencoder = {'corpus':dict_nlpencode,'info':info_nlpencode}

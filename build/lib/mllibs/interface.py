@@ -13,6 +13,8 @@ from mllibs.mdsplit import make_fold,configure_makefold
 from mllibs.moutliers import data_outliers,configure_outliers
 from mllibs.membedding import embedding,configure_nlpembed
 from mllibs.mtextnorm import cleantext, configure_nlptxtclean
+from mllibs.msllinear import sllinear, configure_sllinear
+from mllibs.musldimred import usldimred, configure_usldimred
 
 # single command interpreter, multiple command interpreter & interface (chat)
 
@@ -81,14 +83,13 @@ class interface(snlpi,mnlpi,nlpi):
                          eda_plot(configure_edaplt),      # standard visuals
                          eda_colplot(configure_colplot),  # column based visuals
                          dataframe_oper(configure_pda),   # pandas dataframe operations
-                         encoder(configure_nlpencoder),
-                         make_fold(configure_makefold),
-                         data_outliers(configure_outliers),
-                         embedding(configure_nlpembed),
-                         cleantext(configure_nlptxtclean),
-                        # sklinear(configure_sklinear),
-                        # hf_pipeline(configure_hfpipe),
-                
+                         encoder(configure_nlpencoder),    # encode text to values
+                         make_fold(configure_makefold),     # create subset folds
+                         data_outliers(configure_outliers), # create data outliers
+                         embedding(configure_nlpembed),    # generate text embeddings
+                         cleantext(configure_nlptxtclean), # clean text 
+                         sllinear(configure_sllinear),      # linear regression models                        
+                         usldimred(configure_usldimred)
                         ])
 
 
@@ -125,7 +126,6 @@ class interface(snlpi,mnlpi,nlpi):
             snlpi.__init__(self,self.collection)
             self.exec(str(self.command))
             self.return_data()
-            
             
             
     def return_data(self):
