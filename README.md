@@ -228,6 +228,8 @@ from mllibs.interface import interface
 session = interface()
 ```
 
+<br>
+
 #### **9. SAMPLE NOTEBOOKS**
 
 Here are some notebooks that will help you familiarise yourself with the library:
