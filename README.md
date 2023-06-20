@@ -232,6 +232,8 @@ session = interface()
 
 #### **9. SAMPLE NOTEBOOKS**
 
+***
+
 Here are some notebooks that will help you familiarise yourself with the library:
 
 - **[Sample EDA notebook](https://www.kaggle.com/code/shtrausslearning/mllibs-sample-eda-notebook)** (exploratory data analysis options)
