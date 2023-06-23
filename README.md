@@ -82,17 +82,7 @@ Our cell output will be:
 
 #### **4. WHY THIS LIBRARY EXISTS**
 
-***
-
-A good question to ask ourselves is why would this be needed?
-
-Here are some anwsers:
-> - Not everyone level of programming is the same, someone might struggle, whilst others know it quite well
-> - The same goes for the topic 'Machine Learning', there are quite a few concepts to remember
-
-
-#### **4. Package aims to provide:**
-- A userfiendly way introduction to Machine Learning for someone new to the field that have little knowledge of programming
+<code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
 <br>
 
@@ -101,8 +91,11 @@ Here are some anwsers:
 
 ***
 
-- `mllibs` is usable, but still very raw, I'm constantly trying way to improve and clean the code structure
-- If you would like to try it out, you can simply fork the notebook **<code>[nlp module for mllibs](https://www.kaggle.com/code/shtrausslearning/nlp-nlp-module-for-mllibs)</code>**
+`mllibs` is usable, but still very raw, I'm constantly trying way to improve and clean the code structure
+
+| **Kaggle** | **Github** | **PyPI**
+| - | - | - |
+| **<code>[mllibs](https://www.kaggle.com/datasets/shtrausslearning/mllibs)</code>** **0.1.2** | **<code>[mllibs](https://github.com/shtrausslearning/mllibs)</code>** **0.1.2** | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
 
 <br>
 
@@ -122,7 +115,7 @@ Here are some anwsers:
 
 (2) custom added modules, for mllibs these library are associated with **machine learning**
 
-You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks
+You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
 
 <br>
 
@@ -183,6 +176,8 @@ There are two ways to start an interpreter session, manually importing and group
 
 ***
 
+##### **FIRST APPROACH**
+
 First we need to combine all our module components together, this will link all passed modules together
 
 ```python
@@ -220,6 +215,8 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 ```
 
 ***
+
+##### **SECOND APPROACH**
 
 The faster way, includes all loaded modules and groups them together for us:
 
