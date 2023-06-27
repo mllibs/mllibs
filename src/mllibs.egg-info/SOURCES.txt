@@ -4,6 +4,7 @@ pyproject.toml
 setup.cfg
 setup.py
 src/mllibs/__init__.py
+src/mllibs/common_eval.py
 src/mllibs/interface.py
 src/mllibs/mdsplit.py
 src/mllibs/meda_scplot.py
@@ -14,6 +15,7 @@ src/mllibs/mloader.py
 src/mllibs/moutliers.py
 src/mllibs/mpd_df.py
 src/mllibs/mseda.py
+src/mllibs/mslensemble.py
 src/mllibs/msllinear.py
 src/mllibs/mtextnorm.py
 src/mllibs/musldimred.py
@@ -22,5 +24,15 @@ src/mllibs/nlpm.py
 src/mllibs.egg-info/PKG-INFO
 src/mllibs.egg-info/SOURCES.txt
 src/mllibs.egg-info/dependency_links.txt
+src/mllibs.egg-info/requires.txt
 src/mllibs.egg-info/top_level.txt
 src/mllibs/corpus/wordlist.10000.txt
+src/mllibs/models/cv_ner_tagger.pickle
+src/mllibs/models/dtc_ner_tagger.pickle
+src/mlmodels/__init__.py
+src/mlmodels/bl_regressor.py
+src/mlmodels/gmm.py
+src/mlmodels/gp_bclassifier.py
+src/mlmodels/gp_regressor.py
+src/mlmodels/gpr_bclassifier.py
+src/mlmodels/kriging_regressor.py

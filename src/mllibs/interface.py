@@ -15,6 +15,7 @@ from mllibs.membedding import embedding,configure_nlpembed
 from mllibs.mtextnorm import cleantext, configure_nlptxtclean
 from mllibs.msllinear import sllinear, configure_sllinear
 from mllibs.musldimred import usldimred, configure_usldimred
+from mllibs.mslensemble import slensemble, configure_slensemble
 
 # single command interpreter, multiple command interpreter & interface (chat)
 
@@ -64,13 +65,16 @@ Main user interfacing class
 
 class interface(snlpi,mnlpi,nlpi):
 
-    def __init__(self):
+    def __init__(self,silent=False):
         
         # compile modules
         self.collection = self.prestart()
-        snlpi.__init__(self,self.collection) 
+        snlpi.__init__(self,self.collection)
+        if(silent is False):
+            nlpi.silent = False
+        else:
+            nlpi.silent = True 
                
-
     def __getitem__(self,command:str):
         self.exec(command,args=None)
         
@@ -88,8 +92,9 @@ class interface(snlpi,mnlpi,nlpi):
                          data_outliers(configure_outliers), # create data outliers
                          embedding(configure_nlpembed),    # generate text embeddings
                          cleantext(configure_nlptxtclean), # clean text 
-                         sllinear(configure_sllinear),      # linear regression models                        
-                         usldimred(configure_usldimred)
+                         sllinear(configure_sllinear),      # linear machine learning models                        
+                         usldimred(configure_usldimred),     # unsupervised learning dimension reduction
+                         slensemble(configure_slensemble)   # ensemble machine learning models
                         ])
 
 
@@ -98,38 +103,38 @@ class interface(snlpi,mnlpi,nlpi):
         return collection
         
     
-    def iter_loop(self):
+    # def iter_loop(self):
         
-        # user command 
-        if(command == None):
-            print('What would you like to do?')
-            self.command = input()
-        else:
-            self.command = command
+    #     # user command 
+    #     if(command == None):
+    #         print('What would you like to do?')
+    #         self.command = input()
+    #     else:
+    #         self.command = command
             
-        ''' Check for multicommand '''
-        # currently simple implementation based on rules
+    #     ''' Check for multicommand '''
+    #     # currently simple implementation based on rules
         
-        tokens = nlpi.nltk_tokeniser(self.command)
+    #     tokens = nlpi.nltk_tokeniser(self.command)
         
-        for token in tokens:
-            if(token in text_store.dividers):
-                ctype = 'multiple'
-            else:
-                ctype = 'single'
+    #     for token in tokens:
+    #         if(token in text_store.dividers):
+    #             ctype = 'multiple'
+    #         else:
+    #             ctype = 'single'
         
-        # activate relevant interpreter
-        if(ctype == 'multiple'):
-            mnpli.__init__(self,self.collection)
-            self.exec(str(self.command))
-        elif(ctype == 'single'):
-            snlpi.__init__(self,self.collection)
-            self.exec(str(self.command))
-            self.return_data()
+    #     # activate relevant interpreter
+    #     if(ctype == 'multiple'):
+    #         mnpli.__init__(self,self.collection)
+    #         self.exec(str(self.command))
+    #     elif(ctype == 'single'):
+    #         snlpi.__init__(self,self.collection)
+    #         self.exec(str(self.command))
+    #         self.return_data()
             
             
-    def return_data(self):
-        print('storing data in global variable: stored')
-        globals()['stored'] = self.glr()
+    # def return_data(self):
+    #     print('storing data in global variable: stored')
+    #     globals()['stored'] = self.glr()
         
         

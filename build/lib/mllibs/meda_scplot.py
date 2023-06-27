@@ -51,10 +51,22 @@ class eda_colplot(nlpi):
         numeric = df.select_dtypes(include=numerics)
         categorical = df.select_dtypes(exclude=numerics)
         return numeric,categorical
+
+    '''
+    
+    Activation Functions
+    
+    '''
+    # eda_colplot_kde
+    # eda_colplot_box
+    # eda_colplot_scatter
+
+    # column KDE plots for numeric columns
         
     def eda_colplot_kde(self,args:dict):
         
-        num,cat = self.split_types(args['data'])
+        # get numeric column names only
+        num,_ = self.split_types(args['data'])
             
         if(args['x'] is not None):
             xloc = args['data'][args['x']]
@@ -106,6 +118,8 @@ class eda_colplot(nlpi):
                       
         plt.tight_layout()
         
+    # column boxplots for numeric columns
+
     def eda_colplot_box(self,args:dict):
 
         # split data into numeric & non numeric
@@ -170,11 +184,13 @@ class eda_colplot(nlpi):
             ax[i].axis('off')
         
         plt.tight_layout()
+
+    # column scatter plot for numeric columns only
         
     def eda_colplot_scatter(self,args:dict):
 
         # split data into numeric & non numeric
-        num,cat = self.split_types(args['data'])
+        num,_ = self.split_types(args['data'])
           
         columns = list(num.columns)  
         n_cols = 3

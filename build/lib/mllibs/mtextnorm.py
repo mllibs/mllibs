@@ -2,13 +2,10 @@
 import re
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-from nltk.stem import PorterStemmer, WordNetLemmatizer, SnowballStemmer
+from nltk.stem import WordNetLemmatizer, SnowballStemmer
 import emoji
 import string
-from copy import deepcopy
-from collections import OrderedDict
 from mllibs.nlpi import nlpi
-import numpy as np
 import pandas as pd
 import spacy
 

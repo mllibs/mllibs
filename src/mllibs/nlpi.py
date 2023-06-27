@@ -7,7 +7,6 @@ import panel as pn
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer 
 from inspect import isfunction
 from seaborn import load_dataset
-import pkgutil
 
 # default plot palette
 
@@ -24,24 +23,23 @@ palette_rgb = [hex_to_rgb(x) for x in palette]
 # interaction & tect interpreter class
  
 class nlpi(nlpm):
+
+    data = {}    # dictionary for storing data
+    iter = -1    # keep track of all user requests
+    memory_name = []                 # store order of executed tasks
+    memory_stack = []                # memory stack of task information
+    memory_output = []
     
     # instantiation requires module
-    
     def __init__(self,module=None,verbose=0):
         
         self.module = module                  # collection of modules
         self._make_task_info()                # create self.task_info
-        
-        self.data = {}                        # dictionary for storing data
         self.dsources = {}                    # store all data source keys
         self.token_data = []                  # store all token data
         self.verbose = verbose                # print output text flag
+        nlpi.silent = False                    
 
-        nlpi.memory_output = []          # keep order of stored operations
-        nlpi.memory_name = []                      # store order of executed tasks
-        nlpi.memory_stack = []                # memory stack of task information
-        nlpi.iter = -1                         # execution iteraction counter
-        
         # class plot parameters
         nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'stheme':palette_rgb,'s':30}
         
@@ -49,10 +47,12 @@ class nlpi(nlpm):
         
     def setpp(self,params:dict):
         if(type(params) is not dict):
-            print("plot parameter dictionary: {'alpha':1,'mew':1,'mec':'k',...}")
+            if(nlpi.silent is False):
+                print("plot parameter dictionary: {'alpha':1,'mew':1,'mec':'k',...}")
         else:
             nlpi.pp.update(params)
-            print('plot parameter updated!')
+            if(nlpi.silent is False):
+                print('plot parameter updated!')
    
     @classmethod
     def resetpp(cls):
@@ -62,11 +62,12 @@ class nlpi(nlpm):
                     
     def check_dsources(self):
         
-        lst_data = list(self.data.keys())            # data has been loaded
+        lst_data = list(nlpi.data.keys())            # data has been loaded
         self.dsources = {'inputs':lst_data}
-                
-        print('inputs:')
-        print(lst_data,'\n')
+               
+        if(nlpi.silent is False): 
+            print('inputs:')
+            print(lst_data,'\n')
         
     ''' 
     
@@ -82,7 +83,14 @@ class nlpi(nlpm):
         numeric = df.select_dtypes(include=numerics)
         categorical = df.select_dtypes(exclude=numerics)
         return list(numeric.columns),list(categorical.columns)
+
+        
+    ''' 
     
+    STORE INPUT DATA
+    
+    '''
+
     # Load Dataset from Seaborn Repository
     
     def load_dataset(self,name:str,info:str=None):
@@ -91,16 +99,15 @@ class nlpi(nlpm):
         data = load_dataset(name)
         self.store(data,name,info)
         
-    # Store input data
-        
     def store(self,data,name:str,info:str=None):
         
 		# dictionary to store data information
-        datainfo = {'data':None,'subset':None,
+        datainfo = {'data':None,'subset':None,'splits':None,
                     'features':None,'target':None,
                     'cat':None,'num':None,
                     'miss':None,'corpus':None,
-                    'size':None,'dim':None}
+                    'size':None,'dim':None,
+                    }
     
                     
         ''' 1. DESCRIPTION TOKENISATION '''
@@ -183,18 +190,24 @@ class nlpi(nlpm):
             datainfo['corpus'] = col_corpus  
             
             ''' Determine size of data '''
-            
+    
             datainfo['size'] = data.shape[0]
-            datainfo['dim'] = data.shape[1]                    
+            datainfo['dim'] = data.shape[1]
+
+            # Initialise other storage information
+            datainfo['splits'] = {}   # data subset splitting info
+            datainfo['outliers'] = {}  # determined outliers
+            datainfo['dimred'] = {}    # dimensionally reduced data 
                 
         ''' Store Data '''
         
-        print(f'\ndata information for {name}')
-        print('=========================================')
-        print(datainfo)
+        if(nlpi.silent is False):
+            print(f'\ndata information for {name}')
+            print('=========================================')
+            print(datainfo)
                  
         datainfo['data'] = data
-        self.data[name] = datainfo
+        nlpi.data[name] = datainfo
         
     # activation function list
     
@@ -275,13 +288,14 @@ class nlpi(nlpm):
                     
         # cycle through all available key names    
         dict_tokens = {}
-        for source_name in list(self.data.keys()):
+        for source_name in list(nlpi.data.keys()):
             if(source_name in self.tokens):     
                 if(source_name in dict_tokens):
-                    print('another data source found, overwriting')
-                    dict_tokens[source_name] = self.data[source_name]['data']
+                    if(nlpi.silent is False):
+                        print('another data source found, overwriting')
+                    dict_tokens[source_name] = nlpi.data[source_name]['data']
                 else:
-                    dict_tokens[source_name] = self.data[source_name]['data']
+                    dict_tokens[source_name] = nlpi.data[source_name]['data']
                     
         ''' if we have found matching tokens '''
                     
@@ -391,7 +405,8 @@ class nlpi(nlpm):
     
             # determine which module to activate
             ms_name = self.module.test_name('ms',text)
-            print(f'using module: {ms_name}')
+            if(nlpi.silent is False):
+                print(f'using module: {ms_name}')
         
             # Available tasks 
             lst_tasks = self.module.module_task_name[ms_name]
@@ -399,8 +414,9 @@ class nlpi(nlpm):
             t_pred = np.argmax(t_pred_p)
     
             # [2] name o the module task to be called
-            t_name = lst_tasks[t_pred] 
-            print(f'Executing Module Task: {t_name}')
+            t_name = lst_tasks[t_pred]
+            if(nlpi.silent is False): 
+                print(f'Executing Module Task: {t_name}')
 
             # store predictions
             self.task_pred = t_pred
@@ -410,8 +426,9 @@ class nlpi(nlpm):
         # check condition 
         if(len(self.token_split)>1):
             text = ' '.join(self.token_split[0])
-            print('ner split token found, using base text for task prediction')
-            print(f"{text}")
+            if(nlpi.silent is False):
+                print('ner split token found, using base text for task prediction')
+                print(f"{text}")
         else:
             text = self.command
         
@@ -448,8 +465,6 @@ class nlpi(nlpm):
         
         '''
         
-        //////////////////////////////////////////////////////////////////
-        
         DATA TOKEN IS FOUND 
         
         //////////////////////////////////////////////////////////////////
@@ -460,11 +475,15 @@ class nlpi(nlpm):
         
         if(len_data == 1):
         
-            ldtype = available_data.loc[available_data.index,'dtype'].values[0]
-            ldata = self.get_td(available_data.index)
+            ldtype = available_data.loc[available_data.index,'dtype'].values[0] # get the data type
+            ldata = self.get_td(available_data.index)  # get the data 
             
+            # We have one data source & it meets input function criteria
+            # else try to change data 
+
             if(ldtype == in_format):
                 self.module_args['data'] = self.get_td(available_data.index)
+                self.module_args['data_name'] = available_data.index
                 
             else:
                 
@@ -495,15 +514,16 @@ class nlpi(nlpm):
                     
             else:
                 
-                print('[note] more than 2 data sources found')
+                if(nlpi.silent is False):
+                    print('[note] more than 2 data sources found')
 
                 
         else:
-            print('[note] no data has been set')
+            if(nlpi.silent is False):
+                print('[note] no data has been set')
           
         
         ''' 
-        //////////////////////////////////////////////////////////////////
         
         Check for column related tokens 
         
@@ -529,7 +549,7 @@ class nlpi(nlpm):
                 matched_index_in_tokens = self.command.index(token)
                 
                 # all possible options we are interested
-                lst_options = ['x','y','hue','col','row','target','val']
+                lst_options = ['x','y','hue','col','row','target','val','splits']
                 
                 for option in lst_options:
                     
@@ -540,7 +560,6 @@ class nlpi(nlpm):
 
                         
         '''
-        //////////////////////////////////////////////////////////////////
         
         Check general plot setting tokens
         
@@ -556,7 +575,6 @@ class nlpi(nlpm):
                     
         
         '''
-        //////////////////////////////////////////////////////////////////
         
         USE NER TO SORT MODULE ARGS
         
@@ -683,11 +701,13 @@ class nlpi(nlpm):
                             for idx in list(lst_match.index):
                                 self.module_args[token_name].append(self.get_td(idx))
     
-                            print('stored multiple data in subset, please confirm')
+                            if(nlpi.silent is False):
+                                print('stored multiple data in subset, please confirm')
     
                         else:
     
-                            print('please use lists for subset when main data is df')
+                            if(nlpi.silent is False):
+                                print('please use lists for subset when main data is df')
     
                     else:
     
@@ -718,11 +738,15 @@ class nlpi(nlpm):
             
             lst_gtokens = ['agg','join','axis','bw','splits','shuffle','rs','const',
                           'threshold','scale','eps','min_samples','ngram_range',
-                          'min_df','max_df',
+                          'min_df','max_df','n_splits',
                           'use_idf','smooth_idf','dim','window','epoch','lr',
                           'maxlen','sample','whiten','whiten_solver',
                           'n_neighbours','radius','l1_ratio',
-                          'alpha_1','alpha_2','lambda_1','lambda_2']
+                          'alpha_1','alpha_2','lambda_1','lambda_2',
+                          'estimator','n_estimators','loss','criterion',
+                          'min_samples_leaf','min_samples_split',
+                          'max_depth','max_features','bootstrap','oob_score',
+                          'max_bins','validation_fraction','n_iter_no_change']
             
             for gtoken in lst_gtokens:
                 if(self.tokens[self.tokens.index(token)-1] == gtoken):
@@ -756,7 +780,7 @@ class nlpi(nlpm):
         ts = self.module.mod_summary
     
         outs = {}
-        for k,v in td.items():
+        for _,v in td.items():
             for l,w in v.items():
                 r = random.choice(w)
                 outs[l] = r
@@ -812,13 +836,13 @@ class nlpi(nlpm):
         
         # Initialise arguments dictionary
        
-        self.module_args = {'pred_task': None, 'data': None,'subset': None,
+        self.module_args = {'pred_task': None, 'data': None,'subset': None,'splits':None,
                             'features': None, 'target' : None,
                             'x': None, 'y': None, 'hue': None,'col':None,'row':None,
-                            'col_wrap':None,'kind':'scatter', 'val':None, 'agg':'mean',
-                            'join':'inner','axis':'0','bw':None,
-                            'figsize':[None,None],'test_size':'0.3',
-                            'splits':'3','shuffle':'True','rs':'32',
+                            'col_wrap':None,'kind':'scatter', 'val':None, 'agg':None,
+                            'join':'inner','axis':None,'bw':None,
+                            'figsize':[None,None],'test_size':None,
+                            'n_splits':None,'shuffle':None,'rs':None,
                             'threshold':None,'eps':None,'min_samples':None,'scale':None,
                             'ngram_range':None,'min_df':None,'max_df':None,
                             'tokeniser':None,'use_idf':None,'smooth_idf':None,
@@ -827,7 +851,11 @@ class nlpi(nlpm):
                             'neg_sample':None,'batch':None,
                             'kernel':None,'sample':None,'whiten':None,'whiten_solver':None,
                             'n_neighbours':None,'radius':None,'l1_ratio':None,
-                            'alpha_1':None,'alpha_2':None,'lambda_1':None,'lambda_2':None
+                            'alpha_1':None,'alpha_2':None,'lambda_1':None,'lambda_2':None,
+                            'estimator':None,'n_estimators':None,'loss':None,
+                            'criterion':None,'min_samples_leaf':None,'min_samples_split':None,
+                            'max_depth':None,'max_features':None,'bootstrap':None,'oob_score':None,
+                            'max_bins':None,'validation_fraction':None,'n_iter_no_change':None
                            }
         
         # update argument dictionary if it was set
@@ -861,16 +889,12 @@ class nlpi(nlpm):
         
         self.module_args['pred_task'] = self.task_name
         
-        # list of executed tasks
         nlpi.memory_name.append(self.task_name)  
-        
-        # task information series
-        task_info = self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] 
-        
-        nlpi.memory_stack.append(task_info)
+        nlpi.memory_stack.append(self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] )
         nlpi.memory_info = pd.concat(self.memory_stack,axis=1) # stack task information order
         
         # activate function
+
         self.module.functions[self.module_name].sel(self.module_args)
         
         # if not data has been added

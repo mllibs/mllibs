@@ -17,7 +17,6 @@ class simple_eda(nlpi):
         self.name = 'eda'             # unique module name identifier
         self.nlp_config = nlp_config  # text based info related to module
         self.select = None            # store index which module was activated
-        self.data = None              # store data which is to be used in activated 
         # store all module arguments which were passed to module
         self.args = None              
     
@@ -71,6 +70,12 @@ class simple_eda(nlpi):
     @staticmethod
     def show_info(args:dict):
         print(args['data'].info())
+
+'''
+
+Corpus
+
+'''
         
 # Create Dataset of possible commands
 corpus_eda = OrderedDict({

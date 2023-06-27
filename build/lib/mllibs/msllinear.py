@@ -1,9 +1,5 @@
 from sklearn.linear_model import LinearRegression, LogisticRegression,Ridge, RidgeClassifier, Lasso, ElasticNet, BayesianRidge
-from sklearn.metrics import classification_report 
-from sklearn.metrics import mean_squared_error
-from mllibs.nlpi import nlpi
-import pandas as pd
-import numpy as np
+from mllibs.common_eval import eval_base
 
 
 '''
@@ -12,298 +8,71 @@ LINEAR MODEL MODULE
 
 '''
 
-class sllinear(nlpi):
-    
+# requires parent evaluation class 
+# we only need to replace class name & set model attribute/method
+
+class sllinear(eval_base):
+
     def __init__(self,nlp_config):
         self.name = 'sllinear'
-        self.nlp_config = nlp_config 
-        self.select = None
-        self.args = None
-        
-    @staticmethod
-    def sfp(args,preset,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return preset[key] 
-        
-    # set general parameter
-        
-    @staticmethod
-    def sgp(args,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return None
-           
-    # make selection  
+        eval_base.__init__(self,nlp_config,self.name)
 
-    def sel(self,args:dict):
-    
-        self.select = args['pred_task']
-        self.args = args    
-        
-        # check feature and target variable have been defined
-        set_feat = False; set_target = False
-        if(len(self.args['features']) > 1):
-            features = self.args['data'][self.args['features']]
-            set_feat = True
-        if(len(self.args['target']) == 1):
-            target = self.args['data'][self.args['target'][0]]
-            set_target = True
-        
-        if(set_feat is not True and set_target is not True):
-            print('features and target not set correctly')
-            return 
-        
-        ''' select appropriate predicted method '''
-        
-        # linear regression
-        
-        if(self.select == 'fit_lr'):
-            self.sklinear_lr(features,target,self.args)
-        elif(self.select == 'lr_fpred'):
-            self.sklinear_lr_fpred(features,target,self.args)
-            
-        # logistic regression
-            
-        elif(self.select == 'fit_lgr'):
-            self.sklinear_lgr(features,target,self.args)
-        elif(self.select == 'lgr_fpred'):
-            self.sklinear_lgr_fpred(features,target,self.args)
 
-        # ridge regression
-            
-        elif(self.select == 'fit_ridge'):
-            self.sklinear_ridge(features,target,self.args)
-        elif(self.select ==  'ridge_fpred'):
-            self.sklinear_ridge_fpred(features,target,self.args)
-            
-        # ridge classification
-            
-        elif(self.select == 'fit_cridge'):
-            self.sklinear_cridge(features,target,self.args)
-        elif(self.select ==  'cridge_fpred'):
-            self.sklinear_cridge_fpred(features,target,self.args)   
-            
-        # lasso regression
-        
+    def set_model(self,args):
+
+        # select model (7 variations - 5 regressors / 2 classifiers)
+
+        if(self.select == 'fit_lr' or self.select == 'lr_fpred'):   
+
+            self.model_type = 'reg'
+            self.model = LinearRegression()
+
+        elif(self.select == 'fit_lgr' or self.select == 'lgr_fpred'):
+
+            self.model_type = 'class'
+            pre = {'const':1.0}
+            self.model = LogisticRegression(c=self.sfp(args,pre,'const'))
+
+        elif(self.select == 'fit_ridge' or self.select == 'ridge_fpred'):
+
+            self.model_type = 'reg'
+            pre = {'const':1.0}
+            self.model = Ridge(alpha=self.sfp(args,pre,'const'))
+
+        elif(self.select == 'fit_cridge' or self.select == 'cridge_fpred'):
+
+            self.model_type = 'class'
+            pre = {'const':1.0}
+            self.model = RidgeClassifier(alpha=self.sfp(args,pre,'const'))
+
         elif(self.select == 'fit_lasso'):
-            self.sklinear_lasso(features,target,self.args)
-        elif(self.select ==  'lasso_fpred'):
-            self.sklinear_lasso_fpred(features,target,self.args)
-            
-        # elasticnet regression
-            
-        elif(self.select == "fit_elastic"):
-            self.sklinear_elasticnet(features,target,self.args)
-        elif(self.select ==  'elastic_fpred'):
-            self.sklinear_elastic_fpred(features,target,self.args)                 
-            
-        # bridge regression
-            
-        elif(self.select == "fit_bridge"):
-            self.sklinear_bridge(features,target,self.args)
-        elif(self.select ==  'bridge_fpred'):
-            self.sklinear_bridge_fpred(features,target,self.args)
-            
-            
-    # fit linear regression model
-            
-    def sklinear_lr(self,features,target,args:dict):
 
-        model = LinearRegression()
-        model.fit(features,target)
-        nlpi.memory_output.append({'data':features,
-                                   'target':target,
-                                   'model':model}) 
-        
-    # fit logistic regression model
-        
-    def sklinear_lgr(self,features,target,args:dict):
+            self.model_type = 'reg'
+            pre = {'const':1.0}
+            self.model = Lasso(alpha=self.sfp(args,pre,'const'))
+
+        elif(self.select == 'fit_elastic' or self.select == 'elastic_fpred'):
+
+            self.model_type = 'reg'
+            pre = {'const':1.0,'l1_ratio':0.5}
+            self.model = ElasticNet(alpha=self.sfp(args,pre,'const'),
+                                l1_ratio=self.sfp(args,pre,'l1_ratio'))
             
-        pre = {'const':1.0}
-        model = LogisticRegression(c=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model}) 
-        
-    # fit ridge regression model (w/ regularisation)
-        
-    def sklinear_ridge(self,features,target,args:dict):
+        elif(self.select == 'fit_bridge' or self.select == 'bridge_fpred'):
 
-        pre = {'const':1.0}
-        model = Ridge(alpha=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model}) 
-        
-    # fit lasso regression model (w/ regularisation)    
-        
-    def sklinear_lasso(self,features,target,args:dict):
+            self.model_type = 'reg'
+            pre = {'alpha_1':1e-6,'alpha_2':1e-6,'lambda_1':1e-6,'lambda_2':1e-6}
+            self.model = BayesianRidge(alpha_1=self.sfp(args,pre,'alpha_1'),
+                                    alpha_2=self.sfp(args,pre,'alpha_2'),
+                                    lambda_1=self.sfp(args,pre,'lambda_1'),
+                                    lambda_2=self.sfp(args,pre,'lambda_2')
+                                    )
 
-        pre = {'const':1.0}
-        model = Lasso(alpha=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model}) 
-        
-    def sklinear_elasticnet(self,features,target,args:dict):
+''' 
 
-        pre = {'const':1.0,'l1_ratio':0.5}
-        model = ElasticNet(alpha=self.sfp(args,pre,'const'),
-                      l1_ratio=self.sfp(args,pre,'l1_ratio'))
-        model.fit(features,target)
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model}) 
+Corpus
 
-        
-    def sklinear_cridge(self,features,target,args:dict):
-
-        pre = {'const':1.0}
-        model = RidgeClassifier(alpha=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        nlpi.memory_output.append({'feature':features,
-                                   'target':target,
-                                   'model':model}) 
-        
-        
-    def sklinear_bridge(self,features,target,args:dict):
-
-        pre = {'alpha_1':1e-6,'alpha_2':1e-6,'lambda_1':1e-6,'lambda_2':1e-6}
-        model = BayesianRidge(alpha_1=self.sfp(args,pre,'alpha_1'),
-                              alpha_2=self.sfp(args,pre,'alpha_2'),
-                              lambda_1=self.sfp(args,pre,'lambda_1'),
-                              lambda_2=self.sfp(args,pre,'lambda_2')
-                             )
-        model.fit(features,target)
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model}) 
-       
-    # fit and predict linear regression model
-    
-    def sklinear_lr_fpred(self,features,target,args:dict):
-        
-        model = LinearRegression()
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        mse = mean_squared_error(target,y_pred,squared=False)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'rmse':mse}) 
-        
-    # fit and predict logistic regression model
-    
-    def sklinear_lgr_fpred(self,features,target,args:dict):
-        
-        model = LogisticRegression()
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        report = classification_report(target,y_pred)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'report':report}) 
-        
-    # fit and predict ridge regression
-        
-    def sklinear_ridge_fpred(self,features,target,args:dict):
-        
-        pre = {'const':1.0}
-        model = Ridge(alpha=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        mse = mean_squared_error(target,y_pred,squared=False)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'rmse':mse}) 
-        
-    # fit and predict lasso regression model
-    
-    def sklinear_lasso_fpred(self,features,target,args:dict):
-        
-        pre = {'const':1.0}
-        model = Lasso(alpha=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        mse = mean_squared_error(target,y_pred,squared=False)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'rmse':mse}) 
-        
-    # fit and predict elastic regression
-        
-    def sklinear_elastic_fpred(self,features,target,args:dict):
-        
-        pre = {'const':1.0,'l1_ratio':0.5}
-        model = ElasticNet(alpha=self.sfp(args,pre,'const'),
-                           l1_ratio=self.sfp(args,pre,'l1_ratio'))
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        mse = mean_squared_error(target,y_pred,squared=False)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'rmse':mse
-                                }) 
-        
-    # fit and predict ridge classification model
-    
-    def sklinear_cridge_fpred(self,features,target,args:dict):
-        
-        pre = {'const':1.0}
-        model = RidgeClassifier(alpha=self.sfp(args,pre,'const'))
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        report = classification_report(target,y_pred)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'report':report}) 
-        
-    # fit and predict bridge regression
-        
-    def sklinear_bridge_fpred(self,features,target,args:dict):
-        
-        pre = {'alpha_1':1e-6,'alpha_2':1e-6,'lambda_1':1e-6,'lambda_2':1e-6}
-        model = BayesianRidge(alpha_1=self.sfp(args,pre,'alpha_1'),
-                              alpha_2=self.sfp(args,pre,'alpha_2'),
-                              lambda_1=self.sfp(args,pre,'lambda_1'),
-                              lambda_2=self.sfp(args,pre,'lambda_2')
-                             )
-        
-        model.fit(features,target)
-        y_pred = model.predict(features)
-        mse = mean_squared_error(target,y_pred,squared=False)
-        
-        nlpi.memory_output.append({'features':features,
-                                   'target':target,
-                                   'model':model,
-                                   'y_pred':y_pred,
-                                   'rmse':mse
-                                }) 
+'''
         
           
 dict_sllinear = {'fit_lr':['create a linear regression model',

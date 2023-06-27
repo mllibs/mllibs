@@ -237,6 +237,11 @@ class usldimred(nlpi):
         nlpi.memory_output.append({'data':pd.concat([X,self.catn],axis=1),
                                    'model':model}) 
     
+'''
+
+Corpus
+
+'''
 
 corpus_usldimred = OrderedDict({"PCA":['PCA dimension reduction',
                                        'PCA reduce dimension',

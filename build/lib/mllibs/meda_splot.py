@@ -350,9 +350,9 @@ class eda_plot(nlpi):
         plt.show()
         nlpi.resetpp()
         
-        
-    @staticmethod
-    def seaborn_lineplot(args:dict):
+    # Lineplot
+
+    def seaborn_lineplot(self,args:dict):
     
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
@@ -372,16 +372,18 @@ class eda_plot(nlpi):
          })
 
         sns.lineplot(x=args['x'], 
-                    y=args['y'],
+                     y=args['y'],
                      hue=args['hue'],
-                    alpha= nlpi.pp['alpha'],
-                    linewidth=nlpi.pp['mew'],
-                        data=args['data'],
-                        palette=palette)
+                     alpha= nlpi.pp['alpha'],
+                     linewidth=nlpi.pp['mew'],
+                     data=args['data'],
+                     palette=palette)
         
         sns.despine(left=True, bottom=True)
         plt.show()
         nlpi.resetpp()
+
+    # Heatmap
                 
     def seaborn_heatmap(self,args:dict):
         
@@ -396,7 +398,7 @@ class eda_plot(nlpi):
             hueloc = None
             palette = palette_rgb
         
-        num,cat = self.split_types(args['data'])
+        num,_ = self.split_types(args['data'])
         sns.heatmap(num,cmap=palette,
                     square=False,lw=2,
                     annot=True,cbar=True)    
@@ -404,7 +406,12 @@ class eda_plot(nlpi):
         plt.show()
         nlpi.resetpp()
     
-        
+'''
+
+Corpus
+
+'''
+
 corpus_edaplt = OrderedDict({  
                             
                             

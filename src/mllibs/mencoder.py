@@ -1,9 +1,7 @@
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
-from collections import Counter
 from mllibs.nlpi import nlpi
 import pandas as pd
-from collections import OrderedDict
 import warnings; warnings.filterwarnings('ignore')
 from sklearn.base import clone
 from copy import deepcopy
@@ -76,7 +74,11 @@ class encoder(nlpi):
             self.text_torch_encoding(self.data,self.args)
             
             
-    ''' One Hot Encode DataFrame '''
+    ''' 
+    
+    One Hot Encode DataFrame 
+    
+    '''
             
     def ohe(self,data:pd.DataFrame,args):
            
@@ -89,7 +91,11 @@ class encoder(nlpi):
             nlpi.memory_output.append({'data':df_matrix})
                    
         
-    ''' Label Encode DataFrame column '''
+    ''' 
+    
+    Label Encode DataFrame column 
+    
+    '''
 
     def le(self,data:pd.DataFrame,args):
         
@@ -129,7 +135,11 @@ class encoder(nlpi):
                                       'vectoriser':lencoder})      
                 
    
-    ''' CountVectoriser '''
+    ''' 
+    
+    CountVectoriser 
+    
+    '''
 
     def cv(self,data:pd.DataFrame,args):
                     
@@ -181,7 +191,11 @@ class encoder(nlpi):
                                           'vectoriser':lvectoriser})
             
     
-    ''' TF-IDF '''
+    ''' 
+    
+    TF-IDF
+    
+    '''
     
     def tfidf(self,data:pd.DataFrame,args):
             
@@ -237,7 +251,11 @@ class encoder(nlpi):
                 nlpi.memory_output.append({'data':add_label,
                                        'vectoriser':vectoriser})
         
-    ''' Encode a corpus of documents to a numeric tensor '''
+    ''' 
+    
+    Encode a corpus of documents to a numeric tensor 
+    
+    '''
                 
     def text_torch_encoding(self,data:list,args):
         
@@ -271,6 +289,11 @@ class encoder(nlpi):
     
         nlpi.memory_output.append({'data':padded_vals,'dict':word2id})
         
+'''
+
+Corpus
+
+'''
     
 # corpus for module
 dict_nlpencode = {'encoding_ohe':['one hot encode',

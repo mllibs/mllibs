@@ -6,22 +6,21 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel,sigmoid_kernel
 from sklearn.base import clone
 from collections import OrderedDict
+import pickle
 import numpy as np
 import pandas as pd
-import zipfile
+# import zipfile
 import pkgutil
-import io
 
 import nltk
-nltk.download('wordnet')
+# nltk.download('wordnet')
 
-wordn = '/usr/share/nltk_data/corpora/wordnet.zip'
-wordnt = '/usr/share/nltk_data/corpora/'
+# wordn = '/usr/share/nltk_data/corpora/wordnet.zip'
+# wordnt = '/usr/share/nltk_data/corpora/'
 
-with zipfile.ZipFile(wordn,"r") as zip_ref:
-     zip_ref.extractall(wordnt)
+# with zipfile.ZipFile(wordn,"r") as zip_ref:
+#      zip_ref.extractall(wordnt)
 
-from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer
 
 
@@ -279,9 +278,6 @@ class nlpm:
         model = clone(model_lr)
         model.fit(X,y)
         self.model[module_name] = model # store model
-
-        # show the training score 
-        y_pred = model.predict(X)
         score = model.score(X,y)
         print(module_name,model,'accuracy',round(score,3))
     
@@ -330,10 +326,6 @@ class nlpm:
     
     ///////////////////////////////////////////////////////////////
     
-    ''' 
-    
-    ''' 
-    
     1. CREATE SUBSET DETERMINATION MODEL 
     
     create multiclass classification model which will determine 
@@ -372,8 +364,8 @@ class nlpm:
                    3,3,3,3,3,
                    4,4,4,4,4,
                    5,5,5,5]
-                  
-                  
+        
+                   
         data = pd.DataFrame({'corpus':lst_data,'label':lst_tag})
 
         vectoriser = CountVectorizer(stop_words=['using','use'])
@@ -397,45 +389,52 @@ class nlpm:
         
     def ner_tokentag_model(self):
 
-        flatten = lambda l: [item for sublist in l for item in sublist]
+        # flatten = lambda l: [item for sublist in l for item in sublist]
         
-        def tokenise(text):
-            return WhitespaceTokenizer().tokenize(text)
+        # def tokenise(text):
+        #     return WhitespaceTokenizer().tokenize(text)
         
-        typea = ['features','feature list','feature columns','independent']
-        typeb = ['target','target column','target variable','dependent']
-        typec = ['subset','subset columns']
-        typed = ['data','data source','source']
-        type_all = typea + typeb + typec + typed
-        tokens = [tokenise(i) for i in type_all]
-        unique_tokens = flatten(tokens)
-        
-        #with open('corpus/wordlist.10000.txt') as f:
-            #lines = f.readlines()
+        # typea = ['features','feature list','feature columns','independent']
+        # typeb = ['target','target column','target variable','dependent']
+        # typec = ['subset','subset columns']
+        # typed = ['data','data source','source']
+        # type_all = typea + typeb + typec + typed
+        # tokens = [tokenise(i) for i in type_all]
+        # unique_tokens = flatten(tokens)
              
-        f = pkgutil.get_data('mllibs',"corpus/wordlist.10000.txt")
-        content = io.TextIOWrapper(io.BytesIO(f), encoding='utf-8')
-        lines = content.readlines()
-        
+        # f = pkgutil.get_data('mllibs',"corpus/wordlist.10000.txt")
+        # content = io.TextIOWrapper(io.BytesIO(f), encoding='utf-8')
+        # lines = content.readlines()
            
-        cleaned = []
-        for line in lines:
-            removen = line.rstrip()
-            if removen not in unique_tokens:
-                cleaned.append(removen)
+        # cleaned = []
+        # for line in lines:
+        #     removen = line.rstrip()
+        #     if removen not in unique_tokens:
+        #         cleaned.append(removen)
                 
-        corpus = typea + typeb + typec + typed + cleaned
-        labels = [0,0,0,0,1,1,1,1,2,2,3,3,3] + [4 for i in range(len(cleaned))]
-        data = pd.DataFrame({'corpus':corpus,'label':labels})
+        # corpus = typea + typeb + typec + typed + cleaned
+        # labels = [0,0,0,0,1,1,1,1,2,2,3,3,3] + [4 for i in range(len(cleaned))]
+        # data = pd.DataFrame({'corpus':corpus,'label':labels})
         
-        vectoriser = CountVectorizer(ngram_range=(1,2))
-        X = vectoriser.fit_transform(data['corpus']).toarray()
-        y = data['label'].values
+        # vectoriser = CountVectorizer(ngram_range=(1,2))
+        # X = vectoriser.fit_transform(data['corpus'])
+        # y = data['label'].values
         
-        # we have a dissbalanced class model, so lets use class_weight
-        model = DecisionTreeClassifier(class_weight={0:0.25,1:0.25,2:0.25,3:0.25,4:0.0001})
-        model.fit(X,y)
-        model.predict(X)
+        # # we have a dissbalanced class model, so lets use class_weight
+        # model = DecisionTreeClassifier(class_weight={0:0.25,1:0.25,2:0.25,3:0.25,4:0.0001})
+        # model.fit(X,y)
+
+        # with open('dtc_ner_tagger.pickle', 'wb') as f:
+        #     pickle.dump(model, f)
+
+        # with open('cv_ner_tagger.pickle', 'wb') as f:
+        #     pickle.dump(vectoriser, f)
+
+        vectoriser_load = pkgutil.get_data('mllibs','models/cv_ner_tagger.pickle')
+        vectoriser = pickle.loads(vectoriser_load)
+
+        model_load = pkgutil.get_data('mllibs','models/dtc_ner_tagger.pickle')
+        model = pickle.loads(model_load)
         
         self.vectoriser['token_ner'] = vectoriser
         self.model['token_ner'] = model      

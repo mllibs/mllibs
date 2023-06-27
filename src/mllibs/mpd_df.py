@@ -18,6 +18,24 @@ class dataframe_oper(nlpi):
     def __init__(self,nlp_config):
         self.name = 'pd_df'             
         self.nlp_config = nlp_config 
+
+    @staticmethod
+    def sfp(args,preset,key:str):
+        
+        if(args[key] is not None):
+            return eval(args[key])
+        else:
+            return preset[key] 
+        
+    # set general parameter
+        
+    @staticmethod
+    def sgp(args,key:str):
+        
+        if(args[key] is not None):
+            return eval(args[key])
+        else:
+            return None
         
     # called in nlpi
     def sel(self,args:dict):
@@ -32,48 +50,69 @@ class dataframe_oper(nlpi):
         elif(self.select == 'subset_concat'):
             self.subset_label(self.args)
             
+    ''' 
+    
+    ACTIVATION FUNCTIONS 
+
+    '''
+    # dfgroupby
+    # dfconcat
+    # subset_label
+
     # Groupby DataFrame (or Pivot Table)
     
     def dfgroupby(self,args:dict):
 
-        def groupby(df:pd.DataFrame,i:str,c:str=None,v:str=None,agg='mean'):
+        pre = {'agg':'mean'}
+
+        # groupby helper function
+        def groupby(df:pd.DataFrame, # input dataframe
+                    i:str,           # index
+                    c:str=None,      # column
+                    v:str=None,      # value
+                    agg='mean'       # aggregation function
+                    ):
     
+            # pivot table / standard groupby
             if(i is not None or v is not None):
                 return pd.pivot_table(data=df,
-                						  index = i,
-                						  columns=c,
-                						  values=v,
-                						  aggfunc=agg)
+                                      index = i,
+                                      columns=c,
+                                      values=v,
+                                      aggfunc=agg)
             else:
                 return df.groupby(by=i).agg(agg)
         
+        # general groupby function (either pivot_table or groupby)
         grouped_data = groupby(args['data'],
                                args['row'],
                                c=args['col'],
                                v=args['val'],
-                               agg=args['agg'])
-                                
-        nlpi.memory_output.append(grouped_data)
+                               agg=self.sfp(args,pre,'agg'))
+           
+        nlpi.memory_output.append({'data':grouped_data})
                 
     # Merge DataFrames
 
     def dfconcat(self,args:dict):
+
+        pre = {'axis':0}
         
         def concat(lst_df,join='outer',ax=0):
             return pd.concat(lst_df,
-				               join=join,
-            					 axis=ax,
-            					 )
+				             join=join,
+            				 axis=ax,
+            				)
             
         # merge both data frames
         merged_df = concat(args['data'],
                            join=args['join'],
-                           
-                           ax=eval(args['axis']))
+                           ax=self.sfp(args,pre,'axis'))
         
         # store result
-        nlpi.memory_output.append(merged_df)
+        nlpi.memory_output.append({'data':merged_df})
         
+    # Add subset label for two dataframes
         
     def subset_label(self,args:dict):
     
@@ -102,7 +141,7 @@ class dataframe_oper(nlpi):
     
             merged_df = subset_merge(df1,df2)
             merged_df.reset_index(inplace=True)
-            nlpi.memory_output.append(merged_df)
+            nlpi.memory_output.append({'data':merged_df})
             
 '''
 
@@ -110,8 +149,7 @@ Corpus
 
 
 '''
-        
-        
+          
 corpus_pda = OrderedDict({})
 corpus_pda['groupby'] =  ['pandas groupby',
                           'groupby operation',
@@ -122,8 +160,7 @@ corpus_pda['groupby'] =  ['pandas groupby',
                           'pivot data',
                           'pivot operation',
                           'do pivot operation']
-                             
-                             
+                                           
 corpus_pda['concat'] = ['concat dataframe',
                         'concatenate dataframe',
                         'concat df',
@@ -137,7 +174,7 @@ corpus_pda['subset_concat'] = ['merge subsets',
 								  'concatenate subsets',
 								  'compare subset dataframes',
 								  'compare subset df',
-           					  'label subset dataframes',
+                                  'label subset dataframes',
             					  'create subset dataframe labels',
         
 ]
@@ -145,7 +182,6 @@ corpus_pda['subset_concat'] = ['merge subsets',
 '''
 
 Module Information Dictionary
-
 
 '''
 
@@ -157,21 +193,23 @@ info_pda['groupby'] = {'module':'pd_df',
                       'topic':'topic',
                       'subtopic':'sub topic',
                       'input_format':'pd.DataFrame',
-                      'description':'pandas groupby operation, data wrangling with index, column and values'}
+                      'description':'pandas groupby operation, data wrangling with index, column and values',
+                      'arg_compat':'agg'}
 
 info_pda['concat'] = {'module':'pd_df',
                       'action':'action',
                       'topic':'topic',
                       'subtopic':'sub topic',
                       'input_format':'pd.DataFrame',
-                      'description':'merge together two dataframes'}
+                      'description':'merge together two dataframes',
+                      'arg_compat':'axis'}
                       
 info_pda['subset_concat'] = {'module':'pd_df',
-                     			 'action':'action',
+                     		 'action':'action',
                       		 'topic':'topic',
                       		 'subtopic':'sub topic',
-		                      'input_format':'pd.DataFrame',
-              			        'description':'label two subset dataframes'}
+		                     'input_format':'pd.DataFrame',
+              			     'description':'label two subset dataframes'}
 
 
 configure_pda = {'corpus':corpus_pda,'info':info_pda}

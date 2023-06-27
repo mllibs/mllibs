@@ -1,6 +1,5 @@
 from keras.preprocessing import text
 from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import skipgrams
 from collections import Counter
 import torch
 from torch.autograd import Variable
@@ -26,7 +25,6 @@ Embedding Generation Only
 '''
 
 # in this module we generate embedding vectors, store in dataframe
-
 
 class embedding(nlpi):
     
