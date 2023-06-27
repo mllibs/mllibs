@@ -62,7 +62,7 @@ nlp_interpreter(input) # [0, 1, 1, 2, 3]
 
 <br>
 
-### **SAMPLE FROM MLLIBS**
+#### **SAMPLE FROM MLLIBS**
 
 Let's check out one example of how it works; let's visualise some data by requesting:
 
@@ -81,7 +81,7 @@ Our cell output will be:
 <br>
 
 
-### **PROJECT STATUS**
+#### **PROJECT STATUS**
 
 `mllibs` is usable, but still very raw, I'm constantly trying way to improve and clean the code structure
 
@@ -200,7 +200,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-#### **SECOND APPROACH**
+##### **SECOND APPROACH**
 
 The faster way, includes all loaded modules and groups them together for us:
 
