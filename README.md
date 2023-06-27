@@ -2,7 +2,7 @@
 
 ![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://badgen.net/badge/status/WIP/blue) 
 
-### **ABOUT PROJECT**
+#### **ABOUT PROJECT**
 
 - **mllibs** is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
@@ -12,7 +12,7 @@
 
 <br>
 
-### **CODE AUTOMATION**
+#### **CODE AUTOMATION**
 
 I'm sure most people are familiar with code automation:
 
@@ -74,7 +74,7 @@ Our cell output will be:
 
 <br>
 
-### **WHY THIS LIBRARY EXISTS**
+#### **WHY THIS LIBRARY EXISTS**
 
 <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
@@ -91,7 +91,7 @@ Our cell output will be:
 
 <br>
 
-### **LIBRARY COMPONENTS**
+#### **LIBRARY COMPONENTS**
 
 `mllibs` consists of two parts:
 
@@ -109,7 +109,7 @@ You can check all the activations functions using <code>session.fl()</code> as s
 
 <br>
 
-### **MODULE COMPONENT STRUCTURE**
+#### **MODULE COMPONENT STRUCTURE**
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
 
@@ -158,11 +158,11 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 <br>
 
-### **CREATING A COLLECTION**
+#### **CREATING A COLLECTION**
 
 There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
 
-#### **FIRST APPROACH**
+##### **FIRST APPROACH**
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -211,7 +211,7 @@ session = interface()
 
 <br>
 
-### **SAMPLE NOTEBOOKS**
+#### **SAMPLE NOTEBOOKS**
 
 Here are some notebooks that will help you familiarise yourself with the library:
 
