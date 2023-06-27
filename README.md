@@ -4,13 +4,12 @@
 
 #### **ABOUT PROJECT**
 
-- **mllibs** is a Machine Learning (ML) library which utilises natural language processing (NLP)
+- <code>mllibs</code> is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
 - Often we see people create **functions** and **classes** to simplify the process of achieving something (which is good practice)
 - Likewise, **NLP interpreters** follow this trend as well, except, in this case our only inputs for activating certain code is **natural language**
 - Using python, we can interpret **natural language** in the form of **string** type data, using **natural langauge interpreters**
-
-<br>
+- <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
 #### **CODE AUTOMATION**
 
@@ -60,8 +59,6 @@ input = 'calculate the fibonacci sequence for the value of 5'
 nlp_interpreter(input) # [0, 1, 1, 2, 3]
 ```
 
-<br>
-
 #### **SAMPLE FROM MLLIBS**
 
 Let's check out one example of how it works; let's visualise some data by requesting:
@@ -72,15 +69,6 @@ Our cell output will be:
 
 ![](https://i.imgur.com/4TTAAgp.png)
 
-<br>
-
-#### **WHY THIS LIBRARY EXISTS**
-
-<code>mllibs</code> aims to provide an automated way to do machine learning using natural language
-
-<br>
-
-
 #### **PROJECT STATUS**
 
 `mllibs` is usable, but still very raw, I'm constantly trying way to improve and clean the code structure
@@ -89,7 +77,6 @@ Our cell output will be:
 | - | - | - |
 | **<code>[mllibs](https://www.kaggle.com/datasets/shtrausslearning/mllibs)</code>** **0.1.2** | **<code>[mllibs](https://github.com/shtrausslearning/mllibs)</code>** **0.1.2** | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
 
-<br>
 
 #### **LIBRARY COMPONENTS**
 
@@ -106,8 +93,6 @@ Our cell output will be:
 (2) custom added modules, for mllibs these library are associated with **machine learning**
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
-
-<br>
 
 #### **MODULE COMPONENT STRUCTURE**
 
@@ -155,8 +140,6 @@ info_sample = {'function': {'module':'sample',
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 ```
-
-<br>
 
 #### **CREATING A COLLECTION**
 
@@ -208,8 +191,6 @@ The faster way, includes all loaded modules and groups them together for us:
 from mllibs.interface import interface
 session = interface()
 ```
-
-<br>
 
 #### **SAMPLE NOTEBOOKS**
 
