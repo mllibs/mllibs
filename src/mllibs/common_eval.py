@@ -52,8 +52,9 @@ class eval_methods:
         train_X = features.iloc[groups['train'].index,:]
         train_y = target.iloc[groups['train'].index]
         model.fit(train_X,train_y)
+        y_pred = model.predict(train_X)
 
-        return train_X,train_y,model
+        return train_X,train_y,model,y_pred
     
 
     # function which [fits] on training set in kfold cv
@@ -218,13 +219,18 @@ class eval_base(nlpi):
         
             made_splits = list(afname_splits.keys())[0]
 
-            if(self.splits in made_splits):
-                if('tts' in self.splits):
-                    split_id = 'tts'
-                elif('kfold' in self.splits):
-                    split_id = 'kfold'
-                elif('skfold' in self.splits):
-                    split_id = 'skfold'
+            if(self.splits is not None):
+
+                if(self.splits in made_splits):
+                    if('tts' in self.splits):
+                        split_id = 'tts'
+                    elif('kfold' in self.splits):
+                        split_id = 'kfold'
+                    elif('skfold' in self.splits):
+                        split_id = 'skfold'
+
+            else:
+                split_id = None
 
         # set model & model type
         self.set_model(args)
@@ -275,13 +281,21 @@ class eval_base(nlpi):
             # get training / test groups
             groups = dict(tuple(self.data[afname]['splits'][self.splits].to_frame().groupby(by='tts')))
 
-            X_train,y_train,X_test,y_test,model = eval_methods.fit_funct_tts(features,target,self.model,groups)
+            X_train,y_train,X_test,y_test,model,y_pred = eval_methods.fit_funct_tts(features,target,self.model,groups)
+
+            # select evaluation criterion based on model type
+            if(self.model_type == 'reg'):
+                criterion = mean_squared_error(y_train,y_pred,squared=False)
+            elif(self.model_type == 'class'):
+                criterion = classification_report(y_train,y_pred)
 
             # storage
             nlpi.memory_output.append({
                                        'X_train':X_train,
                                        'y_train':y_train,
                                        'model':model,
+                                       'criterion':criterion,
+                                       'yp_train':y_pred
                                         }) 
 
         # [3] train model on all data & predict model on all data
@@ -302,7 +316,7 @@ class eval_base(nlpi):
                                        'target':target,
                                        'model':model,
                                        'criterion':criterion,
-                                       'yp_test':y_pred
+                                       'yp_pred':y_pred
                                         }) 
             
         # [4] train model on all data

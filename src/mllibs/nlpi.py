@@ -167,7 +167,11 @@ class nlpi(nlpm):
             
             if(datainfo['target'] is not None):
                 datainfo['features'].remove(datainfo['target'])
+
+            ''' Check Multicollinearity '''
                 
+            
+
             
             ''' Check for corpus columns '''
                 
@@ -746,7 +750,8 @@ class nlpi(nlpm):
                           'estimator','n_estimators','loss','criterion',
                           'min_samples_leaf','min_samples_split',
                           'max_depth','max_features','bootstrap','oob_score',
-                          'max_bins','validation_fraction','n_iter_no_change']
+                          'max_bins','validation_fraction','n_iter_no_change',
+                          'splitter','nan_mode','bootstrap_type','l2_leaf_reg']
             
             for gtoken in lst_gtokens:
                 if(self.tokens[self.tokens.index(token)-1] == gtoken):
@@ -847,7 +852,7 @@ class nlpi(nlpm):
                             'ngram_range':None,'min_df':None,'max_df':None,
                             'tokeniser':None,'use_idf':None,'smooth_idf':None,
                             'dim':None,'window':None,
-                            'epoch':None,'lr':None,'maxlen':None,'const':None,
+                            'epoch':None,'lr':None,'maxlen':None,'const':None,'splitter':None,
                             'neg_sample':None,'batch':None,
                             'kernel':None,'sample':None,'whiten':None,'whiten_solver':None,
                             'n_neighbours':None,'radius':None,'l1_ratio':None,
@@ -855,7 +860,8 @@ class nlpi(nlpm):
                             'estimator':None,'n_estimators':None,'loss':None,
                             'criterion':None,'min_samples_leaf':None,'min_samples_split':None,
                             'max_depth':None,'max_features':None,'bootstrap':None,'oob_score':None,
-                            'max_bins':None,'validation_fraction':None,'n_iter_no_change':None
+                            'max_bins':None,'validation_fraction':None,'n_iter_no_change':None,
+                            'nan_mode':None,'bootstrap_type':None,'l2_leaf_reg':None
                            }
         
         # update argument dictionary if it was set

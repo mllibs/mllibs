@@ -1,8 +1,5 @@
 from sklearn.ensemble import AdaBoostRegressor,AdaBoostClassifier,RandomForestRegressor,RandomForestClassifier
 from sklearn.ensemble import HistGradientBoostingRegressor,HistGradientBoostingClassifier
-from sklearn.metrics import classification_report 
-from sklearn.metrics import mean_squared_error
-from mllibs.nlpi import nlpi
 from mllibs.common_eval import eval_base
 
 
@@ -11,6 +8,8 @@ from mllibs.common_eval import eval_base
 ENSEMBLE MODEL MODULE
 
 '''
+
+# sklearn linear models from [.ensemble]
 
 # requires parent evaluation class 
 # we only need to replace class name & set model attribute/method

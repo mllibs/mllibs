@@ -8,6 +8,8 @@ LINEAR MODEL MODULE
 
 '''
 
+# sklearn linear models from [.linear_model]
+
 # requires parent evaluation class 
 # we only need to replace class name & set model attribute/method
 
@@ -31,7 +33,7 @@ class sllinear(eval_base):
 
             self.model_type = 'class'
             pre = {'const':1.0}
-            self.model = LogisticRegression(c=self.sfp(args,pre,'const'))
+            self.model = LogisticRegression(C=self.sfp(args,pre,'const'))
 
         elif(self.select == 'fit_ridge' or self.select == 'ridge_fpred'):
 

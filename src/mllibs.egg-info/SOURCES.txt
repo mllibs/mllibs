@@ -15,8 +15,10 @@ src/mllibs/mloader.py
 src/mllibs/moutliers.py
 src/mllibs/mpd_df.py
 src/mllibs/mseda.py
+src/mllibs/mslcatboost.py
 src/mllibs/mslensemble.py
 src/mllibs/msllinear.py
+src/mllibs/msltree.py
 src/mllibs/mtextnorm.py
 src/mllibs/musldimred.py
 src/mllibs/nlpi.py

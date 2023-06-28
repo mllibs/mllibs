@@ -16,6 +16,8 @@ from mllibs.mtextnorm import cleantext, configure_nlptxtclean
 from mllibs.msllinear import sllinear, configure_sllinear
 from mllibs.musldimred import usldimred, configure_usldimred
 from mllibs.mslensemble import slensemble, configure_slensemble
+from mllibs.msltree import sltree, configure_sltree
+from mllibs.mslcatboost import slcatboost, configure_slcatboost
 
 # single command interpreter, multiple command interpreter & interface (chat)
 
@@ -94,7 +96,9 @@ class interface(snlpi,mnlpi,nlpi):
                          cleantext(configure_nlptxtclean), # clean text 
                          sllinear(configure_sllinear),      # linear machine learning models                        
                          usldimred(configure_usldimred),     # unsupervised learning dimension reduction
-                         slensemble(configure_slensemble)   # ensemble machine learning models
+                         sltree(configure_sltree),           # supervised learning decision tree models
+                         slensemble(configure_slensemble),   # ensemble machine learning models
+                         slcatboost(configure_slcatboost)    # catboost library models
                         ])
 
 
