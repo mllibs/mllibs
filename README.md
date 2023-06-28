@@ -199,7 +199,7 @@ Here are some notebooks that will help you familiarise yourself with the library
 - **[Sample EDA notebook](https://www.kaggle.com/code/shtrausslearning/mllibs-sample-eda-notebook)** (exploratory data analysis options)
 - **[Convert text into numeric data ](https://www.kaggle.com/code/shtrausslearning/mllibs-text-to-numeric-representation)** (change text data into numerical representation)
 - **[Normalise text](https://www.kaggle.com/code/shtrausslearning/mllibs-text-normalisation)** (Text cleaning preprocessing)
-- **[Linear Machine Learning Models](https://www.kaggle.com/code/shtrausslearning/mllibs-linear-models)** (Training and Prediction using linear models)
+- **[Model Training & Evaluation](https://www.kaggle.com/code/shtrausslearning/mllibs-model-training-evaluation)** (Training and Prediction using linear models)
 - **[Dimension Reduction](https://www.kaggle.com/code/shtrausslearning/mllibs-dimensionality-reduction)** (Reducing the size of the feature matrix)
 
 These notebooks can also be found in folder <code>examples</code>
