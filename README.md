@@ -6,9 +6,9 @@
 | - | - | - |
 | **<code>[mllibs](https://www.kaggle.com/datasets/shtrausslearning/mllibs)</code>** **0.1.4** | **<code>[mllibs](https://github.com/shtrausslearning/mllibs)</code>** **0.1.4** | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
 
-#### **ABOUT PROJECT**
+### **1 || ABOUT PROJECT**
 
-Some key points about the libraary:
+Some key points about the library:
 
 - <code>mllibs</code> is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
@@ -17,11 +17,25 @@ Some key points about the libraary:
 - Using python, we can interpret **natural language** in the form of **string** type data, using **natural langauge interpreters**
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
-#### **CODE AUTOMATION**
+<br>
 
-I'm sure most people are familiar with code automation:
+### **2 || CODE AUTOMATION**
 
-(1) Let's take a look at how we would simplify our code using `functions`
+
+#### **TYPES OF AUTOMATION APPROACHES**
+
+There are different ways we can automate code execution:
+- The first two should be familiar, such approaches presume we have coding knowledge
+- If we utilise `language`, we can utilise natural language processing `nlp` in order to interpret the request and activate relevant `activation functions`
+
+<table>
+    
+<tr>
+<td> <code>function</code> </td> <td> <code>class</code> </td> <td> <code>natural language</code> </td>
+</tr>
+
+<tr>
+<td>
 
 ```python
 def fib_list(n):
@@ -32,11 +46,12 @@ def fib_list(n):
         a,b = b, a + b
     return result
 
-fib_list(5) # [0, 1, 1, 2, 3]
+fib_list(5) 
 ```
-
-(2) Let's take a look at how we wold simplify our code using a `class` structure:
-
+    
+</td>
+<td>
+    
 ```python
 
 class fib_list:
@@ -53,17 +68,28 @@ class fib_list:
         return result
 
 fib = fib_list(5)
-fib.get_list() # [0, 1, 1, 2, 3]
+fib.get_list()
 ```
 
-Such approaches presume we have coding knowledge, our next approach doesn't require such knowledge
+</td>
 
-(3) Let's take a look how we could simplify this using **language**
+<td>
 
 ```python
-input = 'calculate the fibonacci sequence for the value of 5'
-nlp_interpreter(input) # [0, 1, 1, 2, 3]
+input = 'calculate the fibonacci
+         sequence for the value of 5'
+
+nlp_interpreter(input) 
 ```
+    
+</td>
+
+<tr>
+<td> <code>[0, 1, 1, 2, 3]</code> </td> <td> <code>[0, 1, 1, 2, 3]</code> </td> <td> <code>[0, 1, 1, 2, 3]</code> </td>
+</tr>
+
+</tr>
+</table>
 
 #### **SAMPLE FROM MLLIBS**
 
@@ -75,7 +101,9 @@ Our cell output will be:
 
 ![](https://i.imgur.com/4TTAAgp.png)
 
-#### **LIBRARY COMPONENTS**
+<br>
+
+### **3 || LIBRARY COMPONENTS**
 
 `mllibs` consists of two parts:
 
@@ -91,7 +119,9 @@ Our cell output will be:
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
 
-#### **MODULE COMPONENT STRUCTURE**
+<br>
+
+### **4 || MODULE COMPONENT STRUCTURE**
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
 
@@ -138,11 +168,13 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 ```
 
-#### **CREATING A COLLECTION**
+### **5 ||CREATING A COLLECTION**
 
 There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
 
-##### **FIRST APPROACH**
+***
+
+#### **FIRST APPROACH**
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -179,8 +211,9 @@ class `nlpi` can be used with method `exec` for user input interpretation
 session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
+***
 
-##### **SECOND APPROACH**
+#### **SECOND APPROACH**
 
 The faster way, includes all loaded modules and groups them together for us:
 
@@ -189,7 +222,11 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-#### **SAMPLE NOTEBOOKS**
+***
+
+<br>
+
+### **6 || SAMPLE NOTEBOOKS**
 
 Here are some notebooks that will help you familiarise yourself with the library:
 
