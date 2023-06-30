@@ -7,11 +7,11 @@
 
 | **Kaggle** | **Github** | **PyPI**
 | - | - | - |
-| [mllibs](https://www.kaggle.com/datasets/shtrausslearning/mllibs) | [mllibs](https://github.com/shtrausslearning/mllibs) | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
+| [![](https://img.shields.io/badge/v0.1.4-8A2BE2)](https://www.kaggle.com/datasets/shtrausslearning/mllibs) | [![](https://img.shields.io/badge/v0.1.4-8A2BE2)](https://github.com/shtrausslearning/mllibs) | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
 
 </h5>
 
-## ABOUT PROJECT
+### MLLIBS
 
 Some key points about the library:
 
@@ -24,10 +24,9 @@ Some key points about the library:
 
 <br>
 
-## CODE AUTOMATION
+### CODE AUTOMATION
 
-
-### TYPES OF AUTOMATION APPROACHES
+#### TYPES OF AUTOMATION APPROACHES
 
 There are different ways we can automate code execution:
 - The first two should be familiar, such approaches presume we have coding knowledge
@@ -96,7 +95,7 @@ nlp_interpreter(input)
 </tr>
 </table>
 
-### **SAMPLE FROM MLLIBS**
+#### **SAMPLE FROM MLLIBS**
 
 Let's check out one example of how it works; let's visualise some data by requesting:
 
@@ -108,7 +107,7 @@ Our cell output will be:
 
 <br>
 
-## LIBRARY COMPONENTS
+### LIBRARY COMPONENTS
 
 `mllibs` consists of two parts:
 
@@ -126,7 +125,7 @@ You can check all the activations functions using <code>session.fl()</code> as s
 
 <br>
 
-## MODULE COMPONENT STRUCTURE
+### MODULE COMPONENT STRUCTURE
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
 
@@ -173,11 +172,13 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 ```
 
-## CREATING A COLLECTION
+<br>
+
+### CREATING A COLLECTION
 
 There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
 
-### **FIRST APPROACH**
+#### **FIRST APPROACH**
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -215,7 +216,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-### **SECOND APPROACH**
+#### **SECOND APPROACH**
 
 The faster way, includes all loaded modules and groups them together for us:
 
@@ -226,7 +227,7 @@ session = interface()
 
 <br>
 
-## SAMPLE NOTEBOOKS
+### SAMPLE NOTEBOOKS
 
 Here are some notebooks that will help you familiarise yourself with the library:
 
