@@ -8,6 +8,8 @@
 
 #### **ABOUT PROJECT**
 
+Some key points about the libraary:
+
 - <code>mllibs</code> is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
 - Often we see people create **functions** and **classes** to simplify the process of achieving something (which is good practice)
