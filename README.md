@@ -2,16 +2,12 @@
 
 <h5 align="center"
     
-![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://badgen.net/badge/status/WIP/orange) [![GitHub mllibs](https://img.shields.io/github/v/tag/shtrausslearning/mllibs.svg?sort=semver)](https://github.com/shtrausslearning/mllibs/releases)
+![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://badgen.net/badge/status/WIP/orange) [![](https://img.shields.io/badge/kaggle-v0.1.6-8A2BE2)](https://www.kaggle.com/datasets/shtrausslearning/mllibs) [![](https://img.shields.io/badge/github-v0.1.6-8A2BE2)](https://github.com/shtrausslearning/mllibs) [![](https://img.shields.io/badge/pypi-v0.1.6-8A2BE2)]([https://github.com/shtrausslearning/mllibs](https://pypi.org/project/mllibs/))
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license "Go to license section")
-
-| **Kaggle** | **Github** | **PyPI**
-| - | - | - |
-| [![](https://img.shields.io/badge/v0.1.6-8A2BE2)](https://www.kaggle.com/datasets/shtrausslearning/mllibs) | [![](https://img.shields.io/badge/v0.1.6-8A2BE2)](https://github.com/shtrausslearning/mllibs) | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
 
 </h5>
 
-### MLLIBS
+### 1 || MLLIBS
 
 Some key points about the library:
 
@@ -24,7 +20,7 @@ Some key points about the library:
 
 <br>
 
-### CODE AUTOMATION
+### 2 || CODE AUTOMATION
 
 #### TYPES OF AUTOMATION APPROACHES
 
@@ -107,7 +103,7 @@ Our cell output will be:
 
 <br>
 
-### LIBRARY COMPONENTS
+### 3 || LIBRARY COMPONENTS
 
 `mllibs` consists of two parts:
 
@@ -125,7 +121,7 @@ You can check all the activations functions using <code>session.fl()</code> as s
 
 <br>
 
-### MODULE COMPONENT STRUCTURE
+### 4 || MODULE COMPONENT STRUCTURE
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
 
@@ -174,7 +170,7 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 <br>
 
-### CREATING A COLLECTION
+### 5 || CREATING A COLLECTION
 
 There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
 
@@ -227,7 +223,7 @@ session = interface()
 
 <br>
 
-### SAMPLE NOTEBOOKS
+### 6 || SAMPLE NOTEBOOKS
 
 Here are some notebooks that will help you familiarise yourself with the library:
 
