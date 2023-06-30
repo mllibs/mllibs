@@ -12,9 +12,9 @@ Some key points about the library:
 
 - <code>mllibs</code> is a Machine Learning (ML) library which utilises natural language processing (NLP)
 - Development of such helper modules are motivated by the fact that everyones understanding of coding & subject matter (ML in this case) may be different 
-- Often we see people create **functions** and **classes** to simplify the process of achieving something (which is good practice)
-- Likewise, **NLP interpreters** follow this trend as well, except, in this case our only inputs for activating certain code is **natural language**
-- Using python, we can interpret **natural language** in the form of **string** type data, using **natural langauge interpreters**
+- Often we see people create `functions` and `classes` to simplify the process of code automation (which is good practice)
+- Likewise, NLP based interpreters follow this trend as well, except, in this case our only inputs for activating certain code is `natural language`
+- Using python, we can interpret `natural language` in the form of `string` type data, using `natural langauge interpreters`
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
 <br>
