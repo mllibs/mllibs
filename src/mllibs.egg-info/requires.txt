@@ -16,3 +16,4 @@ torch
 gensim
 spacy
 emoji
+catboost

@@ -7,7 +7,7 @@
 
 | **Kaggle** | **Github** | **PyPI**
 | - | - | - |
-| [![](https://img.shields.io/badge/v0.1.4-8A2BE2)](https://www.kaggle.com/datasets/shtrausslearning/mllibs) | [![](https://img.shields.io/badge/v0.1.4-8A2BE2)](https://github.com/shtrausslearning/mllibs) | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
+| [![](https://img.shields.io/badge/v0.1.6-8A2BE2)](https://www.kaggle.com/datasets/shtrausslearning/mllibs) | [![](https://img.shields.io/badge/v0.1.6-8A2BE2)](https://github.com/shtrausslearning/mllibs) | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
 
 </h5>
 
@@ -237,5 +237,5 @@ Here are some notebooks that will help you familiarise yourself with the library
 - **[Model Training & Evaluation](https://www.kaggle.com/code/shtrausslearning/mllibs-model-training-evaluation)** (Training and Prediction using supervised learning models)
 - **[Dimension Reduction](https://www.kaggle.com/code/shtrausslearning/mllibs-dimensionality-reduction)** (Reducing the size of the feature matrix using unsupervised learning models)
 
-These notebooks can also be found in folder <code>examples</code>
+These notebooks can also be found in folder <code>examples</code> and the [kaggle dataset](https://www.kaggle.com/datasets/shtrausslearning/mllibs)
 

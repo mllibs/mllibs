@@ -151,7 +151,7 @@ info_sltree = {
                             'arg_compat':'criterion splitter max_depth min_samples_leaf min_samples_split max_features rs'},
 
 
-                  'fit_rdc':{'module':'sltree',
+                  'fit_cdc':{'module':'sltree',
                             'action':'train model',
                             'topic':'decision tree classification',
                             'subtopic':'model training',

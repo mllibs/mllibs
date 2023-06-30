@@ -1,5 +1,6 @@
 
 from mllibs.nlpm import nlpm
+from mllibs.common_corpus import corpus_model
 import numpy as np
 import pandas as pd
 import random
@@ -7,6 +8,12 @@ import panel as pn
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer 
 from inspect import isfunction
 from seaborn import load_dataset
+
+# models
+from sklearn.ensemble import AdaBoostRegressor,AdaBoostClassifier,RandomForestRegressor,RandomForestClassifier
+from sklearn.ensemble import HistGradientBoostingRegressor,HistGradientBoostingClassifier
+from catboost import CatBoostClassifier,CatBoostRegressor
+from sklearn.linear_model import LinearRegression, LogisticRegression,Ridge, RidgeClassifier, Lasso, ElasticNet, BayesianRidge
 
 # default plot palette
 
@@ -19,7 +26,6 @@ palette_rgb = [hex_to_rgb(x) for x in palette]
 
 ########################################################################
 
-
 # interaction & tect interpreter class
  
 class nlpi(nlpm):
@@ -28,7 +34,8 @@ class nlpi(nlpm):
     iter = -1    # keep track of all user requests
     memory_name = []                 # store order of executed tasks
     memory_stack = []                # memory stack of task information
-    memory_output = []
+    memory_output = []               # memory output
+    model = {}                       # store models
     
     # instantiation requires module
     def __init__(self,module=None,verbose=0):
@@ -38,7 +45,8 @@ class nlpi(nlpm):
         self.dsources = {}                    # store all data source keys
         self.token_data = []                  # store all token data
         self.verbose = verbose                # print output text flag
-        nlpi.silent = False                    
+        nlpi.silent = False     
+                    
 
         # class plot parameters
         nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'stheme':palette_rgb,'s':30}
@@ -69,9 +77,10 @@ class nlpi(nlpm):
             print('inputs:')
             print(lst_data,'\n')
         
+        
     ''' 
     
-    store data 
+    STORE INPUT DATA
     
     '''
     
@@ -84,13 +93,6 @@ class nlpi(nlpm):
         categorical = df.select_dtypes(exclude=numerics)
         return list(numeric.columns),list(categorical.columns)
 
-        
-    ''' 
-    
-    STORE INPUT DATA
-    
-    '''
-
     # Load Dataset from Seaborn Repository
     
     def load_dataset(self,name:str,info:str=None):
@@ -98,8 +100,10 @@ class nlpi(nlpm):
         # load data from seaborn repository             
         data = load_dataset(name)
         self.store(data,name,info)
+
+    # Store Data Function
         
-    def store(self,data,name:str,info:str=None):
+    def store_data(self,data,name:str,info:str=None):
         
 		# dictionary to store data information
         datainfo = {'data':None,'subset':None,'splits':None,
@@ -168,10 +172,6 @@ class nlpi(nlpm):
             if(datainfo['target'] is not None):
                 datainfo['features'].remove(datainfo['target'])
 
-            ''' Check Multicollinearity '''
-                
-            
-
             
             ''' Check for corpus columns '''
                 
@@ -212,6 +212,208 @@ class nlpi(nlpm):
                  
         datainfo['data'] = data
         nlpi.data[name] = datainfo
+
+        
+    '''
+
+    Function to parase model information
+
+    '''
+    # required for storing model information
+
+    def store_model(self,model:str,p:str=None,name:str=None):
+
+        if(name is None):
+            name = 'model'
+
+        # imported models
+        available_models = list(corpus_model.keys())
+
+        # ///////////////////////////////////////////////////////////
+
+        # [A] if p is specified
+
+        # ///////////////////////////////////////////////////////////
+
+        params = {}
+        if(p is not None):
+
+            # interpret model parameters p
+
+            # given in " " format
+
+            if('\n' in p):
+
+                splits = p.split('\n')
+                splits_clean = list(filter(lambda a: a != "", splits))
+
+                params = {}               # <--- target dictionary
+                for opt in splits_clean:
+
+                    key = opt.split('=')[0].strip()
+                    value = opt.split('=')[1].strip()
+
+                    try:
+                        if('.' in value):
+                            value = float(value)
+                        else:
+                            value = int(value)
+                    except:
+                        pass
+                    
+                    params[key] = value
+
+            # given as a list with ,
+
+            else:
+
+                splits = p.split(',')
+                
+                params = {}
+                for parameter in splits:
+                    
+                    key = parameter.split('=')[0]
+                    value = parameter.split('=')[1]
+
+                    try:
+                        if('.' in value):
+                            value = float(value)
+                        else:
+                            value = int(value)
+                    except:
+                        pass
+                        
+                    params[key] = value
+
+            '''
+            
+            Interpret Model Input
+            
+            '''
+
+            # not yet defined parameters, just model name w/o ()
+
+            if("()" not in model or ("(" not in model or ")" not in model)):
+
+                # If model has been written in correct format
+
+                if(model in available_models):
+                    if(len(params) != 0):
+                        output = model + f"(**{params})"
+                    else:
+                        output = model + "()"
+
+                # else use model to predict model
+
+                else:
+                    print('model not available, predicting model')
+                    lmodel = self.module.model['store_model']
+                    vectoriser = self.module.vectoriser['store_model']
+                    X = vectoriser.transform([model]).toarray()
+
+                    if(len(params) != 0):
+                        output = lmodel.predict(X)[0] + f"(**{params})"
+                    else:
+                        output = lmodel.predict(X)[0] + "()"
+
+                
+            # if we have specified parametes p and model mentioned in form ()
+
+            elif("()" in model and p is not None):
+
+                if(model in available_models):
+                    if(len(params) != 0):
+                        output = model.split('(')[0] + f"(**{params})"
+                    else:
+                        output = model.predict(X) + "()"
+
+                else:
+
+                    print('model not available, predicting model')
+                    lmodel = self.module.model['store_model']
+                    vectoriser = self.module.vectoriser['store_model']
+                    X = vectoriser.transform([model]).toarray()
+
+                    if(len(params) != 0):
+                        output = lmodel.predict(X)[0] + f"(**{params})"
+                    else:
+                        output = lmodel.predict(X)[0] + "()"
+
+        # [B] if no parameter is given; all data in model string
+
+        elif(p is None):
+
+            # if model is written with (), which may contain parameters
+
+            if('(' in model):
+
+                # remove the brackets
+                model_name = model.split('(')[0]
+
+                # model name must be available 
+
+                if(model_name in available_models):
+
+                    # find text inside ()
+                    parameters = re.findall(r'\((.*?)\)',model)
+                    lst_parameters = parameters[0].split(',')
+                    
+                    # try to find parameters inside brackets
+
+                    params = {}
+                    for parameter in lst_parameters:
+                        
+                        key = parameter.split('=')[0]
+                        value = parameter.split('=')[1]
+
+                        try:
+                            if('.' in value):
+                                value = float(value)
+                            else:
+                                value = int(value)
+                        except:
+                            pass
+                            
+                        params[key] = value
+
+                    if(len(params) == 0):
+                        output = model_name + "()"
+                    else:
+                        output = model_name + f"(**{params})"
+
+                else:
+
+                    print('model not available, using prediction model')
+                    lmodel = self.module.model['store_model']
+                    vectoriser = self.module.vectoriser['store_model']
+                    X = vectoriser.transform([model_name]).toarray()
+
+                    if(len(params) != 0):
+                        output = lmodel.predict(X)[0] + f"(**{params})"
+                    else:
+                        output = lmodel.predict(X)[0] + "()"
+
+            # if model is wrtten in plain form without ()
+
+            else:
+
+                # check if the base model name is in available models
+                # no parameters are available
+
+                # just add brackets
+                if(model in available_models):
+                    output = model + "()"
+                else:
+                    print('model not available, using prediction model')
+                    lmodel = self.module.model['store_model']
+                    vectoriser = self.module.vectoriser['store_model']
+                    X = vectoriser.transform([model]).toarray()
+                    model_found = lmodel.predict(X)
+                    output = model_found[0] + "()"
+
+        nlpi.model[name] = eval(output)
+        print('model stored!')
+
         
     # activation function list
     

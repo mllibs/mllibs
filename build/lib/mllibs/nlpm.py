@@ -1,3 +1,4 @@
+from mllibs.common_corpus import corpus_model
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -12,6 +13,7 @@ import pandas as pd
 # import zipfile
 import pkgutil
 
+
 import nltk
 # nltk.download('wordnet')
 
@@ -22,7 +24,6 @@ import nltk
 #      zip_ref.extractall(wordnt)
 
 from nltk.tokenize import word_tokenize, WhitespaceTokenizer
-
 
 '''
 
@@ -35,7 +36,6 @@ NLPM class
 
 
 '''
-
 
 class nlpm:
     
@@ -316,6 +316,7 @@ class nlpm:
     
             self.toksub_model()
             self.ner_tokentag_model()
+            self.store_model()
 
             print('models trained...')
         
@@ -325,8 +326,30 @@ class nlpm:
     ADDITIONAL MODELS
     
     ///////////////////////////////////////////////////////////////
+    '''
+
+
+    def store_model(self):
+
+        lst_all = []; lst_tag = []
+        for ii,(key,value) in enumerate(corpus_model.items()):
+            lst_all.extend(value)
+            lst_tag.extend([key for i in range(0,len(value))])
+
+        data = {'corpus':lst_all,'tag':lst_tag}
+
+        vect = CountVectorizer(stop_words=['using','use'])
+        X = vect.fit_transform(list(data['corpus'])).toarray()
+        y = data['tag']
+
+        model = LogisticRegression().fit(X,y)
+        self.model['store_model'] = model 
+        self.vectoriser['store_model'] = vect
+
     
-    1. CREATE SUBSET DETERMINATION MODEL 
+    '''
+    
+    CREATE SUBSET DETERMINATION MODEL 
     
     create multiclass classification model which will determine 
     which approach to utilise for the selection of subset features    
