@@ -7,7 +7,7 @@
 
 </h5>
 
-### 1 || MLLIBS
+### MLLIBS
 
 Some key points about the library:
 
@@ -20,7 +20,7 @@ Some key points about the library:
 
 <br>
 
-### 2 || CODE AUTOMATION
+### CODE AUTOMATION
 
 #### TYPES OF AUTOMATION APPROACHES
 
@@ -103,7 +103,7 @@ Our cell output will be:
 
 <br>
 
-### 3 || LIBRARY COMPONENTS
+### LIBRARY COMPONENTS
 
 `mllibs` consists of two parts:
 
@@ -121,7 +121,7 @@ You can check all the activations functions using <code>session.fl()</code> as s
 
 <br>
 
-### 4 || MODULE COMPONENT STRUCTURE
+### MODULE COMPONENT STRUCTURE
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
 
@@ -170,7 +170,7 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 <br>
 
-### 5 || CREATING A COLLECTION
+### CREATING A COLLECTION
 
 There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
 
@@ -223,7 +223,7 @@ session = interface()
 
 <br>
 
-### 6 || SAMPLE NOTEBOOKS
+### SAMPLE NOTEBOOKS
 
 Here are some notebooks that will help you familiarise yourself with the library:
 
