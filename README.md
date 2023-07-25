@@ -7,8 +7,6 @@
 
 </h5>
 
-### MLLIBS
-
 Some key points about the library:
 
 - <code>mllibs</code> is a Machine Learning (ML) library which utilises natural language processing (NLP)
@@ -234,4 +232,21 @@ Here are some notebooks that will help you familiarise yourself with the library
 - **[Dimension Reduction](https://www.kaggle.com/code/shtrausslearning/mllibs-dimensionality-reduction)** (Reducing the size of the feature matrix using unsupervised learning models)
 
 These notebooks can also be found in folder <code>examples</code> and the [kaggle dataset](https://www.kaggle.com/datasets/shtrausslearning/mllibs)
+
+<br>
+
+### HOW TO CONTRIBUTE
+
+Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
+
+1. Fork the repository
+2. Create a new branch for your changes
+3. Make your changes and commit them
+4. Submit a pull request
+
+<br>
+
+### CONTACT
+
+If you have any questions or feedback, feel free to reach out on my [telegram channel](https://t.me/mldsai_info)
 
