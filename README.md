@@ -89,16 +89,6 @@ nlp_interpreter(input)
 </tr>
 </table>
 
-#### **SAMPLE FROM MLLIBS**
-
-Let's check out one example of how it works; let's visualise some data by requesting:
-
-![](https://i.imgur.com/20f3i1Y.jpg)
-
-Our cell output will be:
-
-![](https://i.imgur.com/4TTAAgp.png)
-
 <br>
 
 ### LIBRARY COMPONENTS
