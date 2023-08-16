@@ -1,4 +1,4 @@
-![](https://github.com/shtrausslearning/shtrausslearning.github.io/blob/4b53e25c0d699a05f461309ae9d10889c7287b00/images/mllibs_color_nobackground.png)
+![](https://github.com/shtrausslearning/shtrausslearning.github.io/blob/main/assets/images/mllibs_c_nob.png)
 
 <h5 align="center">
     
