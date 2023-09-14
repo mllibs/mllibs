@@ -1,0 +1,160 @@
+name,line
+
+#
+#
+#    General Questions related to MLLIBS bot
+#
+#
+
+user,"Hello"
+bot,"Hello, how may I help you? I'll be your assistant for today"
+user,"I need some help"
+bot,"Sure, I'm here to help. Do you have any questions?"
+user,"Can you pease help me"
+bot,"I'll do my best to answer your questions. I'm listening."
+user,"I want to ask some questions"
+bot,"Sure, go ahead, I'm all yours."
+user,"What can you help me with?"
+bot,"Well, I'm the MLLIBS dialogue assistant, so my topic of knowledge is Machine Learning :)"
+
+#
+#
+#    load_data | show toy_examples
+#
+#
+
+user,"load flights dataset"
+bot,"from seaborn import load_dataset
+data = load_dataset('flights')"
+user,"load iris dataset"
+bot,"from seaborn import load_dataset
+data = load_dataset('iris')"
+user,"load mpg dataset"
+bot,"from seaborn import load_dataset
+data = load_dataset('mpg')"
+user,"load taxi dataset"
+bot,"from seaborn import load_dataset
+data = load_dataset('taxi')"
+user,"load breast cancer dataset"
+bot,"**db5**"
+user,"load diabetes dataset"
+bot,"**db6**"
+
+#
+#
+#    machine learning project
+#
+#
+
+user,"What are the steps in a machine learning project?"
+bot,"
+1. Data collection: Gathering data from various sources and preparing it for analysis.
+2. Data preparation: Cleaning, transforming, and formatting the data to make it suitable for analysis.
+3. Data exploration: Analyzing the data to gain insights and identify patterns.
+4. Feature engineering: Selecting and creating relevant features that will be used in the model.
+5. Model selection: Choosing the appropriate algorithm or model for the problem at hand.
+6. Model training: Fitting the model to the training data.
+7. Model evaluation: Testing the performance of the model on a holdout set of data.
+8. Model tuning: Adjusting the hyperparameters of the model to improve its performance.
+9. Deployment: Integrating the model into a production environment for use in real-world applications.
+10. Monitoring: Continuously monitoring the performance of the model and making updates as necessary.
+"
+
+#
+#
+#    sklearn.model_selection | train_test_split
+#
+#
+
+user,"location of train_test_split"
+bot,"sklearn.model_selection.train_test_split"
+user,"train_test_split location"
+bot,"sklearn.model_selection.train_test_split"
+user,"from sklearn.model_selection import train_test_split"
+
+user,"give me an example of train_test_split"
+bot,"**db1**"
+user,"train_test_split example"
+bot,"**db1**"
+
+user,"what are the input parameters of train_test_split?"
+bot,"**db2**"
+user,"what parameters are in train_test_split?"
+bot,"[*arrays][test_size][train_size][random_state][shuffle]"
+user,"what are the available input parameters of train_test_split?"
+bot,"[*arrays][test_size][train_size][random_state][shuffle]"
+
+user,"can I do stratification with train_test_split?"
+bot,"yes, pass parameter [stratify] into train_test_split
+
+<b>stratify</b>: [array-like], default=None
+If not None, data is split in a stratified fashion, using this as the class labels. Read more in the User Guide."
+user,"what are the default parameters of train_test_split?"
+bot,"sklearn.model_selection.train_test_split(*arrays, test_size=None, train_size=None, random_state=None, shuffle=True, stratify=None)"
+
+#
+#
+#    sklearn.model_selection | cross_val_score
+#
+#
+
+user,"location of cross_val_score"
+bot,"sklearn.model_selection.cross_val_score"
+user,"import cross_val_score"
+bot,"from sklearn.model_selection import cross_val_score"
+
+user,"what parameters are in train_test_split?"
+bot,"[*arrays][test_size][train_size][random_state][shuffle]"
+user,"what are the available input parameters of train_test_split?"
+bot,"[*arrays][test_size][train_size][random_state][shuffle]"
+
+user,"what are the default parameters for cross_val_score?"
+bot,"sklearn.model_selection.cross_val_score(estimator, X, y=None, *, groups=None, scoring=None, cv=None, n_jobs=None, verbose=0, fit_params=None, pre_dispatch='2*n_jobs', error_score=nan)"
+user,"give me an example of cross_val_score"
+bot,"**db3**"
+user,"show an example of cross_val_score"
+bot,"**db3**"
+
+user,"what are the input parameters of cross_val_score?"
+bot,"**db4**"
+user,"which metrics can be used in cross_val_score?"
+bot,"By default cross_val_score uses the chosen model’s default scoring metric, but this can be overridden with your metric of choice in the scoring parameter.
+
+The common metrics provided by sklearn are passable as a string into this parameter:
+◦ ‘accuracy’
+◦ ‘balanced_accuracy’
+◦ ‘roc_auc’
+◦ ‘f1’
+◦ ‘neg_mean_absolute_error’
+◦ ‘neg_root_mean_squared_error’
+◦ ‘r2’"
+
+user,"Can I train my model using cross_val_score?"
+bot,"A common question developers have is whether cross_val_score can also function as a way of training the final model. Unfortunately this is not the case. Cross_val_score is a way of assessing a model and it’s parameters, and cannot be used for final training. Final training should take place on all available data and tested using a set of data that has been held back from the start."
+user,"What is cross_val_score used for?"
+bot,"Cross_val_score is used as a simple cross validation technique to prevent over-fitting and promote model generalisation.
+
+The typical process of model development is to train a model on one fold of data and then test on another. But how do we know that this single test dataset is representative? This is why we use cross_val_score and cross validation more generally, to train and test our model on multiple folds such that we can be sure out model generalises well across the whole dataset and not just a single portion.
+
+If we see that the metrics for all folds in cross_val_score are uniform then it can be concluded that the model is able to generalise, however if there are significant differences between them then this may indicate over-fitting to certain folds and would need to be investigated further."
+
+
+#
+#
+#    sklearn | pipeline
+#
+#
+
+user,'what are the benefits of using sklearn pipeline?'
+bot,"The benefit of using a sklearn pipeline is that it allows us to chain multiple data processing steps and machine learning models together into a single object. This can make our code more concise and easier to read, as well as providing a convenient way to ensure that all of our data processing steps are applied consistently to both the training and test data. Additionally, pipelines can be easily modified or extended with additional steps, making them a flexible tool for building complex machine learning workflows."
+user,"what is an sklearn pipeline?"
+bot,"An sklearn pipeline is a tool in the Python library scikit-learn that allows us to chain together multiple data processing and machine learning steps into a single object. This object can then be used to fit and transform data, as well as make predictions on new data. The pipeline ensures that all of the steps are applied consistently to both the training and test data, making it a powerful tool for building complex machine learning workflows."
+
+user,"show me an example of an sklearn pipeline"
+bot,"**db7**"
+user,"give me an example of sklearn pipeline"
+bot,"**db8**"
+user,'what are the sklearn.pipeline methods?'
+bot,"**db9**"
+user,"show me an example of a FunctionTransformer?"
+bot,"**db10**"
