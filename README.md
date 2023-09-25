@@ -209,23 +209,7 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-<br>
-
-### SAMPLE NOTEBOOKS
-
-Here are some notebooks that will help you familiarise yourself with the library:
-
-- **[Sample EDA notebook](https://www.kaggle.com/code/shtrausslearning/mllibs-sample-eda-notebook)** (exploratory data analysis options)
-- **[Convert text into numeric data ](https://www.kaggle.com/code/shtrausslearning/mllibs-text-to-numeric-representation)** (change text data into numerical representation)
-- **[Normalise text](https://www.kaggle.com/code/shtrausslearning/mllibs-text-normalisation)** (Text cleaning preprocessing)
-- **[Model Training & Evaluation](https://www.kaggle.com/code/shtrausslearning/mllibs-model-training-evaluation)** (Training and Prediction using supervised learning models)
-- **[Dimension Reduction](https://www.kaggle.com/code/shtrausslearning/mllibs-dimensionality-reduction)** (Reducing the size of the feature matrix using unsupervised learning models)
-
-These notebooks can also be found in folder <code>examples</code> and the [kaggle dataset](https://www.kaggle.com/datasets/shtrausslearning/mllibs)
-
-<br>
-
-### HOW TO CONTRIBUTE
+### **HOW TO CONTRIBUTE**
 
 Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
 
@@ -233,10 +217,6 @@ Want to add your own project to our collection? We welcome all contributions, bi
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Submit a pull request
-
-<br>
-
-### CONTACT
 
 If you have any questions or feedback, feel free to reach out on my [telegram channel](https://t.me/mldsai_info)
 
