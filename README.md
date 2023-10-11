@@ -1,5 +1,5 @@
 
-![mllibs](data/images/cnb.png)
+<img src="data/images/cnb.png" width="450">
 
 <h5 align="center"
     
