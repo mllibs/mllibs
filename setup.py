@@ -2,6 +2,9 @@ from setuptools import setup, find_packages
 
 setup(packages=find_packages(where="src"),
       package_dir={"": "src"},
-      package_data={"": ["corpus/*.txt","models/*.pickle"]})
+      package_data={"": ["corpus/*.txt",
+                         "corpus/*.csv",
+                         "models/*.pickle"
+                         ]})
 
 
