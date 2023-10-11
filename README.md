@@ -245,11 +245,11 @@ Want to add your own project to our collection? We welcome all contributions, bi
 
 <br>
 
-### **Home**
+### **mllibs related posts**
 
-`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)
+`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)**
 
 
 ### **Contact**
 
-Any questions or comments about the above post can be addressed on the :fontawesome-brands-telegram:{ .telegram } **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly :fontawesome-brands-telegram:{ .telegram } **[shtrauss2](https://t.me/shtrauss2)**, on :fontawesome-brands-github:{ .github } **[shtrausslearning](https://github.com/shtrausslearning)** or :fontawesome-brands-kaggle:{ .kaggle} **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)**, to me directly **[shtrauss2](https://t.me/shtrauss2)** or on kaggle **[shtrausslearning](https://kaggle.com/shtrausslearning)**
