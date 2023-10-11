@@ -1,5 +1,6 @@
-
-<img src="data/images/cnb.png" width="450">
+<p align="center">
+    <img src="data/images/cnb.png" width="450">
+</p>
 
 <h5 align="center"
     
