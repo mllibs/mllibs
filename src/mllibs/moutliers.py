@@ -7,6 +7,8 @@ from sklearn.preprocessing import StandardScaler
 from collections import OrderedDict
 from copy import deepcopy
 from mllibs.nlpi import nlpi
+from mllibs.nlpm import parse_json
+import json
 
 def hex_to_rgb(h):
     h = h.lstrip('#')
@@ -23,12 +25,19 @@ FIND OUTLIERS IN DATA
 
 class data_outliers(nlpi):
     
-    # called in nlpm
-    def __init__(self,nlp_config):
+    def __init__(self):
         self.name = 'outliers'          
-        self.nlp_config = nlp_config  
+
+        # read config data
+        with open('src/mllibs/corpus/moutliers.json', 'r') as f:
+            self.json_data = json.load(f)
+            self.nlp_config = parse_json(self.json_data)
         
-    # called in nlpi
+    '''
+
+    Select relevant activation function
+
+    '''
 
     def sel(self,args:dict):
                   
@@ -80,6 +89,12 @@ class data_outliers(nlpi):
     # outlier_dbscan
             
     # find outliers using IQR values
+
+    '''
+    
+    INTER QUARTILE RANGE OUTLIER
+    
+    '''
         
     def outlier_iqr(self,args:dict):
         
@@ -121,7 +136,14 @@ class data_outliers(nlpi):
 
          # store relevant data about operation in data source
         nlpi.data[self.data_name[0]]['outlier'][f'outlier_iqr_{nlpi.iter}'] = ldata['outlier_iqr']
-        
+
+
+    '''
+    
+    ZSCORE OUTLIER SEARCH
+    
+    '''
+
     # find outliers using z_scores
 
     def outlier_zscore(self,args:dict):
@@ -156,6 +178,13 @@ class data_outliers(nlpi):
 
         # store relevant data about operation in data source
         nlpi.data[self.data_name[0]]['outlier'][f'outlier_zscore_{nlpi.iter}'] = ldata['outlier_zscore']
+
+
+    '''
+    
+    NORMAL DISTRIBUTION OUTLIERS
+    
+    '''
      
     # find outliers using normal distribution
     
@@ -208,6 +237,12 @@ class data_outliers(nlpi):
         # store relevant data about operation in data source
         nlpi.data[self.data_name[0]]['outlier'][f'outlier_normal_{nlpi.iter}'] = ldata['outlier_normal']
         
+    '''
+    
+    DBSCAN OUTLIERS
+    
+    '''
+
     # find outliers using dbscan
         
     def outlier_dbscan(self,args:dict):
@@ -244,87 +279,3 @@ class data_outliers(nlpi):
         # store relevant data about operation in data source
         nlpi.data[self.data_name[0]]['outlier'][f'outlier_dbscan_{nlpi.iter}'] = ldata['outlier_dbscan']
 
-                    
-'''
-
-Corpus
-
-'''
-    
-corpus_outliers = OrderedDict({"outlier_iqr":['find outliers in data using IQR',
-                                           'find outliers using IQR',
-                                           'get IQR outliers',
-                                           'find IQR outliers',
-                                           'find IQR outlier',
-                                           'get outliers using IRQ',
-                                           'inter quartile range outliers',
-                                           'boxplot outliers',
-                                           'get boxplot outliers'],
-                            
-                            'outlier_zscore':['find outliers using zscore',
-                                              'get zscore outliers',
-                                              'z-score outliers',
-                                              'get zscore outiers',
-                                              'get z-score outliers'],
-                              
-                              
-                              'outlier_norm': ['find outliers using normal distribution',
-                                              'get outliers using normal distribution',
-                                              'get outliers using norm-distribution',
-                                              'get outliers using norm',
-                                              'find outliers using normal distribution',
-                                              'normal distribution outliers',
-                                              'normal distribution outlier'],
-                               
-                               'outlier_dbscan' : ['find outliers using dbscan',
-                                                  'find outlier usising dbscan',
-                                                  'find outliers using DBSCAN',
-                                                  'find outlier using DBSCAN',
-                                                  'get outliers using dbscan',
-                                                  'get outlier using dbscan'
-                                                  'get outliers using DBSCAN',
-                                                  'get outlier using DBSCAN']
-                               
-                              
-                              })
-                            
-                            
-info_outliers = {'outlier_iqr': {'module':'outliers',
-                                'action':'action',
-                                'topic':'topic',
-                                'subtopic':'sub topic',
-                                'input_format':'pd.DataFrame',
-                                'description':'find outliers using inter quartile range (IQR)',
-                                'arg_compat':'scale'},
-              
-             'outlier_zscore': {'module':'outliers',
-                                'action':'action',
-                                'topic':'topic',
-                                'subtopic':'sub topic',
-                                'input_format':'pd.DataFrame',
-                                'description':'find outliers using zscore',
-                                'arg_compat':'threshold'},
-                 
-                
-             'outlier_norm': {'module':'outliers',
-                                'action':'action',
-                                'topic':'topic',
-                                'subtopic':'sub topic',
-                                'input_format':'pd.DataFrame',
-                                'description':'find outliers using normal distribution',
-                                'arg_compat':'threshold'},
-                 
-                 
-             'outlier_dbscan': {'module':'outliers',
-                                'action':'detect outliers',
-                                'topic':'outlier detection',
-                                'subtopic':'dbscan',
-                                'input_format':'pd.DataFrame',
-                                'description':"DBSCAN (Density-Based Spatial Clustering of Applications with Noise) can be used to detect outliers. DBSCAN is a clustering algorithm that groups together points that are close to each other based on a density criterion. Points that do not belong to any cluster are considered outliers or noise. The algorithm identifies these points by looking for areas of low density, where the distance between neighboring points is greater than a specified threshold. These points are then labeled as outliers. Therefore, DBSCAN can be used as an effective method for outlier detection in datasets where the majority of the data points form clusters.",
-                                'arg_compat':'eps min_samples',},
-
-                 
-              }
-                         
-# configuration dictionary (passed in nlpm)
-configure_outliers = {'corpus':corpus_outliers,'info':info_outliers}

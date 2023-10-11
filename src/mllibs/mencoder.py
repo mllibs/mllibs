@@ -6,8 +6,10 @@ import warnings; warnings.filterwarnings('ignore')
 from sklearn.base import clone
 from copy import deepcopy
 import torch
-from nltk.tokenize import word_tokenize
+from mllibs.tokenisers import nltk_tokeniser
 from torch.nn.utils.rnn import pad_sequence
+from mllibs.nlpm import parse_json
+import json
 
 '''
 
@@ -17,9 +19,14 @@ Encoding Text Data
 
 class encoder(nlpi):
     
-    def __init__(self,nlp_config):
+    def __init__(self):
         self.name = 'nlp_encoder'
-        self.nlp_config = nlp_config 
+
+        # read config data
+        with open('src/mllibs/corpus/mencoder.json', 'r') as f:
+            self.json_data = json.load(f)
+            self.nlp_config = parse_json(self.json_data)
+
         self.select = None
         self.data = None
         self.args = None
@@ -263,7 +270,8 @@ class encoder(nlpi):
         
         lst_tokens = []
         for doc in data:
-            lst_tokens.append(word_tokenize(doc))
+            lst_tokens.append(nltk_tokeniser(doc))
+            # lst_tokens.append(word_tokenize(doc))
             
         
         ''' Create dictionary '''
@@ -288,100 +296,4 @@ class encoder(nlpi):
             padded_vals = padded_vals[:,:eval(args['maxlen'])]
     
         nlpi.memory_output.append({'data':padded_vals,'dict':word2id})
-        
-'''
-
-Corpus
-
-'''
     
-# corpus for module
-dict_nlpencode = {'encoding_ohe':['one hot encode',
-                                  'one-hot-encode',
-                                  'ohe',
-                                  'one-hot encode',
-                                  'encode with one-hot-encoding',
-                                  'encoded with ohe'],
-            
-                 'encoding_label': ['label encode',
-                                    'encode label',
-                                    'label encoder'
-                                    'encode target variable',
-                                    'label encode taget variable',
-                                    'LabelEncoder'],
-                 
-                 'count_vectoriser' : ['count vectorise',
-                                       'count vectoriser',
-                                       'make bag of words',
-                                       'create bag of words',
-                                       'bow vectorisation',
-                                       'CountVectorizer'],
-                                 
-                  'tfidf_vectoriser': ['tfidf vectorise',
-                                       'tfidf vectorisation',
-                                       'tfidf',
-                                       'vectorisation using tfidf',
-                                       'TfidfVectorizer'],
-                                      
-                  'torch_text_encode': ['encode documents into tensor',
-                                        'encode document into tensor'
-                                        'encode corpus into tensor',
-                                        'torch encode documents',
-                                        'encode documents for torch',
-                                        'encode document for torch'
-                                        'encode corpus for torch',
-                                        'encode text corpus for torch',
-                                        'encode document corpus for torch',
-                                        'encode text corpus for torch']}
-
-# Other useful information about the task
-info_nlpencode = {'encoding_ohe':{'module':'nlp_encoder',
-                                  'action':'create encoding',
-                                  'topic':'natural language processing',
-                                  'subtopic':'create features',
-                                  'input_format':'pd.DataFrame',
-                                  'output':'data',
-                                  'description':'create numerical represention of feature columns containing string names',
-                                  'token_compat':'data subset'},
-                  
-                 'encoding_label':{'module':'nlp_encoder',
-                                   'action':'create encoding',
-                                   'topic':'natural language processing',
-                                   'subtopic':'label encoding',
-                                   'input_format':'pd.DataFrame',
-                                   'output': 'data vectoriser',
-                                   'description':'create numerical presentation of target label containing string names',
-                                   'token_compat':'data subset',},
-                 
-                 'count_vectoriser': {'module':'nlp_encoder',
-                                      'action':'create encoding',
-                                      'topic':'natural language processing',
-                                      'subtopic':'feature generation',
-                                      'input_format':'pd.DataFrame',
-                                      'output': 'data vectoriser',
-                                      'description':'Convert a collection of text documents to a matrix of token counts (unigrams)',
-                                      'token_compat':'data subset',
-                                      'arg_compat':'ngram_range min_df max_df tokeniser'},
-                  
-                 'tfidf_vectoriser': {'module':'nlp_encoder',
-                                      'action':'create encoding',
-                                      'topic':'natural language processing',
-                                      'subtopic':'feature generation',
-                                      'input_format':'pd.DataFrame',
-                                      'output': 'data vectoriser',
-                                      'description':'Convert a collection of raw documents to a matrix of TF-IDF features',
-                                      'token_compat':'data subset',
-                                      'arg_compat':'ngram_range min_df max_df use_idf smooth_idf tokeniser'},
-
-                 'torch_text_encode': {'module':'nlp_encoder',
-                                       'action':'create encoding',
-                                       'topic':'natural language processing',
-                                       'subtopic':'feature generation',
-                                       'input_format':'list',
-                                       'output':'data',
-                                       'description':'Encode documents into numeric representation & add padding to create tensor of identical length',
-                                       'token_compat':'data',
-                                       'arg_compat': 'maxlen'}
-                 }
-
-configure_nlpencoder = {'corpus':dict_nlpencode,'info':info_nlpencode}

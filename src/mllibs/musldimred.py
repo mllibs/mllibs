@@ -8,7 +8,8 @@ from mllibs.nlpi import nlpi
 from mllibs.nlpm import nlpm
 import pandas as pd
 import numpy as np
-
+from mllibs.nlpm import parse_json
+import json
 
 '''
 
@@ -17,17 +18,17 @@ decomposition/manifold
 
 '''
 
-# sample module class structure
-class usldimred(nlpi):
+class make_dimred(nlpi):
     
-    # called in nlpm
-    def __init__(self,nlp_config):
+    def __init__(self):
         
-        # unique module name identifier (used in nlpm/nlpi)
         self.name = 'usldimred'  
-        
-        # text based info related to module (used in nlpm/nlpi)
-        self.nlp_config = nlp_config  
+
+        # read config data
+        with open('src/mllibs/corpus/musldimred.json', 'r') as f:
+            self.json_data = json.load(f)
+            self.nlp_config = parse_json(self.json_data)
+
         self.select = None
         self.data = None
         self.args = None
@@ -236,147 +237,3 @@ class usldimred(nlpi):
     
         nlpi.memory_output.append({'data':pd.concat([X,self.catn],axis=1),
                                    'model':model}) 
-    
-'''
-
-Corpus
-
-'''
-
-corpus_usldimred = OrderedDict({"PCA":['PCA dimension reduction',
-                                       'PCA reduce dimension',
-                                       'PCA dimred',
-                                       'PCA dimensionality reduction',
-                                       'principal component analysis',
-                                       'principal component analysis dimension reduction',
-                                       'dimred PCA',
-                                       'PCA decomposition',
-                                       'lower dimensionality PCA'],
-                            
-                                'kPCA':['kernel PCA dimensionality reduction',
-                                        'kPCA dimension reduction',
-                                        'kPCA dimensionality reduction',
-                                        'reducing dimension kPCA',
-                                        'kPCA dimred',
-                                        'kPCA reduce dimension',
-                                        'kPCA reduce dimensions', 
-                                    ],
-                                
-                                 'iPCA':['incremental PCA dimensionality reduction',
-                                         'incremental PCA',
-                                         'incremental PCA dimension reduction',
-                                         'incremental principal component analysis',
-                                         'increment PCA',
-                                         'iPCA dimensionality reduction',
-                                         'batch PCA'],
-                                
-                                
-                                'NMF' : ['non negative matrix factorisation',
-                                        'NMF factorisation',
-                                        'NMF matrix factorisation',
-                                        'NMF decomposition',
-                                        'NMF dimensionality reduction',
-                                        'non-negative matrix factorisation'],
-                                
-                                'tSVD' : ['tuncated SVD',
-                                         'tuncated SVD matrix factorisation',
-                                         'truncated SVD decomposition',
-                                         'tSVD decomposition',
-                                         'tSVD matrix factorisation',
-                                          'dimensionality reduction using truncated SVD',
-                                          'dimension reduction SVD',
-                                          'dimension reduction truncated SVD'
-                                         ],
-                                
-                                'fICA' : ['fast ICA',
-                                         'fast ICA decomposition',
-                                         'fast independent component analysis',
-                                         'fast ICA dimension reduction',
-                                         'fICA decomposition',
-                                          'fICA factorisation',
-                                         'dimensionality reduction fast ICA'],
-                                
-                                'isomap' : ['isomap embedding',
-                                            'isometric mapping',
-                                            'isomap dimension reduction',
-                                            'isometric map',
-                                            'isomap embedding manifold learning',
-                                            'isomap embedding manifold',
-                                            'manifold learning isomap',
-                                            'isomap manifold learning dimension reduction']
-                                
-                                
-                               })
-
-info_usldimred = {'PCA': {'module':'usldimred',
-                            'action':'reduce dimensions',
-                            'topic':'dimensionality reduction',
-                            'subtopic':'decomposition',
-                            'input_format':'pd.DataFrame',
-                            'description':'Principal component analysis (PCA) decomposition, project data to lower dimensional space. Linear dimensionality reduction using Singular Value Decomposition of the data to project it to a lower dimensional space. Input data is centered but not scaled for each feature before applying the SVD',
-                            'token_compat':'data subset sample',
-                            'arg_compat':'dim whiten'},
-                  
-                  
-              'kPCA':{'module':'usldimred',
-                            'action':'reduce dimensions',
-                            'topic':'dimensionality reduction',
-                            'subtopic':'decomposition',
-                            'input_format':'pd.DataFrame',
-                            'description':'Kernel principal component analysis (KPCA) is a non-linear extension of the traditional PCA algorithm. It involves applying a non-linear transformation to the data before performing PCA, which allows for more complex patterns and relationships to be captured. This transformation is achieved using a kernel function, which maps the original data into a higher-dimensional space where it may be more separable. The KPCA algorithm then performs PCA on this transformed data to identify the most important components or features',
-                            'token_compat':'data subset sample',
-                            'arg_compat':'dim kernel'},
-
-                  
-              'iPCA':{'module':'usldimred',
-                      'action':'reduce dimensions',
-                      'topic':'dimensionality reduction',
-                      'subtopic':'decomposition',
-                      'input_format':'pd.DataFrame',
-                      'description':'Incremental principal components analysis (IPCA) is a variant of the traditional PCA algorithm that allows for the incremental computation of principal components as new data becomes available. In traditional PCA, all of the data must be available at once in order to perform the computation. IPCA, on the other hand, allows for the addition of new data points one at a time, which can be useful in situations where data is arriving continuously or in batches. IPCA works by updating the covariance matrix and eigenvalues of the data incrementally, rather than computing them from scratch each time new data is added. This can save computational time and resources, especially when dealing with large datasets',
-                      'token_compat':'data subset sample',
-                      'arg_compat':'dim kernel batch'
-                      },
-
-
-              'NMF':{'module':'usldimred',
-                      'action':'reduce dimensions',
-                      'topic':'dimensionality reduction',
-                      'subtopic':'decomposition',
-                      'input_format':'pd.DataFrame',
-                      'description':'Non-negative matrix factorization (NMF) is a technique that decomposes a non-negative matrix into two lower-rank non-negative matrices. The goal of NMF is to find a low-dimensional representation of the original data that captures the underlying patterns and structure of the data. NMF is often used for feature extraction, dimensionality reduction, and clustering in a variety of applications such as image processing, text mining, and bioinformatics. In NMF, the original matrix is factorized into two matrices: a basis matrix and a coefficient matrix. The basis matrix represents the basis vectors that form the low-dimensional representation of the data, while the coefficient matrix represents the weights of these basis vectors for each data point. The basis matrix and coefficient matrix are typically learned through an iterative optimization process that minimizes the reconstruction error between the original data and the low-dimensional representation. NMF has several advantages over other dimensionality reduction techniques such as PCA, including the ability to handle non-negative data and the ability to extract interpretable features. However, NMF can be sensitive to initialization and may not always converge to a global minimum',
-                      'token_compat':'data subset sample',
-                      'arg_compat':'dim'},
-                  
-              'tSVD':{'module':'usldimred',
-                      'action':'reduce dimensions',
-                      'topic':'dimensionality reduction',
-                      'subtopic':'decomposition',
-                      'input_format':'pd.DataFrame',
-                      'description':'Truncated SVD (Singular Value Decomposition) is a matrix factorization technique that decomposes a matrix into three matrices: a left singular matrix, a diagonal singular value matrix, and a right singular matrix. Truncated SVD is similar to NMF in that it is used for dimensionality reduction and feature extraction, but it can handle both positive and negative data. The "truncated" part of the name refers to the fact that only a subset of the singular values and corresponding singular vectors are retained, while the rest are discarded. This results in a lower-dimensional approximation of the original matrix that captures the most important information',
-                      'token_compat':'data subset sample',
-                      'arg_compat':'dim'},
-                  
-              'fICA':{'module':'usldimred',
-                      'action':'reduce dimensions',
-                      'topic':'dimensionality reduction',
-                      'subtopic':'decomposition',
-                      'input_format':'pd.DataFrame',
-                      'description':'Independent component analysis separates a multivariate signal into additive subcomponents that are maximally independent. It is implemented in scikit-learn using the Fast ICA algorithm. Typically, ICA is not used for reducing dimensionality but for separating superimposed signals. Since the ICA model does not include a noise term, for the model to be correct, whitening must be applied. This can be done internally using the whiten argument or manually using one of the PCA variants',
-                      'token_compat':'data subset sample',
-                      'arg_compat':'dim whiten whiten_solver'},
-                  
-                  
-              'isomap':{'module':'usldimred',
-                      'action':'reduce dimensions',
-                      'topic':'dimensionality reduction',
-                      'subtopic':'manifold learning',
-                      'input_format':'pd.DataFrame',
-                      'description':"Isomap embedding is a nonlinear dimensionality reduction technique that preserves the intrinsic geometric structure of high-dimensional data in a lower-dimensional space. It is based on the concept of geodesic distances, which measure the shortest path between two points on a manifold (a curved space). Isomap works by first constructing a graph of nearest neighbors for the data points, and then computing the shortest path distances between all pairs of points on this graph using a variant of Dijkstra's algorithm. These distances are then used to construct a low-dimensional embedding of the data using classical multidimensional scaling (MDS)",
-                      'token_compat':'data subset sample',
-                      'arg_compat':'dim n_neighbors radius'},
-                        
-                 }
-                  
-# configuration dictionary (passed in nlpm)
-configure_usldimred = {'corpus':corpus_usldimred,'info':info_usldimred}

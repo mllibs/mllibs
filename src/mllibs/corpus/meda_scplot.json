@@ -1,0 +1,67 @@
+{
+  "modules": [
+    
+    {
+      "name": "col_kde",
+    "corpus": [
+              "plot column feature kernel density estimation",
+              "plot column kernel density estimation",
+              "plot column kde",
+              "visualise column feature kernel density estimation",
+              "visualise column kernel density estimation",
+              "visualise column kde"
+              ],
+      "info": {
+              "module":"eda_colplot",
+              "action":"show plot",
+              "topic":"exploratory data analysis (eda)",
+              "subtopic":"column eda",
+              "input_format":"pd.DataFrame",
+              "description":"visualise/plot column feature kernel density estimation plot"
+              }
+    },
+    
+    {
+      "name": "col_box",
+      "corpus": [
+              "plot column feature boxplot",
+              "plot column feature box plot",
+              "plot column boxplot",
+              "plot column box plot",
+              "visualise column feature boxplot",
+              "visualise column boxplot",
+              "visualise column box plot"
+                ],
+      "info": {
+              "module":"eda_colplot",
+              "action":"show plot",
+              "topic":"exploratory data analysis (eda)",
+              "subtopic":"column eda",
+              "input_format":"pd.DataFrame",
+              "description":"visualise/plot column feature boxplot"
+              } 
+    },
+    
+    {
+      "name": "col_scatter",
+      "corpus": [
+              "plot column feature scatterplot",
+              "plot column feature scatter plot",
+              "plot column scatterplot",
+              "plot column scatter plot",
+              "visualise column feature scatterplot",
+              "visualise column scatterplot",
+              "visualise column scatter plot"
+                ],
+      "info": {
+              "module":"eda_colplot",
+              "action":"show plot",
+              "topic":"exploratory data analysis (eda)",
+              "subtopic":"column eda",
+              "input_format":"pd.DataFrame",
+              "description":"visualise/plot column feature scatterplot"
+      } 
+    }
+    
+  ]
+}

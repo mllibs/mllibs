@@ -1,5 +1,6 @@
 from keras.preprocessing import text
 from keras.preprocessing.text import Tokenizer
+from mllibs.tokenisers import nltk_tokeniser
 from collections import Counter
 import torch
 from torch.autograd import Variable
@@ -13,10 +14,9 @@ from gensim.models import word2vec as w2v
 from gensim.models.fasttext import FastText
 from mllibs.nlpi import nlpi
 from collections import OrderedDict
-from nltk.tokenize import word_tokenize
+import random
 import nltk
 import re
-import random
 
 '''
 
@@ -76,7 +76,8 @@ class embedding(nlpi):
     def cbow(self,data:list,args):
         
         data = data[0]
-        tokens = word_tokenize(data)
+        # tokens = word_tokenize(data)
+        tokens = nltk_tokeniser(data)
         token_set = set(tokens) # create all unique tokens
         
         # give unique identifier to each unique token

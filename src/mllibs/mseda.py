@@ -2,30 +2,39 @@ import numpy as np
 import pandas as pd
 from collections import OrderedDict
 from mllibs.nlpi import nlpi
+from mllibs.nlpm import parse_json
+import json
     
 '''
 
-
 Simple DataFrame EDA operations
-
 
 '''
 
 class simple_eda(nlpi):
     
-    def __init__(self,nlp_config):
+    def __init__(self):
         self.name = 'eda'             # unique module name identifier
-        self.nlp_config = nlp_config  # text based info related to module
         self.select = None            # store index which module was activated
-        # store all module arguments which were passed to module
-        self.args = None              
+        self.args = None  
+
+        # read config data
+        with open('src/mllibs/corpus/mseda.json', 'r') as f:
+            self.json_data = json.load(f)
+            self.nlp_config = parse_json(self.json_data)
     
-    # describe contents of class
+    '''
+
+    Select relevant activation function
+
+    '''
                     
     def sel(self,args:dict):
         
-        select = args['pred_task']
+        # activation function class name
+        select = args['pred_task'] 
                     
+        # activate relevant function 
         if(select == 'show_info'):
             self.show_info(args)
         
@@ -41,7 +50,11 @@ class simple_eda(nlpi):
         if(select == 'show_corr'):
             self.show_correlation(args)
           
-    ''' Module Activation Functions '''
+    ''' 
+
+    Module Activation Function Content
+
+    '''
     
     # each function needs to utilise args if they arent empty
     
@@ -65,119 +78,7 @@ class simple_eda(nlpi):
         corr_mat = corr_mat.dropna(how='all',axis=0)
         corr_mat = corr_mat.dropna(how='all',axis=1)
         display(corr_mat)
-        
-                                    
+                                      
     @staticmethod
     def show_info(args:dict):
         print(args['data'].info())
-
-'''
-
-Corpus
-
-'''
-        
-# Create Dataset of possible commands
-corpus_eda = OrderedDict({
-    
-                'show_info' : ['show data information',
-                               'show dataset information',
-                               'show dataframe information',
-                               'show dataframe info',
-                               'data info',
-                               'df info',
-                               'dataframe information',
-                               'data info'],
-    
-    
-              "show_missing":['find missing data',
-                              'missing data.',
-                              'data missing',
-                              'show missing data',
-                              'show missing data in columns',
-                              'show column missing data',
-                              'column missing data',
-                              'show data which is missing',
-                              'print missing data'],
-
-            'show_stats': ['show describe',
-                           'show statistics',
-                           'show stats'
-                           'show dataframe statistics',
-                           'statistics',
-                           'statistics minimum',
-                           'statistics maximum',
-                           'statistics mean',
-                           'stats minimum',
-                           'stats maximum',
-                           'stats mean',
-                           'pandas describe',
-                           'pandas statistics',
-                           'pandas stats'
-                           'statistics dataframe',
-                           'dataframe statistics'  
-                           'tabular statistics'],
-            
-            'show_dtypes': ['show dataframe dtypes',
-                            'show data types',
-                            'print data types',
-                            'print dtypes',
-                            'show feature dtypes',
-                            'show dtype',
-                            'feature types',
-                            'dtype',
-                            'dtypes'],
-            
-            'show_corr': ['create correlation matrix',
-                          'plot correlation matrix',
-                          'generate correlation matrix',
-                          'create correlation',
-                          'correlation',
-                          'show feature correlation',
-                          'show correlation',
-                          'genenerate correlation matrix',
-                          'show correlation matrix',
-                          'show correlation of features'],
-
-})
-
-
-# Other useful information about the task
-info_eda = {'show_info':{'module':'eda',
-                               'action':'table operation',
-                               'topic':'exploratory data analysis (eda)',
-                               'subtopic':'inspect dataframe',
-                               'input_format':'pd.DataFrame',
-                               'description':'show dataframe information'},
-    
-            'show_missing':{'module':'eda',
-                            'action':'show plot',
-                            'topic':'exploratory data analysis (eda)',
-                            'subtopic':'visualise missing data',
-                            'input_format':'pd.DataFrame',
-                            'description':'show showing missing data in data frame columns'},
-                  
-                 'show_stats':{'module':'eda',
-                               'action':'table operation',
-                               'topic':'exploratory data analysis (eda)',
-                               'subtopic':'inspect dataframe',
-                               'input_format':'pd.DataFrame',
-                               'description':'show statistics of numerical columns in dataframe using describe'},
-                 
-             'show_dtypes': {'module':'eda',
-                             'action':'table operation',
-                             'topic':'exploratory data analysis (eda)',
-                             'subtopic':'inspect dataframe',
-                             'input_format':'pd.DataFrame',
-                             'description':'show column data types dtypes'},
-                  
-                 'show_corr': {'module':'eda',
-                               'action':'show plot',
-                               'topic':'exploratory data analysis (eda)',
-                               'subtopic':'show correlation',
-                               'input_format':'pd.DataFrame',
-                               'description':'visualise linear correlation between features'},
-            
-                 }
-
-configure_eda = {'corpus':corpus_eda,'info':info_eda}
