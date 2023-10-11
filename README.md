@@ -1,11 +1,11 @@
-<h5 align="center">
 
-<img src="https://github.com/shtrausslearning/shtrausslearning.github.io/blob/main/assets/images/mllibs_c_nob.png" height="200">
-    
-![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) [![](https://img.shields.io/badge/pypi-v0.1.6-fc4c69)]([[https://github.com/shtrausslearning/mllibs](https://pypi.org/project/mllibs/)](https://pypi.org/project/mllibs/))
-[![License](https://img.shields.io/badge/License-MIT-blue)](#license "Go to license section") [![Downloads](https://static.pepy.tech/badge/mllibs)](https://pepy.tech/project/mllibs)
+<center>
+![mllibs](data/images/cnb.png){ width="450" }
+</center>
 
-</h5>
+<center>![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://img.shields.io/badge/pypi-v0.1.6-fc4c69) ![](https://img.shields.io/badge/License-MIT-blue) ![](https://static.pepy.tech/badge/mllibs)</center>
+
+### About mllibs
 
 Some key points about the library:
 
@@ -16,24 +16,17 @@ Some key points about the library:
 - Using python, we can interpret `natural language` in the form of `string` type data, using `natural langauge interpreters`
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
-<br>
+### Code Automation
 
-### CODE AUTOMATION
-
-#### TYPES OF AUTOMATION APPROACHES
+#### Types of Approaches
 
 There are different ways we can automate code execution:
-- The first two should be familiar, such approaches presume we have coding knowledge
-- If we utilise `language`, we can utilise natural language processing `nlp` in order to interpret the request and activate relevant `activation functions`
+- The first two (`function`,`class`) should be familiar, such approaches presume we have coding knowledge.
+- Another approach is to utilise `natural language` to automate code automation, this method doesn't require any coding knowledge. 
 
-<table>
-    
-<tr>
-<td> <code>function</code> </td> <td> <code>class</code> </td> <td> <code>natural language</code> </td>
-</tr>
+#### (1) Function 
 
-<tr>
-<td>
+Function based code automation should be very familiar to people who code, we define a function & then simply call the function, entering any relevant input arguments which it requires, in this case `n`
 
 ```python
 def fib_list(n):
@@ -46,10 +39,11 @@ def fib_list(n):
 
 fib_list(5) 
 ```
-    
-</td>
-<td>
-    
+
+#### (2) Class 
+
+Another common approach to automate code is using a class based approach. Utilising `OOP` concepts we can initialise & then call class `methods` in order to automate code:
+
 ```python
 
 class fib_list:
@@ -69,29 +63,24 @@ fib = fib_list(5)
 fib.get_list()
 ```
 
-</td>
+#### (3) Natural Language
 
-<td>
+Another approach, which `mllibs` uses in natural language based code automation:
 
 ```python
-input = 'calculate the fibonacci
+input = 'calculate the fibonacci'
          sequence for the value of 5'
 
 nlp_interpreter(input) 
 ```
-    
-</td>
 
-<tr>
-<td> <code>[0, 1, 1, 2, 3]</code> </td> <td> <code>[0, 1, 1, 2, 3]</code> </td> <td> <code>[0, 1, 1, 2, 3]</code> </td>
-</tr>
+All these methods will give the following result:
 
-</tr>
-</table>
+```
+[0, 1, 1, 2, 3]
+```
 
-<br>
-
-### LIBRARY COMPONENTS
+### Library Components
 
 `mllibs` consists of two parts:
 
@@ -103,15 +92,14 @@ nlp_interpreter(input)
 - `mnlpi` - multiple request interpreter module (uses `nlpi`)
 - `interface` - interactive module (chat type)
 
-(2) custom added modules, for mllibs these library are associated with **machine learning**
+(2) custom added modules, for mllibs these library are associated with **machine learning** topics
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
 
-<br>
+### Module Component Structure
 
-### MODULE COMPONENT STRUCTURE
-
-Currently new modules can be added using a custom class `sample` and a configuration dictionary `configure_sample`
+Currently new modules can be added using a custom class `sample` and a configuration dictionary 
+`configure_sample`
 
 ```python
 
@@ -153,16 +141,13 @@ info_sample = {'function': {'module':'sample',
                          
 # configuration dictionary (passed in nlpm)
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
-
 ```
 
-<br>
+### Creating a **`Collection`**
 
-### CREATING A COLLECTION
+`Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
 
-There are two ways to start an interpreter session, manually importing and grouping modules or using  <code>interface</code> class
-
-#### **FIRST APPROACH**
+#### **Manually Importing Modules**
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -176,8 +161,7 @@ collection.load([loader(configure_loader),
                  cleantext(configure_nlptxtclean),
                  sklinear(configure_sklinear),
                  hf_pipeline(configure_hfpipe),
-                 eda_plot(configure_edaplt)])
-                 
+                 eda_plot(configure_edaplt)])  
 ```
 
 Then we need to train `interpreter` models
@@ -200,7 +184,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-#### **SECOND APPROACH**
+#### **Import Default Libraries**
 
 The faster way, includes all loaded modules and groups them together for us:
 
@@ -209,7 +193,7 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-### **HOW TO CONTRIBUTE**
+### **How to Contibute**
 
 Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
 
@@ -218,5 +202,13 @@ Want to add your own project to our collection? We welcome all contributions, bi
 3. Make your changes and commit them
 4. Submit a pull request
 
-If you have any questions or feedback, feel free to reach out on my [telegram channel](https://t.me/mldsai_info)
+### **Home**
+
+`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)
+
+
+### **Contact**
+
+Any questions or comments about the above post can be addressed on the :fontawesome-brands-telegram:{ .telegram } **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly :fontawesome-brands-telegram:{ .telegram } **[shtrauss2](https://t.me/shtrauss2)**, on :fontawesome-brands-github:{ .github } **[shtrausslearning](https://github.com/shtrausslearning)** or :fontawesome-brands-kaggle:{ .kaggle} **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+
 
