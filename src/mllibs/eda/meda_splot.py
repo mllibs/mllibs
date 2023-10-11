@@ -6,6 +6,7 @@ import pandas as pd
 from collections import OrderedDict
 import warnings; warnings.filterwarnings('ignore')
 from mllibs.nlpm import parse_json
+import pkg_resources
 import json
 
 
@@ -23,13 +24,13 @@ Standard seaborn library visualisations
 
 '''
 
-class eda_plot(nlpi):
+class eda_splot(nlpi):
     
     def __init__(self):
-        self.name = 'eda_plot'             
+        self.name = 'eda_splot'  
 
-        # read config data
-        with open('src/mllibs/corpus/meda_splot.json', 'r') as f:
+        path = pkg_resources.resource_filename('mllibs', '/corpus/meda_splot.json')
+        with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
         

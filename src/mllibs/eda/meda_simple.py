@@ -3,6 +3,7 @@ import pandas as pd
 from collections import OrderedDict
 from mllibs.nlpi import nlpi
 from mllibs.nlpm import parse_json
+import pkg_resources
 import json
     
 '''
@@ -11,15 +12,15 @@ Simple DataFrame EDA operations
 
 '''
 
-class simple_eda(nlpi):
+class eda_simple(nlpi):
     
     def __init__(self):
-        self.name = 'eda'             # unique module name identifier
+        self.name = 'eda_simple'      # unique module name identifier
         self.select = None            # store index which module was activated
         self.args = None  
 
-        # read config data
-        with open('src/mllibs/corpus/mseda.json', 'r') as f:
+        path = pkg_resources.resource_filename('mllibs', '/corpus/meda_simple.json')
+        with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
     

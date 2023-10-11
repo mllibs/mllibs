@@ -7,6 +7,7 @@ import math
 from collections import OrderedDict
 import warnings; warnings.filterwarnings('ignore')
 from mllibs.nlpm import parse_json
+import pkg_resources
 import json
 
 
@@ -24,13 +25,13 @@ Feature Column based visualisations using seaborn
 
 '''
 
-class eda_colplot(nlpi):
+class eda_scplot(nlpi):
     
     def __init__(self):
-        self.name = 'eda_colplot'          
+        self.name = 'eda_scplot'      
 
-        # read config data
-        with open('src/mllibs/corpus/meda_scplot.json', 'r') as f:
+        path = pkg_resources.resource_filename('mllibs', '/corpus/meda_scplot.json')
+        with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
 

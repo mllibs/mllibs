@@ -1,0 +1,14 @@
+requests
+importlib-metadata
+setuptools
+wheel
+numpy
+pandas
+scipy
+nltk
+seaborn
+matplotlib
+scikit-learn
+gensim
+spacy
+torch

@@ -14,12 +14,15 @@
               "data info"
               ],
       "info": {
-              "module":"eda",
+              "module":"eda_simple",
               "action":"table operation",
-              "topic":"exploratory data analysis (eda)",
+              "topic":"exploratory data analysis",
               "subtopic":"inspect dataframe",
               "input_format":"pd.DataFrame",
-              "description":"show dataframe information"
+              "output":"None",
+              "description":"show dataframe information",
+              "token_compat":"None",
+              "arg_compat":"None"
               }
     },
     
@@ -37,12 +40,15 @@
               "print missing data"
               ],
       "info": {
-        "module":"eda",
+        "module":"eda_simple",
         "action":"show plot",
-        "topic":"exploratory data analysis (eda)",
+        "topic":"exploratory data analysis",
         "subtopic":"visualise missing data",
         "input_format":"pd.DataFrame",
-        "description":"show showing missing data in data frame columns"
+        "output":"None",
+        "description":"show showing missing data in data frame columns",
+        "token_compat":"None",
+        "arg_compat":"None"
       }
     },
     
@@ -68,12 +74,15 @@
               "tabular statistics"
       ],
       "info": {
-              "module":"eda",
+              "module":"eda_simple",
               "action":"table operation",
-              "topic":"exploratory data analysis (eda)",
+              "topic":"exploratory data analysis",
               "subtopic":"inspect dataframe",
               "input_format":"pd.DataFrame",
-              "description":"show statistics of numerical columns in dataframe using describe"
+              "output":"None",
+              "description":"show statistics of numerical columns in dataframe using describe",
+              "token_compat":"None",
+              "arg_compat":"None"
       }
     },
     
@@ -91,13 +100,16 @@
               "dtypes"
       ],
       "info": {
-              "module":"eda",
+              "module":"eda_simple",
               "action":"table operation",
-              "topic":"exploratory data analysis (eda)",
+              "topic":"exploratory data analysis",
               "subtopic":"inspect dataframe",
               "input_format":"pd.DataFrame",
-              "description":"show column data types dtypes"
-      }
+              "output":"None",
+              "description":"show column data types dtypes",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
     },
     
     {
@@ -115,12 +127,15 @@
               "show correlation of features"
                 ],
       "info": {
-              "module":"eda",
+              "module":"eda_simple",
               "action":"show plot",
-              "topic":"exploratory data analysis (eda)",
+              "topic":"exploratory data analysis",
               "subtopic":"show correlation",
               "input_format":"pd.DataFrame",
-              "description":"visualise linear correlation between features"
+              "output":"None",
+              "description":"visualise linear correlation between features",
+              "token_compat":"None",
+              "arg_compat":"None"
               }
     }
 
