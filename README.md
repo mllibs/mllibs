@@ -1,7 +1,5 @@
 
-<center>
 ![mllibs](data/images/cnb.png)
-</center>
 
 ### About mllibs
 
