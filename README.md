@@ -6,10 +6,6 @@
 ![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://badgen.net/badge/status/WIP/orange) [![GitHub mllibs](https://img.shields.io/github/v/tag/shtrausslearning/mllibs.svg?sort=semver)](https://github.com/shtrausslearning/mllibs/releases)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license "Go to license section")
 
-| **Kaggle** | **Github** | **PyPI**
-| - | - | - |
-| [![](https://img.shields.io/badge/v0.1.6-8A2BE2)](https://www.kaggle.com/datasets/shtrausslearning/mllibs) | [![](https://img.shields.io/badge/v0.1.6-8A2BE2)](https://github.com/shtrausslearning/mllibs) | [![PyPI version](https://badge.fury.io/py/mllibs.svg)](https://badge.fury.io/py/mllibs) | 
-
 </h5>
 
 ### About mllibs
@@ -188,9 +184,9 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 ### Creating a Collection
 
-`Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
+`Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class (which by default loads a preset collection defined in this class)
 
-#### **Manually Importing Modules**
+#### **(1) Manually Importing Modules**
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -227,9 +223,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-<br>
-
-#### **Import Default Libraries**
+#### **(2) Import Default Libraries**
 
 The faster way, includes all loaded modules and groups them together for us:
 
