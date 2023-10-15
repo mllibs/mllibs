@@ -95,6 +95,8 @@ theme:
 
     palette:
         - scheme: slate
+    font:
+        text: Open Sans
 
 extra:
     manifest: manifest.webmanifest
