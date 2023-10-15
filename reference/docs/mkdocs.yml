@@ -116,4 +116,7 @@ copyright: |
 
 nav:
 - Home: home.md
+- Modules: modules.md
+- Task Status: status.md
 - Meetings: meetups.md
+- Members: members.md
