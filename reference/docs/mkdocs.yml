@@ -90,8 +90,6 @@ theme:
         - navigation.sections
         - navigation.expand
         - navigation.tracking
-        - navigation.tabs
-        - navigation.tabs.sticky 
         - navigation.top
         - content.tabs.link
 
@@ -117,5 +115,5 @@ copyright: |
   Copyright &copy; 2023 <a href="https://github.com/shtrausslearning"  target="_blank" rel="noopener">Andrey Shtrauss</a>
 
 nav:
-- Home: index.md
+- Home: home.md
 - Meetings: meetups.md
