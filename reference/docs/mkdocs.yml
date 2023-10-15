@@ -1,6 +1,5 @@
 # Set up navigation: https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/
 site_name: mllibs
-site_url: https://github.com/shtrausslearning/shtrausslearning.github.io
 repo_name: 'mllibs'
 repo_url: https://github.com/shtrausslearning/mllibs
 edit_uri: tree/master/docs/src/markdown
@@ -100,7 +99,13 @@ theme:
 
 extra:
     manifest: manifest.webmanifest
-    social:
+    alternate:
+        - name: English
+          link: /en/ 
+          lang: en
+        - name: Russian
+          link: /ru/
+          lang: ru
 
 plugins:
     - search
@@ -111,7 +116,9 @@ copyright: |
   Copyright &copy; 2023 <a href="https://github.com/shtrausslearning"  target="_blank" rel="noopener">Andrey Shtrauss</a>
 
 nav:
-- Home: home.md
+- home.md
+- home.en.md
+- home.ru.md
 
 - Installation: install.md
 
