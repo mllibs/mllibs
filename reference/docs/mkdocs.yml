@@ -121,14 +121,14 @@ nav:
     - Adding new modules: modules/adding.md
     - Grouping modules: modules/grouping.md
 
-Tutorials: 
+- Tutorials: 
     - Overview: tutorials/overview.md
 
-Documentation: 
+- Documentation: 
     - nlpm: documentation/nlpm.md
     - nlpi: documentation/nlpi.md
 
-Group:
+- Group:
     - Task Status: group/status.md
     - Meetings: group/meetups.md
     - Members: group/members.md
