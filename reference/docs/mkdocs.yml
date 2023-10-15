@@ -95,8 +95,8 @@ theme:
 
     palette:
         - scheme: slate
-          primary: gold
-          accent: gold
+          # primary: gold
+          # accent: gold
 
     font:
         text: Roboto

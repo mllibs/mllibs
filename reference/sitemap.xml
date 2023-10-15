@@ -10,4 +10,14 @@
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/members.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>
