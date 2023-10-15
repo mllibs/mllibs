@@ -3,7 +3,9 @@
 ![mllibs](images/wnb.png#only-dark){ width="450" }
 </center>
 
-!!! Different Code Automation Approaches
+!!! Approaches
+
+Here are some cude automation approaches:
 
     === "Function"
 
