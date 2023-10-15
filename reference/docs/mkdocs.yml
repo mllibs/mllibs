@@ -73,28 +73,31 @@ markdown_extensions:
               format: !!python/name:pymdownx.superfences.fence_code_format
     - pymdownx.tabbed:
         slugify: !!python/object/apply:pymdownx.slugs.slugify
-            kwds:
-                case: lower
+            kwds:case: lower
 
 ##################################################################
 
 theme:
     name: material
     icon:
-        # logo: fontawesome/solid/code 
+        logo: fontawesome/solid/code 
         repo: fontawesome/brands/github
     language: en
     features:
         - navigation.instant
         - navigation.instant.progress
         - navigation.sections
-        - navigation.expand
+        # - navigation.expand
         - navigation.tracking
         - navigation.top
         - content.tabs.link
 
     palette:
         - scheme: slate
+
+    font:
+        text: Roboto
+        code: Roboto Mono
 
 extra:
     manifest: manifest.webmanifest
