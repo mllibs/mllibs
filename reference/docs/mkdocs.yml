@@ -81,7 +81,7 @@ markdown_extensions:
 theme:
     name: material
     icon:
-        logo: fontawesome/solid/code 
+        # logo: fontawesome/solid/code 
         repo: fontawesome/brands/github
     language: ru
     features:
