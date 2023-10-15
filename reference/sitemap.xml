@@ -1,87 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/home.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/home.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/install.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/install.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/documentation/nlpi.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/documentation/nlpi.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/documentation/nlpm.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/documentation/nlpm.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/group/meetups.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/group/meetups.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/group/members.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/group/members.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/group/status.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/group/status.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/adding.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/modules/adding.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/grouping.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/modules/grouping.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/list.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/modules/list.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/en/adding.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/en/tutorials/overview.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/en/grouping.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/home.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/en/list.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/install.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/ja/adding.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/documentation/nlpi.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/ja/grouping.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/documentation/nlpm.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/modules/ja/list.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/group/meetups.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/tutorials/overview.html</loc>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/group/members.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/group/status.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/modules/adding.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/modules/grouping.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/modules/list.html</loc>
+         <lastmod>2023-10-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://github.com/shtrausslearning/shtrausslearning.github.io/ja/tutorials/overview.html</loc>
          <lastmod>2023-10-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
