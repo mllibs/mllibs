@@ -144,16 +144,15 @@ info_sample = {'function': {'module':'sample',
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
 
-### Creating a **`Collection`**
+### Creating a Collection
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
 
-#### **Manually Importing Modules**
+#### Manually Importing Modules
 
 First we need to combine all our module components together, this will link all passed modules together
 
 ```python
-
 collection = nlpm()
 collection.load([loader(configure_loader),
                  simple_eda(configure_eda),
@@ -185,7 +184,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-#### **Import Default Libraries**
+#### Import Default Libraries
 
 The faster way, includes all loaded modules and groups them together for us:
 
@@ -194,7 +193,7 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-### **How to Contibute**
+### How to Contibute
 
 Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
 
@@ -202,12 +201,3 @@ Want to add your own project to our collection? We welcome all contributions, bi
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Submit a pull request
-
-
-### **Contact**
-
-**Thank you for reading!**
-
-Any questions or comments about the above post can be addressed on the :fontawesome-brands-telegram:{ .telegram } **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly :fontawesome-brands-telegram:{ .telegram } **[shtrauss2](https://t.me/shtrauss2)**, on :fontawesome-brands-github:{ .github } **[shtrausslearning](https://github.com/shtrausslearning)** or :fontawesome-brands-kaggle:{ .kaggle} **[shtrausslearning](https://kaggle.com/shtrausslearning)**
-
-
