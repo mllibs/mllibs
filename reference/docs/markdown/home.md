@@ -97,7 +97,7 @@ All these methods will give the following result:
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
 
-### Module Component Structure
+### :material-package-variant-closed-check: Module Component Structure
 
 Currently new modules can be added using a custom class `sample` and a configuration dictionary 
 `configure_sample`
@@ -144,11 +144,11 @@ info_sample = {'function': {'module':'sample',
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
 
-### Creating a Collection
+### :material-package-variant-plus: Creating a Collection
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
 
-#### Manually Importing Modules
+#### :octicons-package-dependencies-16: Manually Importing Modules
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -184,7 +184,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-#### Import Default Libraries
+#### :octicons-package-dependencies-24: Import Default Libraries
 
 The faster way, includes all loaded modules and groups them together for us:
 
@@ -193,7 +193,7 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-### How to Contibute
+### :fontawesome-solid-people-group: How to Contibute
 
 Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
 
