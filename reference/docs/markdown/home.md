@@ -85,7 +85,7 @@ All these methods will give the following result:
 
 `mllibs` consists of two parts:
 
-(1) modules associated with the **interpreter**
+:material-numeric-1-box-multiple-outline: modules associated with the **interpreter**
 
 - `nlpm` - groups together everything required for the interpreter module `nlpi`
 - `nlpi` - main interpreter component module (requires `nlpm` instance)
@@ -93,7 +93,7 @@ All these methods will give the following result:
 - `mnlpi` - multiple request interpreter module (uses `nlpi`)
 - `interface` - interactive module (chat type)
 
-(2) custom added modules, for mllibs these library are associated with **machine learning** topics
+:material-numeric-2-box-multiple-outline: custom added modules, for mllibs these library are associated with **machine learning** topics
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
 
