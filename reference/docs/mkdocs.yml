@@ -83,7 +83,7 @@ theme:
     icon:
         logo: fontawesome/solid/code 
         repo: fontawesome/brands/github
-    language: en
+    language: ru
     features:
         - navigation.instant
         - navigation.instant.progress
@@ -95,10 +95,6 @@ theme:
 
     palette:
         - scheme: slate
-
-    # font:
-        # text: Roboto
-        # code: Roboto Mono
 
 extra:
     manifest: manifest.webmanifest
