@@ -117,18 +117,18 @@ nav:
 - Installation: install.md
 
 - Modules: 
-    - Available modules: list.md
-    - Adding new modules: adding.md
-    - Grouping modules: grouping.md
+    - Available modules: modules/list.md
+    - Adding new modules: modules/adding.md
+    - Grouping modules: modules/grouping.md
 
 Tutorials: 
-    - Overview: overview.md
+    - Overview: tutorials/overview.md
 
 Documentation: 
-    - nlpm: nlpm.md
-    - nlpi: nlpi.md
+    - nlpm: documentation/nlpm.md
+    - nlpi: documentation/nlpi.md
 
 Group:
-    - Task Status: status.md
-    - Meetings: meetups.md
-    - Members: members.md
+    - Task Status: group/status.md
+    - Meetings: group/meetups.md
+    - Members: group/members.md
