@@ -16,7 +16,7 @@ Some key points about the library:
 - Using python, we can interpret `natural language` in the form of `string` type data, using `natural langauge interpreters`
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
-### Code Automation
+### :material-code-block-tags: Code Automation
 
 #### Types of Approaches
 
