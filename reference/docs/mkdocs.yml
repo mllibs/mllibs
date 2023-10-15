@@ -113,7 +113,9 @@ copyright: |
 
 nav:
 - Home: home.md
+
 - Installation: install.md
+
 - Modules: 
     - Available modules: list.md
     - Adding new modules: adding.md
