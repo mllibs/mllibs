@@ -5,8 +5,6 @@
 
 !!! Approaches
 
-Here are some cude automation approaches:
-
     === "Function"
 
         ``` python
@@ -22,6 +20,8 @@ Here are some cude automation approaches:
         ```
 
     === "Class"
+
+        Another common approach to automate code is using a class based approach. Utilising `OOP` concepts we can initialise & then call class `methods` in order to automate code:
 
         ```python
         class fib_list:
