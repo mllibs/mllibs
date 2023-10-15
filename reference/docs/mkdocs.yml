@@ -84,7 +84,6 @@ theme:
         repo: fontawesome/brands/github
     language: en
     features:
-        # Navigation settings
         - navigation.instant
         - navigation.instant.progress
         - navigation.sections
@@ -95,8 +94,6 @@ theme:
 
     palette:
         - scheme: slate
-          # primary: gold
-          # accent: gold
 
     font:
         text: Roboto
@@ -116,7 +113,20 @@ copyright: |
 
 nav:
 - Home: home.md
-- Modules: modules.md
-- Task Status: status.md
-- Meetings: meetups.md
-- Members: members.md
+- Installation: install.md
+- Modules: 
+    - Available modules: list.md
+    - Adding new modules: adding.md
+    - Grouping modules: grouping.md
+
+Tutorials: 
+    - Overview: overview.md
+
+Documentation: 
+    - nlpm: nlpm.md
+    - nlpi: nlpi.md
+
+Group:
+    - Task Status: status.md
+    - Meetings: meetups.md
+    - Members: members.md
