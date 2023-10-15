@@ -81,7 +81,7 @@ All these methods will give the following result:
 [0, 1, 1, 2, 3]
 ```
 
-### Library Components
+### :material-package-variant-closed: Library Components
 
 `mllibs` consists of two parts:
 
