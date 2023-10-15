@@ -3,48 +3,50 @@
 ![mllibs](images/wnb.png#only-dark){ width="450" }
 </center>
 
-=== "Function"
+!!! Different Code Automation Approaches
 
-    ``` python
-    def fib_list(n):
-        result = []
-        a,b = 0,1
-        while a<n:
-            result.append(a)
-            a,b = b, a + b
-        return result
+    === "Function"
 
-    fib_list(5) 
-    ```
-
-=== "Class"
-
-    ```python
-    class fib_list:
-
-        def __init__(self,n):
-            self.n = n
-
-        def get_list(self):
+        ``` python
+        def fib_list(n):
             result = []
             a,b = 0,1
-            while a<self.n:
+            while a<n:
                 result.append(a)
                 a,b = b, a + b
             return result
 
-    fib = fib_list(5)
-    fib.get_list()
-    ```
+        fib_list(5) 
+        ```
 
-=== "NLP"
+    === "Class"
 
-    ```python
-    input = 'calculate the fibonacci'
-             sequence for the value of 5'
+        ```python
+        class fib_list:
 
-    nlp_interpreter(input) 
-    ```
+            def __init__(self,n):
+                self.n = n
+
+            def get_list(self):
+                result = []
+                a,b = 0,1
+                while a<self.n:
+                    result.append(a)
+                    a,b = b, a + b
+                return result
+
+        fib = fib_list(5)
+        fib.get_list()
+        ```
+
+    === "NLP"
+
+        ```python
+        input = 'calculate the fibonacci'
+                 sequence for the value of 5'
+
+        nlp_interpreter(input) 
+        ```
 
 <center>![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://img.shields.io/badge/pypi-v0.1.6-fc4c69) ![](https://img.shields.io/badge/License-MIT-blue) ![](https://static.pepy.tech/badge/mllibs)</center>
 
