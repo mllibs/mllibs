@@ -24,7 +24,7 @@ There are different ways we can automate code execution:
 - The first two (`function`,`class`) should be familiar, such approaches presume we have coding knowledge.
 - Another approach is to utilise `natural language` to automate code automation, this method doesn't require any coding knowledge. 
 
-!!! Approaches
+!!! info
 
     === "Function"
 
