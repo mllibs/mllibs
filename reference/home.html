@@ -896,9 +896,7 @@
 - Another approach is to utilise <code>natural language</code> to automate code automation, this method doesn't require any coding knowledge. </p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Function</label><label for="__tabbed_1_2">Class</label><label for="__tabbed_1_3">NLP</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
+<div class="tabbed-set" data-tabs="1:3"><input checked="checked" id="function" name="__tabbed_1" type="radio" /><label for="function">Function</label><div class="tabbed-content">
 <p>Function based code automation should be very familiar to people who code, we define a function &amp; then simply call the function, entering any relevant input arguments which it requires, in this case <code>n</code></p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fib_list</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
@@ -911,7 +909,7 @@
 <span class="n">fib_list</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
 </code></pre></div>
 </div>
-<div class="tabbed-block">
+<input id="class" name="__tabbed_1" type="radio" /><label for="class">Class</label><div class="tabbed-content">
 <p>Another common approach to automate code is using a class based approach. Utilising <code>OOP</code> concepts we can initialise &amp; then call class <code>methods</code> in order to automate code:</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">fib_list</span><span class="p">:</span>
 
@@ -930,14 +928,13 @@
 <span class="n">fib</span><span class="o">.</span><span class="n">get_list</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<div class="tabbed-block">
+<input id="nlp" name="__tabbed_1" type="radio" /><label for="nlp">NLP</label><div class="tabbed-content">
 <p>Another approach, which <code>mllibs</code> uses in natural language based code automation:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">input</span> <span class="o">=</span> <span class="s1">&#39;calculate the fibonacci&#39;</span>
          <span class="n">sequence</span> <span class="k">for</span> <span class="n">the</span> <span class="n">value</span> <span class="n">of</span> <span class="mi">5</span><span class="s1">&#39;</span>
 
 <span class="n">nlp_interpreter</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> 
 </code></pre></div>
-</div>
 </div>
 </div>
 </div>
