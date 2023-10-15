@@ -101,10 +101,10 @@ extra:
     manifest: manifest.webmanifest
     alternate:
         - name: English
-          link: /en/ 
+          link: index.en/
           lang: en
         - name: Russian
-          link: /ru/
+          link: index.ru/
           lang: ru
 
 plugins:
