@@ -101,10 +101,10 @@ extra:
     manifest: manifest.webmanifest
     alternate:
         - name: English
-          link: index.en
+          link: index.en/
           lang: en
         - name: Russian
-          link: index.ru
+          link: index.ru/
           lang: ru
 
 plugins:
@@ -117,8 +117,6 @@ copyright: |
 
 nav:
 - home.md
-- home.en.md
-- home.ru.md
 
 - Installation: install.md
 
