@@ -96,9 +96,9 @@ theme:
     palette:
         - scheme: slate
 
-    font:
-        text: Roboto
-        code: Roboto Mono
+    # font:
+        # text: Roboto
+        # code: Roboto Mono
 
 extra:
     manifest: manifest.webmanifest
