@@ -83,7 +83,7 @@ theme:
     icon:
         # logo: fontawesome/solid/code 
         repo: fontawesome/brands/github
-    language: ru
+    language: en
     features:
         - navigation.instant
         - navigation.instant.progress
