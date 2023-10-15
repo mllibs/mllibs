@@ -87,7 +87,7 @@ theme:
     features:
         - navigation.instant
         - navigation.instant.progress
-        # - navigation.sections
+        - navigation.sections
         - navigation.expand
         - navigation.tracking
         - navigation.top
