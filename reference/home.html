@@ -303,27 +303,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#1-function" class="md-nav__link">
-    (1) Function
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-class" class="md-nav__link">
-    (2) Class
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-natural-language" class="md-nav__link">
-    (3) Natural Language
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -821,27 +800,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#1-function" class="md-nav__link">
-    (1) Function
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-class" class="md-nav__link">
-    (2) Class
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-natural-language" class="md-nav__link">
-    (3) Natural Language
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -926,51 +884,6 @@
 <img alt="mllibs" src="images/fcnb.png#only-light" width="450" />
 <img alt="mllibs" src="images/wnb.png#only-dark" width="450" />
 </center></p>
-<div class="admonition approaches">
-<p class="admonition-title">Approaches</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Function</label><label for="__tabbed_1_2">Class</label><label for="__tabbed_1_3">NLP</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fib_list</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
-    <span class="k">while</span> <span class="n">a</span><span class="o">&lt;</span><span class="n">n</span><span class="p">:</span>
-        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-        <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-    <span class="k">return</span> <span class="n">result</span>
-
-<span class="n">fib_list</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<p>Another common approach to automate code is using a class based approach. Utilising <code>OOP</code> concepts we can initialise &amp; then call class <code>methods</code> in order to automate code:</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">fib_list</span><span class="p">:</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
-
-    <span class="k">def</span> <span class="nf">get_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span>
-        <span class="k">while</span> <span class="n">a</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">:</span>
-            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-            <span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-        <span class="k">return</span> <span class="n">result</span>
-
-<span class="n">fib</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">fib</span><span class="o">.</span><span class="n">get_list</span><span class="p">()</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="nb">input</span> <span class="o">=</span> <span class="s1">&#39;calculate the fibonacci&#39;</span>
-         <span class="n">sequence</span> <span class="k">for</span> <span class="n">the</span> <span class="n">value</span> <span class="n">of</span> <span class="mi">5</span><span class="s1">&#39;</span>
-
-<span class="n">nlp_interpreter</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> 
-</code></pre></div>
-</div>
-</div>
-</div>
-</div>
 <p><center><img alt="" src="https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861" /> <img alt="" src="https://img.shields.io/badge/pypi-v0.1.6-fc4c69" /> <img alt="" src="https://img.shields.io/badge/License-MIT-blue" /> <img alt="" src="https://static.pepy.tech/badge/mllibs" /></center></p>
 <h3 id="about-mllibs">About mllibs<a class="headerlink" href="#about-mllibs" title="Permanent link"></a></h3>
 <p>Some key points about the library:</p>
@@ -987,7 +900,11 @@
 <p>There are different ways we can automate code execution:
 - The first two (<code>function</code>,<code>class</code>) should be familiar, such approaches presume we have coding knowledge.
 - Another approach is to utilise <code>natural language</code> to automate code automation, this method doesn't require any coding knowledge. </p>
-<h4 id="1-function">(1) Function<a class="headerlink" href="#1-function" title="Permanent link"></a></h4>
+<div class="admonition approaches">
+<p class="admonition-title">Approaches</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Function</label><label for="__tabbed_1_2">Class</label><label for="__tabbed_1_3">NLP</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <p>Function based code automation should be very familiar to people who code, we define a function &amp; then simply call the function, entering any relevant input arguments which it requires, in this case <code>n</code></p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fib_list</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
@@ -999,7 +916,8 @@
 
 <span class="n">fib_list</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
 </code></pre></div>
-<h4 id="2-class">(2) Class<a class="headerlink" href="#2-class" title="Permanent link"></a></h4>
+</div>
+<div class="tabbed-block">
 <p>Another common approach to automate code is using a class based approach. Utilising <code>OOP</code> concepts we can initialise &amp; then call class <code>methods</code> in order to automate code:</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">fib_list</span><span class="p">:</span>
 
@@ -1017,13 +935,18 @@
 <span class="n">fib</span> <span class="o">=</span> <span class="n">fib_list</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">fib</span><span class="o">.</span><span class="n">get_list</span><span class="p">()</span>
 </code></pre></div>
-<h4 id="3-natural-language">(3) Natural Language<a class="headerlink" href="#3-natural-language" title="Permanent link"></a></h4>
+</div>
+<div class="tabbed-block">
 <p>Another approach, which <code>mllibs</code> uses in natural language based code automation:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">input</span> <span class="o">=</span> <span class="s1">&#39;calculate the fibonacci&#39;</span>
          <span class="n">sequence</span> <span class="k">for</span> <span class="n">the</span> <span class="n">value</span> <span class="n">of</span> <span class="mi">5</span><span class="s1">&#39;</span>
 
 <span class="n">nlp_interpreter</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> 
 </code></pre></div>
+</div>
+</div>
+</div>
+</div>
 <p>All these methods will give the following result:</p>
 <div class="highlight"><pre><span></span><code>[0, 1, 1, 2, 3]
 </code></pre></div>
