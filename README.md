@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="data/images/cnb.png" width="450">
+    <img src="data/images/cnb.png" width="500">
 </p>
 
 <h5 align="center"
@@ -19,8 +19,6 @@ Some key points about the library:
 - Likewise, NLP based interpreters follow this trend as well, except, in this case our only inputs for activating certain code is `natural language`
 - Using python, we can interpret `natural language` in the form of `string` type data, using `natural langauge interpreters`
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
-
-<br>
 
 ### Code Automation
 
@@ -172,8 +170,6 @@ info_sample = {'function': {'module':'sample',
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
 
-<br>
-
 ### Creating a Collection
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class (which by default loads a preset collection defined in this class)
@@ -237,11 +233,47 @@ Want to add your own project to our collection? We welcome all contributions, bi
 
 <br>
 
-### **mllibs related posts**
-
-`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)**
-
-
 ### **Contact**
 
 Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)**, to me directly **[shtrauss2](https://t.me/shtrauss2)** or on kaggle **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+
+
+### **Documentation**
+
+Documentation for `mllibs` is located in the `reference` folder
+
+#### Purpose
+
+Friendly place to keep up to date my personal website with materials I find useful.
+
+#### What is used
+
+Main page is built with [MkDocs](https://www.mkdocs.org/) and [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+
+All files needed to build website are under `docs/`.
+
+#### Install required packages
+
+```bash
+$ pip install -r requirements.txt
+```
+
+#### Building documentation
+
+Check `$ make help` for more info.
+
+#### Rebuild docs automatically and push to github:
+
+```bash
+$ make servedocs
+```
+
+#### Rebuild docs automatically and display locally:
+
+```bash
+$ make docs
+```
+
+### **mllibs related posts**
+
+`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)**
