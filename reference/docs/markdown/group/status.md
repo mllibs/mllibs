@@ -4,11 +4,11 @@ hide: title
 
 In this section, we document the module feature registration
 
-## :octicons-tasklist-16: **Available Tasks**
+### :octicons-tasklist-16: **Available Tasks**
 
 :material-tag-plus-outline: User Recommendation System
 
-#### Overview: 
+##### Overview: 
 
 Recommendation system for user
 
@@ -35,7 +35,7 @@ Recommendation system for user
 <br>
 
 
-## :material-file-document-arrow-right-outline: **Task Allocation**
+### :material-file-document-arrow-right-outline: **Task Allocation**
 
 
 
