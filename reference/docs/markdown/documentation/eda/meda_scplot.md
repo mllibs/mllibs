@@ -9,7 +9,7 @@
 
 4[^2]
 
-[^2]: Reference to the machine learning project phase identification defined [here](../mlproject.md)
+[^2]: Reference to the machine learning project phase identification defined [here](.../mlproject.md)
 
 ## **Purpose**
 
