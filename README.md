@@ -170,6 +170,8 @@ info_sample = {'function': {'module':'sample',
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
 
+<br>
+
 ### Creating a Collection
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class (which by default loads a preset collection defined in this class)
@@ -237,6 +239,7 @@ Want to add your own project to our collection? We welcome all contributions, bi
 
 Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)**, to me directly **[shtrauss2](https://t.me/shtrauss2)** or on kaggle **[shtrausslearning](https://kaggle.com/shtrausslearning)**
 
+<br>
 
 ### **Documentation**
 
@@ -274,6 +277,6 @@ $ make servedocs
 $ make docs
 ```
 
-### **mllibs related posts**
+#### **mllibs related posts**
 
-`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)**
+`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)** 
