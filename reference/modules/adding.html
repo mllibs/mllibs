@@ -984,18 +984,18 @@
 
   <h1>Adding new modules</h1>
 
-<h4 id="overview"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.75 7.5h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm0 5h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm-4-10h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5ZM2 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-6a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10.314-3.082L11.07 2.417A.25.25 0 0 1 11.256 2h4.488a.25.25 0 0 1 .186.417l-2.244 2.5a.25.25 0 0 1-.372 0Z"/></svg></span> Overview</h4>
+<h3 id="overview"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.75 7.5h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm0 5h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm-4-10h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5ZM2 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-6a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10.314-3.082L11.07 2.417A.25.25 0 0 1 11.256 2h4.488a.25.25 0 0 1 .186.417l-2.244 2.5a.25.25 0 0 1-.372 0Z"/></svg></span> Overview</h3>
 <p>To add a new module into <code>mllibs</code>, you need to add two components:</p>
 <ul>
 <li>A module <code>configuration</code> file, located in <code>/src/mllibs/corpus/</code> </li>
 <li>A module <code>components</code> file, located in <code>src/mllibs/</code></li>
 </ul>
 <p>The <code>configuration</code> file will hold text based information about each activation function in the module, whilst the <code>components</code> file will contain the relevant activation functions</p>
-<h4 id="module-components-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14M5 10v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19m0-4V5H5v3h5v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2V8h5m2 11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4h7v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2v-1h7v4M5 17v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19Z"/></svg></span> Module Components File</h4>
+<h3 id="module-components-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14M5 10v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19m0-4V5H5v3h5v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2V8h5m2 11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4h7v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2v-1h7v4M5 17v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19Z"/></svg></span> Module Components File</h3>
 <p>Module activation functions are grouped together in a class format. Here is an example module, <code>sample</code>, which contains an activation function <code>function</code></p>
-<h5 id="class-inheritance">class inheritance</h5>
+<h4 id="class-inheritance">class inheritance</h4>
 <p>Modules can inherent any class, however as a minimum, it must always inherent the <code>nlpi</code> class</p>
-<h5 id="activation-functions">activation functions</h5>
+<h4 id="activation-functions">activation functions</h4>
 <p>Activation functions require only a single argument, <code>args:dict</code> aside from <code>self</code></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># sample module class structure</span>
 
@@ -1036,7 +1036,7 @@
     <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
         <span class="k">pass</span>
 </code></pre></div>
-<h4 id="module-configuration-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0 0 .005V3.25Z"/></svg></span> Module Configuration File</h4>
+<h3 id="module-configuration-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0 0 .005V3.25Z"/></svg></span> Module Configuration File</h3>
 <p>The <code>configuration</code> file contains information about the module (eg.<code>sample</code>) &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code></p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 
@@ -1062,14 +1062,14 @@
 
 <span class="p">]</span>
 </code></pre></div>
-<h4 id="naming-conventions"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8h-2c0 3.32-2.68 6-6 6a6 6 0 0 1-6-6 6 6 0 0 1 6-6c.43 0 .86.05 1.27.14l1.61-1.6C15.96 2.18 15 2 14 2m6.59 1.58L14 10.17l-2.38-2.38-1.41 1.42L14 13l8-8m-17.07.82A8.01 8.01 0 0 0 2 12a8 8 0 0 0 8 8c.64 0 1.27-.08 1.88-.23-1.76-.39-3.38-1.27-4.71-2.48A6.001 6.001 0 0 1 4 12c0-.3.03-.59.07-.89C4.03 10.74 4 10.37 4 10c0-1.44.32-2.87.93-4.18Z"/></svg></span> Naming Conventions</h4>
-<h5 id="activation-function-name">Activation function name</h5>
+<h3 id="naming-conventions"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8h-2c0 3.32-2.68 6-6 6a6 6 0 0 1-6-6 6 6 0 0 1 6-6c.43 0 .86.05 1.27.14l1.61-1.6C15.96 2.18 15 2 14 2m6.59 1.58L14 10.17l-2.38-2.38-1.41 1.42L14 13l8-8m-17.07.82A8.01 8.01 0 0 0 2 12a8 8 0 0 0 8 8c.64 0 1.27-.08 1.88-.23-1.76-.39-3.38-1.27-4.71-2.48A6.001 6.001 0 0 1 4 12c0-.3.03-.59.07-.89C4.03 10.74 4 10.37 4 10c0-1.44.32-2.87.93-4.18Z"/></svg></span> Naming Conventions</h3>
+<h4 id="activation-function-name">Activation function name</h4>
 <p>Some important things to note:</p>
 <ul>
 <li>Module class name (eg.<code>Sample</code>) can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. </li>
 <li>Module <code>configuration</code> must contain <code>name</code> (function names) that correspond to its relevant module </li>
 </ul>
-<h5 id="file-names">File names</h5>
+<h4 id="file-names">File names</h4>
 <p>Module <code>components</code> file names can be whatever you choose it to be. Module <code>configuration</code> file names as well can be anything you choose it to be, however its good practice to choose the same name for both module components so you don't loose track of which files belong together.</p>
 
 
