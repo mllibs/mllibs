@@ -194,8 +194,6 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 ```
 
-<br>
-
 #### :octicons-package-dependencies-24: (2) Import Default Libraries
 
 The faster way, includes all loaded modules and groups them together for us:
