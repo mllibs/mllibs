@@ -88,7 +88,7 @@ fib.get_list()
 <td>
 
 ```python
-input = 'calculate the fibonacci
+input = 'calculate the fibonacci'
          sequence for the value of 5'
 
 nlp_interpreter(input) 
