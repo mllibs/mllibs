@@ -1,5 +1,7 @@
 
-In this sections you'll find the associated `mllibs` modules for different stages of a machine learning project
+!!! abstract
+
+	In this sections you'll find the associated `mllibs` modules that correspond to different stages of a machine learning project
 
 ## Typical Steps in a Machine Learning Project:
 
@@ -20,6 +22,8 @@ During this phase, we conduct various data preprocessing procedures that will ma
 ### 4. Data Exploration
 
 During this phase of the project, we explore our dataset using various statistical and visualisation analysis techniques in order to gain some insight into our data
+
+
 
 
 ### 5. Feature Engineering
