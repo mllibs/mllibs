@@ -1,13 +1,15 @@
 
 ## **Module Group**
 
-`eda`
+`eda`[^1]
 
 ## **Project Stage ID**
 
-4[^1]
+[^1]: Reference to the sub folder in `src`
 
-[^1]: Reference to the machine learning project phase identification found [here](/mlproject.md)
+4[^2]
+
+[^2]: Reference to the machine learning project phase identification defined [here](../mlproject.md)
 
 ## **Purpose**
 
