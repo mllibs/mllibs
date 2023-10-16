@@ -68,8 +68,8 @@ copyright: |
   Copyright &copy; 2023 <a href="https://github.com/shtrausslearning"  target="_blank" rel="noopener">Andrey Shtrauss</a>
 
 nav:
-- home.md
-
+- Home: home.md
+- Machine Learning Project: mlproject.md
 - Installation: install.md
 
 - Modules: 

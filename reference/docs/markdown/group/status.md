@@ -16,11 +16,11 @@ Creation of recommendations to user during the project
 
 	=== "Problem Statement:"
 
-		affas
+		Currently there doesn't exist a mechanism that would allow a user to explore the functionality of the library content, nor are there mechanisms that would guide a user during the process doing a project. There is a need to develop an accurate and effective user recommendation system that that provide personal recommendations based on the user requests, as well as general trends/interactions that  
 
 	=== "Purpose"
 
-		asaffas
+		The purpose of such functionality is to provide helpful suggestions, tips based on their preferences
 
 	=== "description"
 
