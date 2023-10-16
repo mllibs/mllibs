@@ -12,7 +12,7 @@ In this section, we document the module feature registration
 
 Creation of recommendations to user during the project
 
-!!! info
+??? info
 
 	=== "Problem Statement:"
 
