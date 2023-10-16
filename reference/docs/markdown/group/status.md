@@ -1,14 +1,12 @@
 ---
-tags: 
-	- task allocation
-	- module tasks
+hide: title
 ---
 
 In this section, we document the module feature registration
 
 ## :octicons-tasklist-16: **Available Tasks**
 
-### User Recommendation System
+### :material-tag-plus-outline: User Recommendation System
 
 #### Overview: 
 
