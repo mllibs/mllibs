@@ -5,6 +5,8 @@
 
 ## Typical Steps in a Machine Learning Project:
 
+Let's go through the different states of a machine learning project!
+
 ### 1. Problem Definition
 
 In this phase, we define the problem that we want to solve & determine the goals of the project
@@ -22,8 +24,6 @@ During this phase, we conduct various data preprocessing procedures that will ma
 ### 4. Data Exploration
 
 During this phase of the project, we explore our dataset using various statistical and visualisation analysis techniques in order to gain some insight into our data
-
-
 
 
 ### 5. Feature Engineering

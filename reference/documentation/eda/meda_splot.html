@@ -11,25 +11,21 @@
       
       
       
-        <link rel="prev" href="list.html">
       
       
-        <link rel="next" href="grouping.html">
-      
-      
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
     
     
       
-        <title>Adding new modules - mllibs</title>
+        <title>Meda splot - mllibs</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.35e1ed30.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.35e1ed30.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -50,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -79,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#overview" class="md-skip">
+        <a href="#nlpm-class" class="md-skip">
           Skip to content
         </a>
       
@@ -95,7 +91,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="mllibs" class="md-header__button md-logo" aria-label="mllibs" data-md-component="logo">
+    <a href="../.." title="mllibs" class="md-header__button md-logo" aria-label="mllibs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
@@ -115,7 +111,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Adding new modules
+              Meda splot
             
           </span>
         </div>
@@ -211,7 +207,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="mllibs" class="md-nav__button md-logo" aria-label="mllibs" data-md-component="logo">
+    <a href="../.." title="mllibs" class="md-nav__button md-logo" aria-label="mllibs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3l89.3 89.4-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/></svg>
@@ -240,7 +236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../home.html" class="md-nav__link">
+      <a href="../../home.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -259,7 +255,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mlproject.html" class="md-nav__link">
+      <a href="../../mlproject.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -278,7 +274,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../install.html" class="md-nav__link">
+      <a href="../../install.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -295,8 +291,6 @@
       
   
   
-    
-  
   
     
     
@@ -306,12 +300,12 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
@@ -325,7 +319,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Modules
@@ -338,7 +332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="list.html" class="md-nav__link">
+      <a href="../../modules/list.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -356,27 +350,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Adding new modules
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="adding.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../modules/adding.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -385,92 +361,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-     Overview
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-components-file" class="md-nav__link">
-     Module Components File
-  </a>
-  
-    <nav class="md-nav" aria-label="Module Components File">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#class-inheritance" class="md-nav__link">
-    class inheritance
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#activation-functions" class="md-nav__link">
-    activation functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-configuration-file" class="md-nav__link">
-     Module Configuration File
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#naming-conventions" class="md-nav__link">
-     Naming Conventions
-  </a>
-  
-    <nav class="md-nav" aria-label="Naming Conventions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#activation-function-name" class="md-nav__link">
-    Activation function name
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#file-names" class="md-nav__link">
-    File names
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -482,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="grouping.html" class="md-nav__link">
+      <a href="../../modules/grouping.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -548,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/overview.html" class="md-nav__link">
+      <a href="../../tutorials/overview.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -621,7 +511,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../documentation/nlpm.html" class="md-nav__link">
+      <a href="../nlpm.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -641,7 +531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../documentation/nlpi.html" class="md-nav__link">
+      <a href="../nlpi.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -697,7 +587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../meda_simple.md" class="md-nav__link">
+      <a href="../../meda_simple.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -717,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../meda_splot.md" class="md-nav__link">
+      <a href="../../meda_splot.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -737,7 +627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../meda_scplot.md" class="md-nav__link">
+      <a href="../../meda_scplot.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -811,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../group/status.html" class="md-nav__link">
+      <a href="../../group/status.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -831,7 +721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../group/meetups.html" class="md-nav__link">
+      <a href="../../group/meetups.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -851,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../group/members.html" class="md-nav__link">
+      <a href="../../group/members.html" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -897,70 +787,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-     Overview
+  <a href="#nlpm-class" class="md-nav__link">
+    nlpm class
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-components-file" class="md-nav__link">
-     Module Components File
-  </a>
-  
-    <nav class="md-nav" aria-label="Module Components File">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#class-inheritance" class="md-nav__link">
-    class inheritance
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#activation-functions" class="md-nav__link">
-    activation functions
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-configuration-file" class="md-nav__link">
-     Module Configuration File
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#naming-conventions" class="md-nav__link">
-     Naming Conventions
-  </a>
-  
-    <nav class="md-nav" aria-label="Naming Conventions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#activation-function-name" class="md-nav__link">
-    Activation function name
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#file-names" class="md-nav__link">
-    File names
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -982,95 +811,9 @@
   
 
 
-  <h1>Adding new modules</h1>
+  <h1>Meda splot</h1>
 
-<h4 id="overview"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.75 7.5h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm0 5h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5Zm-4-10h6.5a.75.75 0 0 1 0 1.5h-6.5a.75.75 0 0 1 0-1.5ZM2 14a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-6a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10.314-3.082L11.07 2.417A.25.25 0 0 1 11.256 2h4.488a.25.25 0 0 1 .186.417l-2.244 2.5a.25.25 0 0 1-.372 0Z"/></svg></span> Overview</h4>
-<p>To add a new module into <code>mllibs</code>, you need to add two components:</p>
-<ul>
-<li>A module <code>configuration</code> file, located in <code>/src/mllibs/corpus/</code> </li>
-<li>A module <code>components</code> file, located in <code>src/mllibs/</code></li>
-</ul>
-<p>The <code>configuration</code> file will hold text based information about each activation function in the module, whilst the <code>components</code> file will contain the relevant activation functions</p>
-<h4 id="module-components-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14M5 10v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19m0-4V5H5v3h5v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2V8h5m2 11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4h7v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2v-1h7v4M5 17v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19Z"/></svg></span> Module Components File</h4>
-<p>Module activation functions are grouped together in a class format. Here is an example module, <code>sample</code>, which contains an activation function <code>function</code></p>
-<h5 id="class-inheritance">class inheritance</h5>
-<p>Modules can inherent any class, however as a minimum, it must always inherent the <code>nlpi</code> class</p>
-<h5 id="activation-functions">activation functions</h5>
-<p>Activation functions require only a single argument, <code>args:dict</code> aside from <code>self</code></p>
-<div class="highlight"><pre><span></span><code><span class="c1"># sample module class structure</span>
-
-<span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">nlpi</span><span class="p">):</span>
-
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-
-<span class="sd">    Initialise Module</span>
-
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c1"># called in nlpm</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nlp_config</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sample&#39;</span>             <span class="c1"># unique module name identifier (used in nlpm/nlpi)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nlp_config</span> <span class="o">=</span> <span class="n">nlp_config</span>  <span class="c1"># text based info related to module (used in nlpm/nlpi)</span>
-
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-
-<span class="sd">    Function Selector </span>
-
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c1"># called in nlpi</span>
-
-    <span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;pred_task&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
-
-        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;function&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
-
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-
-<span class="sd">    Activation Functions</span>
-
-<span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
-        <span class="k">pass</span>
-</code></pre></div>
-<h4 id="module-configuration-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M5.45 5.154A4.25 4.25 0 0 0 9.25 7.5h1.378a2.251 2.251 0 1 1 0 1.5H9.25A5.734 5.734 0 0 1 5 7.123v3.505a2.25 2.25 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.95-.218ZM4.25 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm8.5-4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM5 3.25a.75.75 0 1 0 0 .005V3.25Z"/></svg></span> Module Configuration File</h4>
-<p>The <code>configuration</code> file contains information about the module (eg.<code>sample</code>) &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code></p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-
-<span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
-<span class="nt">&quot;corpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;topic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;subtopic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;token_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;arg_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="p">},</span>
-
-<span class="err">...</span>
-
-<span class="p">]</span>
-</code></pre></div>
-<h4 id="naming-conventions"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8h-2c0 3.32-2.68 6-6 6a6 6 0 0 1-6-6 6 6 0 0 1 6-6c.43 0 .86.05 1.27.14l1.61-1.6C15.96 2.18 15 2 14 2m6.59 1.58L14 10.17l-2.38-2.38-1.41 1.42L14 13l8-8m-17.07.82A8.01 8.01 0 0 0 2 12a8 8 0 0 0 8 8c.64 0 1.27-.08 1.88-.23-1.76-.39-3.38-1.27-4.71-2.48A6.001 6.001 0 0 1 4 12c0-.3.03-.59.07-.89C4.03 10.74 4 10.37 4 10c0-1.44.32-2.87.93-4.18Z"/></svg></span> Naming Conventions</h4>
-<h5 id="activation-function-name">Activation function name</h5>
-<p>Some important things to note:</p>
-<ul>
-<li>Module class name (eg.<code>Sample</code>) can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. </li>
-<li>Module <code>configuration</code> must contain <code>name</code> (function names) that correspond to its relevant module </li>
-</ul>
-<h5 id="file-names">File names</h5>
-<p>Module <code>components</code> file names can be whatever you choose it to be. Module <code>configuration</code> file names as well can be anything you choose it to be, however its good practice to choose the same name for both module components so you don't loose track of which files belong together.</p>
+<h2 id="nlpm-class">nlpm class</h2>
 
 
 
@@ -1124,10 +867,10 @@
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.tracking", "navigation.top", "content.tabs.link"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.tracking", "navigation.top", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.aecac24b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.aecac24b.min.js"></script>
       
     
   </body>
