@@ -21,13 +21,15 @@ Here are the locations of the relevant files associated with the module
 
 ### module information:
 
-`/corpus/meda_scplot.json`
+`/corpus/meda_scplot.json`[^3]
 
-[^3] [location](../../../mlproject.md))
+[^3] [location](../../../src/mllibs/corpus/meda_scplot.json)
 
 ### module activation functions
 
-`/src/eda/meda_scplot.py`
+`/src/eda/meda_scplot.py`[^4]
+
+[^4] [location](../../../src/mllibs/eda/meda_scplot.py)
 
 ## :material-import: **Requirements**
 
