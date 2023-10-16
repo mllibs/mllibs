@@ -23,13 +23,13 @@ Here are the locations of the relevant files associated with the module
 
 `/corpus/meda_scplot.json`[^3]
 
-[^3]: [location](../../../src/mllibs/corpus/meda_scplot.json)
+[^3]: [location](../../../src/mllibs/corpus/meda_scplot.json) | [github](https://github.com/shtrausslearning/mllibs/blob/main/src/mllibs/corpus/meda_scplot.json)
 
 ### module activation functions
 
 `/src/eda/meda_scplot.py`[^4]
 
-[^4]: [location](../../../src/mllibs/eda/meda_scplot.py)
+[^4]: [location](../../../src/mllibs/eda/meda_scplot.py) | [github](https://github.com/shtrausslearning/mllibs/blob/main/src/mllibs/eda/meda_scplot.py)
 
 ## :material-import: **Requirements**
 
