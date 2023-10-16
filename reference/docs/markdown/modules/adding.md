@@ -41,7 +41,7 @@ class sample(nlpi):
 
 The congiguration file contains information about the module & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
 
-``` json
+```json
 {
   "modules": [
     
