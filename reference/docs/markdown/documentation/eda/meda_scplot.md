@@ -32,7 +32,7 @@ def sel(self,args:dict):
         self.eda_colplot_scatter(args)
 ```
 
-## **location**
+## :fontawesome-solid-location-arrow: **location**
 
 ### module information:
 
