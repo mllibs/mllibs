@@ -34,6 +34,8 @@ def sel(self,args:dict):
 
 Here you will find the relevant activation functions available in class `meda_scplot`
 
+***
+
 ### :octicons-file-code-16: `col_kde`
 
 #### description:
@@ -99,8 +101,15 @@ def eda_colplot_kde(self,args:dict):
     plt.tight_layout()
 ```
 
+***
 
 ### :octicons-file-code-16: `col_box`
+
+#### description:
+
+fafafe
+
+#### code:
 
 ```python linenums="1" hl_lines="47-54"
 def eda_colplot_box(self,args:dict):
@@ -169,7 +178,15 @@ for i in range(i+1, len(ax)):
 plt.tight_layout()
 ```
 
+***
+
 ### :octicons-file-code-16: `col_scatter`
+
+#### description:
+
+fafafe
+
+#### code:
 
 ```python linenums="1" hl_lines="36-46"
     def eda_colplot_scatter(self,args:dict):
