@@ -18,9 +18,15 @@ Recommendation system for user
 
 affas
 
+#### Purpose:
+
+asaffas
+
 #### Description:
 
 asafsfs 
+
+Full description available 
 
 #### Necessity Level:
 
