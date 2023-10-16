@@ -1142,68 +1142,66 @@
 </code></pre></div>
 <h3 id="selection"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 17h3v-3h2v3h3v2h-3v3h-2v-3h-3v-2m-2 0v2H9v-2h3m-5 0v2H3v-4h2v2h2m-4-4v-3h2v3H3m0-5V4h4v2H5v2H3m6-4h3v2H9V4m6 0h4v4h-2V6h-2V4m4 6v2h-2v-2h2Z"/></svg></span> <strong>Selection</strong></h3>
 <p>Activation functions need to be assigned a unique label. Here's the process of <code>label</code> &amp; activation function selection </p>
-<div class="highlight"><pre><span></span><code>    <span class="c1"># called in nlpi</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="n">select</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;pred_task&#39;</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data_name&#39;</span><span class="p">]</span>
 
-        <span class="n">select</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;pred_task&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_name</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data_name&#39;</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="sd">    ADD EXTRA COLUMNS TO DATA </span>
 
-<span class="sd">        ADD EXTRA COLUMNS TO DATA </span>
-
-<span class="sd">        model_prediction | splits_col</span>
+<span class="sd">    model_prediction | splits_col</span>
 
 
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="c1"># split columns (tts,kfold,skfold) </span>
-        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;splits_col&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># split columns (tts,kfold,skfold) </span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;splits_col&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
 
-            <span class="n">split_dict</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;splits_col&#39;</span><span class="p">]</span>
-            <span class="n">extra_columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">split_dict</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span><span class="n">extra_columns</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">split_dict</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;splits_col&#39;</span><span class="p">]</span>
+        <span class="n">extra_columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">split_dict</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span><span class="n">extra_columns</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="c1"># model predictions</span>
-        <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;model_prediction&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+    <span class="c1"># model predictions</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;model_prediction&#39;</span><span class="p">])</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
 
-            <span class="n">prediction_dict</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;model_prediction&#39;</span><span class="p">]</span>
-            <span class="n">extra_columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">prediction_dict</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">extra_columns</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">extra_columns</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span><span class="n">extra_columns</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">prediction_dict</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;model_prediction&#39;</span><span class="p">]</span>
+        <span class="n">extra_columns</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">prediction_dict</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">extra_columns</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">extra_columns</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span><span class="n">extra_columns</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
-<span class="w">        </span><span class="sd">&#39;&#39;&#39; </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; </span>
 
-<span class="sd">        Activatation Function</span>
+<span class="sd">    Activatation Function</span>
 
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
-        <span class="k">if</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sscatterplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_scatterplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span><span class="s1">&#39;srelplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_relplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sboxplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_boxplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sresidplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_residplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sviolinplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_violinplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;shistplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_histplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;skdeplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_kdeplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;slmplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_lmplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;spairplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_pairplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;slineplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_lineplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;scorrplot&#39;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_heatmap</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sscatterplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_scatterplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span><span class="s1">&#39;srelplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_relplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sboxplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_boxplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sresidplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_residplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;sviolinplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_violinplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;shistplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_histplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;skdeplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_kdeplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;slmplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_lmplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;spairplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_pairplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;slineplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_lineplot</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;scorrplot&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seaborn_heatmap</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 </code></pre></div>
 <h3 id="activation-functions"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06Z"/></svg></span> <strong>Activation Functions</strong></h3>
-<p>Here you will find the relevant activation functions available in class <code>meda_scplot</code></p>
+<p>Here you will find the relevant activation functions available in class <code>meda_splot</code></p>
 <h4 id="sscatterplot"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 14.25 15h-9a.75.75 0 0 1 0-1.5h9a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 10 4.25V1.5H5.75a.25.25 0 0 0-.25.25v2.5a.75.75 0 0 1-1.5 0Zm1.72 4.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.47-1.47-1.47-1.47a.75.75 0 0 1 0-1.06ZM3.28 7.78 1.81 9.25l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Zm8.22-6.218V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg></span> <code>sscatterplot</code></h4>
 <h4>description:</h4>
 

@@ -52,70 +52,68 @@ import json
 Activation functions need to be assigned a unique label. Here's the process of `label` & activation function selection 
 
 ```python
-    # called in nlpi
+def sel(self,args:dict):
+            
+    select = args['pred_task']
+    self.data_name = args['data_name']
+    
+    ''' 
+    
+    ADD EXTRA COLUMNS TO DATA 
 
-    def sel(self,args:dict):
-                
-        select = args['pred_task']
-        self.data_name = args['data_name']
-        
-        ''' 
-        
-        ADD EXTRA COLUMNS TO DATA 
+    model_prediction | splits_col
 
-        model_prediction | splits_col
+    
+    '''
+    # split columns (tts,kfold,skfold) 
+    if(len(nlpi.data[self.data_name[0]]['splits_col']) != 0):
 
-        
-        '''
-        # split columns (tts,kfold,skfold) 
-        if(len(nlpi.data[self.data_name[0]]['splits_col']) != 0):
+        split_dict = nlpi.data[self.data_name[0]]['splits_col']
+        extra_columns = pd.concat(split_dict,axis=1)
+        args['data'] = pd.concat([args['data'],extra_columns],axis=1)
 
-            split_dict = nlpi.data[self.data_name[0]]['splits_col']
-            extra_columns = pd.concat(split_dict,axis=1)
-            args['data'] = pd.concat([args['data'],extra_columns],axis=1)
+    # model predictions
+    if(len(nlpi.data[self.data_name[0]]['model_prediction']) != 0):
 
-        # model predictions
-        if(len(nlpi.data[self.data_name[0]]['model_prediction']) != 0):
-
-            prediction_dict = nlpi.data[self.data_name[0]]['model_prediction']
-            extra_columns = pd.concat(prediction_dict,axis=1)
-            extra_columns.columns = extra_columns.columns.map('_'.join)
-            args['data'] = pd.concat([args['data'],extra_columns],axis=1)
+        prediction_dict = nlpi.data[self.data_name[0]]['model_prediction']
+        extra_columns = pd.concat(prediction_dict,axis=1)
+        extra_columns.columns = extra_columns.columns.map('_'.join)
+        args['data'] = pd.concat([args['data'],extra_columns],axis=1)
 
 
-        ''' 
-        
-        Activatation Function
-        
-        '''
+    ''' 
+    
+    Activatation Function
+    
+    '''
 
-        if(select == 'sscatterplot'):
-            self.seaborn_scatterplot(args)
-        elif(select =='srelplot'):
-            self.seaborn_relplot(args)
-        elif(select == 'sboxplot'):
-            self.seaborn_boxplot(args)
-        elif(select == 'sresidplot'):
-            self.seaborn_residplot(args)
-        elif(select == 'sviolinplot'):
-            self.seaborn_violinplot(args)
-        elif(select == 'shistplot'):
-            self.seaborn_histplot(args)
-        elif(select == 'skdeplot'):
-            self.seaborn_kdeplot(args)
-        elif(select == 'slmplot'):
-            self.seaborn_lmplot(args)
-        elif(select == 'spairplot'):
-            self.seaborn_pairplot(args)
-        elif(select == 'slineplot'):
-            self.seaborn_lineplot(args)
-        elif(select == 'scorrplot'):
-            self.seaborn_heatmap(args)
+    if(select == 'sscatterplot'):
+        self.seaborn_scatterplot(args)
+    elif(select =='srelplot'):
+        self.seaborn_relplot(args)
+    elif(select == 'sboxplot'):
+        self.seaborn_boxplot(args)
+    elif(select == 'sresidplot'):
+        self.seaborn_residplot(args)
+    elif(select == 'sviolinplot'):
+        self.seaborn_violinplot(args)
+    elif(select == 'shistplot'):
+        self.seaborn_histplot(args)
+    elif(select == 'skdeplot'):
+        self.seaborn_kdeplot(args)
+    elif(select == 'slmplot'):
+        self.seaborn_lmplot(args)
+    elif(select == 'spairplot'):
+        self.seaborn_pairplot(args)
+    elif(select == 'slineplot'):
+        self.seaborn_lineplot(args)
+    elif(select == 'scorrplot'):
+        self.seaborn_heatmap(args)
 ```
 
 ## :octicons-code-16: **Activation Functions**
 
-Here you will find the relevant activation functions available in class `meda_scplot`
+Here you will find the relevant activation functions available in class `meda_splot`
 
 ### :octicons-file-code-16: `sscatterplot`
 
