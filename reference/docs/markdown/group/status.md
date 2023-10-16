@@ -1,7 +1,19 @@
-## Statuses
+# Statuses
 
-### **Available Tasks**
+## **Available Tasks**
 
-#### User Recommendation System
+### User Recommendation System
 
-Recommendation system
+Recommendation system for user
+
+#### Problem Statement: 
+
+affas
+
+
+
+
+### **Task Allocation**
+
+
+
