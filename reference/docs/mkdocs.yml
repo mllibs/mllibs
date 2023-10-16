@@ -56,9 +56,9 @@ theme:
     palette:
         - scheme: slate
 
-    font:
-        text: Ubuntu
-        code: Ubuntu Mono
+    # font:
+        # text: Ubuntu
+        # code: Ubuntu Mono
 
 extra:
     manifest: manifest.webmanifest
