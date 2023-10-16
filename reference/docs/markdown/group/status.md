@@ -1,4 +1,8 @@
-# Statuses
+---
+tags: 
+	- task allocation
+	- module tasks
+---
 
 ## :octicons-tasklist-16: **Available Tasks**
 
