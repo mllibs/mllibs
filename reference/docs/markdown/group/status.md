@@ -6,7 +6,7 @@ In this section, we document the module feature registration
 
 ### :octicons-tasklist-16: **Available Tasks**
 
-:material-tag-plus-outline: User Recommendation System
+:material-tag-plus-outline: **User Recommendation System**
 
 ##### OVERVIEW: 
 
@@ -32,9 +32,7 @@ Creation of recommendations to user during the project
 	
 	**not available**
 
-<br>
-
-:material-tag-plus-outline: Function Label Classifier
+:material-tag-plus-outline: **Function Label Classifier**
 
 #### Overview
 
