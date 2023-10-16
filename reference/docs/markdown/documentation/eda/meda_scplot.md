@@ -33,6 +33,8 @@ Here are the locations of the relevant files associated with the module
 
 ## :material-import: **Requirements**
 
+Module import information
+
 ```python
 from mllibs.nlpi import nlpi
 import seaborn as sns
