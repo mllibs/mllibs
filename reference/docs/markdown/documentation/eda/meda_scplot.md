@@ -13,7 +13,7 @@
 
 ## :material-frequently-asked-questions: **Purpose**
 
-The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns
+The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns, the module revolves around the utilisation of `seaborn`
 
 ## :fontawesome-solid-location-arrow: **Location**
 
