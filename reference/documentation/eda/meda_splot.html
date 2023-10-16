@@ -753,6 +753,60 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#srelplot" class="md-nav__link">
+     srelplot
+  </a>
+  
+    <nav class="md-nav" aria-label="srelplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_1" class="md-nav__link">
+    description:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code_1" class="md-nav__link">
+    code:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sboxplot" class="md-nav__link">
+     sboxplot
+  </a>
+  
+    <nav class="md-nav" aria-label="sboxplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_2" class="md-nav__link">
+    description:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code_2" class="md-nav__link">
+    code:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1029,6 +1083,60 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#srelplot" class="md-nav__link">
+     srelplot
+  </a>
+  
+    <nav class="md-nav" aria-label="srelplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_1" class="md-nav__link">
+    description:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code_1" class="md-nav__link">
+    code:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sboxplot" class="md-nav__link">
+     sboxplot
+  </a>
+  
+    <nav class="md-nav" aria-label="sboxplot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#description_2" class="md-nav__link">
+    description:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#code_2" class="md-nav__link">
+    code:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1144,7 +1252,7 @@
 <p>Here you will find the relevant activation functions available in class <code>meda_scplot</code></p>
 <h4 id="sscatterplot"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 14.25 15h-9a.75.75 0 0 1 0-1.5h9a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 10 4.25V1.5H5.75a.25.25 0 0 0-.25.25v2.5a.75.75 0 0 1-1.5 0Zm1.72 4.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.47-1.47-1.47-1.47a.75.75 0 0 1 0-1.06ZM3.28 7.78 1.81 9.25l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Zm8.22-6.218V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg></span> <code>sscatterplot</code></h4>
 <h5 id="description">description:</h5>
-<p>efewwe</p>
+<p>Make a scatter plot using seaborn, bivariate or multivariate</p>
 <h5 id="code">code:</h5>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1179,40 +1287,190 @@
 <span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
-<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">seaborn_scatterplot</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">seaborn_scatterplot</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
 
-        <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
 
-            <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
-            <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
-
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
 
-        <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
-            <span class="s2">&quot;ytick.major.size&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-            <span class="s2">&quot;ytick.minor.size&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-            <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>
-        <span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
 
-        <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> 
-                        <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">],</span>
-                        <span class="n">alpha</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
-                        <span class="n">linewidth</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mew&#39;</span><span class="p">],</span>
-                        <span class="n">edgecolor</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mec&#39;</span><span class="p">],</span>
-                        <span class="n">s</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
-                        <span class="n">data</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;ytick.major.size&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s2">&quot;ytick.minor.size&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>
+    <span class="p">})</span>
 
-        <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        <span class="n">nlpi</span><span class="o">.</span><span class="n">resetpp</span><span class="p">()</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> 
+                    <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+                    <span class="n">hue</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">],</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
+                    <span class="n">linewidth</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mew&#39;</span><span class="p">],</span>
+                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mec&#39;</span><span class="p">],</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
+                    <span class="n">data</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span>
+                    <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">nlpi</span><span class="o">.</span><span class="n">resetpp</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="srelplot"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 14.25 15h-9a.75.75 0 0 1 0-1.5h9a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 10 4.25V1.5H5.75a.25.25 0 0 0-.25.25v2.5a.75.75 0 0 1-1.5 0Zm1.72 4.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.47-1.47-1.47-1.47a.75.75 0 0 1 0-1.06ZM3.28 7.78 1.81 9.25l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Zm8.22-6.218V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg></span> <code>srelplot</code></h4>
+<h5 id="description_1">description:</h5>
+<p>Make a scatter plot using seaborn, bivariate or multivariate</p>
+<h5 id="code_1">code:</h5>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">seaborn_relplot</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>           
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;ytick.major.size&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s2">&quot;ytick.minor.size&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>
+    <span class="p">})</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">relplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> 
+                <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+                <span class="n">col</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
+                <span class="n">row</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;row&#39;</span><span class="p">],</span>
+                <span class="n">hue</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">],</span> 
+                <span class="n">col_wrap</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;col_wrap&#39;</span><span class="p">],</span>
+                <span class="n">kind</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">],</span>
+                <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mew&#39;</span><span class="p">],</span>
+                <span class="n">edgecolor</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mec&#39;</span><span class="p">],</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">nlpi</span><span class="o">.</span><span class="n">resetpp</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="sboxplot"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 14.25 15h-9a.75.75 0 0 1 0-1.5h9a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 10 4.25V1.5H5.75a.25.25 0 0 0-.25.25v2.5a.75.75 0 0 1-1.5 0Zm1.72 4.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.47-1.47-1.47-1.47a.75.75 0 0 1 0-1.06ZM3.28 7.78 1.81 9.25l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Zm8.22-6.218V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg></span> <code>sboxplot</code></h4>
+<h5 id="description_2">description:</h5>
+<p>Create a seaborn box plot using boxpot, they show quartiles and outliers</p>
+<h5 id="code_2">code:</h5>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="k">def</span> <span class="nf">seaborn_boxplot</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;ytick.major.size&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+        <span class="s2">&quot;ytick.minor.size&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>
+    <span class="p">})</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;bw&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">bw</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bw</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;bw&#39;</span><span class="p">])</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> 
+                <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span>
+                <span class="n">hue</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">],</span>
+                <span class="n">width</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
+                <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
 <div class="footnote">
 <hr />

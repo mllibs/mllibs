@@ -121,45 +121,135 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 #### description:
 
-efewwe
+Make a scatter plot using seaborn, bivariate or multivariate
 
 #### code:
 
 ```python linenums="1"
-    @staticmethod
-    def seaborn_scatterplot(args:dict):
-           
-        if(args['hue'] is not None):
+@staticmethod
+def seaborn_scatterplot(args:dict):
+       
+    if(args['hue'] is not None):
 
-            hueloc = args['data'][args['hue']]
-            if(type(nlpi.pp['stheme']) is str):
-                palette = nlpi.pp['stheme']
-            else:
-                palette = palette_rgb[:len(hueloc.value_counts())]
-                
+        hueloc = args['data'][args['hue']]
+        if(type(nlpi.pp['stheme']) is str):
+            palette = nlpi.pp['stheme']
         else:
-            hueloc = None
-            palette = palette_rgb
+            palette = palette_rgb[:len(hueloc.value_counts())]
             
-        sns.set_style("whitegrid", {
-            "ytick.major.size": 0.1,
-            "ytick.minor.size": 0.05,
-            'grid.linestyle': '--'
-        })
-
-        sns.scatterplot(x=args['x'], 
-                        y=args['y'],
-                        hue=args['hue'],
-                        alpha = nlpi.pp['alpha'],
-                        linewidth=nlpi.pp['mew'],
-                        edgecolor=nlpi.pp['mec'],
-                        s = nlpi.pp['s'],
-                        data=args['data'],
-                        palette=palette)
+    else:
+        hueloc = None
+        palette = palette_rgb
         
-        sns.despine(left=True, bottom=True)
-        plt.show()
-        nlpi.resetpp()
+    sns.set_style("whitegrid", {
+        "ytick.major.size": 0.1,
+        "ytick.minor.size": 0.05,
+        'grid.linestyle': '--'
+    })
+
+    sns.scatterplot(x=args['x'], 
+                    y=args['y'],
+                    hue=args['hue'],
+                    alpha = nlpi.pp['alpha'],
+                    linewidth=nlpi.pp['mew'],
+                    edgecolor=nlpi.pp['mec'],
+                    s = nlpi.pp['s'],
+                    data=args['data'],
+                    palette=palette)
+    
+    sns.despine(left=True, bottom=True)
+    plt.show()
+    nlpi.resetpp()
 ```
 
+### :octicons-file-code-16: `srelplot`
 
+#### description:
+
+Make a scatter plot using seaborn, bivariate or multivariate
+
+#### code:
+
+```python linenums="1"
+@staticmethod
+def seaborn_relplot(args:dict):
+        
+    if(args['hue'] is not None):
+        hueloc = args['data'][args['hue']]
+        if(type(nlpi.pp['stheme']) is str):
+            palette = nlpi.pp['stheme']
+        else:
+            palette = palette_rgb[:len(hueloc.value_counts())]
+            
+    else:
+        hueloc = None
+        palette = palette_rgb           
+        
+    sns.set_style("whitegrid", {
+        "ytick.major.size": 0.1,
+        "ytick.minor.size": 0.05,
+        'grid.linestyle': '--'
+    })
+    
+    sns.relplot(x=args['x'], 
+                y=args['y'],
+                col=args['col'],
+                row=args['row'],
+                hue=args['hue'], 
+                col_wrap=args['col_wrap'],
+                kind=args['kind'],
+                palette=palette,
+                alpha= nlpi.pp['alpha'],
+                s = nlpi.pp['s'],
+                linewidth=nlpi.pp['mew'],
+                edgecolor=nlpi.pp['mec'],
+                data=args['data'])
+    
+    sns.despine(left=True, bottom=True)
+    plt.show()
+    nlpi.resetpp()
+```
+### :octicons-file-code-16: `sboxplot`
+
+#### description:
+
+Create a seaborn box plot using boxpot, they show quartiles and outliers
+
+#### code:
+
+```python linenums="1"
+@staticmethod
+def seaborn_boxplot(args:dict):
+    
+    if(args['hue'] is not None):
+        hueloc = args['data'][args['hue']]
+        if(type(nlpi.pp['stheme']) is str):
+            palette = nlpi.pp['stheme']
+        else:
+            palette = palette_rgb[:len(hueloc.value_counts())]
+            
+    else:
+        hueloc = None
+        palette = palette_rgb
+        
+    sns.set_style("whitegrid", {
+        "ytick.major.size": 0.1,
+        "ytick.minor.size": 0.05,
+        'grid.linestyle': '--'
+    })
+    
+    if(args['bw'] is None):
+        bw = 0.8
+    else:
+        bw = eval(args['bw'])
+    
+    sns.boxplot(x=args['x'], 
+                y=args['y'],
+                hue=args['hue'],
+                width=bw,
+                palette=palette,
+                data=args['data'])
+    
+    sns.despine(left=True, bottom=True)
+    plt.show()
+```
