@@ -58,7 +58,7 @@ The congiguration file contains information about the module & its stored functi
               "token_compat":"...",
               "arg_compat":"..."
               }
-    },
+    }
 
 	]
 }
