@@ -61,6 +61,24 @@ The congiguration file contains information about the module & its stored functi
               "token_compat":"...",
               "arg_compat":"..."
               }
+    },
+
+    {
+      "name": "col_kde",
+    "corpus": [
+              "...",
+              ],
+      "info": {
+              "module":"sample",
+              "action":"...",
+              "topic":"...",
+              "subtopic":"...",
+              "input_format":"...",
+              "description":"...",
+              "output":"...",
+              "token_compat":"...",
+              "arg_compat":"..."
+              }
     }
 
 	]
