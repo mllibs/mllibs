@@ -9,69 +9,32 @@ docs_dir: markdown
 ##################################################################
 
 markdown_extensions:
-    - attr_list
-    - md_in_html
-    - markdown.extensions.admonition:
-    - markdown.extensions.smarty:
-        smart_quotes: false
-    - pymdownx.betterem:
-    - markdown.extensions.attr_list:
-    - markdown.extensions.def_list:
-    - markdown.extensions.tables:
-    - markdown.extensions.abbr:
-    - markdown.extensions.footnotes:
-    - markdown.extensions.md_in_html:
-    - pymdownx.highlight:
-        extend_pygments_lang:
-          - name: php-inline
-            lang: php
-            options:
-              startinline: true
-          - name: pycon3
-            lang: pycon
-            options:
-              python3: true
-        linenums_style: pymdownx-inline
-    - pymdownx.inlinehilite:
-        custom_inline:
-          - name: math
-            class: arithmatex
-            format: !!python/name:pymdownx.arithmatex.inline_mathjax_format
-    - pymdownx.magiclink:
-        repo_url_shortener: true
-        repo_url_shorthand: true
-        social_url_shorthand: true
-        social_url_shortener: true
-        user: facelessuser
-        repo: pymdown-extensions
-    - pymdownx.tilde:
-    - pymdownx.caret:
-    - pymdownx.smartsymbols:
-    - pymdownx.emoji:
-        emoji_index: !!python/name:materialx.emoji.twemoji
-        emoji_generator: !!python/name:materialx.emoji.to_svg
-    - pymdownx.escapeall:
-        hardbreak: True
-        nbsp: True
-    - pymdownx.tasklist:
-        custom_checkbox: true
-    - pymdownx.progressbar:
-    - pymdownx.arithmatex:
-        generic: true
-    - pymdownx.mark:
-    # - pymdownx.striphtml:
-    - pymdownx.snippets:
-        base_path: markdown/_snippets
-    - pymdownx.keys:
-        separator: "\uff0b"
-    - pymdownx.details:
-    - pymdownx.superfences:
-        custom_fences:
-            - name: mermaid
-              class: mermaid
-              format: !!python/name:pymdownx.superfences.fence_code_format
-    - pymdownx.tabbed:
-        alternate_style: true
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight   
+  - pymdownx.details
+  - pymdownx.superfences
+  - footnotes
+  - meta
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - tables
+  - toc:
+      baselevel: 2
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:pymdownx.superfences.fence_code_format
+  
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
 
 ##################################################################
 
