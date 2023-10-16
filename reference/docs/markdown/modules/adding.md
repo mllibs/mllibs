@@ -36,7 +36,7 @@ class sample(nlpi):
 
 ## Module Configuration File
 
-The congiguration file contains information about the module & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`.
+The congiguration file contains information about the module & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
 
 ``` json
 {
@@ -59,8 +59,6 @@ The congiguration file contains information about the module & its stored functi
               "arg_compat":"..."
               }
     },
-
-    ...
 
 	]
 }
