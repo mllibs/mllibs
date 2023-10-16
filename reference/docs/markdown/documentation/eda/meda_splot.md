@@ -19,13 +19,13 @@ The purpose of this module is to provide the user with the ability to utilise th
 
 Here are the locations of the relevant files associated with the module
 
-### module information:
+<h3>module information:</h3>
 
 `/corpus/meda_splot.json`[^3]
 
 [^3]: [location](../../../src/mllibs/corpus/meda_splot.json) | [github](https://github.com/shtrausslearning/mllibs/blob/main/src/mllibs/corpus/meda_splot.json)
 
-### module activation functions
+<h3>module activation functions:</h3>
 
 `/src/eda/meda_splot.py`[^4]
 
@@ -119,7 +119,7 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 ### :octicons-file-code-16: `sscatterplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn scatterplot is a type of plot used to visualize the relationship between two variables in a dataset. It is created using the seaborn library in Python and is often used to identify patterns and trends in the data.
 
@@ -127,7 +127,7 @@ The plot shows a scatterplot of the data points, with each point representing a 
 
 The Seaborn scatterplot is a useful tool for exploring and visualizing relationships in your data, and can help you to identify any outliers or unusual observations.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -168,7 +168,7 @@ def seaborn_scatterplot(args:dict):
 
 ### :octicons-file-code-16: `srelplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn relplot is a type of plot used to visualize the relationship between two variables in a dataset. It is created using the seaborn library in Python and is often used to identify patterns and trends in the data.
 
@@ -178,7 +178,7 @@ The relplot can also be used to group the data by a categorical variable, creati
 
 Overall, the Seaborn relplot is a powerful tool for exploring and visualizing relationships in your data.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -221,7 +221,7 @@ def seaborn_relplot(args:dict):
 ```
 ### :octicons-file-code-16: `sboxplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn boxplot is a type of plot used to visualize the distribution of a dataset. It is created using the seaborn library in Python and is often used to identify outliers and compare the distribution of different groups or categories within a dataset.
 
@@ -229,7 +229,7 @@ The plot shows a box that represents the interquartile range (IQR) of the data, 
 
 The boxplot can be customized to show additional information, such as the mean value or confidence intervals, and can be grouped by a categorical variable to compare the distribution of different groups within the dataset. By examining the boxplot, you can identify any skewness or asymmetry in the distribution, as well as any extreme values that may need to be addressed.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -270,7 +270,7 @@ def seaborn_boxplot(args:dict):
 
 ### :octicons-file-code-16: `sresidplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn residual plot is a type of plot used to visualize the residuals (the difference between the predicted values and the actual values) of a regression model. It is created using the seaborn library in Python and is often used to check whether the assumptions of linear regression are met, such as linearity, homoscedasticity, and normality. 
 
@@ -278,7 +278,7 @@ The plot shows the distribution of the residuals on the y-axis and the predicted
 
 By examining the residual plot, you can identify patterns or trends in the residuals that may indicate that the model is not appropriate for the data or that there are outliers or influential points that need to be addressed.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -294,7 +294,7 @@ def seaborn_residplot(args:dict):
 
 ### :octicons-file-code-16: `sviolinplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn violinplot is a type of plot used to visualize the distribution of a single variable in a dataset. It is created using the seaborn library in Python and is often used to compare the distribution of the variable across different categories or groups.
 
@@ -302,7 +302,7 @@ The plot shows a "violin" shape, which represents the distribution of the data. 
 
 The Seaborn violinplot is a useful tool for exploring and visualizing the distribution of your data, and can help you to identify any differences or similarities between groups or categories.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -338,7 +338,7 @@ def seaborn_violinplot(args:dict):
 
 ### :octicons-file-code-16: `shistplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn histplot is a type of plot used to visualize the distribution of a single variable in a dataset. It is created using the seaborn library in Python and is often used to explore the shape of the distribution, as well as any outliers or gaps in the data.
 
@@ -346,7 +346,7 @@ The plot shows a histogram, which is a bar chart that represents the frequency o
 
 The Seaborn histplot can also show additional information, such as the density of the data or a kernel density estimate. It is a useful tool for exploring and visualizing the distribution of your data, and can help you to identify any patterns or trends in the data.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -389,7 +389,7 @@ def seaborn_histplot(args:dict):
 
 ### :octicons-file-code-16: `skdeplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn kdeplot is a type of plot used to visualize the distribution of a single variable in a dataset, similar to a histplot. However, instead of using bars to represent the frequency of values, it uses a kernel density estimate (KDE) to create a smooth curve that represents the distribution of the data.
 
@@ -397,7 +397,7 @@ The plot shows the density of the data, with higher peaks indicating where the d
 
 A Seaborn kdeplot can also show additional information, such as a rug plot that indicates the location of each individual data point along the x-axis. It is a useful tool for exploring and visualizing the distribution of your data, and can help you to identify any patterns or trends in the data.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
@@ -434,7 +434,7 @@ def seaborn_kdeplot(args:dict):
 
 ### :octicons-file-code-16: `slmplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn lmplot is a type of plot used to visualize the relationship between two variables in a dataset, typically using a scatter plot with a regression line. It can be used to explore the correlation between two variables and to identify any patterns or trends in the data.
 
@@ -442,7 +442,7 @@ The lmplot function in Seaborn allows you to specify various parameters, such as
 
 Overall, Seaborn lmplots are a useful tool for exploring and visualizing the relationship between two variables in a dataset, and can help you to gain insights into the underlying patterns and trends in your data.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 @staticmethod
