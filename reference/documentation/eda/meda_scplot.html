@@ -1325,26 +1325,26 @@
             <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
             <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span><span class="p">})</span>
 
-            <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
-                <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">column</span><span class="p">],</span>
-                <span class="n">x</span><span class="o">=</span><span class="n">xloc</span><span class="p">,</span>
-                <span class="n">hue</span><span class="o">=</span><span class="n">hueloc</span><span class="p">,</span>
-                <span class="n">alpha</span><span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
-                <span class="n">linewidth</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mew&#39;</span><span class="p">],</span>
-                <span class="n">edgecolor</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mec&#39;</span><span class="p">],</span>
-                <span class="n">s</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
-                <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
-            <span class="p">)</span>
-<span class="hll">
-</span><span class="hll">            <span class="c1"># titles</span>
-</span><span class="hll">            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s1"> distribution&#39;</span><span class="p">);</span>
-</span><span class="hll">            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-</span><span class="hll">
-</span><span class="hll">
-</span><span class="hll">        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="p">)):</span>
-</span><span class="hll">            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="hll">            <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
+</span><span class="hll">                <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">column</span><span class="p">],</span>
+</span><span class="hll">                <span class="n">x</span><span class="o">=</span><span class="n">xloc</span><span class="p">,</span>
+</span><span class="hll">                <span class="n">hue</span><span class="o">=</span><span class="n">hueloc</span><span class="p">,</span>
+</span><span class="hll">                <span class="n">alpha</span><span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
+</span><span class="hll">                <span class="n">linewidth</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mew&#39;</span><span class="p">],</span>
+</span><span class="hll">                <span class="n">edgecolor</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mec&#39;</span><span class="p">],</span>
+</span><span class="hll">                <span class="n">s</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">],</span>
+</span><span class="hll">                <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+</span><span class="hll">                <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+</span><span class="hll">            <span class="p">)</span>
 </span>
+            <span class="c1"># titles</span>
+            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s1"> distribution&#39;</span><span class="p">);</span>
+            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="p">)):</span>
+            <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
         <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>

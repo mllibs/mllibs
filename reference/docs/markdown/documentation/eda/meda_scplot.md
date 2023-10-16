@@ -163,7 +163,7 @@ plt.tight_layout()
 
 ### :octicons-file-code-16: `col_scatter`
 
-```python linenums="1" hl_lines="47-54"
+```python linenums="1" hl_lines="36-46"
     def eda_colplot_scatter(self,args:dict):
 
         # split data into numeric & non numeric
