@@ -94,23 +94,17 @@ theme:
         - scheme: slate
 
     font:
-        text: Roboto
-        code: Roboto Mono
+        text: Ubuntu
+        code: Ubuntu Mono
 
 extra:
     manifest: manifest.webmanifest
-    alternate:
-        - name: English
-          link: index.en/
-          lang: en
-        - name: Russian
-          link: index.ru/
-          lang: ru
 
 plugins:
     - search
     - tags
     - offline
+
 
 copyright: |
   Copyright &copy; 2023 <a href="https://github.com/shtrausslearning"  target="_blank" rel="noopener">Andrey Shtrauss</a>
