@@ -11,7 +11,7 @@
 
 The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns
 
-## **Selection**
+## :material-selection-drag: **Selection**
 
 Activation functions need to be assigned a unique label. Here's the process of `label` & activation function selection 
 
