@@ -34,6 +34,12 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 ### :octicons-file-code-16: `col_kde`
 
+#### description:
+
+fafafe
+
+#### code:
+
 ```python linenums="1" hl_lines="35-45"
 def eda_colplot_kde(self,args:dict):
     
