@@ -121,7 +121,7 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 #### description:
 
-Make a scatter plot using seaborn, bivariate or multivariate
+A Seaborn scatterplot is a type of plot used to visualize the relationship between two variables in a dataset. It is created using the seaborn library in Python and is often used to identify patterns and trends in the data. The plot shows a scatterplot of the data points, with each point representing a single observation. The x and y axes show the values of the two variables being plotted, and the plot can be customized to show additional information, such as a regression line or confidence intervals. The Seaborn scatterplot is a useful tool for exploring and visualizing relationships in your data, and can help you to identify any outliers or unusual observations.
 
 #### code:
 
@@ -166,7 +166,7 @@ def seaborn_scatterplot(args:dict):
 
 #### description:
 
-Make a scatter plot using seaborn, bivariate or multivariate
+A Seaborn relplot is a type of plot used to visualize the relationship between two variables in a dataset. It is created using the seaborn library in Python and is often used to identify patterns and trends in the data. The plot shows a scatterplot of the data points, with each point representing a single observation. The x and y axes show the values of the two variables being plotted, and the plot can be customized to show additional information, such as a regression line or confidence intervals. The relplot can also be used to group the data by a categorical variable, creating separate plots for each group. This allows you to compare the relationship between the variables across different groups within the dataset. Overall, the Seaborn relplot is a powerful tool for exploring and visualizing relationships in your data.
 
 #### code:
 
@@ -213,7 +213,11 @@ def seaborn_relplot(args:dict):
 
 #### description:
 
-Create a seaborn box plot using boxpot, they show quartiles and outliers
+A Seaborn boxplot is a type of plot used to visualize the distribution of a dataset. It is created using the seaborn library in Python and is often used to identify outliers and compare the distribution of different groups or categories within a dataset.
+
+The plot shows a box that represents the interquartile range (IQR) of the data, which is the range between the 25th and 75th percentiles. The line inside the box represents the median value, while the whiskers extend to show the range of the data, excluding any outliers. Outliers are plotted as individual points beyond the whiskers.
+
+The boxplot can be customized to show additional information, such as the mean value or confidence intervals, and can be grouped by a categorical variable to compare the distribution of different groups within the dataset. By examining the boxplot, you can identify any skewness or asymmetry in the distribution, as well as any extreme values that may need to be addressed.
 
 #### code:
 
@@ -253,3 +257,24 @@ def seaborn_boxplot(args:dict):
     sns.despine(left=True, bottom=True)
     plt.show()
 ```
+
+### :octicons-file-code-16: `sresidplot`
+
+#### description:
+
+A Seaborn residual plot is a type of plot used to visualize the residuals (the difference between the predicted values and the actual values) of a regression model. It is created using the seaborn library in Python and is often used to check whether the assumptions of linear regression are met, such as linearity, homoscedasticity, and normality. The plot shows the distribution of the residuals on the y-axis and the predicted values on the x-axis. The residuals are plotted as points with a horizontal line at zero to show the expected value of the residuals if the model is accurate. The plot also includes a fitted line that represents the regression line of the model. By examining the residual plot, you can identify patterns or trends in the residuals that may indicate that the model is not appropriate for the data or that there are outliers or influential points that need to be addressed.
+
+#### code:
+
+```python linenums="1"
+@staticmethod
+def seaborn_residplot(args:dict):
+    sns.residplot(x=args['x'], 
+                  y=args['y'],
+                  color=nlpi.pp['stheme'][1],
+                  data=args['data'])
+    
+    sns.despine(left=True, bottom=True)
+    plt.show()
+```
+
