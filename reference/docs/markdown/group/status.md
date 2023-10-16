@@ -4,6 +4,8 @@ tags:
 	- module tasks
 ---
 
+In this section, we document the module feature registration
+
 ## :octicons-tasklist-16: **Available Tasks**
 
 ### User Recommendation System
