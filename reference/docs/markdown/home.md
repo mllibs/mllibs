@@ -152,9 +152,13 @@ info_sample = {'function': {'module':'sample',
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
 
+***
+
 ### :material-package-variant-plus: Creating a Collection
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
+
+***
 
 #### :octicons-package-dependencies-16: Manually Importing Modules
 
@@ -201,9 +205,11 @@ from mllibs.interface import interface
 session = interface()
 ```
 
+***
+
 ### :fontawesome-solid-people-group: How to Contibute
 
-Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
+Want to add your own project to our collection? We welcome all contributions! Here's how you can get started:
 
 1. Fork the repository
 2. Create a new branch for your changes
