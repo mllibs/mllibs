@@ -709,6 +709,26 @@
     Activation Functions
   </a>
   
+    <nav class="md-nav" aria-label="Activation Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#col_kde" class="md-nav__link">
+    col_kde
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#col_box" class="md-nav__link">
+    col_box
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -898,6 +918,26 @@
     Activation Functions
   </a>
   
+    <nav class="md-nav" aria-label="Activation Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#col_kde" class="md-nav__link">
+    col_kde
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#col_box" class="md-nav__link">
+    col_box
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -941,248 +981,134 @@
 </code></pre></div>
 <h4 id="activation-functions">Activation Functions</h4>
 <p>Here you will find the relevant activation functions available in class <code>meda_scplot</code></p>
-<details>
-<summary>col_kde</summary>
-<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">col_kde</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eda_colplot_kde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+<h5 id="col_kde"><code>col_kde</code></h5>
+<p>!!! "col_kde"</p>
+<div class="highlight"><pre><span></span><code>```python title=&quot;col_kde&quot; linenums=&quot;1&quot; hl_lines=&quot;35 45&quot;
+def eda_colplot_kde(self,args:dict):
 
-    <span class="c1"># get numeric column names only</span>
-    <span class="n">num</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_types</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+    # get numeric column names only
+    num,_ = self.split_types(args[&#39;data&#39;])
 
-    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">xloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">xloc</span> <span class="o">=</span> <span class="kc">None</span>
+    if(args[&#39;x&#39;] is not None):
+        xloc = args[&#39;data&#39;][args[&#39;x&#39;]]
+    else:
+        xloc = None
 
-    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
-        <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
+    if(args[&#39;hue&#39;] is not None):
+        hueloc = args[&#39;data&#39;][args[&#39;hue&#39;]]
+        if(type(nlpi.pp[&#39;stheme&#39;]) is str):
+            palette = nlpi.pp[&#39;stheme&#39;]
+        else:
+            palette = palette_rgb[:len(hueloc.value_counts())]
 
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
+    else:
+        hueloc = None
+        palette = palette_rgb
 
-    <span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  
-    <span class="n">n_cols</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">n_rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="n">n_cols</span><span class="p">)</span>
+    columns = list(num.columns)  
+    n_cols = 3
+    n_rows = math.ceil(len(columns)/n_cols)
 
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">*</span><span class="mi">5</span><span class="p">))</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    fig, ax = plt.subplots(n_rows, n_cols, figsize=(16, n_rows*5))
+    ax = ax.flatten()
 
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
-        <span class="n">plot_axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+    for i, column in enumerate(columns):
+        plot_axes = [ax[i]]
 
-        <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span><span class="p">})</span>
+        sns.set_style(&quot;whitegrid&quot;, {
+        &#39;grid.linestyle&#39;: &#39;--&#39;})
 
-        <span class="n">sns</span><span class="o">.</span><span class="n">kdeplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">],</span>
-                    <span class="n">x</span><span class="o">=</span><span class="n">column</span><span class="p">,</span>
-                    <span class="n">hue</span><span class="o">=</span><span class="n">hueloc</span><span class="p">,</span>
-                    <span class="n">fill</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;fill&#39;</span><span class="p">],</span>
-                    <span class="n">alpha</span><span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">],</span>
-                    <span class="n">linewidth</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mew&#39;</span><span class="p">],</span>
-                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;mec&#39;</span><span class="p">],</span>
-                    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                    <span class="n">common_norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                    <span class="n">palette</span><span class="o">=</span><span class="n">palette</span>
-                     <span class="p">)</span>
+        sns.kdeplot(data=args[&#39;data&#39;],
+                    x=column,
+                    hue=hueloc,
+                    fill=nlpi.pp[&#39;fill&#39;],
+                    alpha= nlpi.pp[&#39;alpha&#39;],
+                    linewidth=nlpi.pp[&#39;mew&#39;],
+                    edgecolor=nlpi.pp[&#39;mec&#39;],
+                    ax=ax[i],
+                    common_norm=False,
+                    palette=palette
+                     )
 
-        <span class="c1"># titles</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s1"> distribution&#39;</span><span class="p">);</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        # titles
+        ax[i].set_title(f&#39;{column} distribution&#39;);
+        ax[i].set_xlabel(None)
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="p">)):</span>
-        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    for i in range(i+1, len(ax)):
+        ax[i].axis(&#39;off&#39;)
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-</details>
-<details>
-<summary>col_box</summary>
-<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">col_box</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">eda_colplot_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+    plt.tight_layout()
+```
+</code></pre></div>
+<h5 id="col_box"><code>col_box</code></h5>
+<p>!!! "col_box"</p>
+<div class="highlight"><pre><span></span><code>```python title=&quot;col_box&quot; linenums=&quot;1&quot; hl_lines=&quot;47 54&quot;
+def eda_colplot_box(self,args:dict):
 
-<span class="c1"># split data into numeric &amp; non numeric</span>
-<span class="n">num</span><span class="p">,</span><span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_types</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+# split data into numeric &amp; non numeric
+num,cat = self.split_types(args[&#39;data&#39;])
 
-<span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  
-<span class="n">n_cols</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">n_rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="n">n_cols</span><span class="p">)</span>
+columns = list(num.columns)  
+n_cols = 3
+n_rows = math.ceil(len(columns)/n_cols)
 
-<span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="n">xloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]]</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">xloc</span> <span class="o">=</span> <span class="kc">None</span>
+if(args[&#39;x&#39;] is not None):
+    xloc = args[&#39;data&#39;][args[&#39;x&#39;]]
+else:
+    xloc = None
 
-<span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="n">xloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]]</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">xloc</span> <span class="o">=</span> <span class="kc">None</span>
+if(args[&#39;x&#39;] is not None):
+    xloc = args[&#39;data&#39;][args[&#39;x&#39;]]
+else:
+    xloc = None
 
-<span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
-    <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
+if(args[&#39;hue&#39;] is not None):
+    hueloc = args[&#39;data&#39;][args[&#39;hue&#39;]]
+    if(type(nlpi.pp[&#39;stheme&#39;]) is str):
+        palette = nlpi.pp[&#39;stheme&#39;]
+    else:
+        palette = palette_rgb[:len(hueloc.value_counts())]
 
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
+else:
+    hueloc = None
+    palette = palette_rgb
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">*</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+fig, ax = plt.subplots(n_rows, n_cols, figsize=(16, n_rows*5))
+sns.despine(fig, left=True, bottom=True)
+ax = ax.flatten()
 
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
-    <span class="n">plot_axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+for i, column in enumerate(columns):
+    plot_axes = [ax[i]]
 
-    <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
-    <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span><span class="p">})</span>
+    sns.set_style(&quot;whitegrid&quot;, {
+    &#39;grid.linestyle&#39;: &#39;--&#39;})
 
 
-    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;bw&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">bw</span> <span class="o">=</span> <span class="mf">0.8</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">bw</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;bw&#39;</span><span class="p">])</span>
+    if(args[&#39;bw&#39;] is None):
+        bw = 0.8
+    else:
+        bw = eval(args[&#39;bw&#39;])
 
-    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
-        <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">column</span><span class="p">],</span>
-        <span class="n">x</span><span class="o">=</span><span class="n">xloc</span><span class="p">,</span>
-        <span class="n">hue</span><span class="o">=</span><span class="n">hueloc</span><span class="p">,</span>
-        <span class="n">width</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
-        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-        <span class="n">palette</span><span class="o">=</span><span class="n">palette</span>
-    <span class="p">)</span>
+    sns.boxplot(
+        y=args[&#39;data&#39;][column],
+        x=xloc,
+        hue=hueloc,
+        width=bw,
+        ax=ax[i],
+        palette=palette
+    )
 
-    <span class="c1"># titles</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s1"> distribution&#39;</span><span class="p">);</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    # titles
+    ax[i].set_title(f&#39;{column} distribution&#39;);
+    ax[i].set_xlabel(None)
 
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="p">)):</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+for i in range(i+1, len(ax)):
+    ax[i].axis(&#39;off&#39;)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-</details>
+plt.tight_layout()
+```
+</code></pre></div>
 
 
 
