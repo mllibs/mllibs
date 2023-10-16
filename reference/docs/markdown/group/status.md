@@ -8,9 +8,9 @@ In this section, we document the module feature registration
 
 :material-tag-plus-outline: User Recommendation System
 
-##### Overview: 
+##### OVERVIEW: 
 
-Recommendation system for user
+Creation of recommendations to user during the project
 
 === "Problem Statement:"
 
@@ -26,11 +26,11 @@ Recommendation system for user
 
 === "Necessity Level"
 
-	efewf
+	3/5
 
 === "Vote"
 	
-	sdasd
+	**not available**
 
 <br>
 
