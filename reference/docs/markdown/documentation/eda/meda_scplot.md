@@ -1,6 +1,13 @@
-# nlpm class
 
-### 
+### **Group**
+
+eda
+
+
+### **Purpose**
+
+The purpose of this module is to 
+
 
 ### Selection 
 
@@ -18,6 +25,8 @@ def sel(self,args:dict):
 ```
 
 ### Activation Functions
+
+Here you will find the relevant activation functions available in class `meda_scplot`
 
 ??? col_kde
 
