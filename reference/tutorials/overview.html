@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#overview" class="md-skip">
+        <a href="#google-pubsub-to-bigquery-the-simple-way" class="md-skip">
           Skip to content
         </a>
       
@@ -202,7 +202,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -467,8 +469,57 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    Overview
+  <a href="#google-pubsub-to-bigquery-the-simple-way" class="md-nav__link">
+    Google Pub/Sub to BigQuery the simple way
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started-with-bigquery-sql-user-defined-functions-sql-udfs" class="md-nav__link">
+    Getting Started with BigQuery SQL User Defined Functions (SQL UDFs)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-cloud-storage-gcs-to-bigquery-the-simple-way" class="md-nav__link">
+    Google Cloud Storage (GCS) to BigQuery the simple way
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things" class="md-nav__link">
+    How to Build a Unique MD5 Row Hash Using SQL in BigQuery (Plus a Few Related Things)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf" class="md-nav__link">
+    Plotting Bar Charts in BigQuery Using a SQL User Defined Function (UDF)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-string-templating-in-bigquery-scripts-four-methods" class="md-nav__link">
+    SQL String Templating in BigQuery Scripts: Four Methods
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started-with-bigquery-scripting" class="md-nav__link">
+    Getting Started with BigQuery Scripting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries" class="md-nav__link">
+    Connecting BigQuery to Colab and Converting Query Results to Python Dictionaries
   </a>
   
 </li>
@@ -689,6 +740,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -706,8 +759,57 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    Overview
+  <a href="#google-pubsub-to-bigquery-the-simple-way" class="md-nav__link">
+    Google Pub/Sub to BigQuery the simple way
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started-with-bigquery-sql-user-defined-functions-sql-udfs" class="md-nav__link">
+    Getting Started with BigQuery SQL User Defined Functions (SQL UDFs)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-cloud-storage-gcs-to-bigquery-the-simple-way" class="md-nav__link">
+    Google Cloud Storage (GCS) to BigQuery the simple way
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things" class="md-nav__link">
+    How to Build a Unique MD5 Row Hash Using SQL in BigQuery (Plus a Few Related Things)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf" class="md-nav__link">
+    Plotting Bar Charts in BigQuery Using a SQL User Defined Function (UDF)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql-string-templating-in-bigquery-scripts-four-methods" class="md-nav__link">
+    SQL String Templating in BigQuery Scripts: Four Methods
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started-with-bigquery-scripting" class="md-nav__link">
+    Getting Started with BigQuery Scripting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries" class="md-nav__link">
+    Connecting BigQuery to Colab and Converting Query Results to Python Dictionaries
   </a>
   
 </li>
@@ -732,9 +834,78 @@
 
   <h1>Overview</h1>
 
-<h2 id="overview">Overview</h2>
+<div class="grid cards">
+<ul>
+<li>
+<p><a href="https://medium.com/towards-data-science/google-pub-sub-to-bigquery-the-simple-way-de116234fb87" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Sep 21, 2023 <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 8 min read </p>
+<h2 id="google-pubsub-to-bigquery-the-simple-way"><a href="https://medium.com/towards-data-science/google-pub-sub-to-bigquery-the-simple-way-de116234fb87" target="_blank">Google Pub/Sub to BigQuery the simple way</a></h2>
+<p><a href="https://medium.com/towards-data-science/google-pub-sub-to-bigquery-the-simple-way-de116234fb87" target="_blank"><img align="center" alt="Google Pub/Sub to BigQuery the simple way" src="../assets/medium/Google_Pub_Sub_to_BigQuery_the_Simple_Way.jpg" /></a></p>
+<hr />
+<p>A hands-on guide to implementing BigQuery Subscriptions in Pub/Sub for simple message and streaming ingestion</p>
+<p><a href="https://medium.com/towards-data-science/google-pub-sub-to-bigquery-the-simple-way-de116234fb87" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://towardsdatascience.com/getting-started-with-bigquery-sql-user-defined-functions-sql-udfs-a99c79689d4b" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> May 25, 2022  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 5 min read </p>
+<h2 id="getting-started-with-bigquery-sql-user-defined-functions-sql-udfs"><a href="https://towardsdatascience.com/getting-started-with-bigquery-sql-user-defined-functions-sql-udfs-a99c79689d4b" target="_blank">Getting Started with BigQuery SQL User Defined Functions (SQL UDFs)</a></h2>
+<p><a href="https://towardsdatascience.com/getting-started-with-bigquery-sql-user-defined-functions-sql-udfs-a99c79689d4b" target="_blank"><img align="center" alt="Getting Started with BigQuery SQL User Defined Functions (SQL UDFs)" src="../assets/medium/Getting_Started_with_BigQuery_SQL_User_Defined_Functions_(SQL_UDFs).jpg" /></a></p>
+<hr />
+<p>A powerful and fundamental building block which enables custom extension of the core BigQuery platform functionality</p>
+<p><a href="https://towardsdatascience.com/getting-started-with-bigquery-sql-user-defined-functions-sql-udfs-a99c79689d4b" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://towardsdatascience.com/google-cloud-storage-gcs-to-bigquery-the-simple-way-4bb74216b8c8" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Apr 22, 2021  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 6 min read </p>
+<h2 id="google-cloud-storage-gcs-to-bigquery-the-simple-way"><a href="https://towardsdatascience.com/google-cloud-storage-gcs-to-bigquery-the-simple-way-4bb74216b8c8" target="_blank">Google Cloud Storage (GCS) to BigQuery the simple way</a></h2>
+<p><a href="https://towardsdatascience.com/google-cloud-storage-gcs-to-bigquery-the-simple-way-4bb74216b8c8" target="_blank"><img align="center" alt="Google Cloud Storage (GCS) to BigQuery the simple way" src="../assets/medium/Google_Cloud_Storage_(GCS)_to_BigQuery_the_simple_way.jpg" /></a></p>
+<hr />
+<p>Because simple is better than complex (but complex is better than complicated)</p>
+<p><a href="https://towardsdatascience.com/google-cloud-storage-gcs-to-bigquery-the-simple-way-4bb74216b8c8" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://towardsdatascience.com/how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things-e6f71820f38b" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Aug 5, 2022  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 9 min read </p>
+<h2 id="how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things"><a href="https://towardsdatascience.com/how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things-e6f71820f38b" target="_blank">How to Build a Unique MD5 Row Hash Using SQL in BigQuery (Plus a Few Related Things)</a></h2>
+<p><a href="https://towardsdatascience.com/how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things-e6f71820f38b" target="_blank"><img align="center" alt="How to Build a Unique MD5 Row Hash Using SQL in BigQuery (Plus a Few Related Things)" src="../assets/medium/How_to_Build_a_Unique_MD5_Row_Hash_Using_SQL_in_BigQuery_(Plus_a_Few_Related_Things).jpg" /></a></p>
+<hr />
+<p>Using native BigQuery functionality to generate a dynamic, unique row identifier in SQL</p>
+<p><a href="https://towardsdatascience.com/how-to-build-a-unique-md5-row-hash-using-sql-in-bigquery-plus-a-few-related-things-e6f71820f38b" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://towardsdatascience.com/plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf-ca6056aac680" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Mar 15, 2022  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 9 min read </p>
+<h2 id="plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf"><a href="https://towardsdatascience.com/plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf-ca6056aac680" target="_blank">Plotting Bar Charts in BigQuery Using a SQL User Defined Function (UDF)</a></h2>
+<p><a href="https://towardsdatascience.com/plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf-ca6056aac680" target="_blank"><img align="center" alt="Plotting Bar Charts in BigQuery Using a SQL User Defined Function (UDF)" src="../assets/medium/Plotting_Bar_Charts_in_BigQuery_Using_a_SQL_User_Defined_Function_(UDF).jpg" /></a></p>
+<hr />
+<p>Minimise context switching and make your workflow faster</p>
+<p><a href="https://towardsdatascience.com/plotting-bar-charts-in-bigquery-using-a-sql-user-defined-function-udf-ca6056aac680" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://towardsdatascience.com/sql-string-templating-in-bigquery-four-methods-6884764d1ee9" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Jan 3, 2022  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 7 min read </p>
+<h2 id="sql-string-templating-in-bigquery-scripts-four-methods"><a href="https://towardsdatascience.com/sql-string-templating-in-bigquery-four-methods-6884764d1ee9" target="_blank">SQL String Templating in BigQuery Scripts: Four Methods</a></h2>
+<p><a href="https://towardsdatascience.com/sql-string-templating-in-bigquery-four-methods-6884764d1ee9" target="_blank"><img align="center" alt="SQL String Templating in BigQuery Scripts: Four Methods" src="../assets/medium/SQL_String_Templating_in_BigQuery_Scripts_Four_Methods.jpg" /></a></p>
+<hr />
+<p>Powerful foundational techniques to help unlock the power of BigQuery scripting and automation</p>
+<p><a href="https://towardsdatascience.com/sql-string-templating-in-bigquery-four-methods-6884764d1ee9" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://towardsdatascience.com/getting-started-with-bigquery-scripting-45bdd968010c" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Nov 10, 2021  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 4 min read </p>
+<h2 id="getting-started-with-bigquery-scripting"><a href="https://towardsdatascience.com/getting-started-with-bigquery-scripting-45bdd968010c" target="_blank">Getting Started with BigQuery Scripting</a></h2>
+<p><a href="https://towardsdatascience.com/getting-started-with-bigquery-scripting-45bdd968010c" target="_blank"><img align="center" alt="Getting Started with BigQuery Scripting" src="../assets/medium/Getting_Started_with_BigQuery_Scripting.jpg" /></a></p>
+<hr />
+<p>Demystifying this powerful but potentially difficult to grasp aspect of BigQuery functionality, one simple step at a time</p>
+<p><a href="https://towardsdatascience.com/getting-started-with-bigquery-scripting-45bdd968010c" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+<li>
+<p><a href="https://blog.devgenius.io/connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries-9a19a4bac065" target="_blank"><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M180.5 74.262C80.813 74.262 0 155.633 0 256s80.819 181.738 180.5 181.738S361 356.373 361 256 280.191 74.262 180.5 74.262Zm288.25 10.646c-49.845 0-90.245 76.619-90.245 171.095s40.406 171.1 90.251 171.1 90.251-76.619 90.251-171.1H559c0-94.503-40.4-171.095-90.248-171.095Zm139.506 17.821c-17.526 0-31.735 68.628-31.735 153.274s14.2 153.274 31.735 153.274S640 340.631 640 256c0-84.649-14.215-153.271-31.742-153.271Z"/></svg></span></a> Apr 27, 2021  <span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6m-1 2h1.5v3.78l2.33 2.33-1.06 1.06L14 12.4V8M2 18a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3.83c.31.71.71 1.38 1.17 2H2m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2.05L5 12l.05 1H3m1-5a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3c-.46.62-.86 1.29-1.17 2H4Z"/></svg></span> 3 min read </p>
+<h2 id="connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries"><a href="https://blog.devgenius.io/connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries-9a19a4bac065" target="_blank">Connecting BigQuery to Colab and Converting Query Results to Python Dictionaries</a></h2>
+<p><a href="https://blog.devgenius.io/connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries-9a19a4bac065" target="_blank"><img align="center" alt="Connecting BigQuery to Colab and Converting Query Results to Python Dictionaries" src="../assets/medium/Connecting_BigQuery_to_Colab_and_Converting_Query_Results_to_Python_Dictionaries.jpg" /></a></p>
+<hr />
+<p>A simple method for working with BigQuery results in Python (for pandaphobes)</p>
+<p><a href="https://blog.devgenius.io/connecting-bigquery-to-colab-and-converting-query-results-to-python-dictionaries-9a19a4bac065" target="_blank"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"/></svg></span> Continue reading</a></p>
+</li>
+</ul>
+</div>
 
 
+
+  
 
 
 
