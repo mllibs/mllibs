@@ -23,6 +23,8 @@ Here are the locations of the relevant files associated with the module
 
 `/corpus/meda_scplot.json`
 
+[^3] [location](../../../../mlproject.md))
+
 ### module activation functions
 
 `/src/eda/meda_scplot.py`
