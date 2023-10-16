@@ -79,7 +79,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#group" class="md-skip">
+        <a href="#module-group" class="md-skip">
           Skip to content
         </a>
       
@@ -677,8 +677,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#group" class="md-nav__link">
-    Group
+  <a href="#module-group" class="md-nav__link">
+    Module Group
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-stage-id" class="md-nav__link">
+    Project Stage ID
   </a>
   
 </li>
@@ -859,8 +866,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#group" class="md-nav__link">
-    Group
+  <a href="#module-group" class="md-nav__link">
+    Module Group
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-stage-id" class="md-nav__link">
+    Project Stage ID
   </a>
   
 </li>
@@ -906,11 +920,14 @@
 
   <h1>eda_scplot</h1>
 
-<h4 id="group"><strong>Group</strong></h4>
-<p>eda</p>
+<h4 id="module-group"><strong>Module Group</strong></h4>
+<p><code>eda</code></p>
+<h4 id="project-stage-id"><strong>Project Stage ID</strong></h4>
+<p>4</p>
 <h4 id="purpose"><strong>Purpose</strong></h4>
-<p>The purpose of this module is to </p>
+<p>The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns</p>
 <h4 id="selection">Selection</h4>
+<p>The process of <code>label</code> &amp; activation function selection</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
 
     <span class="n">select</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;pred_task&#39;</span><span class="p">]</span>
@@ -924,8 +941,9 @@
 </code></pre></div>
 <h4 id="activation-functions">Activation Functions</h4>
 <p>Here you will find the relevant activation functions available in class <code>meda_scplot</code></p>
-<div class="admonition note">
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">eda_colplot_kde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+<details>
+<summary>col_kde</summary>
+<div class="highlight"><span class="filename">col_kde</span><pre><span></span><code><span class="k">def</span> <span class="nf">eda_colplot_kde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
 
     <span class="c1"># get numeric column names only</span>
     <span class="n">num</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_types</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
@@ -980,7 +998,75 @@
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div>
-</div>
+</details>
+<details>
+<summary>col_box</summary>
+<div class="highlight"><span class="filename">col_box</span><pre><span></span><code><span class="k">def</span> <span class="nf">eda_colplot_box</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+
+<span class="c1"># split data into numeric &amp; non numeric</span>
+<span class="n">num</span><span class="p">,</span><span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_types</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+
+<span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">num</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  
+<span class="n">n_cols</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">n_rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span><span class="o">/</span><span class="n">n_cols</span><span class="p">)</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">xloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">xloc</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">xloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">xloc</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
+
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n_rows</span><span class="p">,</span> <span class="n">n_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">n_rows</span><span class="o">*</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">columns</span><span class="p">):</span>
+    <span class="n">plot_axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;grid.linestyle&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span><span class="p">})</span>
+
+
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;bw&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">bw</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bw</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;bw&#39;</span><span class="p">])</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">column</span><span class="p">],</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">xloc</span><span class="p">,</span>
+        <span class="n">hue</span><span class="o">=</span><span class="n">hueloc</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="n">palette</span><span class="o">=</span><span class="n">palette</span>
+    <span class="p">)</span>
+
+    <span class="c1"># titles</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s1"> distribution&#39;</span><span class="p">);</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ax</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div>
+</details>
 
 
 
