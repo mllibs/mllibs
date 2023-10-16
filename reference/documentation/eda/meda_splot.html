@@ -776,6 +776,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#slineplot_1" class="md-nav__link">
+     slineplot
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1070,6 +1077,13 @@
         
           <li class="md-nav__item">
   <a href="#slineplot" class="md-nav__link">
+     slineplot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slineplot_1" class="md-nav__link">
      slineplot
   </a>
   
@@ -1878,6 +1892,53 @@
                  <span class="n">palette</span><span class="o">=</span><span class="n">palette</span><span class="p">)</span>
 
     <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">nlpi</span><span class="o">.</span><span class="n">resetpp</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<h4 id="slineplot_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M4 1.75C4 .784 4.784 0 5.75 0h5.586c.464 0 .909.184 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 14.25 15h-9a.75.75 0 0 1 0-1.5h9a.25.25 0 0 0 .25-.25V6h-2.75A1.75 1.75 0 0 1 10 4.25V1.5H5.75a.25.25 0 0 0-.25.25v2.5a.75.75 0 0 1-1.5 0Zm1.72 4.97a.75.75 0 0 1 1.06 0l2 2a.75.75 0 0 1 0 1.06l-2 2a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734l1.47-1.47-1.47-1.47a.75.75 0 0 1 0-1.06ZM3.28 7.78 1.81 9.25l1.47 1.47a.751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018l-2-2a.75.75 0 0 1 0-1.06l2-2a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042Zm8.22-6.218V4.25c0 .138.112.25.25.25h2.688l-.011-.013-2.914-2.914-.013-.011Z"/></svg></span> <code>slineplot</code></h4>
+<h4>description:</h4>
+
+<p>A Seaborn heatmap is a graphical representation of data that uses color-coded cells to display values in a matrix. Heatmaps are commonly used to visualize the correlation between variables in a dataset, where each cell in the matrix represents the correlation coefficient between two variables. The color of the cell indicates the strength and direction of the correlation, with warmer colors (e.g., red) indicating positive correlations and cooler colors (e.g., blue) indicating negative correlations.</p>
+<p>Seaborn heatmaps can be customized with various parameters, such as the color palette, the axis labels, and the size and shape of the plot. They are useful for identifying patterns and trends in large datasets, and can help to highlight areas of high or low correlation between variables. Overall, Seaborn heatmaps are a powerful tool for exploring and visualizing complex data relationships in a clear and intuitive way.</p>
+<h4>code:</h4>
+
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">seaborn_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;hue&#39;</span><span class="p">]]</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">nlpi</span><span class="o">.</span><span class="n">pp</span><span class="p">[</span><span class="s1">&#39;stheme&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">hueloc</span><span class="o">.</span><span class="n">value_counts</span><span class="p">())]</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hueloc</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">palette</span> <span class="o">=</span> <span class="n">palette_rgb</span>
+
+    <span class="n">num</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">split_types</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">])</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">palette</span><span class="p">,</span>
+                <span class="n">square</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">cbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
+
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="n">nlpi</span><span class="o">.</span><span class="n">resetpp</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>

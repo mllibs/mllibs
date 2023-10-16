@@ -572,3 +572,36 @@ def seaborn_lineplot(self,args:dict):
     plt.show()
     nlpi.resetpp()
 ```
+
+### :octicons-file-code-16: `slineplot`
+
+<h4>description:</h4>
+
+A Seaborn heatmap is a graphical representation of data that uses color-coded cells to display values in a matrix. Heatmaps are commonly used to visualize the correlation between variables in a dataset, where each cell in the matrix represents the correlation coefficient between two variables. The color of the cell indicates the strength and direction of the correlation, with warmer colors (e.g., red) indicating positive correlations and cooler colors (e.g., blue) indicating negative correlations.
+
+Seaborn heatmaps can be customized with various parameters, such as the color palette, the axis labels, and the size and shape of the plot. They are useful for identifying patterns and trends in large datasets, and can help to highlight areas of high or low correlation between variables. Overall, Seaborn heatmaps are a powerful tool for exploring and visualizing complex data relationships in a clear and intuitive way.
+
+<h4>code:</h4>
+
+```python linenums="1"
+def seaborn_heatmap(self,args:dict):
+    
+    if(args['hue'] is not None):
+        hueloc = args['data'][args['hue']]
+        if(type(nlpi.pp['stheme']) is str):
+            palette = nlpi.pp['stheme']
+        else:
+            palette = palette_rgb[:len(hueloc.value_counts())]
+            
+    else:
+        hueloc = None
+        palette = palette_rgb
+    
+    num,_ = self.split_types(args['data'])
+    sns.heatmap(num,cmap=palette,
+                square=False,lw=2,
+                annot=True,cbar=True)    
+                
+    plt.show()
+    nlpi.resetpp()
+```
