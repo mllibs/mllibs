@@ -37,7 +37,7 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 !!! info "col_kde"
 
-	```python title="col_kde" linenums="1" hl_lines="35 45"
+	```python linenums="1" hl_lines="35-45"
 	def eda_colplot_kde(self,args:dict):
 	    
 	    # get numeric column names only
@@ -99,7 +99,7 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 !!! info "col_box"
 
-	```python title="col_box" linenums="1" hl_lines="47 54"
+	```python linenums="1" hl_lines="47-54"
     def eda_colplot_box(self,args:dict):
 
     # split data into numeric & non numeric
