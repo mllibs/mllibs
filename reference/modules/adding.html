@@ -385,6 +385,33 @@
     Adding New Modules
   </a>
   
+    <nav class="md-nav" aria-label="Adding New Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-components-file" class="md-nav__link">
+    Module Components File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-configuration-file" class="md-nav__link">
+    Module Configuration File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -710,6 +737,33 @@
     Adding New Modules
   </a>
   
+    <nav class="md-nav" aria-label="Adding New Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-components-file" class="md-nav__link">
+    Module Components File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-configuration-file" class="md-nav__link">
+    Module Configuration File
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -733,6 +787,63 @@
   <h1>Adding new modules</h1>
 
 <h2 id="adding-new-modules">Adding New Modules</h2>
+<h3 id="overview">Overview</h3>
+<p>Adding a new module into the mix requires two components, a configuration file located in <code>/stc/mllibs/corpus/</code> &amp; a module function class</p>
+<h3 id="module-components-file">Module Components File</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># sample module class structure</span>
+<span class="k">class</span> <span class="nc">sample</span><span class="p">(</span><span class="n">nlpi</span><span class="p">):</span>
+
+    <span class="c1"># called in nlpm</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nlp_config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sample&#39;</span>             <span class="c1"># unique module name identifier (used in nlpm/nlpi)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nlp_config</span> <span class="o">=</span> <span class="n">nlp_config</span>  <span class="c1"># text based info related to module (used in nlpm/nlpi)</span>
+
+    <span class="c1"># called in nlpi</span>
+    <span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;pred_task&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">select</span> <span class="o">==</span> <span class="s1">&#39;function&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">function</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="c1"># use standard or static methods</span>
+
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">pass</span>
+</code></pre></div>
+<h3 id="module-configuration-file">Module Configuration File</h3>
+<p>The congiguration file contains information about the module &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code>.</p>
+<p>``` json
+{
+  "modules": [</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;name&quot;: &quot;col_kde&quot;,
+&quot;corpus&quot;: [
+          &quot;...&quot;,
+          ],
+  &quot;info&quot;: {
+          &quot;module&quot;:&quot;sample&quot;,
+          &quot;action&quot;:&quot;...&quot;,
+          &quot;topic&quot;:&quot;...&quot;,
+          &quot;subtopic&quot;:&quot;...&quot;,
+          &quot;input_format&quot;:&quot;...&quot;,
+          &quot;description&quot;:&quot;...&quot;,
+          &quot;output&quot;:&quot;...&quot;,
+          &quot;token_compat&quot;:&quot;...&quot;,
+          &quot;arg_compat&quot;:&quot;...&quot;
+          }
+},
+
+...
+
+]
+</code></pre></div>
+<p>}</p>
 
 
 
