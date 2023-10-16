@@ -32,6 +32,17 @@ def sel(self,args:dict):
         self.eda_colplot_scatter(args)
 ```
 
+### **location**
+
+#### module information:
+
+`/corpus/meda_scplot.json`
+
+### module activation functions
+
+`/src/eda/meda_scplot.py`
+
+
 ## :octicons-code-16: **Activation Functions**
 
 Here you will find the relevant activation functions available in class `meda_scplot`
