@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="data/images/cnb.png" width="500">
+    <img src="data/images/cnb.png" width="600">
 </p>
 
 <h5 align="center"
