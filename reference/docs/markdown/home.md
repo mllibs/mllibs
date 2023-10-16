@@ -158,8 +158,6 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
 
-***
-
 #### :octicons-package-dependencies-16: Manually Importing Modules
 
 First we need to combine all our module components together, this will link all passed modules together
