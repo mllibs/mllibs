@@ -1,7 +1,7 @@
 
 ## **Module Group**
 
-`eda`[^1]
+`src/eda`[^1]
 
 ## **Project Stage ID**
 
@@ -14,6 +14,18 @@
 ## **Purpose**
 
 The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns
+
+## :fontawesome-solid-location-arrow: **Location**
+
+Here are the locations of the relevant files associated with the module
+
+### module information:
+
+`/corpus/meda_scplot.json`
+
+### module activation functions
+
+`/src/eda/meda_scplot.py`
 
 ## :material-selection-drag: **Selection**
 
@@ -32,19 +44,6 @@ def sel(self,args:dict):
         self.eda_colplot_scatter(args)
 ```
 
-## :fontawesome-solid-location-arrow: **Location**
-
-Here are the locations of the relevant files associated with the module
-
-### module information:
-
-`/corpus/meda_scplot.json`
-
-### module activation functions
-
-`/src/eda/meda_scplot.py`
-
-
 ## :octicons-code-16: **Activation Functions**
 
 Here you will find the relevant activation functions available in class `meda_scplot`
@@ -55,7 +54,7 @@ Here you will find the relevant activation functions available in class `meda_sc
 
 #### description:
 
-fafafe
+visualise/plot column feature kernel density estimation plot
 
 #### code:
 
