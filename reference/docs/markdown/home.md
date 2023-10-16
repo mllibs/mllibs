@@ -158,7 +158,7 @@ configure_sample = {'corpus':corpus_sample,'info':info_sample}
 
 `Modules` which we create need to be assembled together into a `collection`, there are two ways to do this: manually importing and grouping modules or using  <code>interface</code> class
 
-#### :octicons-package-dependencies-16: Manually Importing Modules
+#### :octicons-package-dependencies-16: (1) Manually Importing Modules
 
 First we need to combine all our module components together, this will link all passed modules together
 
@@ -196,7 +196,7 @@ session.exec('create a scatterplot using data with x dimension1 y dimension2')
 
 <br>
 
-#### :octicons-package-dependencies-24: Import Default Libraries
+#### :octicons-package-dependencies-24: (2) Import Default Libraries
 
 The faster way, includes all loaded modules and groups them together for us:
 
