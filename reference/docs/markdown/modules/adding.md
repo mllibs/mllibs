@@ -7,6 +7,7 @@ To add a new module into `mllibs`, you need to add two components:
 
 The `configuration` file will hold text based information about each activation function in the module, whilst the `components` file will contain the relevant activation functions
 
+<br>
 
 ## Module Components File
 
@@ -91,13 +92,15 @@ The `configuration` file contains information about the module (eg.`sample`) & i
 ]
 ```
 
-## Naming Convensions
+<br>
+
+## :material-rename-outline: Naming Conventions
 
 ### Activation function name
 
 Some important things to note:
 
-- Module class name `Sample` can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. 
+- Module class name (eg.`Sample`) can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. 
 - Module `configuration` must contain `name` (function names) that correspond to its relevant module 
 
 ### File names
