@@ -27,6 +27,21 @@ Here are the locations of the relevant files associated with the module
 
 `/src/eda/meda_scplot.py`
 
+## :material-selection-drag: **Requirements**
+
+```python
+from mllibs.nlpi import nlpi
+import seaborn as sns
+import matplotlib.pyplot as plt
+import pandas as pd
+import math
+from collections import OrderedDict
+import warnings; warnings.filterwarnings('ignore')
+from mllibs.nlpm import parse_json
+import pkg_resources
+import json
+```
+
 ## :material-selection-drag: **Selection**
 
 Activation functions need to be assigned a unique label. Here's the process of `label` & activation function selection 

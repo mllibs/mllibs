@@ -725,6 +725,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+     Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#selection" class="md-nav__link">
      Selection
   </a>
@@ -1028,6 +1035,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+     Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#selection" class="md-nav__link">
      Selection
   </a>
@@ -1160,6 +1174,18 @@
 <p><code>/corpus/meda_scplot.json</code></p>
 <h4 id="module-activation-functions">module activation functions</h4>
 <p><code>/src/eda/meda_scplot.py</code></p>
+<h3 id="requirements"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 17h3v-3h2v3h3v2h-3v3h-2v-3h-3v-2m-2 0v2H9v-2h3m-5 0v2H3v-4h2v2h2m-4-4v-3h2v3H3m0-5V4h4v2H5v2H3m6-4h3v2H9V4m6 0h4v4h-2V6h-2V4m4 6v2h-2v-2h2Z"/></svg></span> <strong>Requirements</strong></h3>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">mllibs.nlpi</span> <span class="kn">import</span> <span class="n">nlpi</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">import</span> <span class="nn">warnings</span><span class="p">;</span> <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mllibs.nlpm</span> <span class="kn">import</span> <span class="n">parse_json</span>
+<span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="kn">import</span> <span class="nn">json</span>
+</code></pre></div>
 <h3 id="selection"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 17h3v-3h2v3h3v2h-3v3h-2v-3h-3v-2m-2 0v2H9v-2h3m-5 0v2H3v-4h2v2h2m-4-4v-3h2v3H3m0-5V4h4v2H5v2H3m6-4h3v2H9V4m6 0h4v4h-2V6h-2V4m4 6v2h-2v-2h2Z"/></svg></span> <strong>Selection</strong></h3>
 <p>Activation functions need to be assigned a unique label. Here's the process of <code>label</code> &amp; activation function selection </p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
