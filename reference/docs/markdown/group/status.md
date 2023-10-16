@@ -6,33 +6,33 @@ In this section, we document the module feature registration
 
 ## :octicons-tasklist-16: **Available Tasks**
 
-### :material-tag-plus-outline: User Recommendation System
+!!! :material-tag-plus-outline: User Recommendation System
 
-#### Overview: 
+	#### Overview: 
 
-Recommendation system for user
+	Recommendation system for user
 
-#### Problem Statement: 
+	#### Problem Statement: 
 
-affas
+	affas
 
-#### Purpose:
+	#### Purpose:
 
-asaffas
+	asaffas
 
-#### Description:
+	#### Description:
 
-asafsfs 
+	asafsfs 
 
-Full description available 
+	Full description available 
 
-#### Necessity Level:
+	#### Necessity Level:
 
-safad 
+	safad 
 
-#### Vote:
+	#### Vote:
 
-<br>
+	<br>
 
 
 ## :material-file-document-arrow-right-outline: **Task Allocation**
