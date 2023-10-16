@@ -5,6 +5,7 @@
 
 <center>![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://img.shields.io/badge/pypi-v0.1.6-fc4c69) ![](https://img.shields.io/badge/License-MIT-blue) ![](https://static.pepy.tech/badge/mllibs)</center>
 
+***
 
 ### :fontawesome-solid-language: About mllibs
 
@@ -17,7 +18,7 @@ Some key points about the library:
 - Using python, we can interpret `natural language` in the form of `string` type data, using `natural langauge interpreters`
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
 
-
+***
 
 ### :material-code-block-tags: Code Automation
 
@@ -84,6 +85,8 @@ All these methods will give the following result:
 [0, 1, 1, 2, 3]
 ```
 
+***
+
 ### :material-package-variant-closed: Library Components
 
 `mllibs` consists of two parts:
@@ -99,6 +102,8 @@ All these methods will give the following result:
 :material-numeric-2-box-multiple-outline: custom added modules, for mllibs these library are associated with **machine learning** topics
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
+
+***
 
 ### :material-package-variant-closed-check: Module Component Structure
 
