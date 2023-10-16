@@ -573,7 +573,7 @@ def seaborn_lineplot(self,args:dict):
     nlpi.resetpp()
 ```
 
-### :octicons-file-code-16: `slineplot`
+### :octicons-file-code-16: `scorrplot`
 
 <h4>description:</h4>
 
