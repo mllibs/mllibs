@@ -1,18 +1,18 @@
 
-### **Module Group**
+## **Module Group**
 
 `eda`
 
-### **Project Stage ID**
+## **Project Stage ID**
 
 4
 
-### **Purpose**
+## **Purpose**
 
 The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns
 
 
-### Selection 
+## Selection 
 
 The process of `label` & activation function selection
 
@@ -29,13 +29,13 @@ def sel(self,args:dict):
         self.eda_colplot_scatter(args)
 ```
 
-### Activation Functions
+## Activation Functions
 
 Here you will find the relevant activation functions available in class `meda_scplot`
 
-#### `col_kde`
+### :octicons-file-code-16: `col_kde`
 
-!!! "col_kde"
+!!! info "col_kde"
 
 	```python title="col_kde" linenums="1" hl_lines="35 45"
 	def eda_colplot_kde(self,args:dict):
@@ -95,9 +95,9 @@ Here you will find the relevant activation functions available in class `meda_sc
 	```
 
 
-#### `col_box`
+### :octicons-file-code-16: `col_box`
 
-!!! "col_box"
+!!! info "col_box"
 
 	```python title="col_box" linenums="1" hl_lines="47 54"
     def eda_colplot_box(self,args:dict):
