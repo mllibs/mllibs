@@ -32,9 +32,9 @@ def sel(self,args:dict):
         self.eda_colplot_scatter(args)
 ```
 
-### **location**
+## **location**
 
-#### module information:
+### module information:
 
 `/corpus/meda_scplot.json`
 
