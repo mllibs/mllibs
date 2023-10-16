@@ -103,8 +103,6 @@ nlp_interpreter(input)
 </tr>
 </table>
 
-<br>
-
 ### Library Components
 
 `mllibs` consists of two parts:
@@ -120,8 +118,6 @@ nlp_interpreter(input)
 (2) custom added modules, for mllibs these library are associated with **machine learning** topics
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
-
-<br>
 
 ### Module Component Structure
 
@@ -169,8 +165,6 @@ info_sample = {'function': {'module':'sample',
 # configuration dictionary (passed in nlpm)
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
-
-<br>
 
 ### Creating a Collection
 
@@ -222,8 +216,6 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-<br>
-
 ### **How to Contibute**
 
 Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
@@ -232,8 +224,6 @@ Want to add your own project to our collection? We welcome all contributions, bi
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Submit a pull request
-
-<br>
 
 ### **Contact**
 
