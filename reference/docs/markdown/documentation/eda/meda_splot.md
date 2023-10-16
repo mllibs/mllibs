@@ -478,7 +478,7 @@ def seaborn_lmplot(args:dict):
 
 ### :octicons-file-code-16: `spairplot`
 
-#### description:
+<h4>description:</h4>
 
 A Seaborn pairplot is a type of plot used to visualize the pairwise relationships between variables in a dataset. It creates a grid of scatterplots and histograms, where each variable in the dataset is plotted against every other variable. This allows you to quickly visualize how different variables are related to each other and to identify any patterns or trends in the data.
 
@@ -486,7 +486,7 @@ The pairplot function in Seaborn allows you to specify various parameters, such 
 
 Overall, Seaborn pairplots are a useful tool for exploring and visualizing the relationships between variables in a dataset, and can help you to gain insights into the underlying patterns and trends in your data.
 
-#### code:
+<h4>code:</h4>
 
 ```python linenums="1"
 def seaborn_pairplot(self,args:dict):
@@ -530,9 +530,15 @@ def seaborn_pairplot(self,args:dict):
 
 ### :octicons-file-code-16: `slineplot`
 
-#### description:
+<h4>description:</h4>
 
-#### code:
+A Seaborn lineplot is a type of plot used to visualize the relationship between two continuous variables. It creates a line chart that displays the trend in the data over time or across some other continuous variable. Lineplots are useful for identifying trends and patterns in data, as well as for comparing the values of different variables over time or across different categories.
+
+The lineplot function in Seaborn allows you to specify various parameters, such as the data source, the variables to include, and the type of aggregation to use (e.g., mean, median, or sum). It also allows you to add additional information to the plot, such as hue variables that can be used to group the data by a categorical variable.
+
+Overall, Seaborn lineplots are a useful tool for exploring and visualizing the relationships between continuous variables in a dataset, and can help you to gain insights into the underlying patterns and trends in your data.
+
+<h4>code:</h4>
 
 ```python linenums="1"
 def seaborn_lineplot(self,args:dict):
