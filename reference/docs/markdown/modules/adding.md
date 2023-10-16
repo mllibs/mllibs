@@ -41,7 +41,7 @@ class sample(nlpi):
 
 The congiguration file contains information about the module & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
 
-```json
+```
 {
   "modules": [
     
@@ -63,23 +63,7 @@ The congiguration file contains information about the module & its stored functi
               }
     },
 
-    {
-      "name": "col_kde",
-    "corpus": [
-              "...",
-              ],
-      "info": {
-              "module":"sample",
-              "action":"...",
-              "topic":"...",
-              "subtopic":"...",
-              "input_format":"...",
-              "description":"...",
-              "output":"...",
-              "token_compat":"...",
-              "arg_compat":"..."
-              }
-    }
+    ...
 
 	]
 }
