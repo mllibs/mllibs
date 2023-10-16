@@ -12,7 +12,7 @@
 The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns
 
 
-## Selection 
+## **Selection**
 
 The process of `label` & activation function selection
 
@@ -29,7 +29,7 @@ def sel(self,args:dict):
         self.eda_colplot_scatter(args)
 ```
 
-## Activation Functions
+## **Activation Functions**
 
 Here you will find the relevant activation functions available in class `meda_scplot`
 
