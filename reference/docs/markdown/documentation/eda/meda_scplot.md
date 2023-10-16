@@ -27,7 +27,7 @@ Here are the locations of the relevant files associated with the module
 
 `/src/eda/meda_scplot.py`
 
-## :material-selection-drag: **Requirements**
+## :material-import: **Requirements**
 
 ```python
 from mllibs.nlpi import nlpi
