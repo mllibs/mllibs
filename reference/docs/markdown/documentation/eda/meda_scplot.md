@@ -11,7 +11,7 @@
 
 [^2]: Reference to the machine learning project phase identification defined [here](../../mlproject.md)
 
-## **Purpose**
+## :material-frequently-asked-questions: **Purpose**
 
 The purpose of this module is to provide the user with the ability to visualise each numerical columns in a pandas dataframe in a two dimensional figure relative to other numerical columns
 
