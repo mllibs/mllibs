@@ -9,7 +9,7 @@ The `configuration` file will hold text based information about each activation 
 
 <br>
 
-## Module Components File
+## :material-inbox-multiple-outline: Module Components File
 
 Module activation functions are grouped together in a class format. Here is an example module, `sample`, which contains an activation function `function`
 
@@ -60,7 +60,8 @@ class Sample(nlpi):
         
     def function(self,args:dict):
         pass
-        
+```
+
 
 ## Module Configuration File
 

@@ -389,7 +389,7 @@
       
         <li class="md-nav__item">
   <a href="#module-components-file" class="md-nav__link">
-    Module Components File
+     Module Components File
   </a>
   
     <nav class="md-nav" aria-label="Module Components File">
@@ -411,6 +411,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-configuration-file" class="md-nav__link">
+    Module Configuration File
+  </a>
   
 </li>
       
@@ -768,7 +775,7 @@
       
         <li class="md-nav__item">
   <a href="#module-components-file" class="md-nav__link">
-    Module Components File
+     Module Components File
   </a>
   
     <nav class="md-nav" aria-label="Module Components File">
@@ -790,6 +797,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#module-configuration-file" class="md-nav__link">
+    Module Configuration File
+  </a>
   
 </li>
       
@@ -848,7 +862,7 @@
 </ul>
 <p>The <code>configuration</code> file will hold text based information about each activation function in the module, whilst the <code>components</code> file will contain the relevant activation functions</p>
 <p><br></p>
-<h3 id="module-components-file">Module Components File</h3>
+<h3 id="module-components-file"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14M5 10v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19m0-4V5H5v3h5v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2V8h5m2 11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4h7v1c0 1.07.93 2 2 2 1.07 0 2-.93 2-2v-1h7v4M5 17v2h4.4c-.6-.53-1.06-1.22-1.27-2H5m14 2v-2h-3.13c-.21.78-.67 1.47-1.27 2H19Z"/></svg></span> Module Components File</h3>
 <p>Module activation functions are grouped together in a class format. Here is an example module, <code>sample</code>, which contains an activation function <code>function</code></p>
 <h4 id="class-inheritance">class inheritance</h4>
 <p>Modules can inherent any class, however as a minimum, it must always inherent the <code>nlpi</code> class</p>
@@ -892,34 +906,30 @@
 
     <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
         <span class="k">pass</span>
-
-
-<span class="c1">## Module Configuration File</span>
-
-<span class="n">The</span> <span class="err">`</span><span class="n">configuration</span><span class="err">`</span> <span class="n">file</span> <span class="n">contains</span> <span class="n">information</span> <span class="n">about</span> <span class="n">the</span> <span class="n">module</span> <span class="p">(</span><span class="n">eg</span><span class="o">.</span><span class="err">`</span><span class="n">sample</span><span class="err">`</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">its</span> <span class="n">stored</span> <span class="n">functions</span> <span class="err">`</span><span class="n">info</span><span class="err">`</span><span class="p">,</span> <span class="k">as</span> <span class="n">well</span> <span class="k">as</span> <span class="n">the</span> <span class="err">`</span><span class="n">corpus</span><span class="err">`</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">classificaiton</span> <span class="n">of</span> <span class="n">function</span> <span class="n">labels</span> <span class="err">`</span><span class="n">name</span><span class="err">`</span>
-
-<span class="err">```</span> <span class="n">json</span>
-<span class="s2">&quot;modules&quot;</span><span class="p">:</span> <span class="p">[</span>
+</code></pre></div>
+<h3 id="module-configuration-file">Module Configuration File</h3>
+<p>The <code>configuration</code> file contains information about the module (eg.<code>sample</code>) &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 
 <span class="p">{</span>
-  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
-<span class="s2">&quot;corpus&quot;</span><span class="p">:</span> <span class="p">[</span>
-          <span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="p">],</span>
-  <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
-          <span class="s2">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;action&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;topic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;subtopic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;input_format&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;output&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;token_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-          <span class="s2">&quot;arg_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span>
-          <span class="p">}</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
+<span class="nt">&quot;corpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;topic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;subtopic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;token_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;arg_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span>
+<span class="w">          </span><span class="p">}</span>
 <span class="p">},</span>
 
-<span class="o">...</span>
+<span class="err">...</span>
 
 <span class="p">]</span>
 </code></pre></div>
