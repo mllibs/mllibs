@@ -10,7 +10,15 @@ The `configuration` file will hold text based information about each activation 
 
 ## Module Components File
 
-Module activation functions are grouped together in a class format, here is an example module, `sample`, which contains 
+Module activation functions are grouped together in a class format. Here is an example module, `sample`, which contains an activation function `function`
+
+### class inheritance
+
+Modules can inherent any class, however as a minimum, it must always inherent the `nlpi` class
+
+### activation functions
+
+Activation functions require only a single argument, `args:dict` aside from `self`
 
 ```python
 # sample module class structure
@@ -52,14 +60,10 @@ class Sample(nlpi):
     def function(self,args:dict):
         pass
         
-    @staticmethod
-    def function(args:dict):
-        pass
-```
 
 ## Module Configuration File
 
-The `configuration` file contains information about the module `sample` & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
+The `configuration` file contains information about the module (eg.`sample`) & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
 
 ``` json
 "modules": [
@@ -89,9 +93,10 @@ The `configuration` file contains information about the module `sample` & its st
 
 ## Naming Convensions
 
-### Activation function `name`
+### Activation function name
 
 Some important things to note:
+
 - Module class name `Sample` can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. 
 - Module `configuration` must contain `name` (function names) that correspond to its relevant module 
 

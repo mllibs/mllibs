@@ -392,12 +392,25 @@
     Module Components File
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-configuration-file" class="md-nav__link">
-    Module Configuration File
+    <nav class="md-nav" aria-label="Module Components File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-inheritance" class="md-nav__link">
+    class inheritance
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activation-functions" class="md-nav__link">
+    activation functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -758,12 +771,25 @@
     Module Components File
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#module-configuration-file" class="md-nav__link">
-    Module Configuration File
+    <nav class="md-nav" aria-label="Module Components File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#class-inheritance" class="md-nav__link">
+    class inheritance
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activation-functions" class="md-nav__link">
+    activation functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -822,7 +848,11 @@
 </ul>
 <p>The <code>configuration</code> file will hold text based information about each activation function in the module, whilst the <code>components</code> file will contain the relevant activation functions</p>
 <h3 id="module-components-file">Module Components File</h3>
-<p>Module activation functions are grouped together in a class format, here is an example module, <code>sample</code>, which contains </p>
+<p>Module activation functions are grouped together in a class format. Here is an example module, <code>sample</code>, which contains an activation function <code>function</code></p>
+<h4 id="class-inheritance">class inheritance</h4>
+<p>Modules can inherent any class, however as a minimum, it must always inherent the <code>nlpi</code> class</p>
+<h4 id="activation-functions">activation functions</h4>
+<p>Activation functions require only a single argument, <code>args:dict</code> aside from <code>self</code></p>
 <div class="highlight"><pre><span></span><code><span class="c1"># sample module class structure</span>
 
 <span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">nlpi</span><span class="p">):</span>
@@ -862,41 +892,43 @@
     <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
         <span class="k">pass</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
-        <span class="k">pass</span>
-</code></pre></div>
-<h3 id="module-configuration-file">Module Configuration File</h3>
-<p>The <code>configuration</code> file contains information about the module <code>sample</code> &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code></p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+
+<span class="c1">## Module Configuration File</span>
+
+<span class="n">The</span> <span class="err">`</span><span class="n">configuration</span><span class="err">`</span> <span class="n">file</span> <span class="n">contains</span> <span class="n">information</span> <span class="n">about</span> <span class="n">the</span> <span class="n">module</span> <span class="p">(</span><span class="n">eg</span><span class="o">.</span><span class="err">`</span><span class="n">sample</span><span class="err">`</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">its</span> <span class="n">stored</span> <span class="n">functions</span> <span class="err">`</span><span class="n">info</span><span class="err">`</span><span class="p">,</span> <span class="k">as</span> <span class="n">well</span> <span class="k">as</span> <span class="n">the</span> <span class="err">`</span><span class="n">corpus</span><span class="err">`</span> <span class="n">used</span> <span class="ow">in</span> <span class="n">classificaiton</span> <span class="n">of</span> <span class="n">function</span> <span class="n">labels</span> <span class="err">`</span><span class="n">name</span><span class="err">`</span>
+
+<span class="err">```</span> <span class="n">json</span>
+<span class="s2">&quot;modules&quot;</span><span class="p">:</span> <span class="p">[</span>
 
 <span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;function&quot;</span><span class="p">,</span>
-<span class="nt">&quot;corpus&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;topic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;subtopic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;input_format&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;output&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;token_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;arg_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span>
-<span class="w">          </span><span class="p">}</span>
+  <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;function&quot;</span><span class="p">,</span>
+<span class="s2">&quot;corpus&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="p">],</span>
+  <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s2">&quot;module&quot;</span><span class="p">:</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;action&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;topic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;subtopic&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;input_format&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;output&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;token_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+          <span class="s2">&quot;arg_compat&quot;</span><span class="p">:</span><span class="s2">&quot;...&quot;</span>
+          <span class="p">}</span>
 <span class="p">},</span>
 
-<span class="err">...</span>
+<span class="o">...</span>
 
 <span class="p">]</span>
 </code></pre></div>
 <h3 id="naming-convensions">Naming Convensions</h3>
-<h4 id="activation-function-name">Activation function <code>name</code></h4>
-<p>Some important things to note:
-- Module class name <code>Sample</code> can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. 
-- Module <code>configuration</code> must contain <code>name</code> (function names) that correspond to its relevant module </p>
+<h4 id="activation-function-name">Activation function name</h4>
+<p>Some important things to note:</p>
+<ul>
+<li>Module class name <code>Sample</code> can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. </li>
+<li>Module <code>configuration</code> must contain <code>name</code> (function names) that correspond to its relevant module </li>
+</ul>
 <h4 id="file-names">File names</h4>
 <p>Module <code>components</code> file names can be whatever you choose it to be. Module <code>configuration</code> file names as well can be anything you choose it to be, however its good practice to choose the same name for both module components so you don't loose track of which files belong together.</p>
 
