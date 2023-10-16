@@ -1,5 +1,3 @@
-# Adding New Modules
-
 ## Overview
 
 Adding a new module into `mllibs` requires two components:
