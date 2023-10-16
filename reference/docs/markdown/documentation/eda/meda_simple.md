@@ -18,13 +18,13 @@ The purpose of this module is to provide the simple exploratory data analysis op
 
 Here are the locations of the relevant files associated with the module
 
-<h3>module information:</h3>
+<h4>module information:</h4>
 
 `/corpus/meda_simple.json`[^3]
 
 [^3]: [location](../../../src/mllibs/corpus/meda_simple.json) | [github](https://github.com/shtrausslearning/mllibs/blob/main/src/mllibs/corpus/meda_simple.json)
 
-<h3>module activation functions:</h3>
+<h4>module activation functions:</h4>
 
 `/src/eda/meda_simple.py`[^4]
 

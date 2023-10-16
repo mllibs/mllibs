@@ -19,13 +19,13 @@ The purpose of this module is to provide the user with the ability to utilise th
 
 Here are the locations of the relevant files associated with the module
 
-<h3>module information:</h3>
+<h4>module information:</h4>
 
 `/corpus/meda_splot.json`[^3]
 
 [^3]: [location](../../../src/mllibs/corpus/meda_splot.json) | [github](https://github.com/shtrausslearning/mllibs/blob/main/src/mllibs/corpus/meda_splot.json)
 
-<h3>module activation functions:</h3>
+<h4>module activation functions:</h4>
 
 `/src/eda/meda_splot.py`[^4]
 
