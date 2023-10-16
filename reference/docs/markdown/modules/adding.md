@@ -2,7 +2,10 @@
 
 ## Overview
 
-Adding a new module into the mix requires two components, a configuration file located in `/stc/mllibs/corpus/` & a module function class
+Adding a new module into `mllibs` requires two components:
+
+- A configuration file, located in `/src/mllibs/corpus/` 
+- A module function class, located in `src/mllibs/`
 
 ## Module Components File
 
