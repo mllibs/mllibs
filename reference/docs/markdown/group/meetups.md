@@ -1,3 +1,8 @@
+---
+tags:
+	- meetups
+	- members
+---
 
 ## **Group Meetings**
 

@@ -1,3 +1,9 @@
+---
+tags:
+	- modules
+	- make module
+---
+
 ### :octicons-multi-select-16: Overview
 
 To add a new module into `mllibs`, you need to add two components:
