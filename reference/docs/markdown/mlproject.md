@@ -7,11 +7,11 @@
 
 Let's go through the different states of a machine learning project!
 
-### 1. Problem Definition
+### :fontawesome-solid-square-caret-right: 1. Problem Definition
 
 In this phase, we define the problem that we want to solve & determine the goals of the project
 
-### 2. Data Collection
+### :fontawesome-solid-square-caret-right: 2. Data Collection
 
 During this phase of the project, we gather the relevant data that will be used to train & test the model
 
