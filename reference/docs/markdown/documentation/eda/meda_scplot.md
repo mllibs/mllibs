@@ -34,6 +34,8 @@ def sel(self,args:dict):
 
 ## :fontawesome-solid-location-arrow: **location**
 
+Here are the locations of the relevant files associated with the module
+
 ### module information:
 
 `/corpus/meda_scplot.json`
