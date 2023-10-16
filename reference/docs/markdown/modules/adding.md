@@ -1,4 +1,4 @@
-## Overview
+## :octicons-multi-select-16: Overview
 
 To add a new module into `mllibs`, you need to add two components:
 
@@ -94,7 +94,7 @@ The `configuration` file contains information about the module (eg.`sample`) & i
 
 <br>
 
-## :material-rename-outline: Naming Conventions
+## :material-checkbox-multiple-marked-circle-outline: Naming Conventions
 
 ### Activation function name
 
