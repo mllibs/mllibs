@@ -6,33 +6,35 @@ In this section, we document the module feature registration
 
 ### :octicons-tasklist-16: **Available Tasks**
 
-:material-tag-plus-outline: **USER RECOMMENDATION SYSTEM**
+:material-tag-plus-outline: **User Recommendation System**
 
 ##### OVERVIEW: 
 
 Creation of recommendations to user during the project
 
-=== "Problem Statement:"
+!!! info
 
-	affas
+	=== "Problem Statement:"
 
-=== "Purpose"
+		affas
 
-	asaffas
+	=== "Purpose"
 
-=== "description"
+		asaffas
 
-	asafsfs 
+	=== "description"
 
-=== "Necessity Level"
+		asafsfs 
 
-	3/5
+	=== "Necessity Level"
 
-=== "Vote"
-	
-	**not available**
+		3/5
 
-:material-tag-plus-outline: **MODULE LABEL FUNCTION CLASSIFIER**
+	=== "Vote"
+		
+		**not available**
+
+:material-tag-plus-outline: **Module Function Label Classifier**
 
 #### Overview
 
@@ -59,7 +61,7 @@ Creation of a classifier that would associate input text requests with module fu
 	**not available**
 
 
-:material-tag-plus-outline: **MODULE LABEL FUNCTION GENERATOR**
+:material-tag-plus-outline: **Module Function Label Generator**
 
 #### Overview
 
