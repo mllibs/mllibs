@@ -36,23 +36,23 @@ Creation of recommendations to user during the project
 
 #### Overview
 
-Creation of a classifier that would associate input requests with function labels
+Creation of a classifier that would associate input text requests with module function labels 
 
 === "Problem Statement:"
 
-	affas
+	In order for module functionality to be activated, there needs to be an inbuilt library functionality that would link an input user request to module functionality
 
 === "Purpose"
 
-	asaffas
+	The purpose of such as classifier is to associated input text requests with module functions
 
 === "description"
 
-	asafsfs 
+	In order to implement such as a functionality, there is a need to create a 
 
 === "Necessity Level"
 
-	3/5
+	**5/5**
 
 === "Vote"
 	
