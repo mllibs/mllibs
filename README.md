@@ -42,15 +42,6 @@ Another common approach to automate code is using a class based approach. Utilis
 
 Another approach, which `mllibs` uses in natural language based code automation:
 
-```python
-input = 'calculate the fibonacci'
-         sequence for the value of 5'
-
-nlp_interpreter(input) 
-```
-
-All these methods will give the following result:
-
 <table>
     
 <tr>
