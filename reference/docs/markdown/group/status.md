@@ -1,6 +1,6 @@
 # Statuses
 
-## **Available Tasks**
+## :octicons-tasklist-16: **Available Tasks**
 
 ### User Recommendation System
 
