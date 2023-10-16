@@ -28,7 +28,7 @@ def sel(self,args:dict):
 
 Here you will find the relevant activation functions available in class `meda_scplot`
 
-??? col_kde
+??? "col_kde"
 
 	```python
 	def eda_colplot_kde(self,args:dict):
