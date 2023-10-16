@@ -7,8 +7,6 @@ To add a new module into `mllibs`, you need to add two components:
 
 The `configuration` file will hold text based information about each activation function in the module, whilst the `components` file will contain the relevant activation functions
 
-<br>
-
 ## :material-inbox-multiple-outline: Module Components File
 
 Module activation functions are grouped together in a class format. Here is an example module, `sample`, which contains an activation function `function`
@@ -63,7 +61,7 @@ class Sample(nlpi):
 ```
 
 
-## Module Configuration File
+## :octicons-git-merge-16: Module Configuration File
 
 The `configuration` file contains information about the module (eg.`sample`) & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
 
@@ -92,8 +90,6 @@ The `configuration` file contains information about the module (eg.`sample`) & i
 
 ]
 ```
-
-<br>
 
 ## :material-checkbox-multiple-marked-circle-outline: Naming Conventions
 
