@@ -84,9 +84,9 @@ nav:
     - nlpm: documentation/nlpm.md
     - nlpi: documentation/nlpi.md
     - eda:
-        - eda_simple: meda_simple.md
-        - eda_splot: meda_splot.md 
-        - eda_scplot: meda_scplot.md
+        - eda_simple: documentation/eda/meda_simple.md
+        - eda_splot: documentation/eda/meda_splot.md 
+        - eda_scplot: documentation/eda/meda_scplot.md
 
 - Group:
     - Task Status: group/status.md
