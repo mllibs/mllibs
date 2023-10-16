@@ -401,6 +401,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#naming-convensions" class="md-nav__link">
+    Naming Convensions
+  </a>
+  
+    <nav class="md-nav" aria-label="Naming Convensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#activation-function-name" class="md-nav__link">
+    Activation function name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-names" class="md-nav__link">
+    File names
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -740,6 +767,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#naming-convensions" class="md-nav__link">
+    Naming Convensions
+  </a>
+  
+    <nav class="md-nav" aria-label="Naming Convensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#activation-function-name" class="md-nav__link">
+    Activation function name
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-names" class="md-nav__link">
+    File names
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -770,15 +824,16 @@
 <h3 id="module-components-file">Module Components File</h3>
 <p>Module activation functions are grouped together in a class format, here is an example module, <code>sample</code>, which contains </p>
 <div class="highlight"><pre><span></span><code><span class="c1"># sample module class structure</span>
-<span class="k">class</span> <span class="nc">sample</span><span class="p">(</span><span class="n">nlpi</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">nlpi</span><span class="p">):</span>
 
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">    Initialise Module</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-
     <span class="c1"># called in nlpm</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nlp_config</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;sample&#39;</span>             <span class="c1"># unique module name identifier (used in nlpm/nlpi)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nlp_config</span> <span class="o">=</span> <span class="n">nlp_config</span>  <span class="c1"># text based info related to module (used in nlpm/nlpi)</span>
@@ -812,7 +867,7 @@
         <span class="k">pass</span>
 </code></pre></div>
 <h3 id="module-configuration-file">Module Configuration File</h3>
-<p>The congiguration file contains information about the module &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code></p>
+<p>The <code>configuration</code> file contains information about the module <code>sample</code> &amp; its stored functions <code>info</code>, as well as the <code>corpus</code> used in classificaiton of function labels <code>name</code></p>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;modules&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 
 <span class="p">{</span>
@@ -837,6 +892,13 @@
 
 <span class="p">]</span>
 </code></pre></div>
+<h3 id="naming-convensions">Naming Convensions</h3>
+<h4 id="activation-function-name">Activation function <code>name</code></h4>
+<p>Some important things to note:
+- Module class name <code>Sample</code> can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. 
+- Module <code>configuration</code> must contain <code>name</code> (function names) that correspond to its relevant module </p>
+<h4 id="file-names">File names</h4>
+<p>Module <code>components</code> file names can be whatever you choose it to be. Module <code>configuration</code> file names as well can be anything you choose it to be, however its good practice to choose the same name for both module components so you don't loose track of which files belong together.</p>
 
 
 

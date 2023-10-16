@@ -14,15 +14,16 @@ Module activation functions are grouped together in a class format, here is an e
 
 ```python
 # sample module class structure
-class sample(nlpi):
+
+class Sample(nlpi):
     
     '''
 	
 	Initialise Module
 
     '''
-
     # called in nlpm
+
     def __init__(self,nlp_config):
         self.name = 'sample'             # unique module name identifier (used in nlpm/nlpi)
         self.nlp_config = nlp_config  # text based info related to module (used in nlpm/nlpi)
@@ -58,7 +59,7 @@ class sample(nlpi):
 
 ## Module Configuration File
 
-The congiguration file contains information about the module & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
+The `configuration` file contains information about the module `sample` & its stored functions `info`, as well as the `corpus` used in classificaiton of function labels `name`
 
 ``` json
 "modules": [
@@ -85,3 +86,15 @@ The congiguration file contains information about the module & its stored functi
 
 ]
 ```
+
+## Naming Convensions
+
+### Activation function `name`
+
+Some important things to note:
+- Module class name `Sample` can be whatever you choose. The relevant class must then be used as import when grouping together all other modules. 
+- Module `configuration` must contain `name` (function names) that correspond to its relevant module 
+
+### File names
+
+Module `components` file names can be whatever you choose it to be. Module `configuration` file names as well can be anything you choose it to be, however its good practice to choose the same name for both module components so you don't loose track of which files belong together.
