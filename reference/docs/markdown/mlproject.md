@@ -1,5 +1,5 @@
 
-You love machine learning? We do to :) In this sections you'll find the associated `mllibs` modules for different stages of a machine learning project
+In this sections you'll find the associated `mllibs` modules for different stages of a machine learning project
 
 ## Typical Steps in a Machine Learning Project:
 
