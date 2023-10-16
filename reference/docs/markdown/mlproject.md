@@ -1,4 +1,6 @@
 
+You love machine learning? We do to :) In this sections you'll find the associated `mllibs` modules for different stages of a machine learning project
+
 ## Typical Steps in a Machine Learning Project:
 
 ### 1. Problem Definition
@@ -13,7 +15,6 @@ During this phase of the project, we gather the relevant data that will be used 
 ### 3. Data Preprocessing
 
 During this phase, we conduct various data preprocessing procedures that will make it suitable for data analysis
-
 
 
 ### 4. Data Exploration
