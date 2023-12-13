@@ -1,9 +1,14 @@
-<center>
-![Image title](fcnb.png)
-</center>
+<p align="center">
+    <img src="data/images/fcnb.png" width="450">
+</p>
 
-<center>![](https://img.shields.io/badge/python-3.7%2B-fc4c69
-) ![](https://img.shields.io/badge/pypi-v0.1.7-fc4c69) ![](https://img.shields.io/badge/License-MIT-fc4c69) [![](https://static.pepy.tech/badge/mllibs)](https://www.pepy.tech/projects/mllibs) ![](https://img.shields.io/github/stars/mllibs?style=social)</center>
+<h5 align="center">
+    
+![](https://img.shields.io/badge/python-3.7%2B-fc4c69) ![](https://img.shields.io/badge/pypi-v0.1.7-fc4c69) ![](https://img.shields.io/badge/License-MIT-fc4c69)
+![License](https://img.shields.io/github/stars/mllibs?style=social)
+
+</h5>
+
 
 ### **About mllibs**
 
@@ -101,4 +106,4 @@ Here's how you can get started:
 
 **Thank you for reading!**
 
-Any questions or comments about the above post can be addressed on the :fontawesome-brands-telegram:{ .telegram } **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly :fontawesome-brands-telegram:{ .telegram } **[shtrauss2](https://t.me/shtrauss2)**, on :fontawesome-brands-github:{ .github } **[shtrausslearning](https://github.com/shtrausslearning)** or :fontawesome-brands-kaggle:{ .kaggle} **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly :fontawesome-brands-telegram:{ .telegram } **[shtrauss2](https://t.me/shtrauss2)**, on :fontawesome-brands-github:{ .github } **[shtrausslearning](https://github.com/shtrausslearning)** or **[shtrausslearning](https://kaggle.com/shtrausslearning)**
