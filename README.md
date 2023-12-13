@@ -86,6 +86,11 @@ All these methods will give the following result:
 [0, 1, 1, 2, 3]
 ```
 
+### **Library Contents**
+
+**mllibs** is constantly evolving and has a repository documentation and development page which you can visit, **[mllibs documentation](https://shtrausslearning.github.io/mllibs/about.html)**
+
+
 ### **How to Contribute**
 
 <h4>Predefined Tasks</h4>
@@ -106,4 +111,4 @@ Here's how you can get started:
 
 **Thank you for reading!**
 
-Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly :fontawesome-brands-telegram:{ .telegram } **[shtrauss2](https://t.me/shtrauss2)**, on :fontawesome-brands-github:{ .github } **[shtrausslearning](https://github.com/shtrausslearning)** or **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly **[shtrauss2](https://t.me/shtrauss2)**, on **[shtrausslearning](https://github.com/shtrausslearning)** or **[shtrausslearning](https://kaggle.com/shtrausslearning)**
