@@ -1,0 +1,45 @@
+
+{
+  "modules": [
+    
+    {
+      "name": "bencode_ordinalX_fixed",
+    "corpus": [
+                "create biological ordinal encoding",
+                "ordinal encoding for biological data"
+              ],
+      "info": {
+              "module":"bio_encode",
+              "action":"create feature matrix",
+              "topic":"bioinformatics",
+              "subtopic":"sequence encoding",
+              "input_format":"pd.DataFrame",
+              "description":"create ordinal encoding of a biological sequence",
+              "output":"None",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "bencode_kmerX",
+    "corpus": [
+                "create biological kmer encoding",
+                "biological kmer encoding",
+                "create biological sequence kmer encoding"
+              ],
+      "info": {
+              "module":"bio_encode",
+              "action":"show plot",
+              "topic":"bioinformatics",
+              "subtopic":"sequence encoding",
+              "input_format":"pd.DataFrame",
+              "description":"create kmer encoding of a biological sequence",
+              "output":"None",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    }
+  ]
+}
+e4

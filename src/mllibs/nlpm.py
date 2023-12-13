@@ -53,9 +53,9 @@ NLPM class
 class nlpm:
     
     def __init__(self):
+        print('\n[note] initialising nlpm, please load modules using .load(list)')
         self.task_dict = {} # stores the input task variation dictionary (prepare)
         self.modules = {} # stores model associate function class (prepare) 
-        self.model_class = {}
         self.ner_identifier = {}  # NER tagger (inactive)
 
     ''' 
@@ -336,16 +336,16 @@ class nlpm:
 
             '''
 
-            for ii,(key,corpus) in enumerate(self.corpus_mt.items()):  
-                module_name = self.mod_order[ii]
-                self.mlloop(corpus,module_name)
+            # for ii,(key,corpus) in enumerate(self.corpus_mt.items()):  
+            #     module_name = self.mod_order[ii]
+            #     self.mlloop(corpus,module_name)
 
             ''' 
 
             [2] Create Module Selection Model
 
             '''
-            self.mlloop(self.corpus_ms,'ms')
+            # self.mlloop(self.corpus_ms,'ms')
 
             ''' Other Models '''
 
@@ -354,12 +354,11 @@ class nlpm:
     #         self.mlloop(self.corpus_top,'top')
     #         self.mlloop(self.corpus_sub,'sub')
     
-            self.toksub_model()
-            self.ner_tokentag_model()
+            # self.toksub_model()
+            # self.ner_tokentag_model()  
             self.ner_tagger()
 
-            print('models trained...')
-
+            print('[note] models trained!')
     
     ''' 
 
@@ -480,13 +479,22 @@ class nlpm:
     def predict_gtask(self,name:str,command:str):
         pred_per = self.test(name,command)     # percentage prediction for all classes
         val_pred = np.max(pred_per)            # highest probability value
-        if(val_pred > 0.5):
-            idx_pred = np.argmax(pred_per)         # index of highest prob         
-            pred_name = self.label[name][idx_pred] # get the name of the model class
-            print(f"[note] found relevant global task [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
-        else:
-            print(f'[note] no module passed decision threshold')
-            pred_name = None
+
+        # (a) with decision threshold setting
+
+        # if(val_pred > 0.5):
+        #     idx_pred = np.argmax(pred_per)         # index of highest prob         
+        #     pred_name = self.label[name][idx_pred] # get the name of the model class
+        #     print(f"[note] found relevant global task [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
+        # else:
+        #     print(f'[note] no module passed decision threshold')
+        #     pred_name = None
+
+        # (b) without decision threshold setting
+
+        idx_pred = np.argmax(pred_per)         # index of highest prob         
+        pred_name = self.label[name][idx_pred] # get the name of the model class
+        print(f"[note] found relevant global task [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
 
         return pred_name,val_pred
     

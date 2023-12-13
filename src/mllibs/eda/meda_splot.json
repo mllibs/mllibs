@@ -1,0 +1,262 @@
+{
+  "modules": [
+    
+    {
+      "name": "sscatterplot",
+    "corpus": [
+                "create seaborn scatter plot",
+                "make seaborn scatter plot",
+                "make seaborn scatterplot",
+                "create seaborn scatterplot",
+                "create scatterplot",
+                "make scatterplot"
+              ],
+      "info": {
+               "module":"eda_plot",
+               "action":"action",
+               "topic":"exploratory data analysis",
+               "subtopic":"plot figure",
+               "input_format":"pd.DataFrame",
+               "description":"make a scatter plot using seaborn, bivariate or multivariate",
+               "output":"None",
+               "token_compat":"None",
+               "arg_compat":"x y hue"
+              }
+    },
+    
+    {
+        "name": "srelplot",
+      "corpus": [
+                "create seaborn relplot",
+                "create seaborn relplot",
+                "make seaborn relplot",
+                "create seaborn relation plot",
+                "create seaborn relation plot",
+                "make seaborn relation plot"
+      ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn relation plot using relplot, we can use columns and rows to show differences in data",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y col row hue col_wrap kind"
+              }
+    },
+
+    {
+        "name": "sboxplot",
+      "corpus": [
+                "seaborn boxplot",
+                "seaborn box plot",
+                "seaborn boxplot",
+                "make seaborn boxplot",
+                "make seaborn box plot",
+                "create seaborn boxplot",
+                "create seaborn box plot"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn box plot using boxpot, they show quartiles and outliers",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y hue"
+              }
+    },
+
+    {
+        "name": "sresidplot",
+      "corpus": [
+                "create residual plot",
+                "make residual plot",
+                "create seaborn residual plot",
+                "make seaborn residual plot"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn residual plot",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y"
+              }
+    },
+
+    {
+        "name": "sviolinplot",
+      "corpus": [
+                "create violin plot",
+                "create violinplot",
+                "create seaborn violin plot",
+                "create seaborn violinplot",
+                "make violin plot",
+                "make violinplot"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn violin plot",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y hue"
+              }
+    },
+
+
+    {
+        "name": "shistplot",
+      "corpus": [
+                "create histogram plot",
+                "create seaborn histogram plot",
+                "make histogram plot",
+                "create histogram",
+                "make seaboen histogram plot"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn histogram plot",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y hue bw nbins"
+              }
+    },
+
+    {
+        "name": "skdeplot",
+      "corpus": [
+                "create kde plot",
+                "create kernel density estimation plot",
+                "make kde plot",
+                "create seaborn kde plot",
+                "make seaborn kde plot",
+                "plot seaborn kde figure",
+                "make seaborn kde figure"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn kernel density estimation plot (kde)",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y hue"
+              }
+    },
+
+    {
+        "name": "slmplot",
+      "corpus": [
+                "create seaborn regression plot",
+                "create seaborn regression model",
+                "create seaborn regression estimation",
+                "make seaborn regression plot",
+                "make seaborn regression estimation",
+                "make seaborn regression model",
+                "plot seaborn regression model",
+                "plot seaborn estimation",
+                "fit seaborn regression estimation plot",
+                "fit regression estimation plot",
+                "make seaborn regression estimation figure",
+                "visualise seaborn regression figure"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Create a seaborn regression model fit",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y hue col row"
+              }
+    },
+
+    {
+        "name": "spairplot",
+      "corpus": [
+                "seaborn pairplot",
+                "bivariate pairplot",
+                "bivariate seaborn pairplot",
+                "multivariate seaborn pairplot",
+                "multivariate pairplot"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Make a seaborn pairplot using seaborn",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"hue"
+              }
+    },
+
+    {
+        "name": "slineplot",
+      "corpus": [
+                "create seaborn lineplot plot",
+                "make seaborn line plot",
+                "make seaborn lineplot",
+                "create seaborn lineplot",
+                "create lineplot",
+                "make lineplot"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Make a seaborn lineplot using seaborn",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"x y hue"
+              }
+    },
+
+    {
+        "name": "sheatmap",
+      "corpus": [
+                "create seaborn heatmap plot",
+                "make seaborn heatmap plot",
+                "create heatmap plot",
+                "make heatmap figure",
+                "visualise heatmap figure"
+                ],
+      "info": {
+                "module":"eda_plot",
+                "action":"show plot",
+                "topic":"exploratory data analysis",
+                "subtopic":"plot figure",
+                "input_format":"pd.DataFrame",
+                "description":"Make a seaborn heatmap figure/plot of correlation values",
+                "output":"None",
+                "token_compat":"None",
+                "arg_compat":"None"
+              }
+    }
+
+  ]
+}

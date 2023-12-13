@@ -4,7 +4,12 @@ setup(packages=find_packages(where="src"),
       package_dir={"": "src"},
       package_data={"mllibs": ["corpus/*.txt",
                                "corpus/*.csv",
-                               "corpus/*.json",
+                               "nlp/*.json",
+                               "eda/*.json",
+                               "libop/*.json",
+                               "stats/*.json",
+                               "pd/*.json",
+                               "*.json",
                                "models/*.pickle"]
       })
 

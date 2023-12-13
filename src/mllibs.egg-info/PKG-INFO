@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mllibs
-Version: 0.1.7
+Version: 0.1.8
 Summary: Simplifying Machine Learning
 Home-page: https://github.com/shtrausslearning/mllibs
 Author: Andrey Shtrauss
@@ -26,12 +26,15 @@ Requires-Dist: scikit-learn
 Requires-Dist: gensim
 Requires-Dist: spacy
 Requires-Dist: torch
+Requires-Dist: tensorflow
+Requires-Dist: keras
+Requires-Dist: statsmodels
 
 <p align="center">
     <img src="data/images/cnb.png" width="450">
 </p>
 
-<h5 align="center"
+<h5 align="center">
     
 ![](https://camo.githubusercontent.com/d38e6cc39779250a2835bf8ed3a72d10dbe3b05fa6527baa3f6f1e8e8bd056bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f64652d507974686f6e2d696e666f726d6174696f6e616c3f7374796c653d666c6174266c6f676f3d707974686f6e266c6f676f436f6c6f723d776869746526636f6c6f723d326262633861) ![](https://badgen.net/badge/status/WIP/orange) [![GitHub mllibs](https://img.shields.io/github/v/tag/shtrausslearning/mllibs.svg?sort=semver)](https://github.com/shtrausslearning/mllibs/releases)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license "Go to license section")
@@ -48,8 +51,6 @@ Some key points about the library:
 - Likewise, NLP based interpreters follow this trend as well, except, in this case our only inputs for activating certain code is `natural language`
 - Using python, we can interpret `natural language` in the form of `string` type data, using `natural langauge interpreters`
 - <code>mllibs</code> aims to provide an automated way to do machine learning using natural language
-
-<br>
 
 ### Code Automation
 
@@ -70,15 +71,6 @@ Another common approach to automate code is using a class based approach. Utilis
 #### (3) Natural Language
 
 Another approach, which `mllibs` uses in natural language based code automation:
-
-```python
-input = 'calculate the fibonacci'
-         sequence for the value of 5'
-
-nlp_interpreter(input) 
-```
-
-All these methods will give the following result:
 
 <table>
     
@@ -128,7 +120,7 @@ fib.get_list()
 <td>
 
 ```python
-input = 'calculate the fibonacci
+input = 'calculate the fibonacci'
          sequence for the value of 5'
 
 nlp_interpreter(input) 
@@ -142,8 +134,6 @@ nlp_interpreter(input)
 
 </tr>
 </table>
-
-<br>
 
 ### Library Components
 
@@ -160,8 +150,6 @@ nlp_interpreter(input)
 (2) custom added modules, for mllibs these library are associated with **machine learning** topics
 
 You can check all the activations functions using <code>session.fl()</code> as shown in the sample notebooks in folder <code>examples</code>
-
-<br>
 
 ### Module Component Structure
 
@@ -209,8 +197,6 @@ info_sample = {'function': {'module':'sample',
 # configuration dictionary (passed in nlpm)
 configure_sample = {'corpus':corpus_sample,'info':info_sample}
 ```
-
-<br>
 
 ### Creating a Collection
 
@@ -262,8 +248,6 @@ from mllibs.interface import interface
 session = interface()
 ```
 
-<br>
-
 ### **How to Contibute**
 
 Want to add your own project to our collection? We welcome all contributions, big or small. Here's how you can get started:
@@ -272,13 +256,6 @@ Want to add your own project to our collection? We welcome all contributions, bi
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Submit a pull request
-
-<br>
-
-### **mllibs related posts**
-
-`mllibs` related posts are available on the **[github pages](https://shtrausslearning.github.io/mllibs/home/)**
-
 
 ### **Contact**
 

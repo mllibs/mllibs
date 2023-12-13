@@ -12,3 +12,6 @@ scikit-learn
 gensim
 spacy
 torch
+tensorflow
+keras
+statsmodels

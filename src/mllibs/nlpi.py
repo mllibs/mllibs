@@ -5,17 +5,16 @@ import pandas as pd
 import random
 import re
 from inspect import isfunction
-from seaborn import load_dataset
+import plotly.express as px
+import seaborn as sns
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser,custpunkttokeniser,n_grams,nltk_wtokeniser_span
 from mllibs.data_conversion import convert_to_list,convert_to_df
 from string import punctuation
 
-
 # default plot palette
-
 def hex_to_rgb(h):
     h = h.lstrip('#')
-    return tuple(int(h[i:i+2], 16)/255 for i in (0, 2, 4))
+    return tuple(int(h[i:i+2], 16)/255 for i in (0,2,4))
 
 palette = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252']
 palette_rgb = [hex_to_rgb(x) for x in palette]
@@ -30,9 +29,11 @@ def isfloat(strs:str):
 
 
 '''
+##############################################################################
 
 INTERPRETER CLASS (NLPI)
 
+##############################################################################
 '''
  
 class nlpi(nlpm):
@@ -45,31 +46,30 @@ class nlpi(nlpm):
     model = {}                       # store models
     
     # instantiation requires module
-    def __init__(self,module=None,verbose=0):
+    def __init__(self,module=None):
         self.module = module                  # collection of modules
         self._make_task_info()                # create self.task_info
         self.dsources = {}                    # store all data source keys
         self.token_data = []                  # store all token data
-        self.verbose = verbose                # print output text flag
-        nlpi.silent = False     
+        nlpi.silent = True     
+        nlpi.lmodule = self.module            # class variable variation for module calls
                     
         # class plot parameters
-        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'stheme':palette_rgb,'s':30}
-        
+        nlpi.pp = {'alpha':None,'mew':None,'mec':None,'fill':None,'stheme':palette_rgb,'s':None, 'title':None,'template':None,'background':None}
+
     # set plotting parameter
         
     def setpp(self,params:dict):
         if(type(params) is not dict):
-            if(nlpi.silent is False):
-                print("plot parameter dictionary: {'alpha':1,'mew':1,'mec':'k',...}")
+            print('[note] such a parameter is not used')
         else:
             nlpi.pp.update(params)
             if(nlpi.silent is False):
-                print('plot parameter updated!')
-   
+                print('[note] plot parameter updated!')
+
     @classmethod
     def resetpp(cls):
-        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'stheme':palette_rgb,'s':30}
+        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'s':30,'title':None}
 
     # Check all available data sources, update dsources dictionary
                     
@@ -78,15 +78,17 @@ class nlpi(nlpm):
         lst_data = list(nlpi.data.keys())            # data has been loaded
         self.dsources = {'inputs':lst_data}
                
-        if(nlpi.silent is False): 
-            print('inputs:')
-            print(lst_data,'\n')
+        # if(nlpi.silent is False): 
+        #     print('inputs:')
+        #     print(lst_data,'\n')
         
         
     ''' 
+    ##############################################################################
     
     STORE INPUT DATA
     
+    ##############################################################################
     '''
     
     # split dataframe columns into numeric and categorical
@@ -98,103 +100,139 @@ class nlpi(nlpm):
         categorical = df.select_dtypes(exclude=numerics)
         return list(numeric.columns),list(categorical.columns)
 
-    # Load Dataset from Seaborn Repository
-    
+    # Load Dataset from Seaborn Repository    
     def load_dataset(self,name:str,info:str=None):
         # load data from seaborn repository             
-        data = load_dataset(name)
+        data = sns.load_dataset(name)
         self.store_data(data,name,info)
+
+
+    '''
+    ##############################################################################
+
+    Store Active Columns (in nlp)
+
+    ##############################################################################
+    '''
 
     # [data storage] store active column data (subset of columns)
 
-    def store_data_ac(self,data_name:str,ac_name:str,lst:list):
+    def store_ac(self,data_name:str,ac_name:str,lst:list):
 
         if(data_name in nlpi.data):
             if(type(lst) == list):
                 nlpi.data[data_name]['ac'][ac_name] = lst
             else:
-                print('[note] please use list')
+                print('[note] please use list for subset definition')
 
-    # [data storage] main data storage function
+    '''
+    ##############################################################################
+
+    Store Data
+
+    ##############################################################################
+    '''
+
+    # [store dataframe] 
+
+    def _store_data_df(self,data,name):
+
+        # dictionary to store data information
+        di = {'data':None,                      # data storage
+            'subset':None,                    # column subset
+            'splits':None,'splits_col':None,  # row splits (for model) & (for plot)
+            'features':None,'target':None,    # defined features, target variable
+            'cat':None,
+            'num':None,            
+            'miss':None,                      # missing data T/F
+            'size':None,'dim':None,           # dimensions of data
+            'model_prediction':None,          # model prediction values (reg/class)
+            'model_correct':None,             # model prediction T/F (class)
+            'model_error':None,               # model error (reg)
+            'ac': None,                       # active column list (just list of columns)
+            'ft': None                        # feature/target combinations
+            }
         
-    def store_data(self,data,name:str):
+        ''' [1] Set DataFrame Dtypes '''
+        # column names of numerical and non numerical features
+            
+        di['num'],di['cat'] = self.split_types(data)
+        di['ac'] = {}
         
-		# dictionary to store data information
-        datainfo = {'data':None,                      # data storage
-                    'subset':None,                    # column subset
-                    'splits':None,'splits_col':None,  # row splits (for model) & (for plot)
-                    'features':None,'target':None,    # defined features, target variable
-                    'cat':None,'num':None,            # names of categorical & numerical columns
-                    'miss':None,                      # missing data T/F
-                    'size':None,'dim':None,           # dimensions of data
-                    'model_prediction':None,          # model prediction values (reg/class)
-                    'model_correct':None,             # model prediction T/F (class)
-                    'model_error':None,               # model error (reg)
-                    'ac': None,                       # active column list (just list of columns)
-                    'ft': None                        # feature/target combinations
-                    }
-    
-        ''' 
+        ''' [2] Missing Data '''
+        # check if there is any missing data
 
-        Fill out information about dataset 
+        missing = data.isna().sum().sum()
+        
+        if(missing > 0):
+            di['miss'] = True
+        else:
+            di['miss'] = False
+            
+        ''' [3] Column names '''
 
-        '''
+        di['features'] = list(data.columns)
+        
+        if(di['target'] is not None):
+            di['features'].remove(di['target'])
+        
+        ''' [4] Determine size of data '''
+        di['size'] = data.shape[0]
+        di['dim'] = data.shape[1]
+
+        # Initialise other storage information
+        di['splits'] = {}      # data subset splitting info  (for models)
+        di['splits_col'] = {}  #      ""                     (for visualisation - column)
+        di['outliers'] = {}    # determined outliers
+        di['dimred'] = {}      # dimensionally reduced data 
+
+        di['model_prediction'] = {}
+        di['model_correct'] = {}
+        di['model_error'] = {}
+
+        di['data'] = data
+        nlpi.data[name] = di
+
+    # Main Function for storing data
+        
+    def store_data(self,data,name:str=None):
                     
-        if(isinstance(data,pd.DataFrame)):
-            
-            ''' [1] Set DataFrame Dtypes '''
-            # column names of numerical and non numerical features
-                
-            datainfo['num'],datainfo['cat'] = self.split_types(data)
-            datainfo['ac'] = {}
-            datainfo['ac']['num'] = datainfo['num']
-            datainfo['ac']['cat'] = datainfo['cat']
-            
-            ''' [2] Missing Data '''
-            # check if there is any missing data
+        if(name is not None and type(data) is not dict):
 
-            missing = data.isna().sum().sum()
-            
-            if(missing > 0):
-                datainfo['miss'] = True
-            else:
-                datainfo['miss'] = False
-                
-            ''' [3] Column names '''
+            if(isinstance(data,pd.DataFrame)):
+                self._store_data_df(data,name)
+            elif(isinstance(data,list)):
+                nlpi.data[name] = {'data':data}
 
-            datainfo['features'] = list(data.columns)
-            
-            if(datainfo['target'] is not None):
-                datainfo['features'].remove(datainfo['target'])
-            
-            ''' [4] Determine size of data '''
-    
-            datainfo['size'] = data.shape[0]
-            datainfo['dim'] = data.shape[1]
+        elif(type(data) is dict):
 
-            # Initialise other storage information
-            datainfo['splits'] = {}      # data subset splitting info  (for models)
-            datainfo['splits_col'] = {}  #      ""                     (for visualisation - column)
-            datainfo['outliers'] = {}    # determined outliers
-            datainfo['dimred'] = {}      # dimensionally reduced data 
+            for key,value in data.items():
 
-            datainfo['model_prediction'] = {}
-            datainfo['model_correct'] = {}
-            datainfo['model_error'] = {}
-                
-        ''' Store Data '''
-        
+                if(isinstance(value,pd.DataFrame)):
+                    self._store_data_df(value,key)
+                elif(isinstance(value,list)):
+                    nlpi.data[key] = {'data':value}
+                else:
+                    print('[note] only dataframe and lists are accepted')
+
+    # Load Sample Plotly Datasets
+
+    def load_sample_data(self):
+        self.store_data(px.data.stocks(),'stocks')
+        self.store_data(px.data.tips(),'tips')
+        self.store_data(px.data.iris(),'iris')
+        self.store_data(px.data.carshare(),'carshare')
+        self.store_data(px.data.experiment(),'experiment')
+        self.store_data(px.data.wind(),'wind')
+        self.store_data(sns.load_dataset('flights'),'flights')
+        self.store_data(sns.load_dataset('penguins'),'penguins')
+        self.store_data(sns.load_dataset('taxis'),'taxis')
+        self.store_data(sns.load_dataset('titanic'),'titanic')
+        self.store_data(sns.load_dataset('mpg'),'mpg')
         if(nlpi.silent is False):
-            print(f'\ndata info for {name}')
-            print('======================================================')
-            print(datainfo)
-                 
-        datainfo['data'] = data
-        nlpi.data[name] = datainfo
+            print('[note] sample datasets have been stored')
 
-        
     # activation function list
-    
     def fl(self,show='all'):
                             
         # function information
@@ -206,19 +244,18 @@ class nlpi(nlpm):
             return dict(tuple(df_funct.groupby('module')))[show]
         
     # debug, show information
-        
     def debug(self):
         
         return {'module':self.module.mod_summary,
                 'token': self.token_info,
-                'args': self.module_args,
-                'ner':self.token_split,
-                'seg':self._seg_pred}
+                'args': self.module_args}
      
     '''
-    
+    ##############################################################################
+
     NER TAGGING OF INPUT REQUEST
        
+    ##############################################################################
     '''
 
     # in: self.tokens (required)
@@ -251,9 +288,11 @@ class nlpi(nlpm):
 
        
     ''' 
+    ##############################################################################
     
     Check if token names are in data sources 
     
+    ##############################################################################
     '''
 	
     # get token data
@@ -280,6 +319,12 @@ class nlpi(nlpm):
                     dict_tokens[source_name] = nlpi.data[source_name]['data']
 
         return dict_tokens
+
+
+    # check if self.tokens is in active column
+    
+    # def check_ac(self):
+
     
     def check_data(self):
         
@@ -325,7 +370,8 @@ class nlpi(nlpm):
                 #             self.module_args['tokeniser'] = value
 
         else:
-            print("[note] input request tokens not found in nlpi.data")
+            if(nlpi.silent is False):
+                print("[note] input request tokens not found in nlpi.data")
 
         # check if tokens belong to dataframe column
         self.token_info['column'] = np.nan
@@ -333,13 +379,14 @@ class nlpi(nlpm):
         # self.token_info['index'] = np.nan
 
         '''
+        ##############################################################################
 
         Set Token DataFrame Column Association self.token_info['column']
 
+        ##############################################################################
         '''
 
         # check if tokens match dataframe column,index & dictionary keys
-
         temp = self.token_info
 
         # possible multiple dataframe
@@ -380,9 +427,11 @@ class nlpi(nlpm):
     
         
     ''' 
+    ##############################################################################
     
     Execute user input, have [self.command]
     
+    ##############################################################################
     '''
     
     def __getitem__(self,command:str):
@@ -392,9 +441,11 @@ class nlpi(nlpm):
         self.do(command=command,args=args)
 
     '''
+    ##############################################################################
 
     Predict [task_name] using global task classifier
 
+    ##############################################################################
     '''
 
     def pred_gtask(self,text:str):
@@ -406,7 +457,6 @@ class nlpi(nlpm):
             return gt_name,gt_name_p
 
         self.task_name,_ = get_globaltask(text)
-
 
         # having [task_name] find its module
 
@@ -450,7 +500,6 @@ class nlpi(nlpm):
             t_pred,t_pred_p = self.module.predict_task(ms_name,text)  
             return t_pred,t_pred_p
 
-
         def predict_module_task(text):
 
             # predict module [ms_name], activation task [t_pred,t_name]
@@ -476,341 +525,16 @@ class nlpi(nlpm):
                 self.task_name = None
                 self.module_name = None
 
-        '''
-
-        MAIN PREDICTION
-
-        '''
-
+        # MAIN PREDICTION
         predict_module_task(text)
             
-
     '''
 
-    FILL OUT MODULE ARGUMENTS
-
-    '''
-
-    # if we only have data token, it should be the required function input
-        
-    def set_moddata(self,in_format,available_data,len_data):
-
-        # number of matches that fit task input format 
-
-        if(len_data == 1):
-        
-            ldtype = available_data.loc[available_data.index,'dtype'].values[0] # get the data type
-            ldata = self.get_td(available_data.index)  # get the data 
-            ltoken = list(available_data['token'])
-            
-            # one token data source which meets function input criteria
-
-            if(ldtype == in_format):
-                print('[note] one data source token has been set!')
-                self.module_args['data'] = self.get_td(available_data.index)
-                self.module_args['data_name'] = ltoken
-                
-            else:
-                
-                # try to convert input data to dataframe
-                if(in_format == 'pd.DataFrame'):
-                    self.module_args['data'] = convert_to_df(ldata)
-                elif(in_format == 'list'):
-                    self.module_args['data'] = convert_to_list(ldata)
-                    
-        
-        # defining which token to set as data source(s)
-            
-        elif(len_data > 1):
-            
-            # match to input requirement
-            data_type_match = available_data[available_data['dtype'] == in_format]
-            
-            # in most cases, there should be only 1 data source passed to funct
-            if(len(data_type_match) == 1):
-                self.module_args['data'] = self.get_td(data_type_match.index)
-                
-            # pandas operations can require two (eg. concat)
-            elif(len(data_type_match) == 2):
-                
-                self.module_args['data'] = []
-                for idx in list(data_type_match.index):
-                    self.module_args['data'].append(self.get_td(idx))
-                    
-            else:
-                
-                if(nlpi.silent is False):
-                    print('[note] more than 2 data sources found')
-
-                
-        else:
-            if(nlpi.silent is False):
-                print('[note] no data has been set')
-
-    ''' 
-    
-    [COLUMN SEARCH] DATAFRAME COLUMN SEARCH
-    
-    '''
-
-    # based on self.token_info [column] data
-
-    def set_modcolumns(self):
-            
-        # tokenised spans
-        tokens_index = nltk_wtokeniser_span(self.command)
-        
-        # we actually have column (from dataframe) data
-        col_data = self.token_info['column'].dropna() # column names
-        col_data_idx = col_data.index
-        len_col_data = len(col_data)  # number of available column data tokens
-        column_tokens = list(self.token_info.loc[col_data_idx,'token'])
-        
-        if(len_col_data != 0):
-            
-            # for each token that was found in dataframe columns   
-                     
-            for token in column_tokens:
-                
-                # find index where it is located in input command
-                idx_match_token = self.command.index(token)
-                
-                # all possible options we are interested
-                lst_options = ['x','y','hue','col','row','target','val']
-                
-                for option in lst_options:
-                    
-                    # loop through token index ranges [(0,5),(6-10)...]
-
-                    for ii,segment in enumerate(tokens_index):
-                    
-                        if(idx_match_token in segment):
-                            if(self.tokens[ii-1] == option):
-                                self.module_args[option] = token
-
-    '''
-
-    [COLUMN SEARCH] Check Data Storage Content    
-    
-    '''
-
-    # if set_modcolumns [dataframe columns] does not contain
-    # self.data contains additional data about data [such as kfold data]
-
-    def set_gentokens_fromdata(self):
-
-        # cycle through all input request tokens
-        for token in self.tokens:
-
-            lst_gtokens = ['x','y','hue','col','row','target','val']
-
-            for gtoken in lst_gtokens:
-
-                # if the previous token was 'hue' etc, check that it exists in data!
-
-                if(self.tokens[self.tokens.index(token)-1] == gtoken):
-
-                    # dictionary of data sources
-
-                    split_col_data = self.data[self.module_args['data_name'][0]]['splits_col']
-                    model_pred_data = self.data[self.module_args['data_name'][0]]['model_prediction']
-    
-                    all_available = []
-
-                    # [a] check columns in data splitting data
-                    for key,val in split_col_data.items():
-                        all_available.append(key)
-                        
-                    # [b] check columns in model prediction data 
-                    for key,val in model_pred_data.items():
-                        for col in list(val.columns):
-                            all_available.append(key + "_" + col)
-                    
-                    # current token 
-                    if(token in all_available):
-                        self.module_args[gtoken] = token
-
+    Define module_args [data,data_name]
 
     '''
     
-    USE NER TO SORT MODULE ARGS
-    
-    '''
-
-    def set_modNER(self,in_format,available_data):
-        
-        # only if input is a dataframe
-        
-        if(in_format == 'pd.DataFrame'):       
-            
-            request_split = self.token_split
-            token_split_id = self.token_split_id     
-        
-            unique_nerid = token_split_id.copy()
-            key_token = []
-            for lst_tokens in unique_nerid:
-                key_token.append([i for i in lst_tokens if i != 4])
-
-            # main function
-            def sort_coltoken(tokens:int,lst:list):
-                
-                # select which key to store column names 
-                
-                if(0 in tokens):
-                    token_name = 'features'
-                elif(1 in tokens):
-                    token_name = 'target'
-                elif(2 in tokens):
-                    token_name = 'subset'
-                elif(3 in tokens):
-                    token_name = None   # data (pass)
-                elif(5 in tokens):
-                    token_name = 'all'
-                else:
-                    token_name = None
-                               
-                # extract token column names
-                
-                tokens = lst
-                bigram_tokens = n_grams(lst,2)
-                trigram_tokens = n_grams(lst,3)          
-                all_tokens = [tokens,bigram_tokens,trigram_tokens]
-                
-                # if ner token has been identified 
-                
-                if(token_name is not None):
-                    
-                    # classify the action to performed
-                    command_document = ' '.join(lst) 
-                    pred_name = self.module.test_name('token_subset',command_document)
-
-                    # store tokens which are columns (go through tri,bi,unigrams)
-                    
-                    column_tokens = []
-                    for token_group in all_tokens:
-                        for token in token_group:
-                            
-                            # data origin
-                            col_id = self.token_info.loc[token,'column'] 
-                            
-                            # repeated column token is found in user request 
-                            if(type(col_id) is pd.Series or type(col_id) is str):
-                                if(token in list(self.module_args['data'].columns)):
-                                    column_tokens.append(token)        
-
-                    
-                    self._seg_pred.append([token_name,pred_name,column_tokens])                    
-                    
-                    # if we store only specified/listed tokens 
-    
-                    if(pred_name == 'only'):
-                        
-                        self.module_args[token_name] = column_tokens
-                        
-                    # select all columns in dataframe
-                    
-                    elif(pred_name == 'all'):
-                        
-                        all_columns = list(self.module_args['data'].columns)
-                        self.module_args[token_name] = all_columns
-                        
-                    # select all columns but selected column
-     
-                    elif(pred_name == 'allbut'):
-    
-                        all_columns = list(self.module_args['data'].columns)
-                        remove_columns = column_tokens
-                        keep_columns = list(set(all_columns) - set(remove_columns))
-                        self.module_args[token_name] = keep_columns
-                        
-                    # if we need to select numeric columns
-                        
-                    elif(pred_name == 'numeric'):
-                        
-                        num,_ = self.split_types(self.module_args['data'])
-                        self.module_args[token_name] = num
-                        
-                    # if we need to select categorical columns
-                        
-                    elif(pred_name == 'categorical'):
-                        
-                        _,cat = self.split_types(self.module_args['data'])
-                        self.module_args[token_name] = cat
-
-    
-                    # subset was stored and added to list
-    
-                    elif(pred_name == 'fromdata'):
-    
-                        # match to input requirement
-                        lst_match = available_data[available_data['dtype'] == 'list']
-    
-                        # in most cases, there should be only 1 
-                        if(len(lst_match) == 1):
-                            self.module_args[token_name] = self.get_td(lst_match.index)
-    
-                        # pandas operations can require two (eg. concat)
-                        elif(len(lst_match) == 2):
-    
-                            self.module_args[token_name] = []
-                            for idx in list(lst_match.index):
-                                self.module_args[token_name].append(self.get_td(idx))
-    
-                            if(nlpi.silent is False):
-                                print('stored multiple data in subset, please confirm')
-    
-                        else:
-                            if(nlpi.silent is False):
-                                print('please use lists for subset when main data is df')
-    
-                    else:
-                        print('implement me')
-                        
-                else:
-                    
-                    # for debug purposes
-                    self._seg_pred.append([None,None,None])
-    
-            # Cycle through all segments split by NER tokens
-            
-            self._seg_pred = []
-            for segment,tokens in zip(key_token,request_split):
-                sort_coltoken(segment,tokens)     
-
-
-    '''
-
-    GENERAL MODULE_ARGS PARAMETER SETTER 
-
-    '''
-
-    def set_gentokens(self):
-
-        for token in self.tokens:
-            
-            lst_gtokens = ['agg','join','axis','bw','splits','shuffle','rs','const',
-                          'threshold','scale','eps','min_samples','ngram_range',
-                          'min_df','max_df','n_splits',
-                          'use_idf','smooth_idf','dim','window','epoch','lr',
-                          'maxlen','sample','whiten','whiten_solver',
-                          'n_neighbours','radius','l1_ratio',
-                          'alpha_1','alpha_2','lambda_1','lambda_2',
-                          'estimator','n_estimators','loss','criterion',
-                          'min_samples_leaf','min_samples_split',
-                          'max_depth','max_features','bootstrap','oob_score',
-                          'max_bins','validation_fraction','n_iter_no_change',
-                          'splitter','nan_mode','bootstrap_type','l2_leaf_reg',
-                          'col_wrap','kind']
-            
-            for gtoken in lst_gtokens:
-                if(self.tokens[self.tokens.index(token)-1] == gtoken):
-                    print('parameter set')
-                    self.module_args[gtoken] = token
-
-
-    ''' MAIN MODULE ARGUMENT '''
-    
-    def sort_module_args(self):
+    def sort_module_args_data(self):
                 
         # input format for the predicted task
         in_format = self.module.mod_summary.loc[self.task_name,'input_format']
@@ -822,18 +546,49 @@ class nlpi(nlpm):
         len_data = len(available_data)
         
         # operations
+        # set [module_args['data'],['data_name']]
 
-        self.set_moddata(in_format,available_data,len_data) # set [module_args['data'],['data_name']]
-        # self.set_modcolumns()
-        self.set_modNER(in_format,available_data)
-        self.set_gentokens()
-        # self.set_gentokens_fromdata()                    
+        # check input format requirement
+        try:
+            in_formats = in_format.split(',')
+            in_formats.sort()
+        except:
+            in_formats = in_format
+ 
+        a_data = list(available_data['dtype'])
+        a_data.sort()
+
+        # input format contains one data source as required by activation function
+
+        if(len_data == 1 and len(in_formats) == 1 and a_data == in_formats):
+        
+            ldtype = available_data.loc[available_data.index,'dtype'].values[0] # get the data type
+            ldata = self.get_td(available_data.index)  # get the data 
+            ltoken = list(available_data['token'])
+            
+            if(nlpi.silent is False):
+                print('[note] one data source token has been set!')
+            self.module_args['data'] = self.get_td(available_data.index)
+            self.module_args['data_name'] = ltoken
+                
+        elif(len_data == 2 and len(in_formats) == 2 and a_data == in_formats):
+
+            self.module_args['data'] = []; self.module_args['data_name'] = []
+            for idx in list(available_data.index):
+                self.module_args['data'].append(self.get_td(idx))
+                self.module_args['data_name'].append(available_data.loc[idx,'token'])    
+                
+        else:
+            if(nlpi.silent is False):
+                print('[note] no data has been set')
 
 
     '''
-    
+    ##############################################################################
+
     Show module task sumamry   
     
+    ##############################################################################
     '''
         
     def _make_task_info(self):
@@ -858,37 +613,55 @@ class nlpi(nlpm):
         
 
     ''' 
+    ##############################################################################
 
-    Tokenise Input Command 
+                             [[ Tokenise Input Command ]]
 
+    ##############################################################################
     '''
 
     # set self.tokens
     # set self.token_info dataframe
+    # exclude punctuation from tokens
 
     def tokenise_request(self):
 
+        # {} will be used as active functions registers
+        lst = list(punctuation)
+        lst.remove('{')
+        lst.remove('}')
+        lst.remove('-')
+
         # tokenise input, unigram
-        self.tokens = custpunkttokeniser(self.command)
+        tokens = custpunkttokeniser(self.command)
+        self.rtokens = tokens
+
+        # remove punctuation
+        def remove_punctuation(x):
+            return x not in lst
+
+        self.tokens = list(filter(remove_punctuation,tokens))
+
         uni = pd.Series(self.tokens).to_frame()
         uni.columns = ['token']
+        uni = uni[~uni['token'].isin(list(lst))].reset_index(drop=True)
         uni['index_id'] = uni.index
         self.token_info = uni
         self.token_info['type'] = 'uni'
         # self.token_info.index = self.token_info['token']
         # del self.token_info['token']
 
-
     '''
+    ##############################################################################
 
     NER for tokens
 
+    ##############################################################################
     '''
 
     # set NER tokenisation
 
     def token_NER(self):
-
         model = self.module.ner_identifier['model'] 
         encoder = self.module.ner_identifier['encoder']
         y_pred = model.predict(encoder.transform(self.tokens))
@@ -919,93 +692,334 @@ class nlpi(nlpm):
 
     '''
 
-    Single Command Related Operations
+    Check Input Request tokens for function argument compatibility 
+
+    ##############################################################################
 
     '''
 
-    # find NER tag B-SOURCE
+    def set_token_arg_compatibility(self):
+
+        lst_data = []
+        compat_sets = {}
+        data = list(self.task_info['arg_compat'])
+        data_filtered = [i for i in data if i != 'None']
+        nested = [i.split(' ') for i in data_filtered]
+        unique_args = set([element for sublist in nested for element in sublist])
+
+        # update token_info
+        self.token_info['token_arg'] = self.token_info['token'].isin(unique_args)
 
     '''
 
-    NER for [source] (ie. using,for...)
+    ACTIVE COLUMN NER PARSING
 
+    ##############################################################################
     '''
 
-    def set_NER_source(self,TAG:str):        
+    # active columns need to be found and removed first
+    # also subset and active columns are not the same
+    # subset - selection of a subset of columns 
+    # active columns - group of column names, can be used for any operation 
 
-        # shifted dataframe data of tagged data
-        p2_data = self.token_info[self.token_info['ner_tags'].shift(2) == TAG]
-        p1_data = self.token_info[self.token_info['ner_tags'].shift(1) == TAG]
-        p0_data = self.token_info[self.token_info['ner_tags'].shift(0) == TAG]
+    def ac_extraction(self):
 
-        # identified pp tokens
-        p0_idx = list(p0_data.index) # tokens of identified tags
+        ls = self.token_info
+        lst = list(ls['token'])
 
-        # type identified token (token has been stored in correct format it was intended)
-        value_p2 = list(p2_data['ttype_storage'].values) # extract token value
-        value_p1 = list(p1_data['ttype_storage'].values) # extract token value
-
-        # ner tags for [p+1] [p+2] (eg. TAG, O)
-        ner_tag_p2 = list(p2_data['ner_tags'].values) # extract token value
-        ner_tag_p1 = list(p1_data['ner_tags'].values) # extract token value
-
-        num_idx_id_p2 = list(p2_data['index_id'].values) # numeric indicies
-        num_idx_id_p1 = list(p1_data['index_id'].values) # numeric indicies
-        num_idx_id_p0 = list(p0_data['index_id'].values) # numeric indicies
-
-        lst_equate = [':',"="]
-
-        # enumerate over all pp tag matches
-
-        for ii,param in enumerate(p0_idx):
-
-            # Try scenario when we have [p+2] token
-
-            try:
-
-                #             TAG    [O]   [O]
-                # if we have [main] [p+1] [p+2]
-                if(ner_tag_p2[ii] == 'O' and ner_tag_p1[ii] == 'O'):
-
-                    # and [p+1] token is equate token
-                    if(value_p1[ii] in lst_equate):
-                        lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii],num_idx_id_p2[ii]]
-                        self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
+        # helper function to get bracket pairs
+        def get_bracket_content(lst):
+            stack = []
+            pairs = []
+            for i, item in enumerate(lst):
+                if item == '{':
+                    stack.append(i)
+                elif item == '}':
+                    if stack:
+                        pairs.append((stack.pop(), i))
                     else:
-                        lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
-                        self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
-                        print("[note] Two 'O' tags found in a row, choosing nearest value")
+                        print("Error: Unmatched closing bracket at index", i)
+            if stack:
+                print("Error: Unmatched opening bracket(s) at index", stack)
+            
+            return pairs
 
-                elif(ner_tag_p1[ii] == 'O' and ner_tag_p2[ii] != 'O'):
-                    lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
-                    self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
+        # find all bracket pairs in list
+        pairs = get_bracket_content(lst)
 
+        lst_act_functions = []
+        for pair in pairs:
+            select_col_content = ls.iloc[pair[0]:pair[1]+1]
+            act_funct = select_col_content[~select_col_content['token'].isin(['{','}'])]
+            lst_act_functions.append(list(act_funct['token'])[0])
+
+        ### FIND WHICH AC TO STORE 
+
+        # find what the active columns were assigned to by selecting the first 
+        # for each pair select the closest param [ner_tag]
+        lst_param_idx = []
+        for pair in pairs:
+            ldf = ls[(ls.index < pair[0]) & (ls['ner_tags'].isin(['B-PARAM']))].reset_index(drop=True)
+            previous_token_idx = ldf.iloc[-1]['index_id']
+            lst_param_idx.append(previous_token_idx)
+
+        # save the [param_id] identifier
+        lst_param_id = []
+        for i in lst_param_idx:
+            lst_param_id.append(ls.iloc[i]['token'])
+
+        ### REMOVE THEM 
+
+        # select everything in between [ner_tag] and last BRACKET
+        remove_idx = []
+        for ii,pair in enumerate(pairs):
+            remove_idx.append(list(ls.iloc[lst_param_idx[ii]:pair[1]+1]['index_id']))
+
+        for pair in remove_idx:
+            ls = ls[~(ls.index_id.isin(pair))]
+
+        # update mtoken_info
+        self.mtoken_info = ls
+        self.mtoken_info = self.mtoken_info.reset_index(drop=True)
+        self.mtoken_info['index_id'] = list(self.mtoken_info.index)
+
+        ### FIND ALL ACTIVE COLUMN KEYS
+        # this is needed to store AC 
+
+        # ac_data dictionary
+
+        ac_data = {}
+        for data_name in nlpi.data.keys():
+            if(isinstance(nlpi.data[data_name]['data'],pd.DataFrame)):
+                ac_data[data_name] = list(nlpi.data[data_name]['ac'].keys())
+
+        # return the data name 
+
+        def find_ac(name):
+            data_name = None
+            for key,values in ac_data.items():
+                if(name in values):
+                    data_name = key
+
+            if(data_name is not None):
+                return data_name
+            else:
+                return None
+
+        ### INSERT ACTIVE COLUMN INTO RELEVANT PARAM
+
+        # d_id - {d_id}
+        # ac_id - param_id token identifier
+
+        for d_id,ac_id in zip(lst_act_functions,lst_param_id):
+            data_name = find_ac(d_id)
+
+            if(data_name != None):
+                print(f'[note] storing [{ac_id}] in module_args')
+                self.module_args[ac_id] = nlpi.data[data_name]['ac'][d_id]
+
+    '''
+
+    SUBSET SELECTION BASED ON ACTIVE COLUMNS
+
+    ##############################################################################
+    '''
+
+    # subset selection (active columns)
+    # can only have one subset per request as we use the last found token ]
+
+    # [note]
+    # subsets NEED TO BE USED with ACTIVE COLUMNS
+    # but ACTIVE columns can also be used in PARAMS
+
+    def set_NER_subset(self,TAG=['B-SUBSET','I-SUBSET']):
+
+        ls = self.mtoken_info.copy()
+
+        if(ls['ner_tags'].isin(TAG).any()):
+
+            # ac_data dictionary
+            ac_data = {}
+            for data_name in nlpi.data.keys():
+                if(isinstance(nlpi.data[data_name]['data'],pd.DataFrame)):
+                    ac_data[data_name] = list(nlpi.data[data_name]['ac'].keys())
+
+            p0_data = ls[ls['ner_tags'].shift(0).isin(TAG)]
+            p1_data = ls[ls['ner_tags'].shift(1).isin(TAG)]
+            p2_data = ls[ls['ner_tags'].shift(2).isin(TAG)]
+
+            # [note] this won't work for multiple subset matches
+            all_window = pd.concat([p0_data,p1_data,p2_data])
+            all_window = all_window.drop_duplicates()
+            all_idx = list(all_window['index_id'])
+
+            # get only last match 
+            p0_data_last = p0_data.iloc[[-1]]
+            p1_data_last = p1_data.iloc[[-1]]
+            p2_data_last = p2_data.iloc[[-1]]
+            v0 = p0_data_last.index_id.values[0]
+
+            # tokens after found subset token
+            # need to check if they belong to ac groups
+            next_tokens = pd.concat([p0_data_last,p1_data_last,p2_data_last])
+            
+            next_tokens = next_tokens.drop_duplicates()
+            next_tokens = next_tokens.reset_index()
+            rhs_idx_window = list(next_tokens['index_id'])
+
+            # tokens to check
+            next_token_names = list(next_tokens.loc[1:,'token'].values) 
+
+            # search past tokens for [data token]
+            pneg_data_lat = ls.iloc[:v0]
+            past_data = pneg_data_lat[pneg_data_lat['dtype'] == 'pd.DataFrame']
+            past_data_name = past_data['token'].values[0]
+            past_data_columns = ac_data[past_data_name]
+
+            found_overlap = set(next_token_names) & (set(past_data_columns))
+
+            if(len(found_overlap) != 0):
+                if(nlpi.silent is False):
+                    print(f'[note] specified active function found in LHS data ({past_data_name})')
+                store_module_args = nlpi.data[past_data_name]['ac'][found_overlap.pop()]
+                self.module_args['subset'] = store_module_args
+                self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(all_idx)]
+            else:
+                if(nlpi.silent is False):
+                    print(f'[note] specified active function NOT found in LHS data ({past_data_name})')        
+
+    '''
+
+    SOURCE NER EXTRACTION
+           
+    ##############################################################################
+    '''
+
+    # find all the SOURCE related tokens that need to removed and remove them
+    # from self.token_info uses NER tags for B-SOURCE/I-SOURCE 
+
+    def data_extraction(self):
+
+        # identify source related index and remove them
+        ls = self.mtoken_info
+
+        # number of data sources
+        nsources = len(ls[~ls['data'].isna()])
+
+        # either there are multiple or only a single one
+        try:
+            max_lendiff = int(np.max(ls[ls['dtype'].notna()]['index_id'].diff()))
+        except:
+            max_lendiff = 0
+
+        # number of data sources > 0 to activate
+
+        if(nsources > 0):
+
+            # ONE SOURCE CASE
+
+            if(max_lendiff == 0):
+
+                if(nlpi.silent is False):
+                    print('[note] one source token format')
+                lst_remove_idx = []
+                
+                # get the data index id
+                p0 = list(ls[ls['dtype'].notna()]['index_id'])[0]
+                lst_remove_idx.append(p0)
+
+                ''' CHECKING PREVIOUS TOKENS '''
+                
+                # create window to check previous tokens
+                pm1 = p0 - 1; pm2 = p0 - 2
+
+                # [test1] check if previous token is in punctuation
+                punct_test = list(ls.loc[pm1,'token'])[0] in punctuation
+                # [test2] check if previous token belongs to SOURCE token
+                source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+
+                if(punct_test and source_test_pm2):
+                    lst_remove_idx.append(pm1) # remove punctuation token
+                    lst_remove_idx.append(pm2) # remove SOURCE token
+                elif(source_test_pm1):
+                    lst_remove_idx.append(pm1) # remove SOURCE token
                 else:
-                    print('[note] tag found but parameters not set!')
+                    pass # nothing needs to be removed
 
-            except:
+            elif(max_lendiff == 1):
+                if(nlpi.silent is False):
+                    print('[note] two sources tokens side by side format')
+                # get data index id
+                lst_remove_idx = list(ls[ls['dtype'].notna()]['index_id'])
+                p0 = lst_remove_idx[0] # first index only
 
-                # If [p+2] token doesn't exist
+                ''' CHECKING PREVIOUS TOKENS '''
 
-                if(ner_tag_p1[ii] == 'O'):
-                    lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
-                    self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
+                # create window to check previous tokens
+                pm1 = p0 - 1; pm2 = p0 - 2
+                # [test1] check if previous token is in punctuation
+                punct_test = list(ls.loc[pm1,'token'])[0] in punctuation
+                # [test2] check if previous token belongs to SOURCE token
+                source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+
+                if(punct_test and source_test_pm2):
+                    lst_remove_idx.append(pm1) # remove punctuation token
+                    lst_remove_idx.append(pm2) # remove SOURCE token
+                elif(source_test_pm1):
+                    lst_remove_idx.append(pm1) # remove SOURCE token
                 else:
-                    print('[note] pp tag found but t+1 tag != O tag')
+                    pass # nothing needs to be removed
 
+            elif(max_lendiff == 2):
+                if(nlpi.silent is False):
+                    print('[note] two sources separated by a single token format')
+                lst_remove_idx = list(ls[ls['dtype'].notna()]['index_id'])    
+                lst_remove_idx.append(lst_remove_idx[0] + 1)
+                p0 = lst_remove_idx[0] # first index only
+
+                ''' CHECKING PREVIOUS TOKENS '''
+
+                # create window to check previous tokens
+                pm1 = p0 - 1; pm2 = p0 - 2
+                # [test1] check if previous token is in punctuation
+                punct_test = list(ls.loc[pm1,'token'])[0] in punctuation
+                # [test2] check if previous token belongs to SOURCE token
+                source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+
+                if(punct_test and source_test_pm2):
+                    lst_remove_idx.append(pm1) # remove punctuation token
+                    lst_remove_idx.append(pm2) # remove SOURCE token
+                elif(source_test_pm1):
+                    lst_remove_idx.append(pm1) # remove SOURCE token
+                else:
+                    pass # nothing needs to be removed
+
+            else:
+                if(nlpi.silent is False):
+                    print('[note] multiple sources w/ distance > 2 found (error)')
+
+            # update token_info
+            self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_remove_idx)]
         
     '''
 
-    NER for [pp] parameters
+    PLOT PARAMETER NER
 
+    ##############################################################################
     '''
+    # set nlpi.pp parameters using NER tags and shift window
 
-    def set_NER_pp(self,TAG:str):        
+    def filterset_PP(self,TAG:str='B-PP'):       
+
+        ls = self.mtoken_info
 
         # shifted dataframe data of tagged data
-        p2_data = self.token_info[self.token_info['ner_tags'].shift(2) == TAG]
-        p1_data = self.token_info[self.token_info['ner_tags'].shift(1) == TAG]
-        p0_data = self.token_info[self.token_info['ner_tags'].shift(0) == TAG]
+        p2_data = ls[ls['ner_tags'].shift(2) == TAG]
+        p1_data = ls[ls['ner_tags'].shift(1) == TAG]
+        p0_data = ls[ls['ner_tags'].shift(0) == TAG]
 
         # identified pp tokens
         p0_idx = list(p0_data.index) # tokens of identified tags
@@ -1022,13 +1036,14 @@ class nlpi(nlpm):
         num_idx_id_p1 = list(p1_data['index_id'].values) # numeric indicies
         num_idx_id_p0 = list(p0_data['index_id'].values) # numeric indicies
 
+        # equating symbols
         lst_equate = [':',"="]
 
         # enumerate over all pp tag matches
 
-        for ii,param in enumerate(p0_idx):
+        for ii,param_idx in enumerate(p0_idx):
 
-            # Try scenario when we have [p+2] token
+            param = p0_data.loc[param_idx,'token']
 
             try:
 
@@ -1040,20 +1055,22 @@ class nlpi(nlpm):
                     if(value_p1[ii] in lst_equate):
                         nlpi.pp[param] = value_p2[ii]
                         lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii],num_idx_id_p2[ii]]
-                        self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
+                        self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
                     else:
                         lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
                         nlpi.pp[param] = value_p1[ii]
-                        self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
-                        print("[note] Two 'O' tags found in a row, choosing nearest value")
+                        self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
+                        if(nlpi.silent is False):
+                            print("[note] Two 'O' tags found in a row, choosing nearest value")
 
                 elif(ner_tag_p1[ii] == 'O' and ner_tag_p2[ii] != 'O'):
                     lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
                     nlpi.pp[param] = value_p1[ii]
-                    self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
+                    self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
 
                 else:
-                    print('[note] pp tag found but parameters not set!')
+                    if(nlpi.silent is False):
+                        print('[note] pp tag found but parameters not set!')
 
             except:
 
@@ -1062,100 +1079,129 @@ class nlpi(nlpm):
                 if(ner_tag_p1[ii] == 'O'):
                     lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
                     nlpi.pp[param] = value_p1[ii]
-                    self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
+                    self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
                 else:
-                    print('[note] pp tag found but t+1 tag != O tag')
+                    if(nlpi.silent is False):
+                        print('[note] pp tag found but t+1 tag != O tag')
             
-         
-    # NER surround identifier for parameters in module_args
-
-    def set_NER_params(self,TAG:str):        
-
-        # shifted dataframe data
-        p2_data = self.token_info[self.token_info['ner_tags'].shift(2) == TAG]
-        p1_data = self.token_info[self.token_info['ner_tags'].shift(1) == TAG]
-        p0_data = self.token_info[self.token_info['ner_tags'].shift(0) == TAG]
-        p0_idx = list(p0_data['token']) # tokens of identified tags
-
-        # token info (belongs to data)
-        columns_p2 = list(p2_data['column'].values)      # is tag a dataframe column
-        columns_p1 = list(p1_data['column'].values)      # is tag a dataframe column
-
-        value_p2 = list(p2_data['ttype_storage'].values) # extract token value
-        value_p1 = list(p1_data['ttype_storage'].values) # extract token value
-
-        num_idx_id_p2 = list(p2_data['index_id'].values) # numeric indicies
-        num_idx_id_p1 = list(p1_data['index_id'].values) # numeric indicies
-        num_idx_id_p0 = list(p0_data['index_id'].values) # numeric indicies
-
-        # go through all matches for [TAG]
-        # float represents np.nan as all are strings except for NaN
-
-        for ii,param in enumerate(p0_idx):
-
-            if(len(p0_idx) != 0):
-
-                param_id = p0_idx[ii] # NER matches token
-                try:
-                    p_p2 = columns_p2[ii] # data column info
-                    p_p1 = columns_p1[ii] # data column info
-                except:
-                    p_p2 = np.nan
-                    p_p1 = columns_p1[ii] # data column info
-
-                # if token [p+2] belongs to data column 
-
-                if(type(p_p2) is not float):
-
-                    lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii],num_idx_id_p2[ii]]
-                    self.module_args[param_id] = value_p2[ii]
-                    self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
-
-                # if token [p+1] belongs to data column 
-
-                if(type(p_p1) is not float):
-
-                    lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
-                    self.module_args[param_id] = value_p1[ii]
-                    self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_temp)]
 
     '''
+    ##############################################################################
+
+    PARAMETER NER SETTERS
+
+    ##############################################################################
+    '''
+
+    # select ner_tag tokens as well as tokens that belong to 
+    # goal is to allocate to ner_tag tokens [token] 
+    # more compact NER PARAM extractor, can handle multiple columns
+    # ignores :/= 
+
+    # need to add double condition for non column PARAM
+    # [1] NER tagged as B-PARAM    [2] approved 
+
+    def filterset_PARAMS(self):
+
+        ls = self.mtoken_info.copy()
+
+        # select rows that belong to data column
+        # select = ls[(ls['token_arg'] == True) | ls['ner_tags'].isin(['B-PARAM'])]
+        select = ls[~ls['column'].isna() | ls['ner_tags'].isin(['B-PARAM'])]
+        select_id = select['index_id']
+
+        # parameter allocation index !(check)
+
+        # selection condition for selecting VALUE in (PARAM - VALUE) pair
+
+        # - a token belonging to a dataframe column
+        # - the token is an int or a float
+        # - previous token is a defined token_arg
+
+        select_columns = list(ls[ ~ls['column'].isna() | (ls['ttype'].isin(['int','float']) | (ls['token_arg'].shift(1) == True))].index) 
+        # select_columns = list(ls[ ~ls['column'].isna() | (ls['token_arg'].diff(1) is True)].index) 
+
+        # parameter source index
+        select_ner_tag = list(ls[~ls['ner_tags'].isin(['O','B-SOURCE'])].index) 
+
+        # [note]
+        # parameter allocation must contain at least one entry
+        # parameter allocation can contain more entries than source
+
+        if(len(select_columns) > 0):
+
+            # find the closest minimum value and store it
+            closest_minimum_values = []
+            for value in select_columns:
+                closest_minimum = min(select_ner_tag, key=lambda x: abs(x - value))
+                closest_minimum_values.append(closest_minimum)
+
+            remove_idx = []
+            remove_idx.extend(select_columns)
+            remove_idx.extend(select_ner_tag)
+            remove_idx.sort()
+
+            sources = list(ls.loc[closest_minimum_values,'token'])
+            allocation = list(ls.loc[select_columns,'token'])
+
+            # set module_args
+
+            my_dict = {}  # Empty dictionary to store lists
+            for value in set(sources):
+                my_dict[value] = []  # Create an empty list for each value
+
+            for ii,source in enumerate(sources):
+                my_dict[source].append(allocation[ii])
+
+            for key,value in my_dict.items():
+                if(len(value) > 1):
+                    self.module_args[key] = value
+                elif(len(value) == 1): 
+                    self.module_args[key] = value[0]
+
+            # remove tokens associated with PARAMS
+            self.mtoken_info = ls[~ls['index_id'].isin(remove_idx)]
+
+        else:
+            if(nlpi.silent is False):
+                print('[note] no parameters to extract')
+
+    '''
+    ##############################################################################
 
     Single Command Loop
 
+    ##############################################################################
     '''
 
+    def initialise_module_args(self):
+
+        # Initialise arguments dictionary (critical entries)
+        self.module_args = {'pred_task': None, 'data': None,'subset': None,
+                            'features': None, 'target' : None}
+
+
+        # (update) Activation Function Parameter Entries 
+        lst_data = []
+        compat_sets = {}
+        data = list(self.task_info['arg_compat'])
+        data_filtered = [i for i in data if i != 'None']
+        nested = [i.split(' ') for i in data_filtered]
+        unique_args = set([element for sublist in nested for element in sublist])
+        # print(unique_args)
+
+        for val in unique_args:
+            self.module_args[val] = None
 
     def do(self,command:str,args:dict):
        
         # user input command
         self.command = command
         
-        # Initialise arguments dictionary
-        self.module_args = {'pred_task': None, 'data': None,'subset': None,
-                            'splits':None,'features': None, 'target' : None,
-                            'x': None, 'y': None, 'hue': None,'col':None,'row':None,
-                            'col_wrap':None,'kind':'scatter', 'val':None, 'agg':None,
-                            'join':'inner','axis':None,'bw':None,
-                            'figsize':[None,None],'test_size':None,
-                            'n_splits':None,'shuffle':None,'rs':None,
-                            'threshold':None,'eps':None,'min_samples':None,'scale':None,
-                            'ngram_range':None,'min_df':None,'max_df':None,
-                            'tokeniser':None,'use_idf':None,'smooth_idf':None,
-                            'dim':None,'window':None,
-                            'epoch':None,'lr':None,'maxlen':None,'const':None,'splitter':None,
-                            'neg_sample':None,'batch':None,
-                            'kernel':None,'sample':None,'whiten':None,'whiten_solver':None,
-                            'n_neighbours':None,'radius':None,'l1_ratio':None,
-                            'alpha_1':None,'alpha_2':None,'lambda_1':None,'lambda_2':None,
-                            'estimator':None,'n_estimators':None,'loss':None,
-                            'criterion':None,'min_samples_leaf':None,'min_samples_split':None,
-                            'max_depth':None,'max_features':None,'bootstrap':None,'oob_score':None,
-                            'max_bins':None,'validation_fraction':None,'n_iter_no_change':None,
-                            'nan_mode':None,'bootstrap_type':None,'l2_leaf_reg':None
-                           }
-        
-        # update argument dictionary if it was set
+        # initialise self.module_args
+        self.initialise_module_args()
+
+        # update argument dictionary (if it was set manually)
         if(args is not None):
             self.module_args.update(args)
             
@@ -1163,23 +1209,56 @@ class nlpi(nlpm):
 
         self.tokenise_request() # tokenise input request
         self.token_NER()        # set [ner_tags] in self.token_info
-        self.ner_split()        # ner splitting of request
+
+                                # set:
+
+                                    # self.token_info['ner_tags']
+
+        # self.ner_split()        # ner splitting of request
+
+                                # create:
+
+                                   # create self.token_split
+                                   # create self.token_split_id
+
         self.check_data()       # check tokens for data compatibility
+
+                                # set:
+
+                                    # self.token_info['data']
+                                    # self.token_info['dtype']
+                                    # self.token_info['column']
+
         self.set_token_type()   # find most relevant format for token dtype
 
-        # mtoken is used to in set_NER_xx & relevant tokens are deleted
+                                # set:
+
+                                    # self.token_info['ttype']
+                                    # self.token_info['ttype_storage'] 
+
+                                        # converted token type (eg. str -> int)
+
+        self.set_token_arg_compatibility()  # determine function argument compatibility
+
+                                    # self.token_info['arg_compat']
 
         self.mtoken_info = self.token_info.copy()
-        self.set_NER_params('B-PARAM')
-        self.set_NER_pp('B-PP')
-        self.set_NER_source('B-SOURCE')
 
-        # text = " ".join(list(self.mtoken_info.index))
-        text = " ".join(list(self.mtoken_info['token']))
+        self.ac_extraction()      # extract and store active column
+        self.data_extraction()    # extract and store data sources 
+        self.filterset_PP()       # filter out PP tokens + store PP param (in nlpi.pp)
+        self.filterset_PARAMS()   # extract and store PARAM data
+        self.set_NER_subset()  
 
-        # text = self.command
-        print('[note] NER used to clean input text!')
-        print(text)
+        before = " ".join(self.rtokens)
+        after = " ".join(list(self.mtoken_info['token']))
+
+        if(nlpi.silent is False):
+            print('\n[note] NER used to clean input text!')
+            print('[input]')
+            print(before)
+            print('[after]')
+            print(after,'\n')
 
         '''
 
@@ -1188,11 +1267,11 @@ class nlpi(nlpm):
         '''
 
         # self.pred_module_module_task(text) # [module_name] [task_name] prediction 
-        self.pred_gtask(text)  # directly predict [task_name]
+        self.pred_gtask(after)  # directly predict [task_name]
              
         '''
-        
-        iterative process
+
+        [[ Iterative process ]]
         
         '''
         
@@ -1202,10 +1281,10 @@ class nlpi(nlpm):
 
             nlpi.iter += 1
 
-            # store relevant info into [module_args]
-            self.sort_module_args() 
+            # Store module_args [data,data_name]
+            self.sort_module_args_data() 
             
-            # store activation function information in [module_args]
+            # Store activation function information in module_args [pred_task]
             self.module_args['pred_task'] = self.task_name
             
             # store iterative data
@@ -1223,4 +1302,9 @@ class nlpi(nlpm):
                 pass
             else:
                 nlpi.memory_output.append(None) 
-            
+
+
+    def reset_session(self):
+        nlpi.iter = 0
+        nlpi.memory_name = []
+        nlpi.memory_stack = []

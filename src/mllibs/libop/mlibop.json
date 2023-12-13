@@ -1,0 +1,52 @@
+{
+  "modules": [
+    
+    {
+      "name": "mlibop_sdata",
+    "corpus": [
+                "show stored datasets",
+                "show imported datasets",
+                "show stored data",
+                "show stored dataset names",
+                "show imported dataset names",
+                "show available data",
+                "what data is available",
+                "tell me which data is available to me"
+              ],
+      "info": {
+               "module":"libop",
+               "action":"show data",
+               "topic":"library operation",
+               "subtopic":"stored data",
+               "input_format":"None",
+               "description":"show imported/stored data in nlpi",
+               "output":"list",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "mlibop_functions",
+    "corpus": [
+                "show available functions",
+                "available activation functions",
+                "show functions list",
+                "show library functionality"
+              ],
+      "info": {
+               "module":"libop",
+               "action":"show data",
+               "topic":"library operation",
+               "subtopic":"activation function data",
+               "input_format":"None",
+               "description":"show available activation functions",
+               "output":"pd.DataFrame",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    }
+
+
+  ]
+}

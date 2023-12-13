@@ -15,11 +15,11 @@ Simple DataFrame EDA operations
 class eda_simple(nlpi):
     
     def __init__(self):
-        self.name = 'eda_simple'      # unique module name identifier
-        self.select = None            # store index which module was activated
+        self.name = 'eda_simple'     
+        self.select = None          
         self.args = None  
 
-        path = pkg_resources.resource_filename('mllibs', '/corpus/meda_simple.json')
+        path = pkg_resources.resource_filename('mllibs', '/eda/meda_simple.json')
         with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
@@ -38,26 +38,24 @@ class eda_simple(nlpi):
         # activate relevant function 
         if(select == 'show_info'):
             self.show_info(args)
-        
         if(select == 'show_missing'):
             self.show_missing(args)
-            
         if(select == 'show_stats'):
             self.show_statistics(args)
-            
         if(select == 'show_dtypes'):
             self.show_dtypes(args)
-            
         if(select == 'show_corr'):
             self.show_correlation(args)
+        if(select == 'show_feats'):
+            self.show_features(args)    
+        # if(select == 'drop_column'):
+        #     self.drop_column(args)        
           
     ''' 
 
     Module Activation Function Content
 
     '''
-    
-    # each function needs to utilise args if they arent empty
     
     @staticmethod
     def show_missing(args:dict):
@@ -83,3 +81,12 @@ class eda_simple(nlpi):
     @staticmethod
     def show_info(args:dict):
         print(args['data'].info())
+
+    @staticmethod
+    def show_features(args:dict):
+        print(args['data'].columns)
+
+    # @staticmethod
+    # def drop_column(args:dict):
+    #     data_name = args['data_name'][0]
+    #     nlpi.data[data_name] = 

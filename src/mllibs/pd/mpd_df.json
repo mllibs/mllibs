@@ -1,0 +1,79 @@
+{
+  "modules": [
+    
+    {
+      "name": "dfgroupby",
+    "corpus": [
+                "pandas groupby",
+                "groupby operation",
+                "group by pandas",
+                "dataframe groupby",
+                "pivot table groupby",
+                "pivot table",
+                "pivot data",
+                "pivot operation",
+                "do pivot operation"
+              ],
+      "info": {
+               "module":"pd_df",
+               "action":"data rearrangement",
+               "topic":"exploratory data analysis",
+               "subtopic":"pivot table",
+               "input_format":"pd.DataFrame",
+               "description":"pandas group by operation",
+               "output":"pd.DataFrame",
+               "token_compat":"None",
+               "arg_compat":"row col val agg"
+              }
+    },
+
+    {
+      "name": "dfconcat",
+    "corpus": [
+                "concat dataframe",
+                "concatenate dataframe",
+                "concat df",
+                "merge dataframe",
+                "merge df",
+                "combine df",
+                "combine dataframes"
+              ],
+      "info": {
+               "module":"pd_df",
+               "action":"data rearrangement",
+               "topic":"exploratory data analysis",
+               "subtopic":"combine data",
+               "input_format":"pd.DataFrame,pd.DataFrame",
+               "description":"concatenate two dataframe tables",
+               "output":"pd.DataFrame",
+               "token_compat":"None",
+               "arg_compat":"join axis"
+              }
+    },
+
+    {
+      "name": "subset_label",
+    "corpus": [
+                "merge subsets",
+                "concat subsets",
+                "concatenate subsets",
+                "compare subset dataframes",
+                "compare subset df",
+                "label subset dataframes",
+                "create subset dataframe labels"
+              ],
+      "info": {
+               "module":"pd_df",
+               "action":"data rearrangement",
+               "topic":"exploratory data analysis",
+               "subtopic":"label data",
+               "input_format":"pd.DataFrame,pd.DataFrame",
+               "description":"label two subset dataframes",
+               "output":"pd.DataFrame",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    }
+
+  ]
+}

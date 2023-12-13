@@ -1,0 +1,138 @@
+{
+  "modules": [
+    
+    {
+      "name": "embed_cbow",
+    "corpus": [
+                "cbow embeddings",
+                "cbow embedding",
+                "continuous bag of words embedding",
+                "continuous bag of words embeddings",
+                "embedding with cbow approach"
+              ],
+      "info": {
+                "module":"embedding",
+                "action":"embedding generation",
+                "topic":"natural language processing",
+                "subtopic":"feature generation",
+                "input_format":"list",
+                "output":"data context_pair model dict",
+                "description": "create embedding vectors for input text using CBOW approach",
+                "token_compat":"data",
+                "arg_compat":"dim epoch window lr"
+              }
+    },
+
+    {
+      "name": "embed_sg",
+    "corpus": [
+              "skip gram embeddings",
+              "skip gram embedding",
+              "sg embeddings",
+              "sg embedding",
+              "skip gram",
+              "embedding with sg",
+              "embeddings with sg",
+              "generate skip gram embeddings",
+              "generate skip gram embedding"
+              ],
+      "info": {
+                "module":"embedding",
+                "action":"embedding generation",
+                "topic":"natural language processing",
+                "subtopic":"feature generation",
+                "input_format":"list",
+                "output":"data skipgram tokeniser stopword model dict",
+                "description":"create embedding vectors for input text using skip gram approach",
+                "token_compat":"data",
+                "arg_compat":"dim epoch window lr batch"
+              }
+    },
+
+    {
+      "name": "embed_sgns",
+    "corpus": [
+                "negative sampling skip gram embeddings",
+                "negative sampling skip gram embedding",
+                "negative sampling sg embeddings",
+                "negative sampling sg embedding",
+                "negative sampling skip gram",
+                "sg embedding with negative sampling",
+                "sg embedding with ns",
+                "generate skip gram embeddings with negative sampling",
+                "generate skip gram embedding negative samplign",
+                "negative sampling sg",
+                "neg sample sg embedding",
+                "neg sample skip gram embedding",
+                "sg negative embedding"
+              ],
+      "info": {
+                "module":"embedding",
+                "action":"embedding generation",
+                "topic":"natural language processing",
+                "subtopic":"feature generation",
+                "input_format":"list",
+                "output":"data skipgram tokeniser model dict",
+                "description":"create embedding vectors for input text using skip gram approach with negative sampling",
+                "token_compat":"data",
+                "arg_compat":"dim epoch window lr batch neg_sample min_df const"
+              }
+    },
+    
+    {
+      "name": "w2v",
+    "corpus": [
+                "generate word2vec embeddings",
+                "generate word2vec embedding",
+                "generate embeddings",
+                "generate embedding",
+                "make embeddings",
+                "make embedding",
+                "create embeddings",
+                "create embedding",
+                "make gensim embedding",
+                "gensim embeddings",
+                "create word2vec",
+                "create word2vec embeddings",
+                "create word2vec embedding"
+              ],
+      "info": {
+                "module":"embedding",
+                "action":"embedding generation",
+                "topic":"natural language processing",
+                "subtopic":"feature generation",
+                "input_format":"list",
+                "output": "data model",
+                "description":"create embedding vectors using gensim, word2vec model",
+                "token_compat":"data",
+                "arg_compat":"dim epoch window lr min_df" 
+              }
+    },
+
+    {
+      "name": "fasttext",
+    "corpus": [
+                "generate fasttext embeddings",
+                "generate fasttext embedding",
+                "make fasttext embeddings",
+                "make fasttext embedding",
+                "create fasttext embedding",
+                "create fasttext embeddings",
+                "fasttext embeddings",
+                "fasttext embedding"
+              ],
+      "info": {
+                "module":"embedding",
+                "action":"embedding generation",
+                "topic":"natural language processing",
+                "subtopic":"feature generation",
+                "input_format":"list",
+                "output": "data model",
+                "description":"create embedding vectors using gensim, word2vec model",
+                "token_compat":"data",
+                "arg_compat":"dim epoch window lr min_df" 
+              }
+    }
+
+  ]
+}

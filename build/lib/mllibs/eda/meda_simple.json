@@ -1,0 +1,184 @@
+{
+  "modules": [
+    
+    {
+      "name": "show_info",
+    "corpus": [
+              "show data information",
+              "show dataset information",
+              "show dataframe information",
+              "show dataframe info",
+              "data info",
+              "df info",
+              "dataframe information",
+              "data info"
+              ],
+      "info": {
+              "module":"eda_simple",
+              "action":"table operation",
+              "topic":"exploratory data analysis",
+              "subtopic":"inspect dataframe",
+              "input_format":"pd.DataFrame",
+              "output":"None",
+              "description":"show dataframe information",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    },
+    
+    {
+      "name": "show_missing",
+      "corpus": [
+              "find missing data",
+              "missing data.",
+              "data missing",
+              "show missing data",
+              "show missing data in columns",
+              "show column missing data",
+              "column missing data",
+              "show data which is missing",
+              "print missing data"
+              ],
+      "info": {
+        "module":"eda_simple",
+        "action":"show plot",
+        "topic":"exploratory data analysis",
+        "subtopic":"visualise missing data",
+        "input_format":"pd.DataFrame",
+        "output":"None",
+        "description":"show showing missing data in data frame columns",
+        "token_compat":"None",
+        "arg_compat":"None"
+      }
+    },
+    
+    {
+      "name": "show_stats",
+      "corpus": [
+              "show describe",
+              "show statistics",
+              "show stats",
+              "show dataframe statistics",
+              "statistics",
+              "statistics minimum",
+              "statistics maximum",
+              "statistics mean",
+              "stats minimum",
+              "stats maximum",
+              "stats mean",
+              "pandas describe",
+              "pandas statistics",
+              "pandas stats",
+              "statistics dataframe",
+              "dataframe statistics",
+              "tabular statistics"
+      ],
+      "info": {
+              "module":"eda_simple",
+              "action":"table operation",
+              "topic":"exploratory data analysis",
+              "subtopic":"inspect dataframe",
+              "input_format":"pd.DataFrame",
+              "output":"None",
+              "description":"show statistics of numerical columns in dataframe using describe",
+              "token_compat":"None",
+              "arg_compat":"None"
+      }
+    },
+    
+    {
+      "name": "show_dtypes",
+      "corpus": [
+              "show dataframe dtypes",
+              "show data types",
+              "print data types",
+              "print dtypes",
+              "show feature dtypes",
+              "show dtype",
+              "feature types",
+              "dtype",
+              "dtypes"
+      ],
+      "info": {
+              "module":"eda_simple",
+              "action":"table operation",
+              "topic":"exploratory data analysis",
+              "subtopic":"inspect dataframe",
+              "input_format":"pd.DataFrame",
+              "output":"None",
+              "description":"show column data types dtypes",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    },
+    
+    {
+      "name": "show_corr",
+      "corpus": [
+              "create correlation matrix",
+              "plot correlation matrix",
+              "generate correlation matrix",
+              "create correlation",
+              "correlation",
+              "show feature correlation",
+              "show correlation",
+              "genenerate correlation matrix",
+              "show correlation matrix",
+              "show correlation of features"
+                ],
+      "info": {
+              "module":"eda_simple",
+              "action":"show plot",
+              "topic":"exploratory data analysis",
+              "subtopic":"show correlation",
+              "input_format":"pd.DataFrame",
+              "output":"None",
+              "description":"visualise linear correlation between features",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "show_feats",
+      "corpus": [
+              "show dataframe features",
+              "list dataframe columns",
+              "list dataframe features"
+                ],
+      "info": {
+              "module":"eda_simple",
+              "action":"show list",
+              "topic":"exploratory data analysis",
+              "subtopic":"explore dataframe",
+              "input_format":"pd.DataFrame",
+              "output":"print",
+              "description":"show the dataframe columns",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "drop_column",
+      "corpus": [
+              "drop dataframe column",
+              "drop column",
+              "remove column from dataframe",
+              "drop df column"
+                ],
+      "info": {
+              "module":"eda_simple",
+              "action":"show list",
+              "topic":"exploratory data analysis",
+              "subtopic":"explore dataframe",
+              "input_format":"pd.DataFrame",
+              "output":"None",
+              "description":"show the dataframe columns",
+              "token_compat":"None",
+              "arg_compat":"None"
+              }
+    }
+
+  ]
+}

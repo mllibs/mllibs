@@ -30,7 +30,7 @@ class eda_scplot(nlpi):
     def __init__(self):
         self.name = 'eda_scplot'      
 
-        path = pkg_resources.resource_filename('mllibs', '/corpus/meda_scplot.json')
+        path = pkg_resources.resource_filename('mllibs', '/eda/meda_scplot.json')
         with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
@@ -163,7 +163,6 @@ class eda_scplot(nlpi):
             
             sns.set_style("whitegrid", {
             'grid.linestyle': '--'})
-
 
             if(args['bw'] is None):
                 bw = 0.8

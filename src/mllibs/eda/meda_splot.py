@@ -29,7 +29,7 @@ class eda_splot(nlpi):
     def __init__(self):
         self.name = 'eda_splot'  
 
-        path = pkg_resources.resource_filename('mllibs', '/corpus/meda_splot.json')
+        path = pkg_resources.resource_filename('mllibs', '/eda/meda_splot.json')
         with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
@@ -72,44 +72,32 @@ class eda_splot(nlpi):
         '''
 
         if(select == 'sscatterplot'):
-            self.seaborn_scatterplot(args)
+            self.sscatterplot(args)
         elif(select =='srelplot'):
             self.seaborn_relplot(args)
         elif(select == 'sboxplot'):
             self.seaborn_boxplot(args)
         elif(select == 'sresidplot'):
-            self.seaborn_residplot(args)
+            self.sresidplot(args)
         elif(select == 'sviolinplot'):
-            self.seaborn_violinplot(args)
+            self.sviolinplot(args)
         elif(select == 'shistplot'):
-            self.seaborn_histplot(args)
+            self.shistplot(args)
         elif(select == 'skdeplot'):
             self.seaborn_kdeplot(args)
         elif(select == 'slmplot'):
-            self.seaborn_lmplot(args)
+            self.slmplot(args)
         elif(select == 'spairplot'):
-            self.seaborn_pairplot(args)
+            self.spairplot(args)
         elif(select == 'slineplot'):
-            self.seaborn_lineplot(args)
-        elif(select == 'scorrplot'):
-            self.seaborn_heatmap(args)
+            self.slineplot(args)
+        elif(select == 'sheatmap'):
+            self.sheatmap(args)
 
-    # Standard scatter plot
+    # Seaborn Scatter Plot
       
     @staticmethod
-    def seaborn_scatterplot(args:dict):
-           
-        if(args['hue'] is not None):
-
-            hueloc = args['data'][args['hue']]
-            if(type(nlpi.pp['stheme']) is str):
-                palette = nlpi.pp['stheme']
-            else:
-                palette = palette_rgb[:len(hueloc.value_counts())]
-                
-        else:
-            hueloc = None
-            palette = palette_rgb
+    def sscatterplot(args:dict):
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
@@ -124,8 +112,7 @@ class eda_splot(nlpi):
                         linewidth=nlpi.pp['mew'],
                         edgecolor=nlpi.pp['mec'],
                         s = nlpi.pp['s'],
-                        data=args['data'],
-                        palette=palette)
+                        data=args['data'])
         
         sns.despine(left=True, bottom=True)
         plt.show()
@@ -135,17 +122,6 @@ class eda_splot(nlpi):
     @staticmethod
     def seaborn_lmplot(args:dict):
     
-        if(args['hue'] is not None):
-            hueloc = args['data'][args['hue']]
-            if(type(nlpi.pp['stheme']) is str):
-                palette = nlpi.pp['stheme']
-            else:
-                palette = palette_rgb[:len(hueloc.value_counts())]
-                
-        else:
-            hueloc = None
-            palette = palette_rgb
-            
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,
             "ytick.minor.size": 0.05,
@@ -156,8 +132,7 @@ class eda_splot(nlpi):
                    hue=args['hue'],
                    col=args['col'],
                    row=args['row'],
-                   data=args['data'],
-                   palette=palette)
+                   data=args['data'])
         
         sns.despine(left=True, bottom=True)
         plt.show()
@@ -236,7 +211,7 @@ class eda_splot(nlpi):
         plt.show()
         
     @staticmethod
-    def seaborn_violinplot(args:dict):
+    def sviolinplot(args:dict):
         
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
@@ -266,7 +241,7 @@ class eda_splot(nlpi):
         nlpi.resetpp()
         
     @staticmethod
-    def seaborn_residplot(args:dict):
+    def sresidplot(args:dict):
         sns.residplot(x=args['x'], 
                       y=args['y'],
                       color=nlpi.pp['stheme'][1],
@@ -276,7 +251,7 @@ class eda_splot(nlpi):
         plt.show()
         
     @staticmethod
-    def seaborn_histplot(args:dict):
+    def shistplot(args:dict):
         
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
@@ -295,16 +270,23 @@ class eda_splot(nlpi):
             'grid.linestyle': '--'
         })
         
-        # bar width
+        # barwidth
         if(args['bw'] is None):
             bw = 'auto'
         else:
             bw = eval(args['bw'])
+
+       # bar width
+        if(args['nbins'] is None):
+            nbins = 'auto'
+        else:
+            nbins = eval(args['nbins'])
         
         sns.histplot(x=args['x'], 
                      y=args['y'],
                      hue = args['hue'],
                      bins = bw,
+                     nbins = nbins,
                      palette = palette,
                      data=args['data'])
         
@@ -334,10 +316,10 @@ class eda_splot(nlpi):
         
         sns.kdeplot(x=args['x'],
                     y=args['y'],
+                    hue = args['hue'],
                     palette=palette,
                     fill=nlpi.pp['fill'],
-                    data = args['data'],
-                    hue = args['hue'])
+                    data = args['data'])
         
         sns.despine(left=True, bottom=True)
         plt.show()
@@ -388,9 +370,9 @@ class eda_splot(nlpi):
         plt.show()
         nlpi.resetpp()
         
-    # Lineplot
+    # Seaborn Line Plot
 
-    def seaborn_lineplot(self,args:dict):
+    def slineplot(self,args:dict):
     
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
@@ -423,7 +405,7 @@ class eda_splot(nlpi):
 
     # seaborn heatmap
                 
-    def seaborn_heatmap(self,args:dict):
+    def sheatmap(self,args:dict):
         
         if(args['hue'] is not None):
             hueloc = args['data'][args['hue']]
