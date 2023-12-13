@@ -95,7 +95,7 @@ All these methods will give the following result:
 
 <h4>Predefined Tasks</h4>
 
-I'm constantly looking for people to contribute to the development of the library. I've **[created a page](https://shtrausslearning.github.io/mllibs/group/status.html#task-allocation)** where I set different tasks that you can do and join the **[mllibs group](https://github.com/mllibs)**, if you are interested, please get in touch me on telegram **[shtrauss2](https://t.me/shtrauss2)** or via :fontawesome-brands-kaggle:{ .kaggle} **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+I'm constantly looking for people to contribute to the development of the library. I've **[created a page](https://shtrausslearning.github.io/mllibs/group/status.html#task-allocation)** where I set different tasks that you can do and join the **[mllibs group](https://github.com/mllibs)**, if you are interested, please get in touch me on telegram **[shtrauss2](https://t.me/shtrauss2)** or via **[shtrausslearning](https://kaggle.com/shtrausslearning)**
 
 <h4>Our own ideas and contributions</h4>
 
@@ -105,8 +105,3 @@ Here's how you can get started:
 2. Create a new branch for your changes
 3. Make your changes and commit them
 4. Submit a pull request
-
-
-### **Contact**
-
-Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly **[shtrauss2](https://t.me/shtrauss2)**
