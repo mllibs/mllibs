@@ -109,6 +109,4 @@ Here's how you can get started:
 
 ### **Contact**
 
-**Thank you for reading!**
-
-Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly **[shtrauss2](https://t.me/shtrauss2)**, on **[shtrausslearning](https://github.com/shtrausslearning)** or **[shtrausslearning](https://kaggle.com/shtrausslearning)**
+Any questions or comments about the above post can be addressed on the **[mldsai-info channel](https://t.me/mldsai_info)** or to me directly **[shtrauss2](https://t.me/shtrauss2)**
