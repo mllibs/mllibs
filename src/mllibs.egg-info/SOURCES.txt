@@ -43,6 +43,8 @@ src/mllibs/nlp/mtextnorm.py
 src/mllibs/pd/__init__.py
 src/mllibs/pd/mpd_df.json
 src/mllibs/pd/mpd_df.py
+src/mllibs/pd/mpd_talktodata.json
+src/mllibs/pd/mpd_talktodata.py
 src/mllibs/stats/__init__.py
 src/mllibs/stats/mstats_tests.json
 src/mllibs/stats/mstats_tests.py

@@ -10,6 +10,7 @@ import seaborn as sns
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser,custpunkttokeniser,n_grams,nltk_wtokeniser_span
 from mllibs.data_conversion import convert_to_list,convert_to_df
 from string import punctuation
+from itertools import groupby
 
 # default plot palette
 def hex_to_rgb(h):
@@ -52,6 +53,7 @@ class nlpi(nlpm):
         self.dsources = {}                    # store all data source keys
         self.token_data = []                  # store all token data
         nlpi.silent = True     
+        nlpi.activate = True
         nlpi.lmodule = self.module            # class variable variation for module calls
                     
         # class plot parameters
@@ -307,7 +309,6 @@ class nlpi(nlpm):
     # find key matches in [nlpi.data] & [token_info]
 
     def match_tokeninfo(self):
-
         dict_tokens = {}
         for source_name in list(nlpi.data.keys()):
             if(source_name in self.tokens):     
@@ -459,7 +460,6 @@ class nlpi(nlpm):
         self.task_name,_ = get_globaltask(text)
 
         # having [task_name] find its module
-
         def find_module(task:str):
 
             module_id = None
@@ -652,6 +652,43 @@ class nlpi(nlpm):
         # del self.token_info['token']
 
     '''
+
+    Keeper Tokens 
+
+    '''
+
+    # Find which tokens should be kept and not removed
+    # find all NER tokens (eg. PARAM/SOURCE) and check 
+    # if it overlaps with the largest dictionary vocab segment 
+    # (ie. words which are contained in the training vectoriser dictionary)
+
+    def find_keeptokens(self):
+
+        ls = self.mtoken_info.copy()
+        my_list = list(ls['vocab'])
+          
+        # group together values      
+        # result = [list(group) for key, group in groupby(my_list)]
+
+        # group together indicies of values (only positive values: part of dictionary)
+        # result = [[i for i, _ in group] for key, group in groupby(enumerate(my_list), key=lambda x: x[1])]
+        result = [[i for i, _ in group] for key, group in groupby(enumerate(my_list), key=lambda x: x[1]) if key is True]
+
+        longest_subset = max(result,key=len)
+        longest_subset = set(longest_subset)
+
+        # ner tags which are not O (eg. PARAM/SOURCE)
+        notO = [ i for i,j in enumerate(list(ls['ner_tags'])) if j != 'O' ]
+        notO_set = set(notO)
+
+        # find overlap
+        overlap_idx = longest_subset & notO_set
+
+        ls['keep_token'] = False
+        ls.loc[list(overlap_idx),'keep_token'] = True
+        self.mtoken_info = ls
+
+    '''
     ##############################################################################
 
     NER for tokens
@@ -707,8 +744,49 @@ class nlpi(nlpm):
         nested = [i.split(' ') for i in data_filtered]
         unique_args = set([element for sublist in nested for element in sublist])
 
-        # update token_info
+        # update token_info [argument token]
         self.token_info['token_arg'] = self.token_info['token'].isin(unique_args)
+
+        # update token_info [argument token value]
+
+        ls = self.token_info.copy()
+        req_len = len(ls.index)
+
+        param_id = list(ls[ls['token_arg'] == True].index)
+
+        # Column Test
+
+        tcol = ls['column']
+        ls['column'] = ls['column'].fillna(0)
+        ls['token_argv'] = 0
+        for i in param_id:
+            for i,row in ls[i+1:req_len].iterrows():
+                if(row['column'] != 0):
+                    ls.loc[i,'token_argv'] = True
+                else:
+                    break
+
+        ls['column'] = tcol
+        # General 
+
+        for i in param_id:
+            for i,row in ls[i+1:req_len].iterrows():
+                print(row['ttype'])
+                if(row['ttype'] is not 'str'):
+                    ls.loc[i,'token_argv'] = True
+                else:
+                    break
+
+        for i in param_id:
+            ls.loc[i+1,'token_argv'] = True
+
+        # not correct way due to multicolumn input support
+        # self.token_info['token_argv'] = self.token_info['token_arg'].shift(1)
+
+        # Add Global Task Vocabulary token information
+        lst = list(self.module.vectoriser['gt'].vocabulary_.keys())
+        ls['vocab'] = ls['token'].isin(lst)
+        self.token_info = ls
 
     '''
 
@@ -898,6 +976,9 @@ class nlpi(nlpm):
     # find all the SOURCE related tokens that need to removed and remove them
     # from self.token_info uses NER tags for B-SOURCE/I-SOURCE 
 
+    # find source token 
+    # check x-1, x-2 tokens and if they are B-SOURCE,I-SOURCE, remove them
+
     def data_extraction(self):
 
         # identify source related index and remove them
@@ -928,18 +1009,23 @@ class nlpi(nlpm):
                 p0 = list(ls[ls['dtype'].notna()]['index_id'])[0]
                 lst_remove_idx.append(p0)
 
+                # print(lst_remove_idx)
+                # display(ls)
+
                 ''' CHECKING PREVIOUS TOKENS '''
-                
+
                 # create window to check previous tokens
                 pm1 = p0 - 1; pm2 = p0 - 2
 
-                # [test1] check if previous token is in punctuation
-                punct_test = list(ls.loc[pm1,'token'])[0] in punctuation
-                # [test2] check if previous token belongs to SOURCE token
-                source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                # check if previous token belongs to SOURCE token
+                try:
+                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                    source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                except:
+                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                    source_test_pm2 = None
 
-                if(punct_test and source_test_pm2):
+                if(source_test_pm2):
                     lst_remove_idx.append(pm1) # remove punctuation token
                     lst_remove_idx.append(pm2) # remove SOURCE token
                 elif(source_test_pm1):
@@ -948,6 +1034,7 @@ class nlpi(nlpm):
                     pass # nothing needs to be removed
 
             elif(max_lendiff == 1):
+
                 if(nlpi.silent is False):
                     print('[note] two sources tokens side by side format')
                 # get data index id
@@ -958,13 +1045,16 @@ class nlpi(nlpm):
 
                 # create window to check previous tokens
                 pm1 = p0 - 1; pm2 = p0 - 2
-                # [test1] check if previous token is in punctuation
-                punct_test = list(ls.loc[pm1,'token'])[0] in punctuation
-                # [test2] check if previous token belongs to SOURCE token
-                source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
 
-                if(punct_test and source_test_pm2):
+                # check if previous token belongs to SOURCE token
+                try:
+                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                    source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                except:
+                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                    source_test_pm2 = None
+
+                if(source_test_pm2):
                     lst_remove_idx.append(pm1) # remove punctuation token
                     lst_remove_idx.append(pm2) # remove SOURCE token
                 elif(source_test_pm1):
@@ -973,6 +1063,7 @@ class nlpi(nlpm):
                     pass # nothing needs to be removed
 
             elif(max_lendiff == 2):
+
                 if(nlpi.silent is False):
                     print('[note] two sources separated by a single token format')
                 lst_remove_idx = list(ls[ls['dtype'].notna()]['index_id'])    
@@ -983,13 +1074,16 @@ class nlpi(nlpm):
 
                 # create window to check previous tokens
                 pm1 = p0 - 1; pm2 = p0 - 2
-                # [test1] check if previous token is in punctuation
-                punct_test = list(ls.loc[pm1,'token'])[0] in punctuation
-                # [test2] check if previous token belongs to SOURCE token
-                source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
 
-                if(punct_test and source_test_pm2):
+                # check if previous token belongs to SOURCE token
+                try:
+                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                    source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                except:
+                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
+                    source_test_pm2 = None
+
+                if(source_test_pm2):
                     lst_remove_idx.append(pm1) # remove punctuation token
                     lst_remove_idx.append(pm2) # remove SOURCE token
                 elif(source_test_pm1):
@@ -999,7 +1093,13 @@ class nlpi(nlpm):
 
             else:
                 if(nlpi.silent is False):
-                    print('[note] multiple sources w/ distance > 2 found (error)')
+                    print('[note] multiple sources w/ distance => 2 found (error)')
+
+            # remove indicies from [remove_idx] if condition [keep_token] is met
+            keep_idx = list(ls[ls['keep_token'] == True].index)
+
+            if(len(keep_idx)>0):
+                lst_remove_idx = [value for index, value in enumerate(lst_remove_idx) if value not in keep_idx]
 
             # update token_info
             self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_remove_idx)]
@@ -1088,7 +1188,7 @@ class nlpi(nlpm):
     '''
     ##############################################################################
 
-    PARAMETER NER SETTERS
+    PARAMETER NER
 
     ##############################################################################
     '''
@@ -1104,6 +1204,10 @@ class nlpi(nlpm):
     def filterset_PARAMS(self):
 
         ls = self.mtoken_info.copy()
+        ls = ls.reset_index(drop=True)
+        ls['index_id'] = ls.index
+
+        display(ls)
 
         # select rows that belong to data column
         # select = ls[(ls['token_arg'] == True) | ls['ner_tags'].isin(['B-PARAM'])]
@@ -1119,10 +1223,12 @@ class nlpi(nlpm):
         # - previous token is a defined token_arg
 
         select_columns = list(ls[ ~ls['column'].isna() | (ls['ttype'].isin(['int','float']) | (ls['token_arg'].shift(1) == True))].index) 
-        # select_columns = list(ls[ ~ls['column'].isna() | (ls['token_arg'].diff(1) is True)].index) 
 
         # parameter source index
-        select_ner_tag = list(ls[~ls['ner_tags'].isin(['O','B-SOURCE'])].index) 
+        # select_ner_tag = list(ls[~ls['ner_tags'].isin(['O','B-SOURCE'])].index) 
+        select_ner_tag = list(ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])].index) 
+
+        # set removal constraint: can't remove B-PARAM if it is preceeded by I-SOURCE, B-SOURCE
 
         # [note]
         # parameter allocation must contain at least one entry
@@ -1141,30 +1247,122 @@ class nlpi(nlpm):
             remove_idx.extend(select_ner_tag)
             remove_idx.sort()
 
-            sources = list(ls.loc[closest_minimum_values,'token'])
-            allocation = list(ls.loc[select_columns,'token'])
+            sources = list(ls.loc[closest_minimum_values,'ttype_storage'])
+            sources_idx = list(ls.loc[closest_minimum_values,'index_id'])
+            sources_map = {'sources':sources,'idx':sources_idx}
+            # sources = list(ls.loc[closest_minimum_values,'token'])
 
-            # set module_args
+            # if [token] is used, need to use str to value conversion for int/float
+            # allocation = list(ls.loc[select_columns,'token'])
+            allocation = list(ls.loc[select_columns,'ttype_storage'])
+            allocation_idx = list(ls.loc[select_columns,'index_id'])
+            mapper = dict(zip(allocation,allocation_idx))
 
-            my_dict = {}  # Empty dictionary to store lists
+            # [my_dict] store PARAM - value combinations
+            # [remove tag] decide whether to remove or keep PARAM-value 
+
+            my_dict = {}; remove_tag = {}             
             for value in set(sources):
-                my_dict[value] = []  # Create an empty list for each value
+                my_dict[value] = []      
+                remove_tag[value] = None 
 
+            # add values to each parameter to dictionary
             for ii,source in enumerate(sources):
                 my_dict[source].append(allocation[ii])
 
+            # store PARAM value
             for key,value in my_dict.items():
                 if(len(value) > 1):
                     self.module_args[key] = value
                 elif(len(value) == 1): 
                     self.module_args[key] = value[0]
 
+            # set removal constraint
+
+            PARAM_IDX = list(ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])].index)
+            PARAM_TOKEN = list(ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])]['token'])
+
+            ls['nts1'] = ls['ner_tags'].shift(1)
+            ls['nts2'] = ls['ner_tags'].shift(2)
+
+            # for all matching PARAM cases
+
+            for idx,token in zip(PARAM_IDX,PARAM_TOKEN):
+
+                # remove only conditions
+                
+                # cond1 = ls['nts1'].isin(['B-SOURCE','I-SOURCE'])
+                cond2 = ls.loc[idx-1,'token_argv'] == True  # token is token_arg value
+                cond3 = ls['data'].isnull().iloc[idx-1]  # data is NULL (no data)
+                cond4 = ls['column'].isnull().iloc[idx-1]  # column is NULL (no data)
+
+                if(cond2 and cond3 or not cond4):
+                    remove_tag[token] = 'remove'
+                else:
+                    remove_tag[token] = 'keep'
+
+            # create group based indicies
+
+            my_dict_mapped = dict.fromkeys(my_dict.keys())
+            for key,value in my_dict.items():
+                my_dict_mapped[key] = list(map(mapper.get, value))
+
+            # loop through keep/remove dictionary
+
+            # for key,value in remove_tag.items():
+
+            #     if(value is 'remove'):
+            #         my_dict_mapped[key].append(min(my_dict_mapped[key]) - 1)
+            #         ls = ls[~ls['index_id'].isin(my_dict_mapped[key])]
+
+            # remove indicies from [remove_idx] if condition [keep_token] is met
+            keep_idx = list(ls[ls['keep_token'] == True].index)
+
+            print('keep_idx',keep_idx)
+            print('remove_idx b4:',remove_idx)
+
+            if(len(keep_idx)>0):
+                remove_idx = [value for index, value in enumerate(remove_idx) if value not in keep_idx]
+
+            print('remove_idx aft:',remove_idx)
+
             # remove tokens associated with PARAMS
             self.mtoken_info = ls[~ls['index_id'].isin(remove_idx)]
 
+            display(self.mtoken_info)
+
         else:
             if(nlpi.silent is False):
-                print('[note] no parameters to extract')
+                print('[note] no parameters to extract (possible NER miss)')
+    
+
+    # Filter base request before classification
+    # request can't end with a preposition
+
+    def preposition_filter(self):
+
+        prepositions = [
+            'about','above','across','after','against','along','among','around',
+            'as','at','before','behind','below','beneath','beside','between',
+            'beyond','by','down','during','for','from','in','inside','into',
+            'near','of','off','on','onto','out','outside','over','past','through',
+            'throughout','to','towards','under','underneath','until','up','with','within'
+        ]
+
+        tls = self.mtoken_info
+
+        last = None
+        found = True
+        while found == True:
+            for i,j in tls[::-1].iterrows():
+                if(j['token'] not in prepositions):
+                    found = False
+                    last = i + 1
+                    break
+
+        if(last != None):
+            self.mtoken_info = tls[0:last]
+
 
     '''
     ##############################################################################
@@ -1188,7 +1386,6 @@ class nlpi(nlpm):
         data_filtered = [i for i in data if i != 'None']
         nested = [i.split(' ') for i in data_filtered]
         unique_args = set([element for sublist in nested for element in sublist])
-        # print(unique_args)
 
         for val in unique_args:
             self.module_args[val] = None
@@ -1214,13 +1411,6 @@ class nlpi(nlpm):
 
                                     # self.token_info['ner_tags']
 
-        # self.ner_split()        # ner splitting of request
-
-                                # create:
-
-                                   # create self.token_split
-                                   # create self.token_split_id
-
         self.check_data()       # check tokens for data compatibility
 
                                 # set:
@@ -1244,11 +1434,18 @@ class nlpi(nlpm):
 
         self.mtoken_info = self.token_info.copy()
 
+        # activation function related
         self.ac_extraction()      # extract and store active column
+        self.find_keeptokens()    # determine which tokens to keep and not remove in request filter(s)
+
+        # dataset related
         self.data_extraction()    # extract and store data sources 
+
         self.filterset_PP()       # filter out PP tokens + store PP param (in nlpi.pp)
         self.filterset_PARAMS()   # extract and store PARAM data
+
         self.set_NER_subset()  
+        self.preposition_filter() # final preposition filter
 
         before = " ".join(self.rtokens)
         after = " ".join(list(self.mtoken_info['token']))
@@ -1277,31 +1474,34 @@ class nlpi(nlpm):
         
         # Iterate if a relevant [task_name] was found
 
-        if(self.task_name is not None):
+        if(nlpi.activate is True):
+            if(self.task_name is not None):
 
-            nlpi.iter += 1
+                nlpi.iter += 1
+                
+                # Store activation function information in module_args [pred_task]
+                self.module_args['pred_task'] = self.task_name
 
-            # Store module_args [data,data_name]
-            self.sort_module_args_data() 
-            
-            # Store activation function information in module_args [pred_task]
-            self.module_args['pred_task'] = self.task_name
-            
-            # store iterative data
-            nlpi.memory_name.append(self.task_name)  
-            nlpi.memory_stack.append(self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] )
-            nlpi.memory_info = pd.concat(self.memory_stack,axis=1) # stack task information order
-            
-            # activate function [module_name] & pass [module_args]
-            self.module.modules[self.module_name].sel(self.module_args)
-            
-            # if not data has been added
-            # initialise output data (overwritten in module.function
-            
-            if(len(nlpi.memory_output) == nlpi.iter+1):
-                pass
-            else:
-                nlpi.memory_output.append(None) 
+                # store data related [data,data_name]
+                self.sort_module_args_data() 
+                
+                # store iterative data
+                nlpi.memory_name.append(self.task_name)  
+                nlpi.memory_stack.append(self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] )
+                nlpi.memory_info = pd.concat(self.memory_stack,axis=1) # stack task information order
+                
+                # activate function [module_name] & pass [module_args]
+                self.module.modules[self.module_name].sel(self.module_args)
+                
+                # if not data has been added
+                # initialise output data (overwritten in module.function
+                
+                if(len(nlpi.memory_output) == nlpi.iter+1):
+                    pass
+                else:
+                    nlpi.memory_output.append(None) 
+        else:
+            print('[note] no iteration activated!')
 
 
     def reset_session(self):

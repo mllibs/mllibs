@@ -27,32 +27,6 @@
     },
     
     {
-      "name": "show_missing",
-      "corpus": [
-              "find missing data",
-              "missing data.",
-              "data missing",
-              "show missing data",
-              "show missing data in columns",
-              "show column missing data",
-              "column missing data",
-              "show data which is missing",
-              "print missing data"
-              ],
-      "info": {
-        "module":"eda_simple",
-        "action":"show plot",
-        "topic":"exploratory data analysis",
-        "subtopic":"visualise missing data",
-        "input_format":"pd.DataFrame",
-        "output":"None",
-        "description":"show showing missing data in data frame columns",
-        "token_compat":"None",
-        "arg_compat":"None"
-      }
-    },
-    
-    {
       "name": "show_stats",
       "corpus": [
               "show describe",

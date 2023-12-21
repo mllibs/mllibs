@@ -1,0 +1,112 @@
+{
+  "modules": [
+    
+    {
+      "name": "dfcolumninfo",
+    "corpus": [
+                "what are the columns",
+                "print the columns",
+                "show the dataframe column names",
+                "print dataframe column names"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"print list",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"print the dataframe column names",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "dfsize",
+    "corpus": [
+                "show me the size of the data",
+                "the dataframe size",
+                "dataframe size"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"print list",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"print the size of the dataframe",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "dfcolumn_distr",
+    "corpus": [
+                "show the column distribution",
+                "column distribution",
+                "column value_counts",
+                "count the number of items in column",
+                "show the distribution of"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"show text",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"show column distribution",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"column col"
+              }
+    },
+
+    {
+      "name": "dfcolumn_na",
+    "corpus": [
+                "is there any missing data in",
+                "show me the missing rows in",
+                "column missing data",
+                "missing data in column",
+                "missing data in col",
+                "col missing data"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"show text",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"show missing data in column",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"column col"
+              }
+    },
+
+    {
+      "name": "dfall_na",
+    "corpus": [
+                "how much data is missing in all columns",
+                "show the missing data in all columns",
+                "show all missing data",
+                "show the missing data in all columns"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"show text",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"show missing data all columns",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    }
+
+  ]
+}

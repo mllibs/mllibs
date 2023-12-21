@@ -38,8 +38,6 @@ class eda_simple(nlpi):
         # activate relevant function 
         if(select == 'show_info'):
             self.show_info(args)
-        if(select == 'show_missing'):
-            self.show_missing(args)
         if(select == 'show_stats'):
             self.show_statistics(args)
         if(select == 'show_dtypes'):
@@ -56,10 +54,6 @@ class eda_simple(nlpi):
     Module Activation Function Content
 
     '''
-    
-    @staticmethod
-    def show_missing(args:dict):
-        print(args['data'].isna().sum(axis=0))
         
     @staticmethod
     def show_statistics(args:dict):

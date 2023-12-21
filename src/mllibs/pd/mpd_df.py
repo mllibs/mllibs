@@ -15,7 +15,6 @@ Pandas DataFrame related Operations
 # sample module class structure
 class pd_df(nlpi):
     
-    # called in nlpm
     def __init__(self):
         self.name = 'pd_df'             
         path = pkg_resources.resource_filename('mllibs','/pd/mpd_df.json')
@@ -23,23 +22,17 @@ class pd_df(nlpi):
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
 
+
+    # set preset value from dictionary
+    # if argument is already set
+
     @staticmethod
     def sfp(args,preset,key:str):
-        
+    
         if(args[key] is not None):
-            return eval(args[key])
+            return args[key]
         else:
             return preset[key] 
-        
-    # set general parameter
-        
-    @staticmethod
-    def sgp(args,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return None
         
     # called in nlpi
     def sel(self,args:dict):
@@ -47,9 +40,9 @@ class pd_df(nlpi):
         self.select = args['pred_task']
         self.args = args
         
-        if(self.select == 'groupby'):
+        if(self.select == 'dfgroupby'):
             self.dfgroupby(self.args)
-        elif(self.select == 'concat'):
+        elif(self.select == 'dfconcat'):
             self.dfconcat(self.args)
         elif(self.select == 'subset_concat'):
             self.subset_label(self.args)
@@ -59,14 +52,12 @@ class pd_df(nlpi):
     ACTIVATION FUNCTIONS 
 
     '''
-    # dfgroupby
-    # dfconcat
-    # subset_label
 
     # Groupby DataFrame (or Pivot Table)
     
     def dfgroupby(self,args:dict):
 
+        # preset values
         pre = {'agg':'mean'}
 
         # groupby helper function
@@ -97,10 +88,11 @@ class pd_df(nlpi):
            
         nlpi.memory_output.append({'data':grouped_data})
                 
-    # Merge DataFrames
+    # Concatenate DataFrames
 
     def dfconcat(self,args:dict):
 
+        # default parameters
         pre = {'axis':0}
         
         def concat(lst_df,join='outer',ax=0):

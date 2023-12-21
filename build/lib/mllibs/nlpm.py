@@ -285,6 +285,10 @@ class nlpm:
         vectors = vect.transform(corpus['text']) # sparse matrix
         self.vectoriser[module_name] = vect  # store vectoriser 
 
+        # vocabulary of TFIDF
+        lvocab = list(vect.vocabulary_.keys())
+        lvocab.sort()
+        self.vocabulary[module_name] = lvocab
         ''' 
 
         Make training data 
@@ -329,6 +333,7 @@ class nlpm:
         
             self.vectoriser = {} # stores vectoriser
             self.model = {}   # storage for models
+            self.vocabulary = {} # vectoriser vocabulary
     
             ''' 
 
@@ -354,8 +359,6 @@ class nlpm:
     #         self.mlloop(self.corpus_top,'top')
     #         self.mlloop(self.corpus_sub,'sub')
     
-            # self.toksub_model()
-            # self.ner_tokentag_model()  
             self.ner_tagger()
 
             print('[note] models trained!')
@@ -367,20 +370,20 @@ class nlpm:
 
     '''
 
-    def toksub_model(self):
+    # def toksub_model(self):
 
-        f = pkgutil.get_data('mllibs', 'corpus/classifier_subset.csv')
-        data = pd.read_csv(io.BytesIO(f), encoding='utf8',delimiter=',')
+    #     f = pkgutil.get_data('mllibs', 'corpus/classifier_subset.csv')
+    #     data = pd.read_csv(io.BytesIO(f), encoding='utf8',delimiter=',')
 
-        vectoriser = CountVectorizer(stop_words=['using','use'])
-        X = vectoriser.fit_transform(list(data['corpus'])).toarray()
-        y = data['label'].values
+    #     vectoriser = CountVectorizer(stop_words=['using','use'])
+    #     X = vectoriser.fit_transform(list(data['corpus'])).toarray()
+    #     y = data['label'].values
 
-        model = LogisticRegression().fit(X,y)
+    #     model = LogisticRegression().fit(X,y)
         
-        self.vectoriser['token_subset'] = vectoriser
-        self.model['token_subset'] = model      
-        self.label['token_subset'] = ['allbut','only','fromdata','numeric','categorical','all']
+    #     self.vectoriser['token_subset'] = vectoriser
+    #     self.model['token_subset'] = model      
+    #     self.label['token_subset'] = ['allbut','only','fromdata','numeric','categorical','all']
 
     '''
     
@@ -399,67 +402,7 @@ class nlpm:
         model,encoder = ner_model(parser,df)
         self.ner_identifier['model'] = model
         self.ner_identifier['encoder'] = encoder
-
-    # ner tagger for [features] [target] [subset] [data] [other]
-        
-    def ner_tokentag_model(self):
-
-        # flatten a list of lists
-        flatten = lambda l: [item for sublist in l for item in sublist]
-        
-        typea = ['features','feature list','feature columns','independent']
-        typeb = ['target','target column','target variable','dependent']
-        typec = ['subset','subset columns']
-        typed = ['data','data source','source']
-        type_all = typea + typeb + typec + typed
-
-        # tokens = [tokenise(i) for i in type_all]
-
-        tokens = [nltk_wtokeniser(i) for i in type_all]
-        unique_tokens = flatten(tokens)
              
-        # read data containing 10000 words
-
-        f = pkgutil.get_data('mllibs',"corpus/wordlist.10000.txt")
-        content = io.TextIOWrapper(io.BytesIO(f), encoding='utf-8')
-        lines = content.readlines()
-           
-        cleaned = []
-        for line in lines:
-            removen = line.rstrip()
-            if removen not in unique_tokens:
-                cleaned.append(removen)
-                
-        corpus = typea + typeb + typec + typed + cleaned
-        labels = [0,0,0,0,1,1,1,1,2,2,3,3,3] + [4 for i in range(len(cleaned))]
-        data = pd.DataFrame({'corpus':corpus,
-                             'label':labels})
-        
-        vectoriser = CountVectorizer(ngram_range=(1,2))
-        X = vectoriser.fit_transform(data['corpus'])
-        y = data['label'].values
-        
-        # we have a dissbalanced class model, so lets use class_weight
-
-        model = DecisionTreeClassifier(class_weight={0:0.25,1:0.25,2:0.25,3:0.25,4:0.0001})
-        model.fit(X,y)
-
-        # with open('models/dtc_ner_tagger.pickle', 'wb') as f:
-        #     pickle.dump(model, f)
-
-        # with open('cv_ner_tagger.pickle', 'wb') as f:
-        #     pickle.dump(vectoriser, f)
-
-        # vectoriser_load = pkgutil.get_data('mllibs','models/cv_ner_tagger.pickle')
-        # vectoriser = pickle.loads(vectoriser_load)
-
-        # model_load = pkgutil.get_data('mllibs','models/dtc_ner_tagger.pickle')
-        # model = pickle.loads(model_load)
-        
-        self.vectoriser['token_ner'] = vectoriser
-        self.model['token_ner'] = model      
-        self.label['token_ner'] = ['features','target','subset','data','other']             
-        
     '''
     
     Model Predictions 

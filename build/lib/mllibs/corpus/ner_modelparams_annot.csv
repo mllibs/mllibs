@@ -1,6 +1,5 @@
 question,annotated
 create relplot using hf x pressure y mass_flux col geometry hue author,create relplot using hf [param : x] pressure [param : y] mass_flux [param : col] geometry [param : hue] author
-pca dimensionality reduction using data mpg subset numerical columns only,pca dimensionality reduction [source : using data] mpg [subset : subset] numerical columns only
 create seaborn scatterplot using penguins x bill_length_mm y bill_depth_mm hue island,create seaborn scatterplot [source : using] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [param : hue] island
 create scatterplot using data x bill_length_mm y bill_depth_mm,create scatterplot [source : using] data [param : x] bill_length_mm [param : y] bill_depth_mm
 create relplot using hf x pressure y x_e_out col geometry row author,create relplot [source : using] hf [param : x] pressure [param : y] x_e_out [param : col] geometry [param : row] author
@@ -19,10 +18,14 @@ create seaborn residual plot using penguins x bill_length_mm y bill_depth_mm,cre
 create histogram for penguins x bill_length_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : bw] 30
 nbins 30,[param : nbins] 30
 nbins 100,[param : nbins] 100
+join inner,[param : join] inner
 in penguins,[source : in] penguins
 in data,[source : in] data
+in data,[source : in data]
 popmean 10,[param : popmean] 10
 col_wrap 2, [param : col_wrap] 2
+show missing data in column sex in penguins, show missing data in [param : column] sex [source : in] penguins
+show missing data in col sex in data penguins, show missing data in [param : col] sex [source : in data] penguins
 concatenate two dataframes join inner, concatenate two dataframes [param : join] inner
 concatenate two dataframes axis 1, concatenate two dataframes [param : axis] 1
 template plotly_white, [pp : template] plotly_white
@@ -31,10 +34,6 @@ marginal_x histogram marginal_y violinplot nbinsx 100 nbinsy 100,[param : margin
 create histogram for penguins x bill_length_mm y bill_depth_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [pp : bw] 30
 create seaborn kernel density plot using penguins x bill_length_mm hue species,create seaborn kernel density plot [source : using] penguins [param : x] bill_length_mm [param : hue] species
 create seaborn pairplot using penguins hue species,create seaborn pairplot [source : using] penguins [param : hue] species
-column boxplot for penguins x species hue sex,column boxplot [source : for] penguins [param : x] species [param : hue] sex
-visualise column scatterplot for penguins x bill_length_mm hue sex,visualise column scatterplot [source : for] penguins [param : x] bill_length_mm [param : hue] sex
-visualise column kdeplot for penguins hue sex,visualise column kdeplot [source : for] penguins [param : hue] sex
-visualise column kdeplot hue kfold using datas,visualise column kdeplot [param : hue] kfold [source : using] datas
 plot scatterplot x s3 y s5 using zscore_labels hue outlier_zscore,plot scatterplot [param : x] s3 [param : y] s5 [source : using] zscore_labels [param : hue] outlier_zscore
 plot scatterplot x s1 y s2 using iqr_labels hue outlier_iqr,plot scatterplot [param : x] s1 [param : y] s2 [source : using] iqr_labels [param : hue] outlier_iqr
 find outliers using normal distribution for diab,find outliers using normal distribution [source : for] diab
@@ -44,20 +43,8 @@ find outliers using normal distribution using data diab,find outliers using norm
 create histogram using data penguins x bill_length_mm y bill_depth_mm,create histogram [source : using data] penguins [param : x] bill_length_mm [param : y] bill_depth_mm
 create seaborn scatter plot using data pca,create seaborn scatter plot [source : using data] pca
 pca dimensionality reduction using data housing,pca dimensionality reduction [source : using data] housing
-create histogram for penguins x bill_length_mm y bill_depth_mm use active columns A,create histogram [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [subset : use active columns] A
-create histogram for penguins x bill_length_mm y bill_depth_mm use ac A,create histogram [source : for] penguins [param : x] bill_length_mm [param : y]
-create label encoding of column B using data A,create label encoding [subset : of column] B [source : using data] A
-create label encoding using active columns C of data A,create label encoding using [subset : active columns] C [source : of data] A
-create one hot encoding of data A using active columns B,create one hot encoding [source : of data] A [subset : using active columns] B
-one hot encoding of data C (set active columns C),one hot encoding [source : of data] C (set [subset : active columns] C)
 visualise dataplot for dbscan_labels hue outlier_dbscan,visualise dataplot [source : for] dbscan_labels [param : hue] outlier_dbscan
 visualise kdeplot for hf hue author fill True alpha 0.1 mew 1 mec 1 s 10 stheme viridis bw 10,visualise kdeplot [source : for] hf [param : hue] author [pp : fill] True [pp : alpha] 0.1 [pp : mew] 1 [pp : mec] 1 [pp : s] 10 [pp : stheme] viridis [param : bw] 10
 visualise kdeplot for hf hue author,visualise kdeplot [source : for] hf [param : hue] author
 create seaborn kernel density plot using hf x x_e_out,create seaborn kernel density plot [source : using] hf [param : x] x_e_out
 visualise kdeplot for compare hue set,visualise kdeplot [source : for] compare [param : hue] set
-create label encoding for column B using data A,create label encoding [subset : for column] B [source : using data] A
-create label encoding for column B using data A,create label encoding [subset : for column] B [source : using data] A
-create label encoding for column B using data A,create label encoding [subset : for column] B [source : using data] A
-create label encoding for columns B C using data A,create label encoding [subset : for columns] B C [source : using data] A
-create label encoding using active columns C from data E,create label encoding [subset : using active columns] C [source : from data] E
-create label encoding using active columns C from data E,create label encoding [subset : using active columns] C [source : from data] E

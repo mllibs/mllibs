@@ -51,16 +51,16 @@ class libop_general(nlpi):
 
     def stored_data(self,args:dict):
 
-        print('stored data')
+        print('[note] currently stored data: ')
         data_keys = list(nlpi.data.keys())
         print(data_keys)
 
-        print('Each dataset stores ')
-        try:
-            idx = data_keys[0]
-            print(list(nlpi.data[idx].keys()))
-        except:
-            pass    
+        # print('Each dataset stores ')
+        # try:
+        #     idx = data_keys[0]
+        #     print(list(nlpi.data[idx].keys()))
+        # except:
+        #     pass    
 
     '''
 
