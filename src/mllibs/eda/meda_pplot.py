@@ -26,6 +26,10 @@ class eda_pplot(nlpi):
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
         
+        default_colors_p = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252'] # my custom (plotly)
+        self.default_colors = default_colors_p
+
+
     # select activation function
     def sel(self,args:dict):
 
@@ -71,6 +75,22 @@ class eda_pplot(nlpi):
             val = None
         return val
 
+    @staticmethod
+    def sfp(args,preset,key:str):
+        
+        if(args[key] is not None):
+            return eval(args[key])
+        else:
+            return preset[key]  
+
+    @staticmethod
+    def sfpne(args,preset,key:str):
+        
+        if(args[key] is not None):
+            return args[key]
+        else:
+            return preset[key]  
+
     '''
 
     Activation Functions
@@ -87,17 +107,25 @@ class eda_pplot(nlpi):
                          color=args['hue'],
                          facet_col=args['col'],
                          facet_row=args['row'],
-                         opacity=nlpi.pp['alpha'],
+                         opacity=args['alpha'],
                          facet_col_wrap=args['col_wrap'],
                          template=nlpi.pp['template'],
+                         marginal_x = args['marginal_x'],
+                         marginal_y = args['marginal_y'],
+                         color_discrete_sequence = self.default_colors,
+                         trendline=args['trendline'],
                          width=nlpi.pp['figsize'][0],
                          height=nlpi.pp['figsize'][1],
                          title=nlpi.pp['title'])
 
         # Plot Adjustments
 
-        fig.update_traces(marker={'size':nlpi.pp['s'],"line":{'width':nlpi.pp['mew'],'color':nlpi.pp['mec']}},
-                          selector={'mode':'markers'})
+        if(args['s'] != 0):
+            fig.update_traces(marker={'size':args['s']},selector={'mode':'markers'})
+        if(args['mew'] != None):
+            fig.update_traces(marker={"line":{'width':args['mew']}},selector={'mode':'markers'})
+        if(args['mec'] != None):
+            fig.update_traces(marker={"line":{'color':args['mec']}},selector={'mode':'markers'})
 
         if(nlpi.pp['background'] is False):
             fig.update_layout({
@@ -108,6 +136,7 @@ class eda_pplot(nlpi):
         fig.show()
 
     # plotly basic box plot (plbox)
+
     def plotly_boxplot(self,args:dict):
 
         col_wrap = self.convert_str('col_wrap')
@@ -117,14 +146,20 @@ class eda_pplot(nlpi):
                      x=args['x'],
                      y=args['y'],
                      color=args['hue'],
-                     nbins=nbins,
                      facet_col=args['col'],
                      facet_row=args['row'],
                      facet_col_wrap=col_wrap,
                      template=nlpi.pp['template'],
+                     color_discrete_sequence = self.default_colors,
                      width=nlpi.pp['figsize'][0],
                      height=nlpi.pp['figsize'][1],
                      title=nlpi.pp['title'])
+
+        if(nlpi.pp['background'] is False):
+            fig.update_layout({
+            'plot_bgcolor': 'rgba(0, 0, 0, 0)',
+            'paper_bgcolor': 'rgba(0, 0, 0, 0)',
+            })
 
         fig.show()
       

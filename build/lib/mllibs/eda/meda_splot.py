@@ -96,8 +96,7 @@ class eda_splot(nlpi):
 
     # Seaborn Scatter Plot
       
-    @staticmethod
-    def sscatterplot(args:dict):
+    def sscatterplot(self,args:dict):
             
         sns.set_style("whitegrid", {
             "ytick.major.size": 0.1,

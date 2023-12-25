@@ -151,7 +151,7 @@ class stats_tests(nlpi):
         if(args['popmean'] != None):
 
             # Perform one-sample t-test
-            t_statistic, p_value = stats.ttest_1samp(args['data'], popmean=args['popmean'])
+            statistic, p_value = stats.ttest_1samp(args['data'], popmean=args['popmean'])
 
             print("t-statistic:", statistic)
             print("P-value:", p_value)

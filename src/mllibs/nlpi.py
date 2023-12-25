@@ -244,13 +244,6 @@ class nlpi(nlpm):
             return df_funct
         else:
             return dict(tuple(df_funct.groupby('module')))[show]
-        
-    # debug, show information
-    def debug(self):
-        
-        return {'module':self.module.mod_summary,
-                'token': self.token_info,
-                'args': self.module_args}
      
     '''
     ##############################################################################
@@ -321,11 +314,6 @@ class nlpi(nlpm):
 
         return dict_tokens
 
-
-    # check if self.tokens is in active column
-    
-    # def check_ac(self):
-
     
     def check_data(self):
         
@@ -336,7 +324,7 @@ class nlpi(nlpm):
                     
         # find key matches in [nlpi.data] & [token_info]
         data_tokens = self.match_tokeninfo()
-                    
+
         ''' if we have found matching tokens that contain data'''
                     
         if(len(data_tokens) != 0):
@@ -376,11 +364,8 @@ class nlpi(nlpm):
 
         # check if tokens belong to dataframe column
         self.token_info['column'] = np.nan
-        # self.token_info['key'] = np.nan
-        # self.token_info['index'] = np.nan
 
         '''
-        ##############################################################################
 
         Set Token DataFrame Column Association self.token_info['column']
 
@@ -544,9 +529,6 @@ class nlpi(nlpm):
 
         # number of rows of data
         len_data = len(available_data)
-        
-        # operations
-        # set [module_args['data'],['data_name']]
 
         # check input format requirement
         try:
@@ -557,6 +539,13 @@ class nlpi(nlpm):
  
         a_data = list(available_data['dtype'])
         a_data.sort()
+
+        # check compatibility
+
+        if(a_data != in_formats):
+            print('[note] incompatibility in formats!')
+            print('in_formats',in_formats)
+            print('parsed_data',a_data)
 
         # input format contains one data source as required by activation function
 
@@ -767,11 +756,11 @@ class nlpi(nlpm):
                     break
 
         ls['column'] = tcol
+
         # General 
 
         for i in param_id:
             for i,row in ls[i+1:req_len].iterrows():
-                print(row['ttype'])
                 if(row['ttype'] is not 'str'):
                     ls.loc[i,'token_argv'] = True
                 else:
@@ -893,7 +882,7 @@ class nlpi(nlpm):
             data_name = find_ac(d_id)
 
             if(data_name != None):
-                print(f'[note] storing [{ac_id}] in module_args')
+                print(f'[note] storing active columns for [{ac_id}] in module_args')
                 self.module_args[ac_id] = nlpi.data[data_name]['ac'][d_id]
 
     '''
@@ -1207,8 +1196,6 @@ class nlpi(nlpm):
         ls = ls.reset_index(drop=True)
         ls['index_id'] = ls.index
 
-        display(ls)
-
         # select rows that belong to data column
         # select = ls[(ls['token_arg'] == True) | ls['ner_tags'].isin(['B-PARAM'])]
         select = ls[~ls['column'].isna() | ls['ner_tags'].isin(['B-PARAM'])]
@@ -1292,7 +1279,13 @@ class nlpi(nlpm):
                 # remove only conditions
                 
                 # cond1 = ls['nts1'].isin(['B-SOURCE','I-SOURCE'])
-                cond2 = ls.loc[idx-1,'token_argv'] == True  # token is token_arg value
+                try:
+                    cond2 = ls.loc[idx-1,'token_argv'] == True  # token is token_arg value
+                except:
+                    cond2 = True 
+                    if(nlpi.silent is False):
+                        print('[note] parameter has been placed at start, bypassing one condition')
+
                 cond3 = ls['data'].isnull().iloc[idx-1]  # data is NULL (no data)
                 cond4 = ls['column'].isnull().iloc[idx-1]  # column is NULL (no data)
 
@@ -1318,18 +1311,11 @@ class nlpi(nlpm):
             # remove indicies from [remove_idx] if condition [keep_token] is met
             keep_idx = list(ls[ls['keep_token'] == True].index)
 
-            print('keep_idx',keep_idx)
-            print('remove_idx b4:',remove_idx)
-
             if(len(keep_idx)>0):
                 remove_idx = [value for index, value in enumerate(remove_idx) if value not in keep_idx]
 
-            print('remove_idx aft:',remove_idx)
-
             # remove tokens associated with PARAMS
             self.mtoken_info = ls[~ls['index_id'].isin(remove_idx)]
-
-            display(self.mtoken_info)
 
         else:
             if(nlpi.silent is False):
@@ -1492,14 +1478,12 @@ class nlpi(nlpm):
                 
                 # activate function [module_name] & pass [module_args]
                 self.module.modules[self.module_name].sel(self.module_args)
-                
-                # if not data has been added
-                # initialise output data (overwritten in module.function
-                
+            
                 if(len(nlpi.memory_output) == nlpi.iter+1):
                     pass
                 else:
                     nlpi.memory_output.append(None) 
+                
         else:
             print('[note] no iteration activated!')
 

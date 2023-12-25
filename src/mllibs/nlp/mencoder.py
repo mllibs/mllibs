@@ -11,12 +11,12 @@ from torch.nn.utils.rnn import pad_sequence
 from mllibs.nlpm import parse_json
 import pkg_resources
 import json
+
 '''
 
 Encoding Text Data
 
 '''
-
 class encoder(nlpi):
     
     def __init__(self):

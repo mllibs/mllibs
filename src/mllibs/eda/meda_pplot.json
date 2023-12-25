@@ -10,7 +10,8 @@
                 "create plotly scatterplot",
                 "create bivariate scatter plot with plotly",
                 "create multivariate scatter plot with plotly",
-                "make plotly scatterplot"
+                "make plotly scatterplot",
+                "please create plotly scatterplot"
               ],
       "info": {
                "module":"eda_pplot",
@@ -21,7 +22,7 @@
                "description":"create a scatter plot using plotly express",
                "output":"figure",
                "token_compat":"None",
-               "arg_compat":"x y hue col row"
+               "arg_compat":"x y hue col row alpha col_wrap s mew mec alpha marginal_x marginal_y trendline"
               }
     },
 

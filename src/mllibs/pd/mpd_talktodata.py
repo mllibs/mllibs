@@ -49,6 +49,18 @@ class pd_talktodata(nlpi):
             self.dfcolumn_na(self.args)
         if(self.select == 'dfall_na'):
             self.dfall_na(self.args)
+        if(self.select == 'show_stats'):
+            self.show_statistics(args)
+        if(self.select == 'show_info'):
+            self.show_info(args)
+        if(self.select == 'show_dtypes'):
+            self.show_dtypes(args)
+        if(self.select == 'show_feats'):
+            self.show_features(args)   
+        if(self.select == 'show_corr'):
+            self.show_correlation(args)
+        if(self.select == 'dfcolumn_unique'):
+            self.dfcolumn_unique(self.args)
 
     ''' 
     
@@ -69,12 +81,26 @@ class pd_talktodata(nlpi):
     # column distribution
 
     def dfcolumn_distr(self,args:dict):
+
         if(args['column'] != None):
             display(args['data'][args['column']].value_counts())
         elif(args['col'] != None):
             display(args['data'][args['col']].value_counts())
         else:
             print('[note] please specify the column name')
+
+    # column unique values
+
+    def dfcolumn_unique(self,args:dict):
+
+        if(args['column'] == None and args['col'] == None):
+            print('[note] please specify the column name')
+        else:
+            if(args['column'] != None):
+                print(args['data'][args['column']].unique())
+            elif(args['col'] != None):
+                print(args['data'][args['col']].unique())
+
 
     # show the missing data in the column 
 
@@ -86,13 +112,16 @@ class pd_talktodata(nlpi):
             ls = args['data'][args['col']]
         else:
             print('[note] please specify the column name')
+            ls = None
 
-        # convert series to dataframe
-        if(isinstance(ls,pd.DataFrame) == False):
-            ls = ls.to_frame()
+        if(ls != None):
 
-        print("[note] I've stored the missing rows")
-        nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})            
+            # convert series to dataframe
+            if(isinstance(ls,pd.DataFrame) == False):
+                ls = ls.to_frame()
+
+            print("[note] I've stored the missing rows")
+            nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})            
 
     # show the missing data in all columns
 
@@ -103,4 +132,40 @@ class pd_talktodata(nlpi):
 
         print("[note] I've stored the missing rows")
         ls = args['data']
-        nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})       
+        nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})  
+
+    # show dataframe statistics  
+
+    @staticmethod
+    def show_statistics(args:dict):
+        display(args['data'].describe())
+
+    # show dataframe information
+
+    @staticmethod
+    def show_info(args:dict):
+        print(args['data'].info())
+
+    # show dataframe column data types
+
+    @staticmethod
+    def show_dtypes(args:dict):
+        print(args['data'].dtypes)
+
+    # show column features
+
+    @staticmethod
+    def show_features(args:dict):
+        print(args['data'].columns)
+
+    # show numerical column linear correlation in dataframe
+
+    @staticmethod
+    def show_correlation(args:dict):
+        corr_mat = pd.DataFrame(np.round(args['data'].corr(),2),
+                             index = list(args['data'].columns),
+                             columns = list(args['data'].columns))
+        corr_mat = corr_mat.dropna(how='all',axis=0)
+        corr_mat = corr_mat.dropna(how='all',axis=1)
+        display(corr_mat)
+

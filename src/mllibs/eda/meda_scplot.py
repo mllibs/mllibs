@@ -76,17 +76,6 @@ class eda_scplot(nlpi):
             xloc = args['data'][args['x']]
         else:
             xloc = None
-            
-        if(args['hue'] is not None):
-            hueloc = args['data'][args['hue']]
-            if(type(nlpi.pp['stheme']) is str):
-                palette = nlpi.pp['stheme']
-            else:
-                palette = palette_rgb[:len(hueloc.value_counts())]
-                
-        else:
-            hueloc = None
-            palette = palette_rgb
           
         columns = list(num.columns)  
         n_cols = 3
@@ -110,7 +99,6 @@ class eda_scplot(nlpi):
                         edgecolor=nlpi.pp['mec'],
                         ax=ax[i],
                         common_norm=False,
-                        palette=palette
                          )
     
             # titles
@@ -142,17 +130,6 @@ class eda_scplot(nlpi):
             xloc = args['data'][args['x']]
         else:
             xloc = None
-            
-        if(args['hue'] is not None):
-            hueloc = args['data'][args['hue']]
-            if(type(nlpi.pp['stheme']) is str):
-                palette = nlpi.pp['stheme']
-            else:
-                palette = palette_rgb[:len(hueloc.value_counts())]
-                
-        else:
-            hueloc = None
-            palette = palette_rgb
 
         fig, ax = plt.subplots(n_rows, n_cols, figsize=(16, n_rows*5))
         sns.despine(fig, left=True, bottom=True)
@@ -175,7 +152,6 @@ class eda_scplot(nlpi):
                 hue=hueloc,
                 width=bw,
                 ax=ax[i],
-                palette=palette
             )
 
             # titles
@@ -203,18 +179,7 @@ class eda_scplot(nlpi):
             xloc = args['data'][args['x']]
         else:
             xloc = None
-            
-        if(args['hue'] is not None):
-            hueloc = args['data'][args['hue']]
-            if(type(nlpi.pp['stheme']) is str):
-                palette = nlpi.pp['stheme']
-            else:
-                palette = palette_rgb[:len(hueloc.value_counts())]
-                
-        else:
-            hueloc = None
-            palette = palette_rgb
-
+        
         fig, ax = plt.subplots(n_rows, n_cols, figsize=(16, n_rows*5))
         sns.despine(fig, left=True, bottom=True)
         ax = ax.flatten()
@@ -228,13 +193,11 @@ class eda_scplot(nlpi):
             sns.scatterplot(
                 y=args['data'][column],
                 x=xloc,
-                hue=hueloc,
                 alpha= nlpi.pp['alpha'],
                 linewidth=nlpi.pp['mew'],
                 edgecolor=nlpi.pp['mec'],
                 s = nlpi.pp['s'],
                 ax=ax[i],
-                palette=palette,
             )
 
             # titles

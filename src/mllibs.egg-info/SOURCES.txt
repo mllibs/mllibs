@@ -26,8 +26,6 @@ src/mllibs/eda/meda_pplot.json
 src/mllibs/eda/meda_pplot.py
 src/mllibs/eda/meda_scplot.json
 src/mllibs/eda/meda_scplot.py
-src/mllibs/eda/meda_simple.json
-src/mllibs/eda/meda_simple.py
 src/mllibs/eda/meda_splot.json
 src/mllibs/eda/meda_splot.py
 src/mllibs/libop/__init__.py
@@ -46,5 +44,7 @@ src/mllibs/pd/mpd_df.py
 src/mllibs/pd/mpd_talktodata.json
 src/mllibs/pd/mpd_talktodata.py
 src/mllibs/stats/__init__.py
+src/mllibs/stats/mstats_plot.json
+src/mllibs/stats/mstats_plot.py
 src/mllibs/stats/mstats_tests.json
 src/mllibs/stats/mstats_tests.py

@@ -30,6 +30,7 @@ Requires-Dist: tensorflow
 Requires-Dist: keras
 Requires-Dist: statsmodels
 Requires-Dist: pingouin
+Requires-Dist: arch
 
 <p align="center">
     <img src="data/images/fcnb.png" width="450">

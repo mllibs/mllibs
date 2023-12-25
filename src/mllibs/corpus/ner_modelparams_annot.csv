@@ -24,11 +24,15 @@ in data,[source : in] data
 in data,[source : in data]
 popmean 10,[param : popmean] 10
 col_wrap 2, [param : col_wrap] 2
+mec 1.5,[param : mec]
+marginal_x violinplot, [param : marginal_x]
+marginal_y violinplot, [param : marginal_y]
 show missing data in column sex in penguins, show missing data in [param : column] sex [source : in] penguins
 show missing data in col sex in data penguins, show missing data in [param : col] sex [source : in data] penguins
 concatenate two dataframes join inner, concatenate two dataframes [param : join] inner
 concatenate two dataframes axis 1, concatenate two dataframes [param : axis] 1
 template plotly_white, [pp : template] plotly_white
+marginal histogram marginal_y box trendline ols, [param : marginal] histogram [param : marginal] box [param : trendline] ols
 show available data from 01-01-2021 to 01-01-2022,show available data [source : from] 01 [date : -] 01 [date : -] 2021 [date : to] 01 [date : -] 01 [date : -] 2022
 marginal_x histogram marginal_y violinplot nbinsx 100 nbinsy 100,[param : marginal_x] histogram [param : marginal_y] violinplot [param : nbinsx] 100 [param : nbinsy] 100
 create histogram for penguins x bill_length_mm y bill_depth_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [pp : bw] 30
@@ -44,7 +48,7 @@ create histogram using data penguins x bill_length_mm y bill_depth_mm,create his
 create seaborn scatter plot using data pca,create seaborn scatter plot [source : using data] pca
 pca dimensionality reduction using data housing,pca dimensionality reduction [source : using data] housing
 visualise dataplot for dbscan_labels hue outlier_dbscan,visualise dataplot [source : for] dbscan_labels [param : hue] outlier_dbscan
-visualise kdeplot for hf hue author fill True alpha 0.1 mew 1 mec 1 s 10 stheme viridis bw 10,visualise kdeplot [source : for] hf [param : hue] author [pp : fill] True [pp : alpha] 0.1 [pp : mew] 1 [pp : mec] 1 [pp : s] 10 [pp : stheme] viridis [param : bw] 10
+visualise kdeplot for hf hue author fill True alpha 0.1 mew 1 mec 1 s 10 stheme viridis bw 10,visualise kdeplot [source : for] hf [param : hue] author [pp : fill] True [param : alpha] 0.1 [param : mew] 1 [param : mec] 1 [param : s] 10 [param : stheme] viridis [param : bw] 10
 visualise kdeplot for hf hue author,visualise kdeplot [source : for] hf [param : hue] author
 create seaborn kernel density plot using hf x x_e_out,create seaborn kernel density plot [source : using] hf [param : x] x_e_out
 visualise kdeplot for compare hue set,visualise kdeplot [source : for] compare [param : hue] set
