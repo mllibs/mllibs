@@ -6,6 +6,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
+from tqdm.notebook import tqdm
+from torch.utils.data import DataLoader, Dataset
+import torch.nn as nn
+import torch.optim as optim
+
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel,sigmoid_kernel
 from sklearn.base import clone
@@ -218,7 +223,7 @@ class nlpm:
             
         ''' Make Global Task Selection Corpus '''
     
-        def prepare_corpus(group):
+        def prepare_corpus(group:str) -> pd.DataFrame:
         
             lst_modules = dict(list(df_opt.groupby(group)))
 
@@ -245,9 +250,125 @@ class nlpm:
             
     ''' 
     
-    MACHINE LEARNING LOOP 
+    Model Loops
     
     '''
+
+    # Transformer based classification model
+    # used for global activation function classification
+    # requires [self.corpus_gt]
+
+    def load_trclassifier(self):
+
+        '''
+
+        Load the base models
+
+        '''
+        model_name = 'prajjwal1/bert-mini'
+        # model_name = 'bert-base-uncased'
+        tokeniser = BertTokenizer.from_pretrained(model_name)
+        model = BertForSequenceClassification.from_pretrained(model_name, num_labels=classes)
+
+        '''
+
+        Read Fine-Tuned Classifier Model
+
+        '''
+
+        model = BertForSequenceClassification.from_pretrained('path_to_saved_model_directory')
+
+
+
+    def train_trclassifier(self,module_name:str):
+
+        # define corpus
+        corpus = self.corpus_gt
+
+        classes = len(corpus['class'].unique())
+        # print(df['class'].value_counts())
+        # print(classes)
+
+        # Load the pre-trained BERT model and tokenizer
+
+        model_name = 'prajjwal1/bert-mini'
+        # model_name = 'bert-base-uncased'
+        tokeniser = BertTokenizer.from_pretrained(model_name)
+        model = BertForSequenceClassification.from_pretrained(model_name, num_labels=classes)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        model.to(device)
+
+        le = LabelEncoder()
+        targets = le.fit_transform(df['task'])
+        data = {'corpus':list(df['text']),'labels':targets}
+
+        # Sample dataset for text classification
+        class CustomDataset(Dataset):
+            def __init__(self, texts, labels):
+                self.texts = texts
+                self.labels = labels
+
+            def __len__(self):
+                return len(self.texts)
+
+            def __getitem__(self, idx):
+                text = self.texts[idx]
+                label = self.labels[idx]
+                return {'text': text, 'label': label}
+
+        # create dataset
+        dataset = CustomDataset(list(data['corpus']),
+                                list(data['labels']))
+
+        def train_bert(dataset,tokeniser,model):
+
+            # Define batch size and create data loader
+            batch_size = 10
+            dataloader = DataLoader(dataset, 
+                                    sampler=RandomSampler(dataset), 
+                                    batch_size=batch_size)
+
+            # Set up optimizer and learning rate scheduler
+            optimizer = AdamW(model.parameters(), lr=1e-5)
+            criterion = nn.CrossEntropyLoss()
+            total_steps = len(dataloader) * 2
+
+            # Train the model
+            model.train()
+            for epoch in tqdm(range(200)):
+                model.train()
+                total_correct = 0
+                total_samples = 0
+                for batch in dataloader:
+                
+                    inputs = tokeniser(batch['text'], padding=True, truncation=True, return_tensors='pt')
+                    inputs.to(device)
+                    labels = batch['label'].to(device)
+
+                    outputs = model(**inputs)
+                    loss = criterion(outputs.logits, labels)
+            
+                    optimizer.zero_grad()
+                    loss.backward()
+                    optimizer.step()
+
+                # Calculate accuracy
+                predicted_labels = torch.argmax(outputs.logits, dim=1)
+                total_correct += (predicted_labels == labels).sum().item()
+                total_samples += labels.size(0)
+
+            accuracy = total_correct / total_samples
+            print(f'Epoch {epoch+1} completed. Accuracy: {accuracy:.4f}')    
+
+        model = train_bert(dataset,tokeniser,model)
+
+        if(device is 'gpu'):
+            model.to('cpu')
+    
+        model.save_pretrained('bert_classifier_model')
+        self.model['gtb'] = model
+        self.tokeniser['gtb'] = tokeniser
+
     
     def mlloop(self,corpus:dict,module_name:str):
 
@@ -333,6 +454,7 @@ class nlpm:
         
             self.vectoriser = {} # stores vectoriser
             self.model = {}   # storage for models
+            self.tokeniser = {} # store tokeniser 
             self.vocabulary = {} # vectoriser vocabulary
     
             ''' 
