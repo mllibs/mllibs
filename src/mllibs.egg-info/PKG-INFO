@@ -13,7 +13,6 @@ Requires-Python: >=3.7
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: requests
-Requires-Dist: importlib-metadata
 Requires-Dist: setuptools
 Requires-Dist: wheel
 Requires-Dist: numpy
@@ -31,6 +30,8 @@ Requires-Dist: keras
 Requires-Dist: statsmodels
 Requires-Dist: pingouin
 Requires-Dist: arch
+Requires-Dist: transformers
+Requires-Dist: urllib3<2
 
 <p align="center">
     <img src="data/images/fcnb.png" width="450">

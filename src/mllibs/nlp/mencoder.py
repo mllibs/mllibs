@@ -55,55 +55,60 @@ class encoder(nlpi):
             return eval(args[key])
         else:
             return None
+
+    # store subset column names into a single value
+    # subsets can originate from [col,column]
+    # certain acivation functions use subsets
+
+    def check_subset(self,args:dict):
+
+        self.subset = None
+        if args['column'] is not None:
+            self.subset = args['column']
+        if args['col'] is not None:
+            self.subset = args['col']
            
     # make selection  
 
     def sel(self,args:dict):
     
-        self.select = args['pred_task']
-        self.subset = args['subset']
+        select = args['pred_task']
         self.data = args['data']
-        self.args = args    
-        
+        self.check_subset(args)
         
         ''' select appropriate predicted method '''
         
-        if(self.select == 'encoding_ohe'):
-            self.ohe(self.data,self.args)
-        elif(self.select == 'encoding_label'):
-            self.le(self.data,self.args)
-        elif(self.select == 'count_vectoriser'):
-            self.cv(self.data,self.args)  
-        elif(self.select == 'tfidf_vectoriser'):
-            self.tfidf(self.data,self.args)
-        elif(self.select == 'torch_text_encode'):
-            self.text_torch_encoding(self.data,self.args)
+        if(select == 'encoding_ohe'):
+            self.ohe(args)
+        elif(select == 'encoding_label'):
+            self.le(args)
+        elif(select == 'count_vectoriser'):
+            self.cv(args)  
+        elif(select == 'tfidf_vectoriser'):
+            self.tfidf(args)
+        elif(select == 'torch_text_encode'):
+            self.text_torch_encoding(args)
             
             
-    ''' 
+
     
-    One Hot Encode DataFrame 
-    
-    '''
+    # One Hot Encode DataFrame 
             
-    def ohe(self,data:pd.DataFrame,args):
+    def ohe(self,args:dict):
            
-        # if just data is specified
-        if(self.subset is None):     
-            df_matrix = pd.get_dummies(data)
-            nlpi.memory_output.append({'data':df_matrix})
-        else:      
-            df_matrix = pd.get_dummies(data,columns=self.subset)
-            nlpi.memory_output.append({'data':df_matrix})
+        if(self.subset != None):
+            df_matrix = pd.get_dummies(args['data'])
+        else:
+            ldf = args['data'][self.subset]
+            df_matrix = pd.get_dummies(ldf)
+            df_all = pd.concat([args['data'],df_matrix],axis=1)
+    
+        nlpi.memory_output.append({'data':df_matrix,'ohe_data':df_all})
                    
         
-    ''' 
-    
-    Label Encode DataFrame column 
-    
-    '''
+    # Label Encode DataFrame column 
 
-    def le(self,data:pd.DataFrame,args):
+    def le(self,args:dict):
         
         encoder = LabelEncoder()
         data = deepcopy(data)

@@ -1,5 +1,4 @@
 requests
-importlib-metadata
 setuptools
 wheel
 numpy
@@ -17,3 +16,5 @@ keras
 statsmodels
 pingouin
 arch
+transformers
+urllib3<2

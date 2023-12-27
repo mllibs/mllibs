@@ -30,11 +30,11 @@ def isfloat(strs:str):
 
 
 '''
-##############################################################################
 
-INTERPRETER CLASS (NLPI)
 
-##############################################################################
+Interpreter class (nlpi)
+
+
 '''
  
 class nlpi(nlpm):
@@ -79,18 +79,11 @@ class nlpi(nlpm):
         
         lst_data = list(nlpi.data.keys())            # data has been loaded
         self.dsources = {'inputs':lst_data}
-               
-        # if(nlpi.silent is False): 
-        #     print('inputs:')
-        #     print(lst_data,'\n')
-        
         
     ''' 
-    ##############################################################################
     
     STORE INPUT DATA
     
-    ##############################################################################
     '''
     
     # split dataframe columns into numeric and categorical
@@ -110,7 +103,6 @@ class nlpi(nlpm):
 
 
     '''
-    ##############################################################################
 
     Store Active Columns (in nlp)
 
@@ -128,7 +120,6 @@ class nlpi(nlpm):
                 print('[note] please use list for subset definition')
 
     '''
-    ##############################################################################
 
     Store Data
 
@@ -246,7 +237,6 @@ class nlpi(nlpm):
             return dict(tuple(df_funct.groupby('module')))[show]
      
     '''
-    ##############################################################################
 
     NER TAGGING OF INPUT REQUEST
        
@@ -283,7 +273,6 @@ class nlpi(nlpm):
 
        
     ''' 
-    ##############################################################################
     
     Check if token names are in data sources 
     
@@ -413,7 +402,6 @@ class nlpi(nlpm):
     
         
     ''' 
-    ##############################################################################
     
     Execute user input, have [self.command]
     
@@ -434,31 +422,32 @@ class nlpi(nlpm):
     ##############################################################################
     '''
 
+    # find the module, having its predicted task 
+
+    def find_module(self,task:str):
+
+        module_id = None
+        for m in self.module.modules:
+            if(task in list(self.module.modules[m].nlp_config['corpus'].keys())):
+                module_id = m
+
+        if(module_id is not None):
+            return module_id
+        else:
+            print('[note] find_module error!')
+
+    # predict global task (sklearn)
+
     def pred_gtask(self,text:str):
+        self.task_name,_ = self.module.predict_gtask('gt',text)
+        self.module_name = self.find_module(self.task_name) # having [task_name] find its module
 
-        # predict global task
+    # predict global task (bert)
 
-        def get_globaltask(text:str):
-            gt_name,gt_name_p = self.module.predict_gtask('gt',text)
-            return gt_name,gt_name_p
+    def pred_gtask_bert(self,text:str):
+        self.task_name = self.module.predict_gtask_bert('gt',text)
+        self.module_name = self.find_module(self.task_name) # having [task_name] find its module
 
-        self.task_name,_ = get_globaltask(text)
-
-        # having [task_name] find its module
-        def find_module(task:str):
-
-            module_id = None
-            for m in self.module.modules:
-                if(task in list(self.module.modules[m].nlp_config['corpus'].keys())):
-                    module_id = m
-
-            if(module_id is not None):
-                return module_id
-            else:
-                print('[note] find_module error!')
-
-        self.module_name = find_module(self.task_name) 
-  
     '''
 
     # Predict Module Task, set [task_name], [module_name]
@@ -542,7 +531,7 @@ class nlpi(nlpm):
 
         # check compatibility
 
-        if(a_data != in_formats):
+        if(a_data != in_formats and len(a_data) != 0):
             print('[note] incompatibility in formats!')
             print('in_formats',in_formats)
             print('parsed_data',a_data)
@@ -573,7 +562,6 @@ class nlpi(nlpm):
 
 
     '''
-    ##############################################################################
 
     Show module task sumamry   
     
@@ -602,7 +590,6 @@ class nlpi(nlpm):
         
 
     ''' 
-    ##############################################################################
 
                              [[ Tokenise Input Command ]]
 
@@ -678,7 +665,6 @@ class nlpi(nlpm):
         self.mtoken_info = ls
 
     '''
-    ##############################################################################
 
     NER for tokens
 
@@ -1175,7 +1161,6 @@ class nlpi(nlpm):
             
 
     '''
-    ##############################################################################
 
     PARAMETER NER
 
@@ -1321,6 +1306,12 @@ class nlpi(nlpm):
             if(nlpi.silent is False):
                 print('[note] no parameters to extract (possible NER miss)')
     
+    '''
+
+    Logical Filters
+
+    ##############################################################################
+    '''
 
     # Filter base request before classification
     # request can't end with a preposition
@@ -1351,7 +1342,6 @@ class nlpi(nlpm):
 
 
     '''
-    ##############################################################################
 
     Single Command Loop
 
@@ -1363,7 +1353,6 @@ class nlpi(nlpm):
         # Initialise arguments dictionary (critical entries)
         self.module_args = {'pred_task': None, 'data': None,'subset': None,
                             'features': None, 'target' : None}
-
 
         # (update) Activation Function Parameter Entries 
         lst_data = []
@@ -1420,13 +1409,9 @@ class nlpi(nlpm):
 
         self.mtoken_info = self.token_info.copy()
 
-        # activation function related
         self.ac_extraction()      # extract and store active column
         self.find_keeptokens()    # determine which tokens to keep and not remove in request filter(s)
-
-        # dataset related
         self.data_extraction()    # extract and store data sources 
-
         self.filterset_PP()       # filter out PP tokens + store PP param (in nlpi.pp)
         self.filterset_PARAMS()   # extract and store PARAM data
 
@@ -1450,7 +1435,8 @@ class nlpi(nlpm):
         '''
 
         # self.pred_module_module_task(text) # [module_name] [task_name] prediction 
-        self.pred_gtask(after)  # directly predict [task_name]
+        # self.pred_gtask(after)      # directly predict [task_name]
+        self.pred_gtask_bert(after) # directly predict [task_name]
              
         '''
 

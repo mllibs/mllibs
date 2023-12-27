@@ -5,7 +5,7 @@
       "name": "dfcolumninfo",
     "corpus": [
                 "what are the columns",
-                "print the columns",
+                "print the column names",
                 "show the dataframe column names",
                 "print dataframe column names"
               ],
@@ -27,7 +27,9 @@
     "corpus": [
                 "show me the size of the data",
                 "the dataframe size",
-                "dataframe size"
+                "dataframe size",
+                "what is the dataframe size",
+                "show the dataframe size"
               ],
       "info": {
                "module":"pd_talktodata",
@@ -46,6 +48,7 @@
       "name": "dfcolumn_distr",
     "corpus": [
                 "show the column distribution",
+                "show the the counts of the unique values in the column",
                 "column distribution",
                 "column value_counts",
                 "count the number of items in column",
@@ -241,7 +244,8 @@
     "corpus": [
                 "show unique values in column",
                 "show all unique values in column",
-                "list all column unique values"
+                "list all column unique values",
+                "what are the unique column values"
               ],
       "info": {
                "module":"pd_talktodata",

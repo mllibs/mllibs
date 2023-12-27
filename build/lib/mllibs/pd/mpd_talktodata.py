@@ -102,7 +102,7 @@ class pd_talktodata(nlpi):
                 print(args['data'][args['col']].unique())
 
 
-    # show the missing data in the column 
+    # show the missing data in the column / if no column is provided show for all columns
 
     def dfcolumn_na(self,args:dict):
 
@@ -111,15 +111,18 @@ class pd_talktodata(nlpi):
         elif(args['col'] != None):
             ls = args['data'][args['col']]
         else:
-            print('[note] please specify the column name')
-            ls = None
+            print('[note] please specify the column name, showing for all columns')
+            ls = args['data']
 
-        if(ls != None):
-
-            # convert series to dataframe
-            if(isinstance(ls,pd.DataFrame) == False):
-                ls = ls.to_frame()
-
+        if(isinstance(ls,pd.Series) == True):
+            tls = ls.to_frame()
+            print(tls.isna().sum().sum(),'rows in total have missing data')
+            print("[note] I've stored the missing rows")
+            idx = tls[tls.isna().any(axis=1)].index
+            nlpi.memory_output.append({'data':args['data'].loc[idx]})          
+        elif(isinstance(ls,pd.DataFrame) == True):
+            print(args['data'].isna().sum().sum(),'rows in total have missing data')
+            print(args['data'].isna().sum())
             print("[note] I've stored the missing rows")
             nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})            
 
