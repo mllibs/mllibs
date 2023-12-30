@@ -32,6 +32,7 @@ Requires-Dist: pingouin
 Requires-Dist: arch
 Requires-Dist: transformers
 Requires-Dist: urllib3<2
+Requires-Dist: catboost
 
 <p align="center">
     <img src="data/images/fcnb.png" width="450">

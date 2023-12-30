@@ -1,4 +1,5 @@
 from mllibs.nlpi import nlpi
+from mllibs.dict_helper import sfp,sfpne
 import pandas as pd
 import warnings; warnings.filterwarnings('ignore')
 from mllibs.nlpm import parse_json
@@ -21,18 +22,6 @@ class pd_df(nlpi):
         with open(path, 'r') as f:
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
-
-
-    # set preset value from dictionary
-    # if argument is already set
-
-    @staticmethod
-    def sfp(args,preset,key:str):
-    
-        if(args[key] is not None):
-            return args[key]
-        else:
-            return preset[key] 
         
     # called in nlpi
     def sel(self,args:dict):
@@ -84,7 +73,7 @@ class pd_df(nlpi):
                                args['row'],
                                c=args['col'],
                                v=args['val'],
-                               agg=self.sfp(args,pre,'agg'))
+                               agg=sfp(args,pre,'agg'))
            
         nlpi.memory_output.append({'data':grouped_data})
                 
@@ -104,7 +93,7 @@ class pd_df(nlpi):
         # merge both data frames
         merged_df = concat(args['data'],
                            join=args['join'],
-                           ax=self.sfp(args,pre,'axis'))
+                           ax=sfp(args,pre,'axis'))
         
         # store result
         nlpi.memory_output.append({'data':merged_df})

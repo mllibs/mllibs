@@ -1,0 +1,54 @@
+{
+  "modules": [
+    
+    {
+      "name": "sig_fourier",
+    "corpus": [
+                "calculate the fourier transformation for column",
+                "compute the Fourier transform for the specified column",
+                "generate the Fourier transformation for the column",
+                "generate the Fourier transformation for the column",
+                "generate the Fourier transformation",
+                "calculate the fourier transformation",
+                "compute the Fourier transform",
+                "generate the Fourier transformation"
+              ],
+      "info": {
+               "module":"fourier_all",
+               "action":"reduce dimensions",
+               "topic":"dimensionality reduction",
+               "subtopic":"fourier transformation",
+               "input_format":"pd.DataFrame",
+               "description":"Calculate the fast fourier trasformations of a column",
+               "output":"pd.DataFrame",
+               "token_compat":"None",
+               "arg_compat":"column"
+              }
+    }, 
+
+    {
+      "name": "sig_fourierplot",
+    "corpus": [
+                "visualise the fast fourier transformations for columns",
+                "visualise the fast fourier transformations for column",
+                "create and visualise the fast fourier transformation of columns",
+                "create and visualise the fft of column",
+                "create and visualise the fft of columns",
+                "visualise the FFT for columns",
+                "visualise the FFT for column"
+              ],
+      "info": {
+               "module":"fourier_all",
+               "action":"show plot",
+               "topic":"dimensionality reduction",
+               "subtopic":"fourier transformation",
+               "input_format":"pd.DataFrame",
+               "description":"Visualise the fast fourier trasformations of numerical data found in the specified column(s)",
+               "output":"pd.DataFrame",
+               "token_compat":"None",
+               "arg_compat":"column columns"
+              }
+    }
+
+  ]
+}

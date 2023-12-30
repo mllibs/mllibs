@@ -18,3 +18,4 @@ pingouin
 arch
 transformers
 urllib3<2
+catboost

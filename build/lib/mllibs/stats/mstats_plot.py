@@ -1,5 +1,6 @@
 
 from mllibs.nlpi import nlpi
+from mllibs.dict_helper import sfp,sfpne
 import pandas as pd
 import numpy as np
 from collections import OrderedDict
@@ -66,23 +67,6 @@ class stats_plot(nlpi):
         except:
             val = None
         return val
-
-    @staticmethod
-    def sfp(args,preset,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return preset[key]  
-
-    @staticmethod
-    def sfpne(args,preset,key:str):
-        
-        if(args[key] is not None):
-            return args[key]
-        else:
-            return preset[key]  
-            
 
     '''
 
@@ -152,7 +136,7 @@ class stats_plot(nlpi):
         sample2 = np.array(args['data'][1])
 
         # Number of bootstrap samples
-        num_bootstrap_samples = self.sfpne(args,pre,'nsamples')
+        num_bootstrap_samples = sfpne(args,pre,'nsamples')
 
         # Perform bootstrap sampling and compute test statistic for each sample
         data = {'one':[],'two':[]}
@@ -192,7 +176,7 @@ class stats_plot(nlpi):
         sample2 = np.array(args['data'][1])
 
         # Number of bootstrap samples
-        num_bootstrap_samples = self.sfpne(args,pre,'nsamples')
+        num_bootstrap_samples = sfpne(args,pre,'nsamples')
         
         # Function to estimate parameter
         def estimate_parameter(data):

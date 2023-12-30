@@ -89,30 +89,25 @@ class encoder(nlpi):
         elif(select == 'torch_text_encode'):
             self.text_torch_encoding(args)
             
-            
-    ''' 
-    
-    One Hot Encode DataFrame 
-    
-    '''
+    # One Hot Encode DataFrame 
+    # input dataframe 
             
     def ohe(self,args:dict):
            
         if(self.subset != None):
             df_matrix = pd.get_dummies(args['data'])
         else:
-            df_matrix = pd.get_dummies(args['data'],columns=self.subset)
+            ldf = args['data'][self.subset]
+            df_matrix = pd.get_dummies(ldf)
+            df_all = pd.concat([args['data'],df_matrix],axis=1)
     
-        nlpi.memory_output.append({'data':df_matrix})
+        nlpi.memory_output.append({'data':df_matrix,'ohe_data':df_all})
                    
         
-    ''' 
-    
-    Label Encode DataFrame column 
-    
-    '''
+    # Label Encode DataFrame column 
+    # input dataframe
 
-    def le(self,data:pd.DataFrame,args):
+    def le(self,args:dict):
         
         encoder = LabelEncoder()
         data = deepcopy(data)
@@ -191,7 +186,7 @@ class encoder(nlpi):
             # remove rows
             data.drop(self.subset,axis=1,inplace=True)
             
-            # add vectorised data back into data
+            # add vectorised data b ack into data
             
             if(len(lst_df) > 1):
                 grouped_labels = pd.concat(lst_df,axis=1)

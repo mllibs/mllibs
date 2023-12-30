@@ -8,6 +8,7 @@ setup(packages=find_packages(where="src"),
                                "eda/*.json",
                                "libop/*.json",
                                "stats/*.json",
+                               "signal/*.json",
                                "pd/*.json",
                                "*.json",
                                "models/*.pickle"]

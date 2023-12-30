@@ -1,0 +1,67 @@
+
+def sfp(args:dict,preset:dict,key:str):
+    
+    if(args[key] is not None):
+        return eval(args[key])
+    else:
+        return preset[key]  
+
+def sfpne(args:dict,preset:dict,key:str):
+    
+    if(args[key] is not None):
+        return args[key]
+    else:
+        return preset[key]  
+
+'''
+
+Check two subset column names [column] & [col]
+
+'''
+
+def column_to_subset(args:dict):
+
+    if(args['column'] == None and args['col'] == None and args['columns'] == None):
+        return None
+    else:
+        if(args['column'] != None):
+            if(isinstance(args['column'],str) == True):
+                return [args['column']]      
+            elif(isinstance(args['column'],list) == True):
+                return args['column']
+            else:
+                print('[note] error @column_to_subset')
+
+        elif(args['columns'] != None):
+            if(isinstance(args['columns'],str) == True):
+                return [args['column']]      
+            elif(isinstance(args['columns'],list) == True):
+                return args['columns']
+            else:
+                print('[note] error @column_to_subset')
+
+        elif(args['col'] != None):  
+            if(isinstance(args['col'],str) == True):
+                return [args['col']]      
+            elif(isinstance(args['col'],list) == True):
+                return args['col']
+            else:
+                print('[note] error @column_to_subset')
+
+
+
+'''
+
+# for converting numeric text into int/float
+
+'''
+
+def convert_str_to_val(args:dict,key:str):
+    try:
+        try:
+            val = eval(args[key]) # if args[key] is a string
+        except:
+            val = args[key]  # else just a value
+    except:
+        val = None
+    return val

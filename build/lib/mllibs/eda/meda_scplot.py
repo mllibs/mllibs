@@ -1,5 +1,6 @@
 
 from mllibs.nlpi import nlpi
+from mllibs.df_helper import split_types
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -51,13 +52,6 @@ class eda_scplot(nlpi):
             self.eda_colplot_box(args)
         elif(select == 'col_scatter'):
             self.eda_colplot_scatter(args)
-            
-    @staticmethod
-    def split_types(df):
-        numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']  
-        numeric = df.select_dtypes(include=numerics)
-        categorical = df.select_dtypes(exclude=numerics)
-        return numeric,categorical
 
     '''
     
@@ -70,7 +64,7 @@ class eda_scplot(nlpi):
     def eda_colplot_kde(self,args:dict):
         
         # get numeric column names only
-        num,_ = self.split_types(args['data'])
+        num,_ = split_types(args['data'])
             
         if(args['x'] is not None):
             xloc = args['data'][args['x']]
@@ -115,7 +109,7 @@ class eda_scplot(nlpi):
     def eda_colplot_box(self,args:dict):
 
         # split data into numeric & non numeric
-        num,cat = self.split_types(args['data'])
+        num,cat = split_types(args['data'])
           
         columns = list(num.columns)  
         n_cols = 3
@@ -169,7 +163,7 @@ class eda_scplot(nlpi):
     def eda_colplot_scatter(self,args:dict):
 
         # split data into numeric & non numeric
-        num,_ = self.split_types(args['data'])
+        num,_ = split_types(args['data'])
           
         columns = list(num.columns)  
         n_cols = 3

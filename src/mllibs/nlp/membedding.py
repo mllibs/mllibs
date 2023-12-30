@@ -54,13 +54,13 @@ class embedding(nlpi):
         
         if(self.select == 'embed_cbow'):
             self.cbow(self.data,self.args)
-        elif(self.select == 'embed_sg'):
+        if(self.select == 'embed_sg'):
             self.sg(self.data,self.args)
-        elif(self.select == 'embed_sgns'):
+        if(self.select == 'embed_sgns'):
             self.sgns(self.data,self.args)
-        elif(self.select ==  'w2v'):
+        if(self.select ==  'w2v'):
             self.word2vec(self.data,self.args)
-        elif(self.select == 'fasttext'):
+        if(self.select == 'fasttext'):
             self.efasttext(self.data,self.args)
             
     ''' SET FREE PARAMETER '''

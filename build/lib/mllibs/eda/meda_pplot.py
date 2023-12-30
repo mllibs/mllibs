@@ -1,5 +1,6 @@
 
 from mllibs.nlpi import nlpi
+from mllibs.dict_helper import sfp,sfpne
 import plotly.express as px
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -43,7 +44,6 @@ class eda_pplot(nlpi):
         select = args['pred_task']
         self.data_name = args['data_name']
         self.subset = args['subset']
-        print('subset',self.subset)
         
         if(select == 'plscatter'):
             self.plotly_scatterplot(args)
@@ -74,22 +74,6 @@ class eda_pplot(nlpi):
         except:
             val = None
         return val
-
-    @staticmethod
-    def sfp(args,preset,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return preset[key]  
-
-    @staticmethod
-    def sfpne(args,preset,key:str):
-        
-        if(args[key] is not None):
-            return args[key]
-        else:
-            return preset[key]  
 
     '''
 

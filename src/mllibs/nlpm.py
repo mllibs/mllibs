@@ -1,6 +1,6 @@
 from sklearn.preprocessing import LabelEncoder
-from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser
-from mllibs.nerparser import Parser,ner_model
+from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser, PUNCTUATION_PATTERN
+from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger_train, merger, ner_predict
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -12,6 +12,7 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 import torch.nn as nn
 import torch.optim as optim
 import torch
+import re
 
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel,sigmoid_kernel
@@ -151,7 +152,6 @@ class nlpm:
         combined_opt = combined_opt.T.sort_values(by='module')
         combined_opt_index = combined_opt.index
         
-        
         ''' Step 3 : Create Module Corpus Labels '''         
         print('[note] making module summary labels...')
 
@@ -201,7 +201,6 @@ class nlpm:
         
         # created self.mod_summary
         # created self.label
-        
         
         ''' 
 
@@ -468,29 +467,73 @@ class nlpm:
                     
         if(type == 'mlloop'):
             self.mlloop(self.corpus_gt,'gt')
-            self.ner_tagger()
+            self.train_ner_tagger()
             print('[note] models trained!')
         if(type == 'load_bert'):
             self.dlloop(self.corpus_gt,'gt')
-            self.ner_tagger()
+            self.train_ner_tagger()
             print('[note] model loaded!')
     '''
     
-    NER Model
+    Train NER Model
         
     '''
 
-    # ner tagger for [model parameters],[pp parameters] & [source parameter]
+    def train_ner_tagger(self):
 
-    def ner_tagger(self):
-        # f = pkgutil.get_data('mllibs', 'corpus/ner_modelparams_annot.csv')
-        path = pkg_resources.resource_filename('mllibs', '/corpus/ner_modelparams_annot.csv')
-        df = pd.read_csv(path,delimiter=',')
+        # # f = pkgutil.get_data('mllibs', 'corpus/ner_modelparams_annot.csv')
+        # path = pkg_resources.resource_filename('mllibs', '/corpus/ner_modelparams_annot.csv')
+        # df = pd.read_csv(path,delimiter=',')
+        # parser = Parser()
+        # model,encoder = ner_model(parser,df)
+
+        # self.ner_identifier['model'] = model
+        # self.ner_identifier['encoder'] = encoder
 
         parser = Parser()
-        model,encoder = ner_model(parser,df)
+        path = pkg_resources.resource_filename('mllibs', '/corpus/ner_corpus.csv')
+        df = pd.read_csv(path,delimiter=',')
+
+        def make_ner_corpus(parser,df:pd.DataFrame):
+
+            # parse our NER tag data & tokenise our text
+            lst_data = []; lst_tags = []
+            for ii,row in df.iterrows():
+                sentence = re.sub(PUNCTUATION_PATTERN, r" \1 ", row['question'])
+                lst_data.extend(sentence.split())
+                lst_tags.extend(parser(row["question"], row["annotated"]))
+        
+            return lst_data,lst_tags
+
+        tokens,labels = make_ner_corpus(parser,df)
+        ldf = pd.DataFrame({'tokens':tokens,'labels':labels})
+
+        X_vect1,tfidf_vectorizer = tfidf(tokens)
+        X_vect2,dict_vectorizer = dicttransformer(tokens)
+        X_all,model = merger_train(X_vect1,X_vect2,labels)
+        # predict_label(X_all,tokens,labels,model)
+
+        # self.ner_identifier['X_all'] = X_all
         self.ner_identifier['model'] = model
-        self.ner_identifier['encoder'] = encoder
+        self.ner_identifier['tfidf'] = tfidf_vectorizer
+        self.ner_identifier['dict'] = dict_vectorizer
+
+    def inference_ner_tagger(self,tokens:list):
+
+        # ner classification model
+        model = self.ner_identifier['model']
+
+        # encoders
+        tfidf_vectorizer = self.ner_identifier['tfidf']
+        dict_vectorizer = self.ner_identifier['dict']
+
+        X_vect1,_ = tfidf(tokens,tfidf_vectorizer)
+        X_vect2,_ = dicttransformer(tokens,dict_vectorizer)
+        X_all = merger(X_vect1,X_vect2)
+
+        # store prediction
+        self.ner_identifier['y_pred'] = ner_predict(X_all,tokens,model)
+
              
     '''
     

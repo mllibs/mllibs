@@ -89,10 +89,8 @@ class encoder(nlpi):
         elif(select == 'torch_text_encode'):
             self.text_torch_encoding(args)
             
-            
-
-    
     # One Hot Encode DataFrame 
+    # input dataframe 
             
     def ohe(self,args:dict):
            
@@ -107,6 +105,7 @@ class encoder(nlpi):
                    
         
     # Label Encode DataFrame column 
+    # input dataframe
 
     def le(self,args:dict):
         
@@ -187,7 +186,7 @@ class encoder(nlpi):
             # remove rows
             data.drop(self.subset,axis=1,inplace=True)
             
-            # add vectorised data back into data
+            # add vectorised data b ack into data
             
             if(len(lst_df) > 1):
                 grouped_labels = pd.concat(lst_df,axis=1)

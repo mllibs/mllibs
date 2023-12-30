@@ -1,0 +1,59 @@
+question,annotated
+create relplot using hf x pressure y mass_flux col geometry hue author,create relplot using hf [param : x] pressure [param : y] mass_flux [param : col] geometry [param : hue] author
+create seaborn scatterplot using penguins x bill_length_mm y bill_depth_mm hue island,create seaborn scatterplot [source : using] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [param : hue] island
+create scatterplot using data x bill_length_mm y bill_depth_mm,create scatterplot [source : using] data [param : x] bill_length_mm [param : y] bill_depth_mm
+create relplot using hf x pressure y x_e_out col geometry row author,create relplot [source : using] hf [param : x] pressure [param : y] x_e_out [param : col] geometry [param : row] author
+create seaborn kernel density plot using hf x x_e_out y pressure hue geometry,create seaborn kernel density plot [source : using] hf [param : x] x_e_out [param : y] pressure [param : hue] geometry
+make scatterplot x flipper_length_mm y body_mass_g using penguins,make scatterplot [param : x] flipper_length_mm [param : y] body_mass_g [source : using] penguins
+plot scatterplot x flipper_length_mm y body_mass_g using penguins hue sex,plot scatterplot [param : x] flipper_length_mm [param : y] body_mass_g [source : using] penguins [param : hue] sex
+plot scatterplot x flipper_length_mm y body_mass_g using penguins hue sex,plot scatterplot [param : x] flipper_length_mm [param : y] body_mass_g [source : using] penguins [param : hue] sex
+plot lineplot x flipper_length_mm y body_mass_g using penguins hue sex,plot lineplot [param : x] flipper_length_mm [param : y] body_mass_g [source : using] penguins [param : hue] sex
+seaborn regression x bill_length_mm y bill_depth_mm using penguins hue sex,seaborn regression [param : x] bill_length_mm [param : y] bill_depth_mm [source : using] penguins [param : hue] sex
+seaborn regression x bill_length_mm y bill_depth_mm col species hue sex using penguins,seaborn regression [param : x] bill_length_mm [param : y] bill_depth_mm [param : col] species [param : hue] sex [source : using] penguins
+create seaborn relplot for penguins x bill_length_mm y bill_depth_mm col species,create seaborn relplot [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [param : col] species
+create relplot using penguins x bill_length_mm y bill_depth_mm col species hue sex,create relplot [source : using] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [param : col] species [param : hue] sex
+create seaborn boxplot for penguins y bill_length_mm x species hue island,create seaborn boxplot [source : for] penguins [param : y] bill_length_mm [param : x] species [param : hue] island
+create seaborn violinplot for penguins x bill_length_mm y sex hue island,create seaborn violinplot [source : for] penguins [param : x] bill_length_mm [param : y] sex [param : hue] island
+create seaborn residual plot using penguins x bill_length_mm y bill_depth_mm,create seaborn residual plot [source : using] penguins [param : x] bill_length_mm [param : y] bill_depth_mm
+create histogram for penguins x bill_length_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : bw] 30
+nbins 30,[param : nbins] 30
+nbins 100,[param : nbins] 100
+join inner,[param : join] inner
+in penguins,[source : in] penguins
+in data,[source : in] data
+in data,[source : in data]
+popmean 10,[param : popmean] 10
+col_wrap 2, [param : col_wrap] 2
+mec 1.5,[param : mec]
+marginal_x violinplot, [param : marginal_x]
+marginal_y violinplot, [param : marginal_y]
+show missing data in column sex in penguins, show missing data in [param : column] sex [source : in] penguins
+show missing data in col sex in data penguins, show missing data in [param : col] sex [source : in data] penguins
+generate the fourier transformation of columns A B C utilising data D, generate the fourier transformation [param : of columns] A B C [source : utilising data] D
+with data D visualise the fft for columns A B C, [source : with data] D visualise the fft [param : for columns] A B C
+utilising dataset A calculate the fourier transformation of columns B C D, [source : utilising dataset] A calculate the fourier transformation [param : of columns] B C D
+with data D visualise the fft of columns A B, [source : with data] D visualise the fft [param : of columns] A B
+with dataset A calculate the fourier transformation of columns B C D, [source : with dataset] A calculate the fourier transformation [param : of columns] B C D
+utilising dataset A visualise the fast fourier transformations for column B, [source : utilising dataset] A visualise the fast fourier transformations [param : for column] B
+concatenate two dataframes join inner, concatenate two dataframes [param : join] inner
+concatenate two dataframes axis 1, concatenate two dataframes [param : axis] 1
+template plotly_white, [pp : template] plotly_white
+marginal histogram marginal_y box trendline ols, [param : marginal] histogram [param : marginal] box [param : trendline] ols
+marginal_x histogram marginal_y violinplot nbinsx 100 nbinsy 100,[param : marginal_x] histogram [param : marginal_y] violinplot [param : nbinsx] 100 [param : nbinsy] 100
+create histogram for penguins x bill_length_mm y bill_depth_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [pp : bw] 30
+create seaborn kernel density plot using penguins x bill_length_mm hue species,create seaborn kernel density plot [source : using] penguins [param : x] bill_length_mm [param : hue] species
+create seaborn pairplot using penguins hue species,create seaborn pairplot [source : using] penguins [param : hue] species
+plot scatterplot x s3 y s5 using zscore_labels hue outlier_zscore,plot scatterplot [param : x] s3 [param : y] s5 [source : using] zscore_labels [param : hue] outlier_zscore
+plot scatterplot x s1 y s2 using iqr_labels hue outlier_iqr,plot scatterplot [param : x] s1 [param : y] s2 [source : using] iqr_labels [param : hue] outlier_iqr
+find outliers using normal distribution for diab,find outliers using normal distribution [source : for] diab
+find outliers using normal distribution use diab,find outliers using normal distribution [source : use] diab
+create seaborn kernel density plot use hf and x x_e_out hue geometry,create seaborn kernel density plot [source : use] hf and [param : x] x_e_out [param : hue] geometry
+find outliers using normal distribution using data diab,find outliers using normal distribution [source : using data] diab
+create histogram using data penguins x bill_length_mm y bill_depth_mm,create histogram [source : using data] penguins [param : x] bill_length_mm [param : y] bill_depth_mm
+create seaborn scatter plot using data pca,create seaborn scatter plot [source : using data] pca
+pca dimensionality reduction using data housing,pca dimensionality reduction [source : using data] housing
+visualise dataplot for dbscan_labels hue outlier_dbscan,visualise dataplot [source : for] dbscan_labels [param : hue] outlier_dbscan
+visualise kdeplot for hf hue author fill True alpha 0.1 mew 1 mec 1 s 10 stheme viridis bw 10,visualise kdeplot [source : for] hf [param : hue] author [pp : fill] True [param : alpha] 0.1 [param : mew] 1 [param : mec] 1 [param : s] 10 [param : stheme] viridis [param : bw] 10
+visualise kdeplot for hf hue author,visualise kdeplot [source : for] hf [param : hue] author
+create seaborn kernel density plot using hf x x_e_out,create seaborn kernel density plot [source : using] hf [param : x] x_e_out
+visualise kdeplot for compare hue set,visualise kdeplot [source : for] compare [param : hue] set

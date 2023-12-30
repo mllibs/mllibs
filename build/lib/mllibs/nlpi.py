@@ -9,6 +9,8 @@ import plotly.express as px
 import seaborn as sns
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser,custpunkttokeniser,n_grams,nltk_wtokeniser_span
 from mllibs.data_conversion import convert_to_list,convert_to_df
+from mllibs.list_helper import get_bracket_content
+from mllibs.df_helper import split_types
 from string import punctuation
 from itertools import groupby
 
@@ -76,43 +78,14 @@ class nlpi(nlpm):
     # Check all available data sources, update dsources dictionary
                     
     def check_dsources(self):
-        
         lst_data = list(nlpi.data.keys())            # data has been loaded
         self.dsources = {'inputs':lst_data}
         
-    ''' 
-    
-    STORE INPUT DATA
-    
-    '''
-    
-    # split dataframe columns into numeric and categorical
-    
-    @staticmethod
-    def split_types(df):
-        numerics = ['int16', 'int32', 'int64', 'float16', 'float32', 'float64']  
-        numeric = df.select_dtypes(include=numerics)
-        categorical = df.select_dtypes(exclude=numerics)
-        return list(numeric.columns),list(categorical.columns)
-
-    # Load Dataset from Seaborn Repository    
-    def load_dataset(self,name:str,info:str=None):
-        # load data from seaborn repository             
-        data = sns.load_dataset(name)
-        self.store_data(data,name,info)
-
-
-    '''
-
-    Store Active Columns (in nlp)
-
-    ##############################################################################
-    '''
 
     # [data storage] store active column data (subset of columns)
 
     def store_ac(self,data_name:str,ac_name:str,lst:list):
-
+        
         if(data_name in nlpi.data):
             if(type(lst) == list):
                 nlpi.data[data_name]['ac'][ac_name] = lst
@@ -149,7 +122,7 @@ class nlpi(nlpm):
         ''' [1] Set DataFrame Dtypes '''
         # column names of numerical and non numerical features
             
-        di['num'],di['cat'] = self.split_types(data)
+        di['num'],di['cat'] = split_types(data)
         di['ac'] = {}
         
         ''' [2] Missing Data '''
@@ -666,18 +639,22 @@ class nlpi(nlpm):
 
     '''
 
-    NER for tokens
+    Create NER tags in [self.token_info]
 
-    ##############################################################################
     '''
 
-    # set NER tokenisation
-
+    # ner inference 
     def token_NER(self):
-        model = self.module.ner_identifier['model'] 
-        encoder = self.module.ner_identifier['encoder']
-        y_pred = model.predict(encoder.transform(self.tokens))
-        self.token_info['ner_tags'] = y_pred
+        self.module.inference_ner_tagger(self.tokens)
+        self.token_info['ner_tags'] = self.module.ner_identifier['y_pred']
+
+    # set NER for tokens
+
+    # def token_NER(self):
+    #     model = self.module.ner_identifier['model'] 
+    #     encoder = self.module.ner_identifier['encoder']
+    #     y_pred = model.predict(encoder.transform(self.tokens))
+    #     self.token_info['ner_tags'] = y_pred
 
     # set token dtype [ttype] in [ttype_storage]
 
@@ -780,23 +757,6 @@ class nlpi(nlpm):
         ls = self.token_info
         lst = list(ls['token'])
 
-        # helper function to get bracket pairs
-        def get_bracket_content(lst):
-            stack = []
-            pairs = []
-            for i, item in enumerate(lst):
-                if item == '{':
-                    stack.append(i)
-                elif item == '}':
-                    if stack:
-                        pairs.append((stack.pop(), i))
-                    else:
-                        print("Error: Unmatched closing bracket at index", i)
-            if stack:
-                print("Error: Unmatched opening bracket(s) at index", stack)
-            
-            return pairs
-
         # find all bracket pairs in list
         pairs = get_bracket_content(lst)
 
@@ -831,10 +791,11 @@ class nlpi(nlpm):
         for pair in remove_idx:
             ls = ls[~(ls.index_id.isin(pair))]
 
+        ls = ls.reset_index(drop=True)
+        ls['index_id'] = list(ls.index)
+
         # update mtoken_info
         self.mtoken_info = ls
-        self.mtoken_info = self.mtoken_info.reset_index(drop=True)
-        self.mtoken_info['index_id'] = list(self.mtoken_info.index)
 
         ### FIND ALL ACTIVE COLUMN KEYS
         # this is needed to store AC 
@@ -1341,13 +1302,6 @@ class nlpi(nlpm):
             self.mtoken_info = tls[0:last]
 
 
-    '''
-
-    Single Command Loop
-
-    ##############################################################################
-    '''
-
     def initialise_module_args(self):
 
         # Initialise arguments dictionary (critical entries)
@@ -1407,6 +1361,17 @@ class nlpi(nlpm):
 
                                     # self.token_info['arg_compat']
 
+        
+        '''
+        ########################################################################################
+
+
+                                Data Extraction & Filtering of input request
+
+
+        ########################################################################################
+        '''
+
         self.mtoken_info = self.token_info.copy()
 
         self.ac_extraction()      # extract and store active column
@@ -1419,29 +1384,36 @@ class nlpi(nlpm):
         self.preposition_filter() # final preposition filter
 
         before = " ".join(self.rtokens)
-        after = " ".join(list(self.mtoken_info['token']))
+        filtered = " ".join(list(self.mtoken_info['token']))
 
         if(nlpi.silent is False):
             print('\n[note] NER used to clean input text!')
             print('[input]')
             print(before)
             print('[after]')
-            print(after,'\n')
+            print(filtered,'\n')
+
+        
 
         '''
+        ########################################################################################
 
-        Task Classification Approaches
+                                    Task Classification Approaches
 
+        ########################################################################################
         '''
 
-        # self.pred_module_module_task(text) # [module_name] [task_name] prediction 
-        # self.pred_gtask(after)      # directly predict [task_name]
-        self.pred_gtask_bert(after) # directly predict [task_name]
+        # self.pred_module_module_task(text) # [module_name] [task_name] prediction
+        
+        self.pred_gtask(filtered)      # directly predict [task_name]
+        # self.pred_gtask_bert(filtered) # directly predict [task_name]
              
         '''
+        ########################################################################################
 
-        [[ Iterative process ]]
+        Iterative process
         
+        ########################################################################################
         '''
         
         # Iterate if a relevant [task_name] was found

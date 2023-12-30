@@ -24,31 +24,22 @@ class pd_talktodata(nlpi):
 
     # set preset value from dictionary
     # if argument is already set
-
-    @staticmethod
-    def sfp(args,preset,key:str):
-    
-        if(args[key] is not None):
-            return args[key]
-        else:
-            return preset[key] 
         
     # called in nlpi
     def sel(self,args:dict):
         
         self.select = args['pred_task']
-        self.args = args
         
         if(self.select == 'dfcolumninfo'):
-            self.dfgroupby(self.args)
+            self.dfgroupby(args)
         if(self.select == 'dfsize'):
-            self.dfsize(self.args)
+            self.dfsize(args)
         if(self.select == 'dfcolumn_distr'):
-            self.dfcolumn_distr(self.args)
+            self.dfcolumn_distr(args)
         if(self.select == 'dfcolumn_na'):
-            self.dfcolumn_na(self.args)
+            self.dfcolumn_na(args)
         if(self.select == 'dfall_na'):
-            self.dfall_na(self.args)
+            self.dfall_na(args)
         if(self.select == 'show_stats'):
             self.show_statistics(args)
         if(self.select == 'show_info'):
@@ -60,7 +51,7 @@ class pd_talktodata(nlpi):
         if(self.select == 'show_corr'):
             self.show_correlation(args)
         if(self.select == 'dfcolumn_unique'):
-            self.dfcolumn_unique(self.args)
+            self.dfcolumn_unique(args)
 
     ''' 
     
@@ -129,7 +120,6 @@ class pd_talktodata(nlpi):
     # show the missing data in all columns
 
     def dfall_na(self,args:dict):
-        
         print(args['data'].isna().sum().sum(),'rows in total have missing data')
         print(args['data'].isna().sum())
 
