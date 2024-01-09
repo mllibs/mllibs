@@ -42,6 +42,8 @@ class fourier_all(nlpi):
 
         if(select == 'sig_fourier'):
             self.sig_fourier(args)
+        if(select == 'sig_fouriers'):
+            self.sig_fouriers(args)
         if(select == 'sig_fourierplot'):
             self.sig_fourierplot(args)
 
@@ -67,8 +69,7 @@ class fourier_all(nlpi):
         # Calculate the magnitude of the FFT coefficients
         magnitude = np.abs(fft_result)
         
-        df = pd.DataFrame({'freq':freq_in_hz,
-                           'magnitude':magnitude})
+        df = pd.DataFrame({'freq':freq_in_hz,'magnitude':magnitude})
         df = df[df['freq'] > 0]
         return df
 
@@ -89,10 +90,33 @@ class fourier_all(nlpi):
         subset = column_to_subset(args)
 
         if(subset != None):
-            df = get_fft(args['data'][args['column']])
-            display(df)
+            fourier_data = self.get_fft(args['data'][args['column']])
+            nlpi.memory_output.append({'data':fourier_data})
         else:
-            print('[note] please reference a column')
+            print('[note] please reference a column you want to FFT')
+
+    # Fourier transformation for multiple columns
+    # requires column information from dataframe ie. check
+            
+    # args['column'] : multiple column names
+
+    def sig_fouriers(self,args:dict):
+
+        # subset : (str/None)
+        subset = column_to_subset(args)
+
+        if(subset != None):
+
+            lst_data = []
+            for column in args['column']:
+                fourier_data = self.get_fft(args['data'][column])
+                lst_data.append(fourier_data)
+
+            df_fft = pd.concat(lst_data,axis=1)
+            nlpi.memory_output.append({'data':df_fft})
+
+        else:
+            print('[note] please reference the columns you want to FFT')
 
     # Fourier transformation and plot
 
@@ -132,7 +156,6 @@ class fourier_all(nlpi):
 
             else:
                 print('[note] column not present in dataframe')
-
 
         # subset 
         subset = column_to_subset(args)

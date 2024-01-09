@@ -25,10 +25,17 @@ in data,[source : in data]
 popmean 10,[param : popmean] 10
 col_wrap 2, [param : col_wrap] 2
 mec 1.5,[param : mec]
+1 2 3 4 5 6 7 8 9 10, 1 2 3 4 5 6 7 8 9 10
+1 2 3 4 5 6 7 8 9 10, 1 2 3 4 5 6 7 8 9 10
+1 2 3 4 5 6 7 8 9 10, 1 2 3 4 5 6 7 8 9 10
+1 2 3 4 5 6 7 8 9 10, 1 2 3 4 5 6 7 8 9 10
 marginal_x violinplot, [param : marginal_x]
 marginal_y violinplot, [param : marginal_y]
+create a bag of words model for text column review using data reviews ngram_range 1 2, create a bag of words model for text [param : column] review [source : using data] reviews [param : ngram_range] 1 2
+create a bag of words model for text column sex using data penguins ngram_range 1 2, create a bag of words model for text [param : column] sex [source : using data] penguins [param : ngram_range] 1 2 
 show missing data in column sex in penguins, show missing data in [param : column] sex [source : in] penguins
 show missing data in col sex in data penguins, show missing data in [param : col] sex [source : in data] penguins
+show missing data in all columns in penguins, show missing data in [quantity : all] [param : columns] [source : in] penguins
 generate the fourier transformation of columns A B C utilising data D, generate the fourier transformation [param : of columns] A B C [source : utilising data] D
 with data D visualise the fft for columns A B C, [source : with data] D visualise the fft [param : for columns] A B C
 utilising dataset A calculate the fourier transformation of columns B C D, [source : utilising dataset] A calculate the fourier transformation [param : of columns] B C D
@@ -38,9 +45,11 @@ utilising dataset A visualise the fast fourier transformations for column B, [so
 concatenate two dataframes join inner, concatenate two dataframes [param : join] inner
 concatenate two dataframes axis 1, concatenate two dataframes [param : axis] 1
 template plotly_white, [pp : template] plotly_white
+define plot paramters mew 1.5 mec 1.4 create a plotly scatter plot using data A set x columnA and y columnB, define plot parameters [param : mew] 1.5 [param : mec] 1.4 create a plotly scatter plot [source : using data] A set [param : x] columnA and [param : y] columnB
+create plotly scatterplot x body_mass_g y bill_depth_mm hue island col sex mew 1.5 mec black s 7 marginal_x box marginal_y box using penguins, create plotly scatterplot [param : x] body_mass_g [param : y] bill_depth_mm [param : hue] island [param : col] sex [param : mew] 1.5 [param : mec] black [param : s] 7 [param : marginal_x] box [param : marginal_y] box [source : using] penguins
 marginal histogram marginal_y box trendline ols, [param : marginal] histogram [param : marginal] box [param : trendline] ols
 marginal_x histogram marginal_y violinplot nbinsx 100 nbinsy 100,[param : marginal_x] histogram [param : marginal_y] violinplot [param : nbinsx] 100 [param : nbinsy] 100
-create histogram for penguins x bill_length_mm y bill_depth_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [pp : bw] 30
+create histogram for penguins x bill_length_mm y bill_depth_mm bw 30,create histogram [source : for] penguins [param : x] bill_length_mm [param : y] bill_depth_mm [param : bw] 30
 create seaborn kernel density plot using penguins x bill_length_mm hue species,create seaborn kernel density plot [source : using] penguins [param : x] bill_length_mm [param : hue] species
 create seaborn pairplot using penguins hue species,create seaborn pairplot [source : using] penguins [param : hue] species
 plot scatterplot x s3 y s5 using zscore_labels hue outlier_zscore,plot scatterplot [param : x] s3 [param : y] s5 [source : using] zscore_labels [param : hue] outlier_zscore

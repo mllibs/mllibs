@@ -2,9 +2,9 @@ from sklearn.preprocessing import LabelEncoder
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser, PUNCTUATION_PATTERN
 from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger_train, merger, ner_predict
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+import sklearn
 
 from torch.utils.data import DataLoader, Dataset
 from transformers import BertTokenizer, BertForSequenceClassification, AdamW
@@ -30,6 +30,7 @@ import csv
 import json
 import requests
 import zipfile
+import time
 # nltk.download('wordnet')
 
 # import zipfile
@@ -51,6 +52,18 @@ def parse_json(json_data):
 
     return {'corpus':dict(zip(lst_classes,lst_corpus)),
               'info':dict(zip(lst_classes,lst_info))}
+
+# function to time exection time
+
+def measure_execution_time(method):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = method(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Execution time of {method.__name__}: {execution_time} seconds")
+        return result
+    return wrapper
 
 '''
 
@@ -269,7 +282,7 @@ class nlpm:
             
     ''' 
     
-    BERT CLASSIFIR RELATED CLASSES 
+    BERT CLASSIFIER RELATED CLASSES 
     
     '''
 
@@ -337,6 +350,7 @@ class nlpm:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         model.to(device)
 
+        # modify later !
         le = LabelEncoder()
         targets = le.fit_transform(df['task'])
         data = {'corpus':list(df['text']),'labels':targets}
@@ -408,14 +422,17 @@ class nlpm:
         self.model['gt'] = model
         self.tokeniser['gt'] = tokeniser
 
-
     # RandomForest based classifier loop
     # Standard Random Forest + TF-IDF
 
+    # @measure_execution_time
     def mlloop(self,corpus:dict,module_name:str):
         
         # Convert text to numeric representation         
-        vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x))
+        # vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x))  
+        stopwords = sklearn.feature_extraction.text.ENGLISH_STOP_WORDS
+        # vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and']) 
+        vect = CountVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and'])  
         vect.fit(corpus['text']) # input into vectoriser is a series
         vectors = vect.transform(corpus['text']) # sparse matrix
         self.vectoriser[module_name] = vect  # store vectoriser 
@@ -478,8 +495,14 @@ class nlpm:
     Train NER Model
         
     '''
-
+    # @measure_execution_time
     def train_ner_tagger(self):
+
+        '''
+        
+        Load Models & Encoder
+        
+        '''
 
         # # f = pkgutil.get_data('mllibs', 'corpus/ner_modelparams_annot.csv')
         # path = pkg_resources.resource_filename('mllibs', '/corpus/ner_modelparams_annot.csv')
@@ -489,6 +512,12 @@ class nlpm:
 
         # self.ner_identifier['model'] = model
         # self.ner_identifier['encoder'] = encoder
+
+        '''
+        
+        Train NER model 
+        
+        '''
 
         parser = Parser()
         path = pkg_resources.resource_filename('mllibs', '/corpus/ner_corpus.csv')
@@ -506,17 +535,18 @@ class nlpm:
             return lst_data,lst_tags
 
         tokens,labels = make_ner_corpus(parser,df)
-        ldf = pd.DataFrame({'tokens':tokens,'labels':labels})
+        # ldf = pd.DataFrame({'tokens':tokens,'labels':labels})
 
-        X_vect1,tfidf_vectorizer = tfidf(tokens)
-        X_vect2,dict_vectorizer = dicttransformer(tokens)
-        X_all,model = merger_train(X_vect1,X_vect2,labels)
+        X_vect1,tfidf_vectorizer = tfidf(tokens)            # imported function
+        X_vect2,dict_vectorizer = dicttransformer(tokens)   # imported function
+        X_all,model = merger_train(X_vect1,X_vect2,labels) # imported function
         # predict_label(X_all,tokens,labels,model)
 
         # self.ner_identifier['X_all'] = X_all
         self.ner_identifier['model'] = model
         self.ner_identifier['tfidf'] = tfidf_vectorizer
         self.ner_identifier['dict'] = dict_vectorizer
+        print('[note] [ner_identifier] model trained')
 
     def inference_ner_tagger(self,tokens:list):
 

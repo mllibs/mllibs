@@ -1,4 +1,3 @@
-
 from mllibs.nlpm import nlpm
 import numpy as np
 import pandas as pd
@@ -7,42 +6,29 @@ import re
 from inspect import isfunction
 import plotly.express as px
 import seaborn as sns
-from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser,custpunkttokeniser,n_grams,nltk_wtokeniser_span
+from mllibs.tokenisers import custpunkttokeniser
 from mllibs.data_conversion import convert_to_list,convert_to_df
-from mllibs.list_helper import get_bracket_content
 from mllibs.df_helper import split_types
+from mllibs.str_helper import isfloat
 from string import punctuation
 from itertools import groupby
+import itertools
+import difflib
+import textwrap
 
-# default plot palette
-def hex_to_rgb(h):
-    h = h.lstrip('#')
-    return tuple(int(h[i:i+2], 16)/255 for i in (0,2,4))
-
-palette = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252']
-palette_rgb = [hex_to_rgb(x) for x in palette]
-
-########################################################################
-
-def isfloat(strs:str):
-  if(re.match(r'^-?\d+(?:\.\d+)$', strs) is None):
-    return False
-  else:
-    return True
-
+from mllibs.ner_activecolumn import ac_extraction
+from mllibs.ner_source import data_tokenfilter
 
 '''
 
-
 Interpreter class (nlpi)
-
 
 '''
  
 class nlpi(nlpm):
 
-    data = {}    # dictionary for storing data
-    iter = -1    # keep track of all user requests
+    data = {}                        # dictionary for storing data
+    iter = -1                        # keep track of all user requests
     memory_name = []                 # store order of executed tasks
     memory_stack = []                # memory stack of task information
     memory_output = []               # memory output
@@ -59,10 +45,17 @@ class nlpi(nlpm):
         nlpi.lmodule = self.module            # class variable variation for module calls
                     
         # class plot parameters
-        nlpi.pp = {'alpha':None,'mew':None,'mec':None,'fill':None,'stheme':palette_rgb,'s':None, 'title':None,'template':None,'background':None}
+        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None}
 
-    # set plotting parameter
+    '''
+    ##############################################################################
+
+                              Plotting parameters nlpi.pp
+
+    ##############################################################################
+    '''
         
+    # set plotting parameters
     def setpp(self,params:dict):
         if(type(params) is not dict):
             print('[note] such a parameter is not used')
@@ -73,17 +66,14 @@ class nlpi(nlpm):
 
     @classmethod
     def resetpp(cls):
-        nlpi.pp = {'alpha':1,'mew':0,'mec':'k','fill':True,'s':30,'title':None}
+        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None}
 
     # Check all available data sources, update dsources dictionary
-                    
     def check_dsources(self):
         lst_data = list(nlpi.data.keys())            # data has been loaded
         self.dsources = {'inputs':lst_data}
         
-
     # [data storage] store active column data (subset of columns)
-
     def store_ac(self,data_name:str,ac_name:str,lst:list):
         
         if(data_name in nlpi.data):
@@ -93,10 +83,11 @@ class nlpi(nlpm):
                 print('[note] please use list for subset definition')
 
     '''
+    ###########################################################################
 
-    Store Data
+                                    Store Data
 
-    ##############################################################################
+    ###########################################################################
     '''
 
     # [store dataframe] 
@@ -105,19 +96,19 @@ class nlpi(nlpm):
 
         # dictionary to store data information
         di = {'data':None,                      # data storage
-            'subset':None,                    # column subset
-            'splits':None,'splits_col':None,  # row splits (for model) & (for plot)
-            'features':None,'target':None,    # defined features, target variable
-            'cat':None,
-            'num':None,            
-            'miss':None,                      # missing data T/F
-            'size':None,'dim':None,           # dimensions of data
-            'model_prediction':None,          # model prediction values (reg/class)
-            'model_correct':None,             # model prediction T/F (class)
-            'model_error':None,               # model error (reg)
-            'ac': None,                       # active column list (just list of columns)
-            'ft': None                        # feature/target combinations
-            }
+              'subset':None,                    # column subset
+              'splits':None,'splits_col':None,  # row splits (for model) & (for plot)
+              'features':None,'target':None,    # defined features, target variable
+              'cat':None,
+              'num':None,            
+              'miss':None,                      # missing data T/F
+              'size':None,'dim':None,           # dimensions of data
+              'model_prediction':None,          # model prediction values (reg/class)
+              'model_correct':None,             # model prediction T/F (class)
+              'model_error':None,               # model error (reg)
+              'ac': None,                       # active column list (just list of columns)
+              'ft': None                        # feature/target combinations
+              }
         
         ''' [1] Set DataFrame Dtypes '''
         # column names of numerical and non numerical features
@@ -159,23 +150,46 @@ class nlpi(nlpm):
         di['data'] = data
         nlpi.data[name] = di
 
-    # Main Function for storing data
+    '''
+    ###########################################################################
+
+    Main Function for storing data
+
+    ###########################################################################
+    '''
         
     def store_data(self,data,name:str=None):
                     
+        # input data cannot be dictionary
         if(name is not None and type(data) is not dict):
 
+            # if dataframe
             if(isinstance(data,pd.DataFrame)):
-                self._store_data_df(data,name)
+                column_names = list(data.columns)
+                if(name not in column_names):
+                    self._store_data_df(data,name)
+                else:
+                    print(f'[note] please set a different name for {name}')
+
+            # if list
+                    
             elif(isinstance(data,list)):
                 nlpi.data[name] = {'data':data}
 
         elif(type(data) is dict):
 
+            # input is a dictionary
+
             for key,value in data.items():
 
                 if(isinstance(value,pd.DataFrame)):
-                    self._store_data_df(value,key)
+                    column_names = list(value.columns)
+
+                    if(key not in column_names):
+                        self._store_data_df(value,key)
+                    else:
+                        print(f'[note] please set a different name for data {key}')
+
                 elif(isinstance(value,list)):
                     nlpi.data[key] = {'data':value}
                 else:
@@ -194,22 +208,24 @@ class nlpi(nlpm):
         self.store_data(sns.load_dataset('penguins'),'penguins')
         self.store_data(sns.load_dataset('taxis'),'taxis')
         self.store_data(sns.load_dataset('titanic'),'titanic')
-        self.store_data(sns.load_dataset('mpg'),'mpg')
+        self.store_data(sns.load_dataset('mpg'),'dmpg')
         if(nlpi.silent is False):
             print('[note] sample datasets have been stored')
 
-    # activation function list
+    '''
+
+    activation function list
+
+    '''
+            
     def fl(self,show='all'):
-                            
-        # function information
-        df_funct = self.task_info
-        
         if(show == 'all'):
-            return df_funct
+            return self.task_info
         else:
-            return dict(tuple(df_funct.groupby('module')))[show]
+            return dict(tuple(self.task_info.groupby('module')))[show]
      
     '''
+    ##############################################################################
 
     NER TAGGING OF INPUT REQUEST
        
@@ -232,8 +248,7 @@ class nlpi(nlpm):
                                name='ner_tag',
                                index=self.tokens).to_frame()
 
-        ner_tags = pd.DataFrame({'token':self.tokens,
-                                 'tag':predict})
+        ner_tags = pd.DataFrame({'token':self.tokens,'tag':predict})
 
         idx = list(ner_tags[ner_tags['tag'] != 4].index)
         l = list(ner_tags['tag'])
@@ -246,18 +261,20 @@ class nlpi(nlpm):
 
        
     ''' 
-    
+    ##############################################################################
+
     Check if token names are in data sources 
     
     ##############################################################################
     '''
 	
-    # get token data
+    # get token data [token_info] -> local self.token_info
     def get_td(self,token_idx:str):
         location = self.token_info.loc[token_idx,'data']
         return self.token_data[int(location)]
     
     # get last result
+
     def glr(self):
         return nlpi.memory_output[nlpi.iter]     
 
@@ -276,7 +293,6 @@ class nlpi(nlpm):
 
         return dict_tokens
 
-    
     def check_data(self):
         
         # intialise data column in token info
@@ -287,7 +303,7 @@ class nlpi(nlpm):
         # find key matches in [nlpi.data] & [token_info]
         data_tokens = self.match_tokeninfo()
 
-        ''' if we have found matching tokens that contain data'''
+        ''' if we have found matching tokens that contain data '''
                     
         if(len(data_tokens) != 0):
 
@@ -328,10 +344,11 @@ class nlpi(nlpm):
         self.token_info['column'] = np.nan
 
         '''
+        #######################################################################
 
         Set Token DataFrame Column Association self.token_info['column']
 
-        ##############################################################################
+        #######################################################################
         '''
 
         # check if tokens match dataframe column,index & dictionary keys
@@ -359,7 +376,7 @@ class nlpi(nlpm):
                 if(token in df_index):
                     temp.loc[tidx,'column'] = row.token
 
-        # # Dictionary
+        # Dictionary
 
         # dtype_dict = temp[temp['dtype'] == 'dict']
 
@@ -375,24 +392,28 @@ class nlpi(nlpm):
     
         
     ''' 
+    ###########################################################################
     
     Execute user input, have [self.command]
     
-    ##############################################################################
+    ###########################################################################
     '''
     
     def __getitem__(self,command:str):
-        self.exec(command,args=None)
+        self.query(command,args=None)
         
-    def exec(self,command:str,args:dict=None):                        
+    def query(self,command:str,args:dict=None):                        
+        self.do(command=command,args=args)
+
+    def q(self,command:str,args:dict=None):                        
         self.do(command=command,args=args)
 
     '''
-    ##############################################################################
+    ###########################################################################
 
     Predict [task_name] using global task classifier
 
-    ##############################################################################
+    ###########################################################################
     '''
 
     # find the module, having its predicted task 
@@ -413,13 +434,15 @@ class nlpi(nlpm):
 
     def pred_gtask(self,text:str):
         self.task_name,_ = self.module.predict_gtask('gt',text)
-        self.module_name = self.find_module(self.task_name) # having [task_name] find its module
+        # having [task_name] find its module
+        self.module_name = self.find_module(self.task_name) 
 
     # predict global task (bert)
 
     def pred_gtask_bert(self,text:str):
         self.task_name = self.module.predict_gtask_bert('gt',text)
-        self.module_name = self.find_module(self.task_name) # having [task_name] find its module
+        # having [task_name] find its module
+        self.module_name = self.find_module(self.task_name) 
 
     '''
 
@@ -476,9 +499,11 @@ class nlpi(nlpm):
         predict_module_task(text)
             
     '''
+    ##############################################################################
 
-    Define module_args [data,data_name]
+                        Define module_args [data,data_name]
 
+    ##############################################################################  
     '''
     
     def sort_module_args_data(self):
@@ -533,16 +558,15 @@ class nlpi(nlpm):
             if(nlpi.silent is False):
                 print('[note] no data has been set')
 
-
     '''
+    ###########################################################################
 
-    Show module task sumamry   
+                            Show module task sumamry   
     
-    ##############################################################################
+    ###########################################################################
     '''
         
     def _make_task_info(self):
-    
         td = self.module.task_dict
         ts = self.module.mod_summary
     
@@ -563,18 +587,26 @@ class nlpi(nlpm):
         
 
     ''' 
+    ###########################################################################
 
-                             [[ Tokenise Input Command ]]
+                           [ Tokenise Input Command ]
 
-    ##############################################################################
+    - set [self.tokens]
+    - set [self.token_info] dataframe
+    - exclude punctuation from tokens
+
+    ###########################################################################
     '''
-
-    # set self.tokens
-    # set self.token_info dataframe
-    # exclude punctuation from tokens
 
     def tokenise_request(self):
 
+        '''
+        
+        Filter Stop Words
+        
+        '''
+
+        # don't remove active column punctuation {}
         # {} will be used as active functions registers
         lst = list(punctuation)
         lst.remove('{')
@@ -582,14 +614,27 @@ class nlpi(nlpm):
         lst.remove('-')
 
         # tokenise input, unigram
-        tokens = custpunkttokeniser(self.command)
-        self.rtokens = tokens
+        ltokens = custpunkttokeniser(self.command)
 
+        # filter words
+        filter_words = ['and','all','a','as']
+        tokens = [x for x in ltokens if x not in filter_words]
+        
         # remove punctuation
         def remove_punctuation(x):
             return x not in lst
 
         self.tokens = list(filter(remove_punctuation,tokens))
+        self.rtokens = tokens
+
+        '''
+        
+        Create [self.token_info]
+
+            'token','index_id' & type 'uni' 
+            type no longer needed, but implies univariate token
+        
+        '''
 
         uni = pd.Series(self.tokens).to_frame()
         uni.columns = ['token']
@@ -602,40 +647,34 @@ class nlpi(nlpm):
 
     '''
 
-    Keeper Tokens 
+    Keeper Tokens in main request
+
+        Find which tokens should be kept and not removed
+        find all NER tokens (eg. [PARAM]/[SOURCE]) and check 
+        if it overlaps with the largest dictionary vocab segment 
+        (ie. words which are contained in the training vectoriser dictionary)
+
+        create [keep_token] information in mtoken_info
 
     '''
 
-    # Find which tokens should be kept and not removed
-    # find all NER tokens (eg. PARAM/SOURCE) and check 
-    # if it overlaps with the largest dictionary vocab segment 
-    # (ie. words which are contained in the training vectoriser dictionary)
-
     def find_keeptokens(self):
 
-        ls = self.mtoken_info.copy()
-        my_list = list(ls['vocab'])
+        my_list = list(self.token_info['vocab'])
           
-        # group together values      
-        # result = [list(group) for key, group in groupby(my_list)]
-
-        # group together indicies of values (only positive values: part of dictionary)
-        # result = [[i for i, _ in group] for key, group in groupby(enumerate(my_list), key=lambda x: x[1])]
         result = [[i for i, _ in group] for key, group in groupby(enumerate(my_list), key=lambda x: x[1]) if key is True]
-
-        longest_subset = max(result,key=len)
-        longest_subset = set(longest_subset)
+        longest_subset = set(max(result,key=len))
 
         # ner tags which are not O (eg. PARAM/SOURCE)
-        notO = [ i for i,j in enumerate(list(ls['ner_tags'])) if j != 'O' ]
+        notO = [ i for i,j in enumerate(list(self.token_info['ner_tags'])) if j != 'O' ]
         notO_set = set(notO)
 
-        # find overlap
+        # find overlap between [PARAM] & [SOURCE]
         overlap_idx = longest_subset & notO_set
 
-        ls['keep_token'] = False
-        ls.loc[list(overlap_idx),'keep_token'] = True
-        self.mtoken_info = ls
+        self.token_info['keep_token'] = False
+        self.token_info.loc[list(overlap_idx),'keep_token'] = True
+
 
     '''
 
@@ -680,6 +719,7 @@ class nlpi(nlpm):
         self.token_info['ttype_storage'] = lst_storage
 
     '''
+    ##############################################################################
 
     Check Input Request tokens for function argument compatibility 
 
@@ -689,8 +729,6 @@ class nlpi(nlpm):
 
     def set_token_arg_compatibility(self):
 
-        lst_data = []
-        compat_sets = {}
         data = list(self.task_info['arg_compat'])
         data_filtered = [i for i in data if i != 'None']
         nested = [i.split(' ') for i in data_filtered]
@@ -741,102 +779,11 @@ class nlpi(nlpm):
         self.token_info = ls
 
     '''
-
-    ACTIVE COLUMN NER PARSING
-
-    ##############################################################################
-    '''
-
-    # active columns need to be found and removed first
-    # also subset and active columns are not the same
-    # subset - selection of a subset of columns 
-    # active columns - group of column names, can be used for any operation 
-
-    def ac_extraction(self):
-
-        ls = self.token_info
-        lst = list(ls['token'])
-
-        # find all bracket pairs in list
-        pairs = get_bracket_content(lst)
-
-        lst_act_functions = []
-        for pair in pairs:
-            select_col_content = ls.iloc[pair[0]:pair[1]+1]
-            act_funct = select_col_content[~select_col_content['token'].isin(['{','}'])]
-            lst_act_functions.append(list(act_funct['token'])[0])
-
-        ### FIND WHICH AC TO STORE 
-
-        # find what the active columns were assigned to by selecting the first 
-        # for each pair select the closest param [ner_tag]
-        lst_param_idx = []
-        for pair in pairs:
-            ldf = ls[(ls.index < pair[0]) & (ls['ner_tags'].isin(['B-PARAM']))].reset_index(drop=True)
-            previous_token_idx = ldf.iloc[-1]['index_id']
-            lst_param_idx.append(previous_token_idx)
-
-        # save the [param_id] identifier
-        lst_param_id = []
-        for i in lst_param_idx:
-            lst_param_id.append(ls.iloc[i]['token'])
-
-        ### REMOVE THEM 
-
-        # select everything in between [ner_tag] and last BRACKET
-        remove_idx = []
-        for ii,pair in enumerate(pairs):
-            remove_idx.append(list(ls.iloc[lst_param_idx[ii]:pair[1]+1]['index_id']))
-
-        for pair in remove_idx:
-            ls = ls[~(ls.index_id.isin(pair))]
-
-        ls = ls.reset_index(drop=True)
-        ls['index_id'] = list(ls.index)
-
-        # update mtoken_info
-        self.mtoken_info = ls
-
-        ### FIND ALL ACTIVE COLUMN KEYS
-        # this is needed to store AC 
-
-        # ac_data dictionary
-
-        ac_data = {}
-        for data_name in nlpi.data.keys():
-            if(isinstance(nlpi.data[data_name]['data'],pd.DataFrame)):
-                ac_data[data_name] = list(nlpi.data[data_name]['ac'].keys())
-
-        # return the data name 
-
-        def find_ac(name):
-            data_name = None
-            for key,values in ac_data.items():
-                if(name in values):
-                    data_name = key
-
-            if(data_name is not None):
-                return data_name
-            else:
-                return None
-
-        ### INSERT ACTIVE COLUMN INTO RELEVANT PARAM
-
-        # d_id - {d_id}
-        # ac_id - param_id token identifier
-
-        for d_id,ac_id in zip(lst_act_functions,lst_param_id):
-            data_name = find_ac(d_id)
-
-            if(data_name != None):
-                print(f'[note] storing active columns for [{ac_id}] in module_args')
-                self.module_args[ac_id] = nlpi.data[data_name]['ac'][d_id]
-
-    '''
+    ###########################################################################
 
     SUBSET SELECTION BASED ON ACTIVE COLUMNS
 
-    ##############################################################################
+    ###########################################################################
     '''
 
     # subset selection (active columns)
@@ -846,9 +793,12 @@ class nlpi(nlpm):
     # subsets NEED TO BE USED with ACTIVE COLUMNS
     # but ACTIVE columns can also be used in PARAMS
 
-    def set_NER_subset(self,TAG=['B-SUBSET','I-SUBSET']):
+    @staticmethod
+    def set_NER_subset(tdf:pd.DataFrame):
 
-        ls = self.mtoken_info.copy()
+        ls = tdf.copy()
+        TAG = ['B-SUBSET','I-SUBSET']
+        module_args = {}
 
         if(ls['ner_tags'].isin(TAG).any()):
 
@@ -896,166 +846,39 @@ class nlpi(nlpm):
                 if(nlpi.silent is False):
                     print(f'[note] specified active function found in LHS data ({past_data_name})')
                 store_module_args = nlpi.data[past_data_name]['ac'][found_overlap.pop()]
-                self.module_args['subset'] = store_module_args
-                self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(all_idx)]
+                module_args['subset'] = store_module_args
+                tdf = tdf[~tdf['index_id'].isin(all_idx)]
             else:
                 if(nlpi.silent is False):
                     print(f'[note] specified active function NOT found in LHS data ({past_data_name})')        
 
-    '''
-
-    SOURCE NER EXTRACTION
-           
-    ##############################################################################
-    '''
-
-    # find all the SOURCE related tokens that need to removed and remove them
-    # from self.token_info uses NER tags for B-SOURCE/I-SOURCE 
-
-    # find source token 
-    # check x-1, x-2 tokens and if they are B-SOURCE,I-SOURCE, remove them
-
-    def data_extraction(self):
-
-        # identify source related index and remove them
-        ls = self.mtoken_info
-
-        # number of data sources
-        nsources = len(ls[~ls['data'].isna()])
-
-        # either there are multiple or only a single one
-        try:
-            max_lendiff = int(np.max(ls[ls['dtype'].notna()]['index_id'].diff()))
-        except:
-            max_lendiff = 0
-
-        # number of data sources > 0 to activate
-
-        if(nsources > 0):
-
-            # ONE SOURCE CASE
-
-            if(max_lendiff == 0):
-
-                if(nlpi.silent is False):
-                    print('[note] one source token format')
-                lst_remove_idx = []
-                
-                # get the data index id
-                p0 = list(ls[ls['dtype'].notna()]['index_id'])[0]
-                lst_remove_idx.append(p0)
-
-                # print(lst_remove_idx)
-                # display(ls)
-
-                ''' CHECKING PREVIOUS TOKENS '''
-
-                # create window to check previous tokens
-                pm1 = p0 - 1; pm2 = p0 - 2
-
-                # check if previous token belongs to SOURCE token
-                try:
-                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                    source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                except:
-                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                    source_test_pm2 = None
-
-                if(source_test_pm2):
-                    lst_remove_idx.append(pm1) # remove punctuation token
-                    lst_remove_idx.append(pm2) # remove SOURCE token
-                elif(source_test_pm1):
-                    lst_remove_idx.append(pm1) # remove SOURCE token
-                else:
-                    pass # nothing needs to be removed
-
-            elif(max_lendiff == 1):
-
-                if(nlpi.silent is False):
-                    print('[note] two sources tokens side by side format')
-                # get data index id
-                lst_remove_idx = list(ls[ls['dtype'].notna()]['index_id'])
-                p0 = lst_remove_idx[0] # first index only
-
-                ''' CHECKING PREVIOUS TOKENS '''
-
-                # create window to check previous tokens
-                pm1 = p0 - 1; pm2 = p0 - 2
-
-                # check if previous token belongs to SOURCE token
-                try:
-                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                    source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                except:
-                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                    source_test_pm2 = None
-
-                if(source_test_pm2):
-                    lst_remove_idx.append(pm1) # remove punctuation token
-                    lst_remove_idx.append(pm2) # remove SOURCE token
-                elif(source_test_pm1):
-                    lst_remove_idx.append(pm1) # remove SOURCE token
-                else:
-                    pass # nothing needs to be removed
-
-            elif(max_lendiff == 2):
-
-                if(nlpi.silent is False):
-                    print('[note] two sources separated by a single token format')
-                lst_remove_idx = list(ls[ls['dtype'].notna()]['index_id'])    
-                lst_remove_idx.append(lst_remove_idx[0] + 1)
-                p0 = lst_remove_idx[0] # first index only
-
-                ''' CHECKING PREVIOUS TOKENS '''
-
-                # create window to check previous tokens
-                pm1 = p0 - 1; pm2 = p0 - 2
-
-                # check if previous token belongs to SOURCE token
-                try:
-                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                    source_test_pm2 = ls.loc[pm2,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                except:
-                    source_test_pm1 = ls.loc[pm1,'ner_tags'] in ['B-SOURCE','I-SOURCE']
-                    source_test_pm2 = None
-
-                if(source_test_pm2):
-                    lst_remove_idx.append(pm1) # remove punctuation token
-                    lst_remove_idx.append(pm2) # remove SOURCE token
-                elif(source_test_pm1):
-                    lst_remove_idx.append(pm1) # remove SOURCE token
-                else:
-                    pass # nothing needs to be removed
-
-            else:
-                if(nlpi.silent is False):
-                    print('[note] multiple sources w/ distance => 2 found (error)')
-
-            # remove indicies from [remove_idx] if condition [keep_token] is met
-            keep_idx = list(ls[ls['keep_token'] == True].index)
-
-            if(len(keep_idx)>0):
-                lst_remove_idx = [value for index, value in enumerate(lst_remove_idx) if value not in keep_idx]
-
-            # update token_info
-            self.mtoken_info = self.mtoken_info[~self.mtoken_info['index_id'].isin(lst_remove_idx)]
+        return module_args,tdf
         
     '''
+    ###########################################################################
 
-    PLOT PARAMETER NER
+    PLOT PARAMETER NER 
 
-    ##############################################################################
+        [tdf : self.mtoken_info but is modified in the process]
+        [ls : self.mtoken_info @ entry into function]
+
+        - Filtration of self.mtoken_info ( return tdf (modified self.mtoken_info) )
+        - nlpi.pp[param] are set in the process 
+
+    ###########################################################################
     '''
     # set nlpi.pp parameters using NER tags and shift window
 
-    def filterset_PP(self,TAG:str='B-PP'):       
+    @staticmethod
+    def filterset_PP(tdf:pd.DataFrame):       
 
-        ls = self.mtoken_info
+        # input but will always be the same as the input
+        ls = tdf
 
         # shifted dataframe data of tagged data
-        p2_data = ls[ls['ner_tags'].shift(2) == TAG]
-        p1_data = ls[ls['ner_tags'].shift(1) == TAG]
-        p0_data = ls[ls['ner_tags'].shift(0) == TAG]
+        p2_data = ls[ls['ner_tags'].shift(2) == "B-PP"]
+        p1_data = ls[ls['ner_tags'].shift(1) == "B-PP"]
+        p0_data = ls[ls['ner_tags'].shift(0) == "B-PP"]
 
         # identified pp tokens
         p0_idx = list(p0_data.index) # tokens of identified tags
@@ -1091,18 +914,18 @@ class nlpi(nlpm):
                     if(value_p1[ii] in lst_equate):
                         nlpi.pp[param] = value_p2[ii]
                         lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii],num_idx_id_p2[ii]]
-                        self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
+                        tdf = ls[~ls['index_id'].isin(lst_temp)]
                     else:
                         lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
                         nlpi.pp[param] = value_p1[ii]
-                        self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
+                        tdf = ls[~ls['index_id'].isin(lst_temp)]
                         if(nlpi.silent is False):
                             print("[note] Two 'O' tags found in a row, choosing nearest value")
 
                 elif(ner_tag_p1[ii] == 'O' and ner_tag_p2[ii] != 'O'):
                     lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
                     nlpi.pp[param] = value_p1[ii]
-                    self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
+                    tdf = ls[~ls['index_id'].isin(lst_temp)]
 
                 else:
                     if(nlpi.silent is False):
@@ -1115,17 +938,22 @@ class nlpi(nlpm):
                 if(ner_tag_p1[ii] == 'O'):
                     lst_temp = [num_idx_id_p0[ii],num_idx_id_p1[ii]]
                     nlpi.pp[param] = value_p1[ii]
-                    self.mtoken_info = ls[~ls['index_id'].isin(lst_temp)]
+                    tdf = ls[~ls['index_id'].isin(lst_temp)]
                 else:
                     if(nlpi.silent is False):
                         print('[note] pp tag found but t+1 tag != O tag')
-            
 
+        return tdf
+        
     '''
+    ###########################################################################
 
-    PARAMETER NER
+                                  PARAMETER NER
 
-    ##############################################################################
+                 [ls] : self.mtoken_info which gets updated
+        [module_args] : dict which stores the parameter values
+
+    ###########################################################################
     '''
 
     # select ner_tag tokens as well as tokens that belong to 
@@ -1136,11 +964,13 @@ class nlpi(nlpm):
     # need to add double condition for non column PARAM
     # [1] NER tagged as B-PARAM    [2] approved 
 
-    def filterset_PARAMS(self):
+    @staticmethod
+    def filterset_PARAMS(tdf:pd.DataFrame):
 
-        ls = self.mtoken_info.copy()
+        ls = tdf.copy()
         ls = ls.reset_index(drop=True)
         ls['index_id'] = ls.index
+        module_args = {}
 
         # select rows that belong to data column
         # select = ls[(ls['token_arg'] == True) | ls['ner_tags'].isin(['B-PARAM'])]
@@ -1206,9 +1036,9 @@ class nlpi(nlpm):
             # store PARAM value
             for key,value in my_dict.items():
                 if(len(value) > 1):
-                    self.module_args[key] = value
+                    module_args[key] = value
                 elif(len(value) == 1): 
-                    self.module_args[key] = value[0]
+                    module_args[key] = value[0]
 
             # set removal constraint
 
@@ -1261,17 +1091,21 @@ class nlpi(nlpm):
                 remove_idx = [value for index, value in enumerate(remove_idx) if value not in keep_idx]
 
             # remove tokens associated with PARAMS
-            self.mtoken_info = ls[~ls['index_id'].isin(remove_idx)]
+            ls = ls[~ls['index_id'].isin(remove_idx)]
 
         else:
             if(nlpi.silent is False):
                 print('[note] no parameters to extract (possible NER miss)')
+
+        # return stored [self.module_args, self.mtoken_info]
+        return module_args, ls
     
     '''
+    ###########################################################################
 
-    Logical Filters
+                                  Logical Filters
 
-    ##############################################################################
+    ###########################################################################
     '''
 
     # Filter base request before classification
@@ -1301,16 +1135,51 @@ class nlpi(nlpm):
         if(last != None):
             self.mtoken_info = tls[0:last]
 
+    # function which after having predicted an [activation function] 
+    # checks if input data requirement : has the data been set?
+        
+    def check_data_compatibility(self):
+
+        def type_to_str(inputs):
+            if(isinstance(inputs,eval('pd.DataFrame')) == True):
+                return 'pd.DataFrame'
+            elif(isinstance(inputs,eval('pd.Series')) == True):
+                return 'pd.Series'
+            elif(isinstance(inputs,eval('list')) == True):
+                return 'list'
+            elif(inputs is None):
+                return 'None'
+
+        # input format as string format
+        input_data = type_to_str(self.module_args['data'])
+
+        # check input function data requirement
+        # task = self.module_args['pred_task'] # the set task (not yet available)
+        task = self.task_name
+        input_format_str = self.task_info.loc[task,'input_format'] 
+
+        if(input_data != input_format_str):
+            nlpi.activate = False
+            print('[note] data input does not coincide with af requirement!')
+        
+    
+    '''
+    ##############################################################################
+
+    Initialise module_args dictionary
+
+    ##############################################################################
+    '''
 
     def initialise_module_args(self):
 
         # Initialise arguments dictionary (critical entries)
-        self.module_args = {'pred_task': None, 'data': None,'subset': None,
+        self.module_args = {'pred_task': None, 
+                            'data': None,'data_name':None,
+                            'subset': None,
                             'features': None, 'target' : None}
 
         # (update) Activation Function Parameter Entries 
-        lst_data = []
-        compat_sets = {}
         data = list(self.task_info['arg_compat'])
         data_filtered = [i for i in data if i != 'None']
         nested = [i.split(' ') for i in data_filtered]
@@ -1318,6 +1187,18 @@ class nlpi(nlpm):
 
         for val in unique_args:
             self.module_args[val] = None
+          
+    '''
+    #######################################################################
+  
+  
+                             [ do Single Iteration ]
+
+                               used with query, q 
+    
+    
+    #######################################################################
+    '''
 
     def do(self,command:str,args:dict):
        
@@ -1331,9 +1212,20 @@ class nlpi(nlpm):
         if(args is not None):
             self.module_args.update(args)
             
-        # Create [self.token_info]
+        '''
+        #######################################################################
 
+                               create self.token_info
+    
+        #######################################################################
+        '''
+            
+        # tokenise input query 
         self.tokenise_request() # tokenise input request
+
+                                    # create [self.token_info]
+
+        # define ner tags for each token
         self.token_NER()        # set [ner_tags] in self.token_info
 
                                 # set:
@@ -1347,88 +1239,567 @@ class nlpi(nlpm):
                                     # self.token_info['data']
                                     # self.token_info['dtype']
                                     # self.token_info['column']
-
+                                    
         self.set_token_type()   # find most relevant format for token dtype
-
+        
                                 # set:
-
+                                
                                     # self.token_info['ttype']
                                     # self.token_info['ttype_storage'] 
-
-                                        # converted token type (eg. str -> int)
-
+                                    
+                                    # converted token type (eg. str -> int)
+                                        
         self.set_token_arg_compatibility()  # determine function argument compatibility
-
+        
                                     # self.token_info['arg_compat']
+                                    
+        self.find_keeptokens()
+        
+                                    # self.token_info['keep_token']
+      
+        '''
+        #######################################################################
+  
+                            [  Updated NER approach ]
+    
+            Updated approach utilises inserted tokens to describe the token
 
+                - [self.module_args] has been initialised
+                - [self.token_info] has been created
+
+                    - new NER doesn't really use it:
+                      only for column, data, token, ner_tag
+  
+        #######################################################################
+        '''      
+        
+        # df_tinfo - will be used to remove rows that have been filtered
+        df_tinfo = self.token_info.copy()
+
+        print('\n##################################################################\n')
+        print('[note] extracting parameters from input request!\n')
+      
+        print(f"[note] input request:")
+        print(textwrap.fill(' '.join(list(df_tinfo['token'])), 60))
+        print('')
+      
+        # extract and store active column (from older ner)
+        tmod_args,df_tinfo = ac_extraction(df_tinfo,nlpi.data)      
+        self.module_args.update(tmod_args)
+      
+        # find the difference between two strings 
+        # using split() return the indicies of tokens which are missing
+        
+        def string_diff_index(ref_string:str,string:str):
+          
+          # Tokenize both strings
+          reference_tokens = ref_string.split()
+          second_tokens = string.split()
+          
+          # Find the indices of removed tokens
+          removed_indices = []
+          matcher = difflib.SequenceMatcher(None, reference_tokens, second_tokens)
+          for op, i1, i2, j1, j2 in matcher.get_opcodes():
+            if op == 'delete':
+              removed_indices.extend(range(i1, i2))
+              
+          return removed_indices
+      
+        '''
+        
+        1. Add -data token information into request
         
         '''
-        ########################################################################################
-
-
-                                Data Extraction & Filtering of input request
-
-
-        ########################################################################################
+      
+        def create_labels_data(tokens:list,data_id:list):
+          
+          # Add a new token "-data" before tokens with non-"O" data_id
+          tokenized_string = []
+          for token, id in zip(tokens, data_id):
+            if id != -1:
+              tokenized_string.extend(['-data', token])
+            else:
+              tokenized_string.append(token)
+              
+          # Join the tokenized string back together
+          result = ' '.join(tokenized_string)
+          
+          # Remove "and" between two "-data" words
+          result = re.sub(r'(-data \w+) and (-data \w+)', r'\1 \2', result)
+          
+          return result
+      
         '''
-
-        self.mtoken_info = self.token_info.copy()
-
-        self.ac_extraction()      # extract and store active column
-        self.find_keeptokens()    # determine which tokens to keep and not remove in request filter(s)
-        self.data_extraction()    # extract and store data sources 
-        self.filterset_PP()       # filter out PP tokens + store PP param (in nlpi.pp)
-        self.filterset_PARAMS()   # extract and store PARAM data
-
-        self.set_NER_subset()  
-        self.preposition_filter() # final preposition filter
-
-        before = " ".join(self.rtokens)
-        filtered = " ".join(list(self.mtoken_info['token']))
-
-        if(nlpi.silent is False):
-            print('\n[note] NER used to clean input text!')
-            print('[input]')
-            print(before)
-            print('[after]')
-            print(filtered,'\n')
-
         
-
-        '''
-        ########################################################################################
-
-                                    Task Classification Approaches
-
-        ########################################################################################
-        '''
-
-        # self.pred_module_module_task(text) # [module_name] [task_name] prediction
+        2. Using -data tokens store the relevant data & simple filter
         
-        self.pred_gtask(filtered)      # directly predict [task_name]
-        # self.pred_gtask_bert(filtered) # directly predict [task_name]
-             
         '''
-        ########################################################################################
-
-        Iterative process
         
-        ########################################################################################
+        # general [-] tag storage
+        def filter_set_token(user_request:str):
+          
+          tokens = user_request.split()
+          parameter_prefix = "-"
+          base_request_tokens = []
+          parameters = {}
+          i = 0
+          while i < len(tokens):
+            token = tokens[i]
+            
+            if token.startswith(parameter_prefix):
+              parameter = token[1:]
+              if i + 1 < len(tokens) and not tokens[i + 1].startswith(parameter_prefix):
+                value = tokens[i + 1]
+                if parameter in parameters:
+                  # If the parameter already exists in the dictionary, convert its value to a list
+                  if isinstance(parameters[parameter], list):
+                    parameters[parameter].append(value)
+                  else:
+                    parameters[parameter] = [parameters[parameter], value]
+                else:
+                  parameters[parameter] = value
+                i += 1
+              else:
+                parameters[parameter] = None
+            else:
+              base_request_tokens.append(token)
+            i += 1
+            
+          base_request = " ".join(base_request_tokens)
+          
+          return base_request, parameters
+        
+        # required information
+        token_id = list(df_tinfo['token'])
+        data_id = list(df_tinfo['data'].fillna(-1).astype('int'))
+        
+        # tag data based tokens and store & filter
+        labelled_str = create_labels_data(token_id,data_id)        
+        filtered_request,data_parameters = filter_set_token(labelled_str)
+        
+        # determine which idx was removed
+        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+        
+#       print('1. input data tokens')
+#       print(" ".join(token_id))
+      
+#       print('1. labelled string')
+#       print(labelled_str)
+#       print('1. output')
+#       print("filtered request:", filtered_request)
+#       print("data parameters:", data_parameters)
+#       print('')
+#       print('')
+        
+        # update 
+        df_tinfo = df_tinfo.drop(removed_idx)
+        df_tinfo = df_tinfo.reset_index(drop=True)
+        
         '''
+
+        3. Add -values / -column token information into request
+
+        '''
+
+        def create_labels_param(tokens:list,column_id:list,ner_id:list):
+            
+            # Add "-column" token before tokens based on column_id
+            new_tokens = []
+            for token, col_id, ner in zip(tokens, column_id, ner_id):
+                if col_id != 'O':
+                    new_tokens.append("-column")
+                if ner.lower() in ['b-param', 'i-param']:
+                    new_tokens.append("~" + token)
+                else:
+                    new_tokens.append(token)
+                
+            # Join the tokens back into a string
+            output_string = ' '.join(new_tokens)
+            
+            # Tokenize the string
+            tokens = output_string.split()
+            
+            # Add "-value" token before the index containing a float or an integer
+            new_tokens = []
+            for token in tokens:
+                if re.match(r'^[-+]?[0-9]*\.?[0-9]+$', token):
+                    new_tokens.append("-value")
+                new_tokens.append(token)
+                
+            # Join the tokens back into a string
+            output_string = ' '.join(new_tokens)
+            
+            return output_string
+        
+        '''
+        
+        4. Storing ner parameters that are columns/values from dataframe
+        
+        '''
+        
+        # not used at the moment (replaced by dictionary updater 
+        def determine_number_type(string):
+          if string.isdigit():
+            return int(string)
+          try:
+            return float(string)
+          except ValueError:
+            return string
+          
+        def ner_column_parsing(request:str):
+          
+          # Remove "and" between two "-column" words
+          request = re.sub(r'(-column \w+) and (-column \w+)', r'\1 \2', request)
+          
+          # Tokenize the request by splitting on whitespace
+          tokens = request.split()
+          
+          # Initialize an empty dictionary
+          param_dict = {}
+          
+          # Initialize an empty list to store filtered tokens
+          filtered_tokens = []
+          filter_idx = []
+          # Loop through the tokens
+          for i in range(len(tokens)):
+            token = tokens[i]
+            
+            # Check if the token starts with "-column"
+            if token.startswith("-column"):
+              
+              # Find the nearest token containing "~" to the left
+              for j in range(i-1, -1, -1):
+                if "~" in tokens[j]:
+                  filter_idx.append([i for i in range(j,i+2)])
+                  # Store the next token after "-column" in a list
+                  column_value = param_dict.get(tokens[j], [])
+                  column_value.append(tokens[i+1])
+                  param_dict[tokens[j]] = column_value
+                  break
+                
+                # Check if the token starts with "-value"
+                
+            elif(token.startswith("-value")):
+              
+              # Find the nearest token containing "~" to the left
+              for j in range(i-1, -1, -1):
+                if "~" in tokens[j]:
+                  filter_idx.append([i for i in range(j,i+2)])
+                  # Store the next token after "-column" in a list
+                  column_value = param_dict.get(tokens[j], [])
+                  column_value.append(tokens[i+1])
+                  param_dict[tokens[j]] = column_value
+                  break
+                
+            else:
+              # Add non-key or non-value tokens to filtered_tokens list
+              filtered_tokens.append(token)
+              
+          if(bool(param_dict)):
+            
+            # index of tokens to be removed
+            grouped_lists = {}
+            for sublist in filter_idx:
+              first_value = sublist[0]
+              last_value = sublist[-1]
+              if first_value not in grouped_lists or last_value > grouped_lists[first_value][-1]:
+                grouped_lists[first_value] = sublist
+                
+            selected_lists = list(grouped_lists.values())
+            selected_lists = list(itertools.chain.from_iterable(selected_lists))
+            filtered_tokens = [token for index, token in enumerate(tokens) if index not in selected_lists]
+            
+            # Iterate over the dictionary and remove it from brackets if list contains only one entry
+            for key, value in param_dict.items():
+              # Check if the length of the value list is 1
+              if len(value) == 1:
+                # Extract the single value from the list and update the dictionary
+                param_dict[key] = value.pop()
+                
+          else:
+            print('[note] no ner parameter filtration and extraction was made')
+            filtered_tokens = tokens
+            
+          # Create a new dictionary with keys without the ~
+          new_dict = {key[1:]: value for key, value in param_dict.items()}	
+            
+          return new_dict," ".join(filtered_tokens)
+
+        # required information
+        token_id = list(df_tinfo['token'])
+        column_id = list(df_tinfo['column'].fillna('O'))
+        ner_id = list(df_tinfo['ner_tags'])
+      
+        labelled_str = create_labels_param(token_id,column_id,ner_id)
+        param_dict,filtered_request = ner_column_parsing(labelled_str)
+        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+        
+        # update param_dict (change string to int/float if needed)
+#       param_dict = {key: [float(val) if val.replace('.', '', 1).isdigit() else val for val in value] if isinstance(value, list) else float(value) if value.replace('.', '', 1).isdigit() else value for key, value in param_dict.items()}
+        
+        # update param_dict (change string to int/float if needed)
+        for key, value in param_dict.items():
+          if isinstance(value, list):
+            param_dict[key] = [float(x) if '.' in x else int(x) if x.isdigit() else x for x in value]
+          else:
+            if '.' in value:
+              param_dict[key] = float(value)
+            else:
+              param_dict[key] = int(value) if value.isdigit() else value
+        
+#       print(param_dict)
+
+#       print('2. input column string')
+#       print(" ".join(token_id))
+#       print('2. labelled string')
+#       print(labelled_str)
+#       print('2. output')
+#       print("filtered request:", filtered_request)
+#       print("column parameters:", param_dict)
+#       print('')
+#       print('')
+      
+        
+        # update 
+        df_tinfo = df_tinfo.drop(removed_idx)
+        df_tinfo = df_tinfo.reset_index(drop=True)
+        
+        '''
+        
+        5. Set column labels again to identify subset columns that didnt have ner param token
+        
+          for storage, we can use generic function [filter_set_token]
+        
+        '''
+      
+        def label_subset(tokens:str,column_id:list):
+          
+          # Add "-column" and "~" tokens before tokens based on column_id and ner_id
+          new_tokens = []
+          for token, col_id in zip(tokens, column_id):
+            if col_id != 'O':
+              new_tokens.append("-column")
+            new_tokens.append(token)
+            
+          # Join the tokens back into a string
+          output_string = ' '.join(new_tokens)
+          
+          return output_string
+      
+        # required information
+        token_id = list(df_tinfo['token'])
+        column_id = list(df_tinfo['column'].fillna('O'))
+        
+        labelled_str = label_subset(token_id,column_id)
+        filtered_request,subset_parameters = filter_set_token(labelled_str)
+        
+        # determine which idx was removed
+        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+      
+#       print('3. input subset string')
+#       print(" ".join(token_id))
+#       print('3. labelled string')
+#       print(labelled_str)
+#       print('3. output')
+#       print("filtered request:", filtered_request)
+#       print("column parameters:", subset_parameters)
+#       print('')
+#       print('')
+        
+        # update 
+        df_tinfo = df_tinfo.drop(removed_idx)
+        df_tinfo = df_tinfo.reset_index(drop=True)
+        
+        '''
+        
+        6. remove [token_remove] tokens
+        
+        '''
+        
+        # required information
+        token_id = list(df_tinfo['token'])
+        ner_id = list(df_tinfo['ner_tags'].fillna('O'))
+        
+        # remove [token_remove] tokens
+        def remove_tokens(tokens:list,ner_id:list):
+          result = [tokens[i] for i in range(len(tokens)) if ner_id[i].lower() not in ['b-token_remove', 'i-token_remove']]
+          return " ".join(result)
+      
+        filtered_request = remove_tokens(token_id,ner_id)
+        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+        
+#       print('4. output')
+#       print("filtered request:", filtered_request)
+#       print('')
+#       print('')
+        
+        # update 
+        df_tinfo = df_tinfo.drop(removed_idx)
+        df_tinfo = df_tinfo.reset_index(drop=True)
+        
+        '''
+        
+        Preposition Filter ( + custom word removal )
+
+            if ner doesn't remove the [token_remove] tokens correctly
+            prepositions can accumulate at the end of a request
+
+            eg. "create plotly scatter plot using set"
+                                              -    -
+
+            remove them from the end until no more is found in [prepositions]
+          
+        
+        '''
+    
+        def preposition_filter(token_info:pd.DataFrame):
+          
+            prepositions = [
+            'about','above','across','after','against','along','among','around',
+            'as','at','before','behind','below','beneath','beside','between',
+            'beyond','by','down','during','for','from','in','inside','into',
+            'near','of','off','on','onto','out','outside','over','past','through',
+            'throughout','to','towards','under','underneath','until','up','with',
+            'within','set','using']
+          
+            tls = token_info.copy()
+          
+            last = None
+            found = True
+            while found == True:
+                for i,j in tls[::-1].iterrows():
+                    if(j['token'] not in prepositions):
+                        found = False
+                        last = i + 1
+                        break
+                  
+            if(last != None):
+                token_info = tls[0:last]
+                
+            return token_info
+                
+        # remove prepositions (update df_tinfo directly)
+        df_tinfo = preposition_filter(df_tinfo)
+  
+        filtered = " ".join(list(df_tinfo['token']))
+        print('\n[note] filtered request:')
+        print(filtered)
+      
+        '''
+        
+        Store data into [self.module_args]
+        
+        '''
+      
+#       print('module_args')
+#       print(self.module_args)
+#       print('stored data:')
+#       print(data_parameters)
+        self.module_args['data'] = nlpi.data[data_parameters['data']]['data']
+        self.module_args['data_name'] = data_parameters['data']
+        self.module_args.update(param_dict)
+        self.module_args.update(subset_parameters)
+      
+      
+        print('\n##################################################################\n')
+        
+        '''
+        #######################################################################
+        
+              Data Extraction & Filter (Older NER [based on token_info]) 
+        
+        #######################################################################
+        '''      
+
+#       self.mtoken_info = self.token_info.copy()
+#
+#       # extract and store active column
+#       tmod_args,self.mtoken_info = ac_extraction(self.mtoken_info,nlpi.data)      
+#       self.module_args.update(tmod_args)
+#
+#       # extract and store data sources 
+#       self.mtoken_info = data_tokenfilter(self.mtoken_info)    
+#
+#       # filter out PP tokens + store PP param (in nlpi.pp)
+#       self.mtoken_info = self.filterset_PP(self.mtoken_info)     
+#
+        # extract and store PARAM data
+#       tmod_args,self.mtoken_info = self.filterset_PARAMS(self.mtoken_info)   
+#       self.module_args.update(tmod_args)
+#
+#       tmod_args, self.mtoken_info = self.set_NER_subset(self.mtoken_info)
+#       self.module_args.update(tmod_args)
+#
+#       self.preposition_filter() # final preposition filter
+#
+#       before = " ".join(self.rtokens)
+#       filtered = " ".join(list(self.mtoken_info['token']))
+#
+#       if(nlpi.silent is False):
+#           print('\n[note] NER used to clean input text!')
+#           print('[input]')
+#           print(before)
+#           print('[after]')
+#           print(filtered,'\n')
+
+        '''
+        #######################################################################
+  
+                                Text Classification 
+    
+            Having filtered and extracted data from input request, classify
+  
+        #######################################################################
+        '''      
+
+        # 1] predict module
+
+        # self.task_name, self.module_name prediction
+        # self.pred_module_module_task(text) 
+        
+        # 2] global activation function task prediction
+        
+        self.pred_gtask(filtered)      # directly predict [self.task_name]
+        # self.pred_gtask_bert(filtered) # directly predict [self.task_name]
+                         
+        '''
+        #######################################################################
+        
+                            Iterative Step Loop Preparation
+        
+        #######################################################################
+        '''      
+            
+        if(self.task_name is not None):
+
+            # Store activation function information in module_args [pred_task]
+            
+            self.module_args['pred_task'] = self.task_name
+
+            # store task name information
+            
+            self.module_args['task_info'] = self.task_info.loc[self.task_name]
+
+            # store data related
+            
+                      # - self.module_args['data'],
+                      # - self.module_args['data_name']
+                      
+#           self.sort_module_args_data()  
+
+            # check compatibility between predict activation function data
+            # data requirement & the extracted data type
+            
+            self.check_data_compatibility()
         
         # Iterate if a relevant [task_name] was found
 
         if(nlpi.activate is True):
+
             if(self.task_name is not None):
 
                 nlpi.iter += 1
-                
-                # Store activation function information in module_args [pred_task]
-                self.module_args['pred_task'] = self.task_name
-
-                # store data related [data,data_name]
-                self.sort_module_args_data() 
-                
+                            
                 # store iterative data
                 nlpi.memory_name.append(self.task_name)  
                 nlpi.memory_stack.append(self.module.mod_summary.loc[nlpi.memory_name[nlpi.iter]] )
@@ -1445,8 +1816,23 @@ class nlpi(nlpm):
         else:
             print('[note] no iteration activated!')
 
+        nlpi.activate = True
+
+    '''
+    
+    Manually Call Activation functions
+    
+    '''
+
+    def miter(self,module_name:str,module_args:dict):
+        nlpi.iter += 1
+        self.module.modules[module_name].sel(module_args)
+
+    # reset nlpi session
 
     def reset_session(self):
-        nlpi.iter = 0
+        nlpi.iter = -1
         nlpi.memory_name = []
         nlpi.memory_stack = []
+        nlpi.memory_output = []
+      

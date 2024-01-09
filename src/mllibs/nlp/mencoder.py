@@ -11,6 +11,7 @@ from torch.nn.utils.rnn import pad_sequence
 from mllibs.nlpm import parse_json
 import pkg_resources
 import json
+from mllibs.dict_helper import sfp, sgp, sfpne, column_to_subset
 
 '''
 
@@ -35,38 +36,6 @@ class encoder(nlpi):
     @staticmethod
     def verbose_set(verbose):
         print(f'set {verbose}')
-          
-    # set function parameter (related to activation)
-            
-    @staticmethod
-    def sfp(args,preset,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return preset[key] 
-        
-    # set general parameter
-        
-    @staticmethod
-    def sgp(args,key:str):
-        
-        if(args[key] is not None):
-            return eval(args[key])
-        else:
-            return None
-
-    # store subset column names into a single value
-    # subsets can originate from [col,column]
-    # certain acivation functions use subsets
-
-    def check_subset(self,args:dict):
-
-        self.subset = None
-        if args['column'] is not None:
-            self.subset = args['column']
-        if args['col'] is not None:
-            self.subset = args['col']
            
     # make selection  
 
@@ -74,10 +43,10 @@ class encoder(nlpi):
     
         select = args['pred_task']
         self.data = args['data']
-        self.check_subset(args)
         
-        ''' select appropriate predicted method '''
-        
+        # store subset value from column,col,columns
+        args['subset'] = column_to_subset(args)
+
         if(select == 'encoding_ohe'):
             self.ohe(args)
         elif(select == 'encoding_label'):
@@ -90,117 +59,61 @@ class encoder(nlpi):
             self.text_torch_encoding(args)
             
     # One Hot Encode DataFrame 
-    # input dataframe 
+    # 'subset' or all data
             
     def ohe(self,args:dict):
            
         if(self.subset != None):
-            df_matrix = pd.get_dummies(args['data'])
-        else:
-            ldf = args['data'][self.subset]
-            df_matrix = pd.get_dummies(ldf)
+            df_matrix = pd.get_dummies(args['data'][args['subset']],dtype='int')
             df_all = pd.concat([args['data'],df_matrix],axis=1)
+            nlpi.memory_output.append({'data':df_matrix,'ohe_data':df_all})
+        else:
+            df_matrix = pd.get_dummies(args['data'],dtype='int')
+            nlpi.memory_output.append({'data':df_matrix})
     
-        nlpi.memory_output.append({'data':df_matrix,'ohe_data':df_all})
-                   
-        
     # Label Encode DataFrame column 
-    # input dataframe
+    # only 'subset'
 
     def le(self,args:dict):
-        
-        encoder = LabelEncoder()
-        data = deepcopy(data)
-        
-        if(self.subset is None):
-        
-            lencoder = clone(encoder)           
-            vectors = lencoder.fit_transform(data)
-            df_matrix = pd.DataFrame(vectors,columns=list(data.columns))
-            nlpi.memory_output.append({'data':df_matrix,
-                                      'vectoriser':lencoder})   
-            
+
+        # label encoding requires at least one column
+        if(self.subset != None):
+
+            encoder = LabelEncoder()
+            vector = encoder.fit_transform(args['data'][args['subset']])
+            le_pd = pd.DataFrame(vector,columns=[args['subset'][0] + "_le"])
+            df_all = pd.concat([args['data'],le_pd],axis=1)
+            df_all.drop(args['subset'],axis=1,inplace=True)
+            nlpi.memory_output.append({'data':df_all,'encoder':encoder})
+
         else:
-            
-            lst_df = []
-            for column in self.subset:    
-                lencoder = clone(encoder)
-                vectors = lencoder.fit_transform(data[[column]])
-                df_matrix = pd.DataFrame(vectors,columns=[column])
-                lst_df.append(df_matrix)
+            print('[note] specify a column you want to label encode]')
                 
-            # remove rows
-            data.drop(self.subset,axis=1,inplace=True)
-                
-            # add encoded data back into data
-            
-            if(len(lst_df) > 1):
-                grouped_labels = pd.concat(lst_df,axis=1)
-                add_label = pd.concat([data,grouped_labels],axis=1)
-                nlpi.memory_output.append({'data':add_label,
-                                          'vectoriser':lencoder})      
-            else:     
-                add_label = pd.concat([data,lst_df[0]],axis=1)
-                nlpi.memory_output.append({'data':add_label,
-                                      'vectoriser':lencoder})      
-                
-   
     ''' 
     
-    CountVectoriser 
+    CountVectoriser of dataframe column
     
     '''
 
-    def cv(self,data:pd.DataFrame,args):
+    def cv(self,args:dict):
                     
         # preset value dictionary
         pre = {'ngram_range':(1,1),'min_df':1,'max_df':1.0}
-        data = deepcopy(data)
-        
-        vectoriser = CountVectorizer(ngram_range=self.sfp(args,pre,'ngram_range'),
-                                     min_df=self.sfp(args,pre,'min_df'),
-                                     max_df=self.sfp(args,pre,'max_df'),
-                                     tokenizer=args['tokeniser'])
-        
-        if(self.subset is None):
-        
-            data = data.iloc[:,0] # we know it has to be one column 
-            vectors = vectoriser.fit_transform(list(data))        
-            df_matrix = pd.DataFrame(vectors.todense(),
-                                     columns=vectoriser.get_feature_names_out())
-            nlpi.memory_output.append({'data':df_matrix,
-                                       'vectoriser':vectoriser})
-            
-        else:
-            
-            lst_df = []
-            for column in self.subset:
-                lvectoriser = clone(vectoriser)
-                vectors = vectoriser.fit_transform(list(data[column]))        
-                df_matrix = pd.DataFrame(vectors.todense(),
-                                         columns=vectoriser.get_feature_names_out())
 
-                nlpi.memory_output.append({'data':df_matrix,
-                                       'vectoriser':lvectoriser})
+        print(args['subset'])
+
+        if(args['subset'] != None):
+        
+            vectoriser = CountVectorizer(ngram_range=tuple(sfp(args,pre,'ngram_range')),
+                                        min_df=sfp(args,pre,'min_df'),
+                                        max_df=sfp(args,pre,'max_df'))
+
+            vectors = vectoriser.fit_transform(args['data'][args['subset'][0]])        
+            df_matrix = pd.DataFrame(vectors.todense(),
+                                        columns=vectoriser.get_feature_names_out())
+
+            nlpi.memory_output.append({'data':df_matrix,'vectoriser':vectoriser})
                 
-            # remove rows
-            data.drop(self.subset,axis=1,inplace=True)
-            
-            # add vectorised data b ack into data
-            
-            if(len(lst_df) > 1):
-                grouped_labels = pd.concat(lst_df,axis=1)
-                add_label = pd.concat([data,grouped_labels],axis=1)
-                nlpi.memory_output.append({'data':add_label,
-                                          'vectoriser':lvectoriser})
-                
-            else:
-            
-                add_label = pd.concat([data,lst_df[0]],axis=1)
-                nlpi.memory_output.append({'data':add_label,
-                                          'vectoriser':lvectoriser})
-            
-    
     ''' 
     
     TF-IDF
@@ -209,17 +122,16 @@ class encoder(nlpi):
     
     def tfidf(self,data:pd.DataFrame,args):
             
-        pre = {'ngram_range':(1,1),'min_df':1,'max_df':1.0,
-               'smooth_idf':True,'use_idf':True}
+        pre = {'ngram_range':(1,1),'min_df':1,'max_df':1.0,'smooth_idf':True,'use_idf':True}
         
         # create new object
         data = deepcopy(data)
         
-        vectoriser = TfidfVectorizer(ngram_range=self.sfp(args,pre,'ngram_range'),
-                                     min_df=self.sfp(args,pre,'min_df'),
-                                     max_df=self.sfp(args,pre,'max_df'),
+        vectoriser = TfidfVectorizer(ngram_range=tuple(sfp(args,pre,'ngram_range')),
+                                     min_df=sfp(args,pre,'min_df'),
+                                     max_df=sfp(args,pre,'max_df'),
                                      tokenizer=args['tokeniser'],
-                                     use_idf=self.sfp(args,pre,'use_idf'),
+                                     use_idf=sfp(args,pre,'use_idf'),
                                      smooth_idf=self.sfp(args,pre,'smooth_idf'))                      
         
         ''' Subset Treatment '''

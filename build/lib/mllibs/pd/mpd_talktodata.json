@@ -7,7 +7,8 @@
                 "what are the columns",
                 "print the column names",
                 "show the dataframe column names",
-                "print dataframe column names"
+                "print dataframe column names",
+                "show me the columns names"
               ],
       "info": {
                "module":"pd_talktodata",
@@ -51,8 +52,10 @@
                 "show the the counts of the unique values in the column",
                 "column distribution",
                 "column value_counts",
+                "show the value_counts of column",
                 "count the number of items in column",
-                "show column value distribution"
+                "show column value distribution",
+                "show the distribution of column"
               ],
       "info": {
                "module":"pd_talktodata",
@@ -93,14 +96,17 @@
     },
 
     {
-      "name": "dfall_na",
+      "name": "dfna_all",
     "corpus": [
                 "how much data is missing in all columns",
                 "show the missing data in all columns",
                 "show all missing data",
                 "show missing data",
+                "does the data contain missing rows",
                 "show the missing data in all columns",
-                "are there any data missing in all columns"
+                "are there any data missing in all columns",
+                "show how much missing data there is in",
+                "show how much data is missing"
               ],
       "info": {
                "module":"pd_talktodata",
@@ -109,6 +115,30 @@
                "subtopic":"dataframe investigation",
                "input_format":"pd.DataFrame",
                "description":"show missing data all columns",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "dfna_perc",
+    "corpus": [
+                "show how much data is missing in all columns in terms of percentage",
+                "percentage wise how much data is missing in all columns",
+                "how much data is missing percentage wise",
+                "how much data is missing using percentage",
+                "show the missing data in terms of percentage",
+                "what is the percentage of data missing",
+                "what is the percentage of rows missing"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"display dataframe",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"show the percentage of missing data in each column",
                "output":"print",
                "token_compat":"None",
                "arg_compat":"None"
@@ -258,6 +288,31 @@
                "token_compat":"None",
                "arg_compat":"column col"
               }
+    },
+
+    {
+      "name": "df_preview",
+    "corpus": [
+                "show a preview of the dataset",
+                "show a preview of data",
+                "show me a preview of dataframe",
+                "show dataframe preview",
+                "show a quick preview of dataframe",
+                "brief dataframe preview",
+                "quick data preview"
+              ],
+      "info": {
+               "module":"pd_talktodata",
+               "action":"display dataframe",
+               "topic":"exploratory data analysis",
+               "subtopic":"dataframe investigation",
+               "input_format":"pd.DataFrame",
+               "description":"show a preview of the dataframe",
+               "output":"print",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
     }
+
   ]
 }

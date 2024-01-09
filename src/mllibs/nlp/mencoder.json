@@ -9,7 +9,11 @@
               "ohe",
               "one-hot encode",
               "encode with one-hot-encoding",
-              "encoded with ohe"
+              "encoded with ohe",
+              "make one hot encoding features",
+              "generate one hot encoding of columns",
+              "create one hot encodings of columns",
+              "create one hot encodings of column"
               ],
       "info": {
               "module":"encoder",
@@ -18,7 +22,7 @@
               "subtopic":"create features",
               "input_format":"pd.DataFrame",
               "output":"data",
-              "description":"create numerical represention of feature columns containing string names",
+              "description":"create numerical representation of feature columns containing string names",
               "token_compat":"data subset",
                "arg_compat":"None"
               }
@@ -31,7 +35,7 @@
               "encode label",
               "label encoder",
               "encode target variable",
-              "label encode taget variable",
+              "label encode column",
               "LabelEncoder"
               ],
       "info": {
@@ -42,7 +46,7 @@
               "input_format":"pd.DataFrame",
               "output": "data vectoriser",
               "description":"create numerical presentation of target label containing string names",
-              "token_compat":"data subset",
+              "token_compat":"None",
               "arg_compat":"None"
               }
     },
@@ -50,12 +54,15 @@
     {
       "name": "count_vectoriser",
     "corpus": [
-              "count vectorise",
-              "count vectoriser",
-              "make bag of words",
-              "create bag of words",
-              "bow vectorisation",
-              "CountVectorizer"
+              "count vectorise column in dataframe",
+              "count vectoriser column",
+              "make bag of words for column",
+              "create a bow for column",
+              "create a bag of words model for text column",
+              "make bag of words vectorisation of text column",
+              "create bag of words for column",
+              "bow vectorisation of column",
+              "CountVectorizer column"
               ],
       "info": {
               "module":"encoder",
@@ -64,9 +71,9 @@
               "subtopic":"feature generation",
               "input_format":"pd.DataFrame",
               "output": "data vectoriser",
-              "description":"Convert a collection of text documents to a matrix of token counts (unigrams)",
-              "token_compat":"data subset",
-              "arg_compat":"ngram_range min_df max_df tokeniser"
+              "description":"Convert a column in a dataframe that contains text entries into collection to a matrix of token counts",
+              "token_compat":"None",
+              "arg_compat":"ngram_range min_df max_df"
               }
     },
 

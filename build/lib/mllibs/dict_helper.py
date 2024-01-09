@@ -1,8 +1,13 @@
 
 def sfp(args:dict,preset:dict,key:str):
     
+    # try string eval else its not string
+    # alternatively choose from default dict
     if(args[key] is not None):
-        return eval(args[key])
+        try:
+            return eval(args[key])
+        except:
+            return args[key]
     else:
         return preset[key]  
 
@@ -12,6 +17,13 @@ def sfpne(args:dict,preset:dict,key:str):
         return args[key]
     else:
         return preset[key]  
+    
+def sgp(args:dict,key:str):
+    
+    if(args[key] is not None):
+        return eval(args[key])
+    else:
+        return None
 
 '''
 
@@ -24,6 +36,7 @@ def column_to_subset(args:dict):
     if(args['column'] == None and args['col'] == None and args['columns'] == None):
         return None
     else:
+
         if(args['column'] != None):
             if(isinstance(args['column'],str) == True):
                 return [args['column']]      
@@ -34,7 +47,7 @@ def column_to_subset(args:dict):
 
         elif(args['columns'] != None):
             if(isinstance(args['columns'],str) == True):
-                return [args['column']]      
+                return [args['columns']]      
             elif(isinstance(args['columns'],list) == True):
                 return args['columns']
             else:

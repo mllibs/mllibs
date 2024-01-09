@@ -9,7 +9,6 @@ import json
 
 Data Exploration via Natural Language
 
-
 '''
 
 # sample module class structure
@@ -36,10 +35,14 @@ class pd_talktodata(nlpi):
             self.dfsize(args)
         if(self.select == 'dfcolumn_distr'):
             self.dfcolumn_distr(args)
-        if(self.select == 'dfcolumn_na'):
-            self.dfcolumn_na(args)
-        if(self.select == 'dfall_na'):
-            self.dfall_na(args)
+
+        if(self.select == 'dfna_column'):
+            self.dfna_column(args)
+        if(self.select == 'dfna_all'):
+            self.dfna_all(args)
+        if(self.select == 'dfna_perc'):
+            self.dfna_perc(args)
+
         if(self.select == 'show_stats'):
             self.show_statistics(args)
         if(self.select == 'show_info'):
@@ -52,6 +55,8 @@ class pd_talktodata(nlpi):
             self.show_correlation(args)
         if(self.select == 'dfcolumn_unique'):
             self.dfcolumn_unique(args)
+        if(self.select == 'df_preview'):
+            self.df_preview(args)
 
     ''' 
     
@@ -74,9 +79,9 @@ class pd_talktodata(nlpi):
     def dfcolumn_distr(self,args:dict):
 
         if(args['column'] != None):
-            display(args['data'][args['column']].value_counts())
+            display(args['data'][args['column']].value_counts(dropna=False))
         elif(args['col'] != None):
-            display(args['data'][args['col']].value_counts())
+            display(args['data'][args['col']].value_counts(dropna=False))
         else:
             print('[note] please specify the column name')
 
@@ -92,10 +97,9 @@ class pd_talktodata(nlpi):
             elif(args['col'] != None):
                 print(args['data'][args['col']].unique())
 
-
     # show the missing data in the column / if no column is provided show for all columns
 
-    def dfcolumn_na(self,args:dict):
+    def dfna_column(self,args:dict):
 
         if(args['column'] != None):
             ls = args['data'][args['column']]
@@ -119,11 +123,25 @@ class pd_talktodata(nlpi):
 
     # show the missing data in all columns
 
-    def dfall_na(self,args:dict):
+    def dfna_all(self,args:dict):
+        
         print(args['data'].isna().sum().sum(),'rows in total have missing data')
         print(args['data'].isna().sum())
 
-        print("[note] I've stored the missing rows")
+        print("[note] I've also stored the missing rows!")
+        ls = args['data']
+        nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})  
+
+    @staticmethod
+    def dfna_perc(args:dict):
+
+        na_percentage = args['data'].isna().mean() * 100
+        try:
+            display(na_percentage)
+        except:
+            print(na_percentage)
+
+        print("[note] I've also stored the missing rows!")
         ls = args['data']
         nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})  
 
@@ -131,7 +149,10 @@ class pd_talktodata(nlpi):
 
     @staticmethod
     def show_statistics(args:dict):
-        display(args['data'].describe())
+        try:
+            display(args['data'].describe())
+        except:
+            print(args['data'].describe())
 
     # show dataframe information
 
@@ -160,5 +181,16 @@ class pd_talktodata(nlpi):
                              columns = list(args['data'].columns))
         corr_mat = corr_mat.dropna(how='all',axis=0)
         corr_mat = corr_mat.dropna(how='all',axis=1)
-        display(corr_mat)
+
+        try:
+            display(corr_mat)
+        except:
+            print(corr_mat)
+
+    @staticmethod
+    def df_preview(args:dict):
+        try:
+            display(args['data'].head())
+        except:
+            print(args['data'].head())
 

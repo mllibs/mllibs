@@ -30,3 +30,44 @@ def check_list_in_col(df:pd.DataFrame,lst:list):
         return True
     else:
         return False
+
+'''
+
+check if columns in dataframe contain a date/datetime format
+return the list of all such column names
+
+'''
+
+def find_datecolumns(df:pd.DataFrame):
+
+    # Check if each column is in a date format
+    lst_date_columns = []
+    for column in df.columns:
+        try:
+            pd.to_datetime(df[column])
+            lst_date_columns.append(column)
+        except:
+            pass
+
+    if(len(lst_date_columns) == 0):
+        return None
+    else:
+        return lst_date_columns
+    
+'''
+
+Convert all date like columns into datetime format
+
+'''
+
+def convert_datecolumns(df:pd.DataFrame):
+
+    # Check if each column is in a date format
+    for column in df.columns:
+        try:
+            pd.to_datetime(df[column])
+            df[column] = pd.to_datetime(df[column])
+        except:
+            pass
+
+    return df
