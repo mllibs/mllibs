@@ -1,10 +1,10 @@
 <p align="center">
-    <img src="data/images/fcnb.png" width="450">
+    <img src="https://i.imgur.com/XDJsh28.png">
 </p>
 
 <h5 align="center">
     
-![](https://img.shields.io/badge/python-3.7%2B-fc4c69) ![](https://img.shields.io/badge/pypi-v0.1.7-fc4c69) ![](https://img.shields.io/badge/License-MIT-fc4c69)
+![](https://img.shields.io/badge/python-3.7%2B-fc4c69) ![](https://img.shields.io/badge/pypi-v0.1.9-fc4c69) ![](https://img.shields.io/badge/License-MIT-fc4c69)
 ![License](https://img.shields.io/github/stars/mllibs?style=social)
 
 </h5>

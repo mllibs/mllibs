@@ -2,6 +2,7 @@ from mllibs.nlpm import nlpm
 import numpy as np
 import pandas as pd
 import random
+import json
 import re
 from inspect import isfunction
 import plotly.express as px
@@ -40,7 +41,7 @@ class nlpi(nlpm):
         self._make_task_info()                # create self.task_info
         self.dsources = {}                    # store all data source keys
         self.token_data = []                  # store all token data
-        nlpi.silent = True     
+        nlpi.silent = True                    # by default don't display 
         nlpi.activate = True
         nlpi.lmodule = self.module            # class variable variation for module calls
                     
@@ -1276,12 +1277,13 @@ class nlpi(nlpm):
         # df_tinfo - will be used to remove rows that have been filtered
         df_tinfo = self.token_info.copy()
 
-        print('\n##################################################################\n')
-        print('[note] extracting parameters from input request!\n')
+        if(nlpi.silent is False):
+          print('\n##################################################################\n')
+          print('[note] extracting parameters from input request!\n')
       
-        print(f"[note] input request:")
-        print(textwrap.fill(' '.join(list(df_tinfo['token'])), 60))
-        print('')
+          print(f"[note] input request:")
+          print(textwrap.fill(' '.join(list(df_tinfo['token'])), 60))
+          print('')
       
         # extract and store active column (from older ner)
         tmod_args,df_tinfo = ac_extraction(df_tinfo,nlpi.data)      
@@ -1535,9 +1537,6 @@ class nlpi(nlpm):
         removed_idx = string_diff_index(" ".join(token_id),filtered_request)
         
         # update param_dict (change string to int/float if needed)
-#       param_dict = {key: [float(val) if val.replace('.', '', 1).isdigit() else val for val in value] if isinstance(value, list) else float(value) if value.replace('.', '', 1).isdigit() else value for key, value in param_dict.items()}
-        
-        # update param_dict (change string to int/float if needed)
         for key, value in param_dict.items():
           if isinstance(value, list):
             param_dict[key] = [float(x) if '.' in x else int(x) if x.isdigit() else x for x in value]
@@ -1546,6 +1545,10 @@ class nlpi(nlpm):
               param_dict[key] = float(value)
             else:
               param_dict[key] = int(value) if value.isdigit() else value
+              
+        if(nlpi.silent is False):
+          print('[note] extracted param dictionary')
+          print(param_dict)
         
 #       print(param_dict)
 
@@ -1595,6 +1598,10 @@ class nlpi(nlpm):
         
         # determine which idx was removed
         removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+        
+        if(nlpi.silent is False):
+          print('[note] extracted column/subset dictionary')
+          print(subset_parameters)
       
 #       print('3. input subset string')
 #       print(" ".join(token_id))
@@ -1682,8 +1689,10 @@ class nlpi(nlpm):
         df_tinfo = preposition_filter(df_tinfo)
   
         filtered = " ".join(list(df_tinfo['token']))
-        print('\n[note] filtered request:')
-        print(filtered)
+        
+        if(nlpi.silent is False):
+          print('\n[note] filtered request:')
+          print(filtered)
       
         '''
         
@@ -1695,13 +1704,17 @@ class nlpi(nlpm):
 #       print(self.module_args)
 #       print('stored data:')
 #       print(data_parameters)
-        self.module_args['data'] = nlpi.data[data_parameters['data']]['data']
-        self.module_args['data_name'] = data_parameters['data']
+        try:
+          self.module_args['data'] = nlpi.data[data_parameters['data']]['data']
+          self.module_args['data_name'] = data_parameters['data']
+        except:
+          print('[note] no data source specified')
+          
         self.module_args.update(param_dict)
         self.module_args.update(subset_parameters)
       
-      
-        print('\n##################################################################\n')
+        if(nlpi.silent is False):
+          print('\n##################################################################\n')
         
         '''
         #######################################################################

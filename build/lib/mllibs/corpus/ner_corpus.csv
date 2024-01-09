@@ -29,21 +29,21 @@ col_wrap 2, [param : col_wrap] 2
 1 2 3 4 5 6 7 8 9 10,1 2 3 4 5 6 7 8 9 10
 create plotly violin plot using dataset penguins set parameters x columnA marginal_x box,create plotly violin plot [token_remove : using dataset] penguins [token_remove : set parameters] [param : x] columnA [param : marginal_x] box
 with data penguins create a plotly violin plot define parameters x columnA marginal_x box, [token_remove : with data] penguins create a plotly violin plot [token_remove : define parameters] [param : x] columnA [param : marginal_x] box
-create a bag of words model for text column review using data reviews ngram_range 1 2, create a bag of words model for text column review [token_remove : using data] reviews [param : ngram_range] 1 2
-create a bag of words model for text column sex using data penguins ngram_range 1 2, create a bag of words model for text column sex [token_remove : using data] penguins [param : ngram_range] 1 2 
-show missing data in column sex in penguins, show missing data in column sex [source : in] penguins
+create a bag of words model for text column review using data reviews ngram_range 1 2, create a bag of words model for text [subset : column] review [token_remove : using data] reviews [param : ngram_range] 1 2
+create a bag of words model for text column sex using data penguins ngram_range 1 2, create a bag of words model for text [subset : column] sex [token_remove : using data] penguins [param : ngram_range] 1 2 
+show missing data in column sex in penguins, show missing data in [subset : column] sex [source : in] penguins
 show missing data in col sex in data penguins, show missing data in [param : col] sex [token_remove : in data] penguins
-show missing data in all columns in penguins, show missing data in all columns [source : in] penguins
-generate the fourier transformation of columns A B C utilising data D, generate the fourier transformation of columns A B C [source : utilising data] D
-with data D visualise the fft for columns A B C, [token_remove : with data] D visualise the fft for columns A B C
-utilising dataset A calculate the fourier transformation of columns B C D, [source : utilising dataset] A calculate the fourier transformation of columns B C D
-with data D visualise the fft of columns A B, [token_remove : with data] D visualise the fft of columns A B
-with dataset A calculate the fourier transformation of columns B C D, [token_remove : with dataset] A calculate the fourier transformation of columns B C D
-utilising dataset A visualise the fast fourier transformations for column B, [token_remove : utilising dataset] A visualise the fast fourier transformations for column B
+show missing data in all columns in penguins, show missing data in all [subset : columns] [source : in] penguins
+generate the fourier transformation of columns A B C utilising data D, generate the fourier transformation of [subset : columns] A B C [source : utilising data] D
+with data D visualise the fft for columns A B C, [token_remove : with data] D visualise the fft for [subset : columns] A B C
+utilising dataset A calculate the fourier transformation of columns B C D, [source : utilising dataset] A calculate the fourier transformation of [subset : columns] B C D
+with data D visualise the fft of columns A B, [token_remove : with data] D visualise the fft of [subset : columns] A B
+with dataset A calculate the fourier transformation of columns B C D, [token_remove : with dataset] A calculate the fourier transformation of [subset : columns] B C D
+utilising dataset A visualise the fast fourier transformations for column B, [token_remove : utilising dataset] A visualise the fast fourier transformations for [subset : column] B
 concatenate two dataframes join inner, concatenate two dataframes [param : join] inner
 concatenate two dataframes axis 1, concatenate two dataframes [param : axis] 1
 template plotly_white, [pp : template] plotly_white
-define plot paramters mew 1.5 mec 1.4 create a plotly scatter plot using data A set x columnA and y columnB, define plot parameters [param : mew] 1.5 [param : mec] 1.4 create a plotly scatter plot [token_remove : using data] A set [param : x] columnA and [param : y] columnB
+define plot parameters mew 1.5 mec 1.4 create a plotly scatter plot using data A set x columnA and y columnB, define plot parameters [param : mew] 1.5 [param : mec] 1.4 create a plotly scatter plot [token_remove : using data] A set [param : x] columnA and [param : y] columnB
 create plotly scatterplot x body_mass_g y bill_depth_mm hue island col sex mew 1.5 mec black s 7 marginal_x box marginal_y box using penguins, create plotly scatterplot [param : x] body_mass_g [param : y] bill_depth_mm [param : hue] island [param : col] sex [param : mew] 1.5 [param : mec] black [param : s] 7 [param : marginal_x] box [param : marginal_y] box [source : using] penguins
 marginal histogram marginal_y box trendline ols, [param : marginal] histogram [param : marginal] box [param : trendline] ols
 marginal_x histogram marginal_y violinplot nbinsx 100 nbinsy 100,[param : marginal_x] histogram [param : marginal_y] violin [param : nbinsx] 100 [param : nbinsy] 100
@@ -70,9 +70,9 @@ using dataset penguins create plotly boxplot with defined parameters x body_mass
 with dataset penguins create a plotly boxplot using parameters x body_mass_g, [token_remove : with dataset] penguins create a plotly boxplot [token_remove : using parameters] [param : x] body_mass_g
 using data penguins create a plotly scatter plot using defined parameters x body_mass_g y bill_depth_mm and hue island, [token_remove : using data] penguins create a plotly scatter plot [token_remove : using defined parameters] [param : x] body_mass_g [param : y] bill_depth_mm and [param : hue] island 
 with defined parameters x body_mass_g y bill_depth_mm create a plotly scatter plot using data penguins, [token_remove : with defined parameters] [param : x] body_mass_g [param : y] bill_depth_mm create a plotly scatter plot [token_remove : using data] penguins
-create a bag of words model for text column reviews using reviews_data define ngram_range 1 2, create a bag of words model for text column reviews [source : using] reviews_data [token_remove : define] [param : ngram_range] 1 2 
-create a tfidf model for column columnA using reviews_data defining ngram_range 1 2, create a tfidf model for column columnA [source : using] reviews_data [token : defining] [param : ngram_range] 1 2
-with data reviews_data create bag of words model using column columnA setting parameters ngram_range 1 2, [source : with data] reviews_data create bag of words model using column columnA [token_remove : setting parameters] [param : ngram_range] 1 2 
+create a bag of words model for text column reviews using reviews_data define ngram_range 1 2, create a bag of words model for text [subset : column] reviews [source : using] reviews_data [token_remove : define] [param : ngram_range] 1 2 
+create a tfidf model for column columnA using reviews_data defining ngram_range 1 2, create a tfidf model for [subset : column] columnA [source : using] reviews_data [token : defining] [param : ngram_range] 1 2
+with data reviews_data create bag of words model using column columnA setting parameters ngram_range 1 2, [source : with data] reviews_data create bag of words model using [subset : column] columnA [token_remove : setting parameters] [param : ngram_range] 1 2 
 using data create plotly scatter plot using parameters set,[token_remove : using data] create plotly scatter plot [token_remove : using parameters] [token_remove : set] 
 in dataset titanic show the percentage of data missing,[token_remove : in dataset] titanic show the percentage of data missing
 using data titanic how many rows are missing,[token_remove : using data] titanic how many rows are missing
