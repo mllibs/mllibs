@@ -11,6 +11,7 @@
                 "show imported dataset names",
                 "show available data",
                 "what data is available",
+                "show me what data is available",
                 "tell me which data is available to me"
               ],
       "info": {
@@ -19,7 +20,7 @@
                "topic":"library operation",
                "subtopic":"stored data",
                "input_format":"None",
-               "description":"show imported/stored data in nlpi",
+               "description":"show imported/stored data in nlpi.data",
                "output":"list",
                "token_compat":"None",
                "arg_compat":"None"

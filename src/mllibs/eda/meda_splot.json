@@ -8,8 +8,8 @@
                 "make seaborn scatter plot",
                 "make seaborn scatterplot",
                 "create seaborn scatterplot",
-                "create scatterplot",
-                "make scatterplot"
+                "create scatterplot with seaborn",
+                "make seaborn scatterplot"
               ],
       "info": {
                "module":"eda_plot",
@@ -20,7 +20,7 @@
                "description":"make a scatter plot using seaborn, bivariate or multivariate",
                "output":"None",
                "token_compat":"None",
-               "arg_compat":"x y hue"
+               "arg_compat":"x y hue alpha mew mec s"
               }
     },
     

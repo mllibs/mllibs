@@ -13,7 +13,6 @@ def split_types(df:pd.DataFrame):
     categorical = df.select_dtypes(exclude=numerics)
     return list(numeric.columns),list(categorical.columns)
 
-
 '''
 
 Check if dataframe contains the list of column names provided

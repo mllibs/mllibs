@@ -47,23 +47,21 @@ class eda_splot(nlpi):
 
         model_prediction | splits_col
 
-        
         '''
         # split columns (tts,kfold,skfold) 
-        if(len(nlpi.data[self.data_name[0]]['splits_col']) != 0):
+        if(len(nlpi.data[self.data_name]['splits_col']) != 0):
 
             split_dict = nlpi.data[self.data_name[0]]['splits_col']
             extra_columns = pd.concat(split_dict,axis=1)
             args['data'] = pd.concat([args['data'],extra_columns],axis=1)
 
         # model predictions
-        if(len(nlpi.data[self.data_name[0]]['model_prediction']) != 0):
+        if(len(nlpi.data[self.data_name]['model_prediction']) != 0):
 
             prediction_dict = nlpi.data[self.data_name[0]]['model_prediction']
             extra_columns = pd.concat(prediction_dict,axis=1)
             extra_columns.columns = extra_columns.columns.map('_'.join)
             args['data'] = pd.concat([args['data'],extra_columns],axis=1)
-
 
         ''' 
         
@@ -107,10 +105,10 @@ class eda_splot(nlpi):
         sns.scatterplot(x=args['x'], 
                         y=args['y'],
                         hue=args['hue'],
-                        alpha = nlpi.pp['alpha'],
-                        linewidth=nlpi.pp['mew'],
-                        edgecolor=nlpi.pp['mec'],
-                        s = nlpi.pp['s'],
+                        alpha = args['alpha'],
+                        linewidth=args['mew'],
+                        edgecolor=args['mec'],
+                        s = args['s'],
                         data=args['data'])
         
         sns.despine(left=True, bottom=True)

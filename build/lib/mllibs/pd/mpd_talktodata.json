@@ -144,6 +144,75 @@
                "arg_compat":"None"
               }
     },
+    
+    {
+      "name": "dfcolumn_dtype",
+      "corpus": [
+        "convert column to dtype format",
+        "convert dataframe column to dtype format",
+        "modify column type to dtype",
+        "change the column type to dtype",
+        "change the column type to dtype",
+        "convert column type to dtype"
+      ],
+      "info": {
+        "module":"pd_talktodata",
+        "action":"modify dataframe",
+        "topic":"exploratory data analysis",
+        "subtopic":"dataframe modification",
+        "input_format":"pd.DataFrame",
+        "description":"convert the dataframe column to a specified format format",
+        "output":"None",
+        "token_compat":"None",
+        "arg_compat":"dtype"
+      }
+    },
+    
+    {
+      "name": "dfcolumn_tostr",
+      "corpus": [
+        "convert column to string format",
+        "convert dataframe column to string format",
+        "modify column type to string",
+        "change the column type to string",
+        "change the column type to str",
+        "convert column type to str"
+      ],
+      "info": {
+        "module":"pd_talktodata",
+        "action":"modify dataframe",
+        "topic":"exploratory data analysis",
+        "subtopic":"dataframe modification",
+        "input_format":"pd.DataFrame",
+        "description":"convert the dataframe column to string format",
+        "output":"None",
+        "token_compat":"None",
+        "arg_compat":"None"
+      }
+    },
+    
+    {
+      "name": "dfcolumn_toint",
+      "corpus": [
+        "convert column to integer format",
+        "convert dataframe column to integer format",
+        "convert column to int",
+        "modify column type to integer",
+        "change the column type to integer",
+        "change the column type to int"
+      ],
+      "info": {
+        "module":"pd_talktodata",
+        "action":"modify dataframe",
+        "topic":"exploratory data analysis",
+        "subtopic":"dataframe modification",
+        "input_format":"pd.DataFrame",
+        "description":"convert the dataframe column to integer format",
+        "output":"None",
+        "token_compat":"None",
+        "arg_compat":"None"
+      }
+    },
 
     {
       "name": "show_stats",

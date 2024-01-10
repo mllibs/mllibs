@@ -77,3 +77,7 @@ using data create plotly scatter plot using parameters set,[token_remove : using
 in dataset titanic show the percentage of data missing,[token_remove : in dataset] titanic show the percentage of data missing
 using data titanic how many rows are missing,[token_remove : using data] titanic how many rows are missing
 what is the percentage of missing rows in data titanic, what is the percentage of missing rows [token_remove : in data] titanic
+plot a seaborn scatterplot using parameters x radius_mean y texture_mean using data breast_data hue diagnosis s 20,plot a seaborn scatterplot [token_remove : using parameters] [param : x] radius_mean [param : y] texture_mean [token_remove : using data] breast_data [param : hue] diagnosis [param : s] 20
+plot a seaborn scatterplot using parameters x radius_mean y concavity_mean using data breast_data hue diagnosis s 15 mew 1 mec k,plot a seaborn scatterplot using parameters [param : x] radius_mean [param : y] concavity_mean [token_remove : using data] breast_data [param : hue] diagnosis [param : s] 15 [param : mew] 1 [param : mec] k
+convert column diagnosis to dtype string in breast_data,convert [subset : column] diagnosis to [param : dtype] string in breast_data 
+in data breast_data convert diagnosis to dtype int64,[token_remove : in data] breast_data convert diagnosis to [param : dtype] int64

@@ -33,7 +33,7 @@ def ac_extraction(tdf:pd.DataFrame, nlpi_data: dict):
         act_funct = select_col_content[~select_col_content['token'].isin(['{','}'])]
         lst_act_functions.append(list(act_funct['token'])[0])
         
-    # FIND WHICH AC TO STORE 
+    # FIND WHICH AC TO STORE
         
     # find what the active columns were assigned to by selecting the first 
     # for each pair select the closest param [ner_tag] to the left!
@@ -56,11 +56,10 @@ def ac_extraction(tdf:pd.DataFrame, nlpi_data: dict):
             else:
                 subset_id.append(False)
                 
-                
     # select everything in between [ner_tag] and last BRACKET
     remove_idx = []
     for ii,pair in enumerate(pairs):
-        if(subset_id is False):
+        if(subset_id[ii] is False):
             remove_idx.append(list(ls.iloc[lst_param_idx[ii]:pair[1]+1]['index_id']))
         else:
             remove_idx.append(list(ls.iloc[pair[0]:pair[1]+1]['index_id']))
@@ -76,8 +75,11 @@ def ac_extraction(tdf:pd.DataFrame, nlpi_data: dict):
     ls = ls.reset_index(drop=True)
     ls['index_id'] = list(ls.index)
     
-    # FIND ALL ACTIVE COLUMN KEYS
-    # this is needed to store AC 
+    '''
+
+    Find all active column names (keys) (this is needed to store AC)
+    
+    '''
     
     # ac_data [for each dataframe data (keys) display its active colum names (values)]
     

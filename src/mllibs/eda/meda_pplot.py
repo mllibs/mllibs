@@ -10,7 +10,6 @@ from mllibs.nlpm import parse_json
 import pkg_resources
 import json
 
-
 '''
 
 Standard Plotly Visualisations (plotly express)

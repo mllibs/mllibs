@@ -1025,10 +1025,10 @@ class nlpi(nlpm):
             # [my_dict] store PARAM - value combinations
             # [remove tag] decide whether to remove or keep PARAM-value 
 
-            my_dict = {}; remove_tag = {}             
+            my_dict = {}; remove_tag = {}
             for value in set(sources):
-                my_dict[value] = []      
-                remove_tag[value] = None 
+                my_dict[value] = []
+                remove_tag[value] = None
 
             # add values to each parameter to dictionary
             for ii,source in enumerate(sources):
@@ -1276,6 +1276,8 @@ class nlpi(nlpm):
         
         # df_tinfo - will be used to remove rows that have been filtered
         df_tinfo = self.token_info.copy()
+        vocab_tokens = df_tinfo[(df_tinfo['vocab'] == True)]
+        lst_keep_tokens = list(vocab_tokens['index_id'])
 
         if(nlpi.silent is False):
           print('\n##################################################################\n')
@@ -1309,7 +1311,7 @@ class nlpi(nlpm):
       
         '''
         
-        1. Add -data token information into request
+        1. Add [-data] token information into request
         
         '''
       
@@ -1378,20 +1380,14 @@ class nlpi(nlpm):
         # tag data based tokens and store & filter
         labelled_str = create_labels_data(token_id,data_id)        
         filtered_request,data_parameters = filter_set_token(labelled_str)
-        
-        # determine which idx was removed
         removed_idx = string_diff_index(" ".join(token_id),filtered_request)
-        
-#       print('1. input data tokens')
-#       print(" ".join(token_id))
       
-#       print('1. labelled string')
-#       print(labelled_str)
-#       print('1. output')
-#       print("filtered request:", filtered_request)
-#       print("data parameters:", data_parameters)
-#       print('')
-#       print('')
+        # [UPDATE] update removed idx to exclude vocab tokens
+        removed_idx = [item for item in removed_idx if item not in lst_keep_tokens]
+        
+        if(nlpi.silent is False):
+          print('[note] extracted data dictionary')
+          print(data_parameters)
         
         # update 
         df_tinfo = df_tinfo.drop(removed_idx)
@@ -1399,39 +1395,63 @@ class nlpi(nlpm):
         
         '''
 
-        3. Add -values / -column token information into request
+        3. Add [-values] / [-column] token information into request
 
         '''
 
         def create_labels_param(tokens:list,column_id:list,ner_id:list):
+          
+          '''
+        
+                Add -column & ~ to tokens
+        
+          '''
+          
+          # Add "-column" token before tokens based on column_id
+          new_tokens = []
+          for token, col_id, ner in zip(tokens, column_id, ner_id):
             
-            # Add "-column" token before tokens based on column_id
-            new_tokens = []
-            for token, col_id, ner in zip(tokens, column_id, ner_id):
-                if col_id != 'O':
-                    new_tokens.append("-column")
-                if ner.lower() in ['b-param', 'i-param']:
-                    new_tokens.append("~" + token)
-                else:
-                    new_tokens.append(token)
-                
-            # Join the tokens back into a string
-            output_string = ' '.join(new_tokens)
+            if col_id != 'O':
+              new_tokens.append("-column")
+            # identified parameter
+            if ner.lower() in ['b-param', 'i-param']:
+              new_tokens.append("~" + token)
+            else:
+              new_tokens.append(token)
+              
+          # Join the tokens back into a string
+          output_string = ' '.join(new_tokens)
+          
+          '''
+        
+              Add -value token
+        
+                and -string to selected ~ tokens
+        
+                  - [mec]
+        
+          '''
+          
+          # Tokenize the string
+          tokens = output_string.split()
+          
+          # Add "-value" token before the index containing a float or an integer
+          new_tokens = []
+          for ii,token in enumerate(tokens):
             
-            # Tokenize the string
-            tokens = output_string.split()
+            # add new tokens to current index
+            if re.match(r'^[-+]?[0-9]*\.?[0-9]+$', token):
+              new_tokens.append("-value")
+            elif(tokens[ii-1] in ['~mec','~dtype']):
+              new_tokens.append("-string")
+              
+            # readd the original token
+            new_tokens.append(token)
             
-            # Add "-value" token before the index containing a float or an integer
-            new_tokens = []
-            for token in tokens:
-                if re.match(r'^[-+]?[0-9]*\.?[0-9]+$', token):
-                    new_tokens.append("-value")
-                new_tokens.append(token)
-                
-            # Join the tokens back into a string
-            output_string = ' '.join(new_tokens)
-            
-            return output_string
+          # Join the tokens back into a string
+          output_string = ' '.join(new_tokens)
+          
+          return output_string
         
         '''
         
@@ -1467,6 +1487,7 @@ class nlpi(nlpm):
             token = tokens[i]
             
             # Check if the token starts with "-column"
+            
             if token.startswith("-column"):
               
               # Find the nearest token containing "~" to the left
@@ -1479,7 +1500,7 @@ class nlpi(nlpm):
                   param_dict[tokens[j]] = column_value
                   break
                 
-                # Check if the token starts with "-value"
+            # Check if the token starts with "-value"
                 
             elif(token.startswith("-value")):
               
@@ -1493,7 +1514,21 @@ class nlpi(nlpm):
                   param_dict[tokens[j]] = column_value
                   break
                 
+            # Check if the token starts with "-string"
+                
+            elif(token.startswith("-string")):
+              
+              # Find the nearest token containing "~" to the left
+              for j in range(i-1, -1, -1):
+                if "~" in tokens[j]:
+                  filter_idx.append([i for i in range(j,i+2)])
+                  column_value = param_dict.get(tokens[j], [])
+                  column_value.append(tokens[i+1])
+                  param_dict[tokens[j]] = column_value
+                  break
+                
             else:
+              
               # Add non-key or non-value tokens to filtered_tokens list
               filtered_tokens.append(token)
               
@@ -1536,6 +1571,16 @@ class nlpi(nlpm):
         param_dict,filtered_request = ner_column_parsing(labelled_str)
         removed_idx = string_diff_index(" ".join(token_id),filtered_request)
         
+        # [UPDATE] update removed idx to exclude vocab tokens
+        removed_idx = [item for item in removed_idx if item not in lst_keep_tokens]
+        
+#       print('labelled string')
+#       print(labelled_str)
+#       print('filtered request')
+#       print(filtered_request)
+#       print('parameter dictionary')
+#       print(param_dict)
+        
         # update param_dict (change string to int/float if needed)
         for key, value in param_dict.items():
           if isinstance(value, list):
@@ -1549,19 +1594,6 @@ class nlpi(nlpm):
         if(nlpi.silent is False):
           print('[note] extracted param dictionary')
           print(param_dict)
-        
-#       print(param_dict)
-
-#       print('2. input column string')
-#       print(" ".join(token_id))
-#       print('2. labelled string')
-#       print(labelled_str)
-#       print('2. output')
-#       print("filtered request:", filtered_request)
-#       print("column parameters:", param_dict)
-#       print('')
-#       print('')
-      
         
         # update 
         df_tinfo = df_tinfo.drop(removed_idx)
@@ -1599,19 +1631,12 @@ class nlpi(nlpm):
         # determine which idx was removed
         removed_idx = string_diff_index(" ".join(token_id),filtered_request)
         
+        # [UPDATE] update removed idx to exclude vocab tokens
+        removed_idx = [item for item in removed_idx if item not in lst_keep_tokens]
+        
         if(nlpi.silent is False):
           print('[note] extracted column/subset dictionary')
           print(subset_parameters)
-      
-#       print('3. input subset string')
-#       print(" ".join(token_id))
-#       print('3. labelled string')
-#       print(labelled_str)
-#       print('3. output')
-#       print("filtered request:", filtered_request)
-#       print("column parameters:", subset_parameters)
-#       print('')
-#       print('')
         
         # update 
         df_tinfo = df_tinfo.drop(removed_idx)
@@ -1634,11 +1659,6 @@ class nlpi(nlpm):
       
         filtered_request = remove_tokens(token_id,ner_id)
         removed_idx = string_diff_index(" ".join(token_id),filtered_request)
-        
-#       print('4. output')
-#       print("filtered request:", filtered_request)
-#       print('')
-#       print('')
         
         # update 
         df_tinfo = df_tinfo.drop(removed_idx)
@@ -1699,11 +1719,7 @@ class nlpi(nlpm):
         Store data into [self.module_args]
         
         '''
-      
-#       print('module_args')
-#       print(self.module_args)
-#       print('stored data:')
-#       print(data_parameters)
+
         try:
           self.module_args['data'] = nlpi.data[data_parameters['data']]['data']
           self.module_args['data_name'] = data_parameters['data']
@@ -1848,4 +1864,3 @@ class nlpi(nlpm):
         nlpi.memory_name = []
         nlpi.memory_stack = []
         nlpi.memory_output = []
-      

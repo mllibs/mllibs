@@ -42,6 +42,15 @@ class pd_talktodata(nlpi):
             self.dfna_all(args)
         if(self.select == 'dfna_perc'):
             self.dfna_perc(args)
+            
+        # convert column types
+            
+        if(self.select == 'dfcolumn_tostr'):
+            self.dfcolumn_tostr(args)
+        if(self.select == 'dfcolumn_toint'):
+            self.dfcolumn_toint(args)
+        if(self.select == 'dfcolumn_dtype'):
+            self.dfcolumn_dtype(args)
 
         if(self.select == 'show_stats'):
             self.show_statistics(args)
@@ -144,9 +153,56 @@ class pd_talktodata(nlpi):
         print("[note] I've also stored the missing rows!")
         ls = args['data']
         nlpi.memory_output.append({'data':ls[ls.isna().any(axis=1)]})  
+        
 
-    # show dataframe statistics  
-
+    '''
+    
+    convert column types
+    
+    '''
+        
+    def dfcolumn_dtype(self,args:dict):
+        
+        # parameter dtype needs to have been set
+        if(args['dtype'] != None):
+            
+            data = nlpi.data[args['data_name']]['data']
+            column = args['column']
+            
+            try:
+                data[column] = data[column].astype(args['dtype'])
+                print('[note] modifying original dataset!')
+            except:
+                print(f"[note] can't modify the existing column type to {args['dtype']}")
+        
+    # convert column to string
+    
+    def dfcolumn_tostr(self,args:dict):
+        
+        data = nlpi.data[args['data_name']]['data']
+        column = args['column']
+        
+        try:
+            data[column] = data[column].astype('string')
+            print('[note] modifying original dataset!')
+        except:
+            print("[note] can't modify the existing column type to string!")
+        
+    # convert column type to integer
+    
+    def dfcolumn_toint(self,args:dict):
+        
+        data = nlpi.data[args['data_name']]['data']
+        column = args['column']
+        
+        try:
+            data[column] = data[column].astype('int')
+            print('[note] modifying original dataset!')
+        except:
+            print("[note] can't modify the existing column type to integer!")
+        
+    # show dataframe statistics
+    
     @staticmethod
     def show_statistics(args:dict):
         try:
@@ -194,3 +250,4 @@ class pd_talktodata(nlpi):
         except:
             print(args['data'].head())
 
+            

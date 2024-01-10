@@ -322,11 +322,17 @@ def merger_train(X1,X2,y):
     X_vect2 = pd.DataFrame(np.asarray(X2.todense()))
     data = pd.concat([X_vect1,X_vect2],axis=1)
     data = data.values
-
-    model = CatBoostClassifier(silent=True)
-    # model = LogisticRegression()
-    # model = RandomForestClassifier()
-    model.fit(data,y)
+    
+    try:
+        # Load the model from the file
+        model = CatBoostClassifier(silent=True)
+        model.load_model('ner_catboost.bin')
+        print('[note] using cached ner catboost model')
+    except:
+        model = CatBoostClassifier(silent=True)
+        model.fit(data,y)
+        model.save_model('ner_catboost.bin')
+        
     return data,model
 
 # merge tf-idf & dict features & train model

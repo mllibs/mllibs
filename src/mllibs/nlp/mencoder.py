@@ -46,13 +46,14 @@ class encoder(nlpi):
         
         # store subset value from column,col,columns
         args['subset'] = column_to_subset(args)
+        self.subset = args['subset'] # multiple column case
 
         if(select == 'encoding_ohe'):
             self.ohe(args)
         elif(select == 'encoding_label'):
             self.le(args)
         elif(select == 'count_vectoriser'):
-            self.cv(args)  
+            self.cv(args)
         elif(select == 'tfidf_vectoriser'):
             self.tfidf(args)
         elif(select == 'torch_text_encode'):

@@ -97,11 +97,13 @@ class nlpm:
             with zipfile.ZipFile(zip_file, 'r') as zip_ref:
                 zip_ref.extractall(extract_path)
 
-    ''' 
+    '''
+    ###########################################################################
     
     load module & prepare module content data
     
-    '''     
+    ###########################################################################
+    '''
     
     # group together all module data & construct corpuses
           
@@ -490,11 +492,16 @@ class nlpm:
             self.dlloop(self.corpus_gt,'gt')
             self.train_ner_tagger()
             print('[note] model loaded!')
+            
+          
     '''
+    ###########################################################################
     
-    Train NER Model
-        
+    Prepare NER Model
+    
+    ###########################################################################
     '''
+
     # @measure_execution_time
     def train_ner_tagger(self):
 
@@ -515,7 +522,7 @@ class nlpm:
 
         '''
         
-        Train NER model 
+        Train NER model
         
         '''
 
@@ -546,7 +553,6 @@ class nlpm:
         self.ner_identifier['model'] = model
         self.ner_identifier['tfidf'] = tfidf_vectorizer
         self.ner_identifier['dict'] = dict_vectorizer
-        print('[note] [ner_identifier] model trained')
 
     def inference_ner_tagger(self,tokens:list):
 
@@ -683,3 +689,17 @@ class nlpm:
         df_pred.sort_values(by='prediction',ascending=False,inplace=True)
         df_pred = df_pred.iloc[:5,:]
         display(df_pred)
+        
+    '''
+    
+    Remove Cached Models
+    
+    '''
+      
+    def reset_models(self):
+      file_path = 'ner_catboost.bin'
+      if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f"[note] The file {file_path} has been successfully deleted.")
+      else:
+        print(f"[note] The file {file_path} does not exist.")
