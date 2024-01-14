@@ -78,3 +78,14 @@ def convert_str_to_val(args:dict,key:str):
     except:
         val = None
     return val
+
+
+'''
+
+Sort a dictionary by its values
+
+'''
+
+def sort_dict_by_value(data:dict):
+    sorted_dict = dict(sorted(data.items(), key=lambda item: item[1]))
+    return sorted_dict

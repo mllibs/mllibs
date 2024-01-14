@@ -25,7 +25,6 @@ src/mllibs.egg-info/top_level.txt
 src/mllibs/corpus/classifier_subset.csv
 src/mllibs/corpus/generative_corpus.csv
 src/mllibs/corpus/ner_corpus.csv
-src/mllibs/corpus/ner_modelparams_annot.csv
 src/mllibs/corpus/ner_mp.csv
 src/mllibs/corpus/reference_database.csv
 src/mllibs/corpus/wordlist.10000.txt

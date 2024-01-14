@@ -14,6 +14,7 @@
                 "generate the fourier transformation of the column",
                 "please generate the fft for column"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"fourier_all",
                "action":"reduce dimensions",
@@ -42,6 +43,7 @@
                 "fourier transformations for different columns",
                 "please generate the fft for columns"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"fourier_all",
                "action":"reduce dimensions",
@@ -66,6 +68,7 @@
                 "visualise the FFT for columns",
                 "visualise the FFT for column"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"fourier_all",
                "action":"show plot",

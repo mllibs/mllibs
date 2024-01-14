@@ -14,6 +14,7 @@
                 "show me what data is available",
                 "tell me which data is available to me"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"libop",
                "action":"show data",
@@ -35,6 +36,7 @@
                 "show functions list",
                 "show library functionality"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"libop",
                "action":"show data",

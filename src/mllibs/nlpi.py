@@ -13,6 +13,7 @@ from mllibs.df_helper import split_types
 from mllibs.str_helper import isfloat
 from string import punctuation
 from itertools import groupby
+from collections import Counter
 import itertools
 import difflib
 import textwrap
@@ -46,7 +47,7 @@ class nlpi(nlpm):
         nlpi.lmodule = self.module            # class variable variation for module calls
                     
         # class plot parameters
-        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None}
+        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None, 'stheme':None}
 
     '''
     ##############################################################################
@@ -67,7 +68,7 @@ class nlpi(nlpm):
 
     @classmethod
     def resetpp(cls):
-        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None}
+        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None, 'stheme':None}
 
     # Check all available data sources, update dsources dictionary
     def check_dsources(self):
@@ -1277,7 +1278,7 @@ class nlpi(nlpm):
         # df_tinfo - will be used to remove rows that have been filtered
         df_tinfo = self.token_info.copy()
         vocab_tokens = df_tinfo[(df_tinfo['vocab'] == True)]
-        lst_keep_tokens = list(vocab_tokens['index_id'])
+        lst_keep_tokens = vocab_tokens['index_id']
 
         if(nlpi.silent is False):
           print('\n##################################################################\n')
@@ -1288,7 +1289,7 @@ class nlpi(nlpm):
           print('')
       
         # extract and store active column (from older ner)
-        tmod_args,df_tinfo = ac_extraction(df_tinfo,nlpi.data)      
+        tmod_args,df_tinfo = ac_extraction(df_tinfo,nlpi.data)
         self.module_args.update(tmod_args)
       
         # find the difference between two strings 
@@ -1309,165 +1310,240 @@ class nlpi(nlpm):
               
           return removed_indices
       
+        
+        '''
+        ######################################################################
+        
+                                [1] DATA TOKEN PARSING
+
+          After active column data is stored, next we search for data tokens
+        
+        ######################################################################
+        '''
+      
+        ls = df_tinfo.copy()
+      
         '''
         
-        1. Add [-data] token information into request
+        [LABEL] Step 1 : label token_info to include [-data] tokens
         
         '''
       
-        def create_labels_data(tokens:list,data_id:list):
+        def add_datatoken_totokeninfo(ls:pd.DataFrame):
           
-          # Add a new token "-data" before tokens with non-"O" data_id
-          tokenized_string = []
-          for token, id in zip(tokens, data_id):
-            if id != -1:
-              tokenized_string.extend(['-data', token])
-            else:
-              tokenized_string.append(token)
+          # indicies at which column data is available
+          data_idx = ls[~ls['data'].isna()].index.tolist()
+          
+          if(len(data_idx)>0):
+          
+            for data_row_idx in data_idx:
               
-          # Join the tokenized string back together
-          result = ' '.join(tokenized_string)
+              # add new row to multicolumn dataframe at index [data_row_idx]
+              new_row = pd.DataFrame([[None] * len(ls.columns)], index=[data_row_idx], columns=ls.columns) 
+              new_row['token'] = '-data'
+              new_row['type'] = 'uni'
+              new_row['ner_tags'] = 'O'
+              
+              # merge the dataframe
+              ls = pd.concat([ls.iloc[:data_row_idx], new_row, ls.iloc[data_row_idx:]]) 
+              ls = ls.reset_index(drop=True)
+              ls['index_id'] = ls.index.tolist()
+              
+          return ls
           
-          # Remove "and" between two "-data" words
-          result = re.sub(r'(-data \w+) and (-data \w+)', r'\1 \2', result)
-          
-          return result
       
         '''
         
-        2. Using -data tokens store the relevant data & simple filter
+        [STORE] Step 2 : Store the [-data] value name & remove it
         
         '''
-        
-        # general [-] tag storage
-        def filter_set_token(user_request:str):
+              
+        # identify [-data] and store its values (next token)
+        def store_data_filter_name(input_string:str):
           
-          tokens = user_request.split()
-          parameter_prefix = "-"
-          base_request_tokens = []
+          tokens = input_string.split()
           parameters = {}
           i = 0
           while i < len(tokens):
-            token = tokens[i]
-            
-            if token.startswith(parameter_prefix):
-              parameter = token[1:]
-              if i + 1 < len(tokens) and not tokens[i + 1].startswith(parameter_prefix):
-                value = tokens[i + 1]
-                if parameter in parameters:
-                  # If the parameter already exists in the dictionary, convert its value to a list
-                  if isinstance(parameters[parameter], list):
-                    parameters[parameter].append(value)
-                  else:
-                    parameters[parameter] = [parameters[parameter], value]
+            if tokens[i].startswith("-data"):
+              parameter_name = tokens[i][1:]
+              if i + 1 < len(tokens):
+                if parameter_name in parameters:
+                  if not isinstance(parameters[parameter_name], list):
+                    parameters[parameter_name] = [parameters[parameter_name]]
+                  parameters[parameter_name].append(tokens[i + 1])
                 else:
-                  parameters[parameter] = value
-                i += 1
+                  parameters[parameter_name] = tokens[i + 1]
+                del tokens[i+1]
               else:
-                parameters[parameter] = None
+                parameters[parameter_name] = None
+              i += 1
             else:
-              base_request_tokens.append(token)
-            i += 1
-            
-          base_request = " ".join(base_request_tokens)
+              i += 1
+          return ' '.join(tokens), parameters
+        
+        # function used to compare strings and returns the index
+        # of tokens missing (uses .split() tokenisation)
+        def string_diff_index(ref_string:str,string:str):
           
-          return base_request, parameters
+          # Tokenize both strings
+          reference_tokens = ref_string.split()
+          second_tokens = string.split()
+          
+          # Find the indices of removed tokens
+          removed_indices = []
+          matcher = difflib.SequenceMatcher(None, reference_tokens, second_tokens)
+          for op, i1, i2, j1, j2 in matcher.get_opcodes():
+            if op == 'delete':
+              removed_indices.extend(range(i1, i2))
+              
+          return removed_indices
         
-        # required information
-        token_id = list(df_tinfo['token'])
-        data_id = list(df_tinfo['data'].fillna(-1).astype('int'))
+        # ls2 (token_info) + [-data] tokens inserted
+        ls = add_datatoken_totokeninfo(ls)
+        input_request = " ".join(list(ls['token']))
         
-        # tag data based tokens and store & filter
-        labelled_str = create_labels_data(token_id,data_id)        
-        filtered_request,data_parameters = filter_set_token(labelled_str)
-        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
-      
-        # [UPDATE] update removed idx to exclude vocab tokens
-        removed_idx = [item for item in removed_idx if item not in lst_keep_tokens]
+        result, data_parameters = store_data_filter_name(input_request)
+        remove_idx = string_diff_index(input_request,result)
+        ls = ls.drop(remove_idx) # update ls (exclude data names)
+        ls = ls.reset_index(drop=True)
+        ls['index_id'] = list(ls.index)
         
-        if(nlpi.silent is False):
-          print('[note] extracted data dictionary')
+#       print("Tokenised String:", result) # result (filtered data names)
+#       print("Parameter Values:", parameter_values) # stored [-data]
+        
+        # store the data in [module_args]
+        
+        try:
+          print('[note] data sources have been found')
           print(data_parameters)
+          self.module_args['data'] = nlpi.data[data_parameters['data']]['data']
+          self.module_args['data_name'] = data_parameters['data']
+        except:
+          print('[note] no data source specified')
+      
+        '''
+        ######################################################################
         
-        # update 
-        df_tinfo = df_tinfo.drop(removed_idx)
-        df_tinfo = df_tinfo.reset_index(drop=True)
+                              [2] PARAMETER TOKEN PARSING
+
+        [1] label_params_names : add [~] to PARAM tokens (token_info adjustment)
+        
+        ######################################################################
+        '''
+      
+        # add [~] labels to param tokens (not modifying the dataframe size)
         
         '''
-
-        3. Add [-values] / [-column] token information into request
-
+        
+          1. add [~] labels to param tokens (not modifying the dataframe size)
+        
+            # eg. [~x] column [~y] ...
+        
         '''
-
-        def create_labels_param(tokens:list,column_id:list,ner_id:list):
-          
-          '''
         
-                Add -column & ~ to tokens
+        def label_params_names(ls:pd.DataFrame):
+          ls = ls.copy()
+          # indicies at which column data is available
+          ner_param_idx = ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])].index.tolist() 
+          ls.loc[ner_param_idx,'token'] = "~" + ls['token']
+          return ls
         
-          '''
+        '''
+        
+          2. Add Parameter Labels
+        
+            # add [-column] tokens to token_info dataframe
+            # add [-value] tokens 
+            # add [-string] tokens 
+        
+        '''
+        
+        def label_params(ls:pd.DataFrame):
           
-          # Add "-column" token before tokens based on column_id
-          new_tokens = []
-          for token, col_id, ner in zip(tokens, column_id, ner_id):
+          ls = ls.copy()
+          param_idx = ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])].index.tolist()
+          
+          # if PARAM is present only!
+          if(len(param_idx) > 0):
             
-            if col_id != 'O':
-              new_tokens.append("-column")
-            # identified parameter
-            if ner.lower() in ['b-param', 'i-param']:
-              new_tokens.append("~" + token)
-            else:
-              new_tokens.append(token)
+            print('[note] parameters found!')
+            
+            '''
+          
+            Parameter w/ DataFrame Columns
+          
+            '''
+            
+            col_idx = ls[~ls['column'].isna()].index.tolist()
+            col_idx = list(map(lambda x: x - 1, col_idx))
+            
+            # Insert blank rows at the specified index
+            for num,ii in enumerate(col_idx):
               
-          # Join the tokens back into a string
-          output_string = ' '.join(new_tokens)
-          
-          '''
-        
-              Add -value token
-        
-                and -string to selected ~ tokens
-        
-                  - [mec]
-        
-          '''
-          
-          # Tokenize the string
-          tokens = output_string.split()
-          
-          # Add "-value" token before the index containing a float or an integer
-          new_tokens = []
-          for ii,token in enumerate(tokens):
-            
-            # add new tokens to current index
-            if re.match(r'^[-+]?[0-9]*\.?[0-9]+$', token):
-              new_tokens.append("-value")
-            elif(tokens[ii-1] in ['~mec','~dtype']):
-              new_tokens.append("-string")
+              row = ii + num + 1
+              new_row = pd.DataFrame(index=[row],columns=ls.columns)
+              new_row['token'] = '-column'
+              new_row['type'] = 'uni'
+              new_row['ner_tags'] = 'O'
+              new_row['column'] = np.nan
+              ls = pd.concat([ls.iloc[:row],new_row,ls.iloc[row:]]).reset_index(drop=True)
+              ls['index_id'] = ls.index.tolist()
               
-            # readd the original token
-            new_tokens.append(token)
+            '''
+          
+            Parameter /w Value Tokens
+          
+            '''
+              
+            ls['value_token'] = ls['token'].str.contains(r'^[-+]?[0-9]*\.?[0-9]+$')
+            val_idx = ls[ls['value_token']].index.tolist()
+            val_idx = list(map(lambda x: x - 1, val_idx))
             
-          # Join the tokens back into a string
-          output_string = ' '.join(new_tokens)
+            # Insert blank rows at the specified index
+            for num,ii in enumerate(val_idx):
+              
+              row = ii + num + 1
+              new_row = pd.DataFrame(index=[row],columns=ls.columns)
+              new_row['token'] = '-value'
+              new_row['type'] = 'uni'
+              new_row['ner_tags'] = 'O'
+              ls = pd.concat([ls.iloc[:row],new_row,ls.iloc[row:]]).reset_index(drop=True)
+              ls['index_id'] = ls.index.tolist()    
+              
+            '''
           
-          return output_string
-        
+            Parameter w/ String Tokens
+          
+            '''
+              
+            # previous token is in ['mec',...]
+            ls['str_param'] = ls['token'].shift(1).isin(['~mec','~dtype','~barmode'])
+            str_idx = ls[ls['str_param']].index.tolist()
+            str_idx = list(map(lambda x: x - 1, str_idx))
+            
+            # Insert blank rows at the specified index
+            for num,ii in enumerate(str_idx):
+              
+              row = ii + num + 1
+              new_row = pd.DataFrame(index=[row],columns=ls.columns)
+              new_row['token'] = '-string'
+              new_row['type'] = 'uni'
+              new_row['ner_tags'] = 'O'
+              ls = pd.concat([ls.iloc[:row],new_row,ls.iloc[row:]]).reset_index(drop=True)
+              ls['index_id'] = ls.index.tolist()     
+              
+          else:
+            print('[note] no parameters found!')
+            
+          return ls
+      
         '''
         
-        4. Storing ner parameters that are columns/values from dataframe
+        Parsing of [-column] [-values] [-string]
         
         '''
-        
-        # not used at the moment (replaced by dictionary updater 
-        def determine_number_type(string):
-          if string.isdigit():
-            return int(string)
-          try:
-            return float(string)
-          except ValueError:
-            return string
-          
+    
         def ner_column_parsing(request:str):
           
           # Remove "and" between two "-column" words
@@ -1484,44 +1560,45 @@ class nlpi(nlpm):
           filter_idx = []
           # Loop through the tokens
           for i in range(len(tokens)):
+            
             token = tokens[i]
             
-            # Check if the token starts with "-column"
+            # (1) Check if the token starts with "-column"
             
             if token.startswith("-column"):
               
               # Find the nearest token containing "~" to the left
               for j in range(i-1, -1, -1):
                 if "~" in tokens[j]:
-                  filter_idx.append([i for i in range(j,i+2)])
+                  filter_idx.append([i for i in range(j+2,i+2)])
                   # Store the next token after "-column" in a list
                   column_value = param_dict.get(tokens[j], [])
                   column_value.append(tokens[i+1])
                   param_dict[tokens[j]] = column_value
                   break
                 
-            # Check if the token starts with "-value"
+            # (2) Check if the token starts with "-value"
                 
             elif(token.startswith("-value")):
               
               # Find the nearest token containing "~" to the left
               for j in range(i-1, -1, -1):
                 if "~" in tokens[j]:
-                  filter_idx.append([i for i in range(j,i+2)])
+                  filter_idx.append([i for i in range(j+2,i+2)])
                   # Store the next token after "-column" in a list
                   column_value = param_dict.get(tokens[j], [])
                   column_value.append(tokens[i+1])
                   param_dict[tokens[j]] = column_value
                   break
                 
-            # Check if the token starts with "-string"
+            # (3) Check if the token starts with "-string"
                 
             elif(token.startswith("-string")):
               
               # Find the nearest token containing "~" to the left
               for j in range(i-1, -1, -1):
                 if "~" in tokens[j]:
-                  filter_idx.append([i for i in range(j,i+2)])
+                  filter_idx.append([i for i in range(j+2,i+2)])
                   column_value = param_dict.get(tokens[j], [])
                   column_value.append(tokens[i+1])
                   param_dict[tokens[j]] = column_value
@@ -1531,7 +1608,7 @@ class nlpi(nlpm):
               
               # Add non-key or non-value tokens to filtered_tokens list
               filtered_tokens.append(token)
-              
+            
           if(bool(param_dict)):
             
             # index of tokens to be removed
@@ -1558,111 +1635,271 @@ class nlpi(nlpm):
             filtered_tokens = tokens
             
           # Create a new dictionary with keys without the ~
-          new_dict = {key[1:]: value for key, value in param_dict.items()}	
-            
+          new_dict = {key[1:]: value for key, value in param_dict.items()}
+          
           return new_dict," ".join(filtered_tokens)
-
-        # required information
-        token_id = list(df_tinfo['token'])
-        column_id = list(df_tinfo['column'].fillna('O'))
-        ner_id = list(df_tinfo['ner_tags'])
       
-        labelled_str = create_labels_param(token_id,column_id,ner_id)
-        param_dict,filtered_request = ner_column_parsing(labelled_str)
-        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+      
+        '''
+        [2.1] Create labels for PARAMETER & store in [token_info]
+        '''
+      
+        # ls has been updated
+      
+        # new tokens are added to [token_info] is modified 
+        pls = label_params_names(ls) # label PARAMS tokens add [~]
+        ls2 = label_params(pls)      # label PARAMS ([-column],[-value],[-string])
         
-        # [UPDATE] update removed idx to exclude vocab tokens
-        removed_idx = [item for item in removed_idx if item not in lst_keep_tokens]
-        
-#       print('labelled string')
-#       print(labelled_str)
-#       print('filtered request')
-#       print(filtered_request)
-#       print('parameter dictionary')
-#       print(param_dict)
-        
-        # update param_dict (change string to int/float if needed)
-        for key, value in param_dict.items():
-          if isinstance(value, list):
-            param_dict[key] = [float(x) if '.' in x else int(x) if x.isdigit() else x for x in value]
-          else:
-            if '.' in value:
-              param_dict[key] = float(value)
+        '''
+        [2.2] Extract Parameter Values & Filter names & values
+        '''
+      
+        # activate only if [~PARAM] is found in input request
+        if not(ls2['token'].tolist() == pls['token'].tolist()):
+          
+          param_dict,result = ner_column_parsing(" ".join(ls2['token']))
+          remove_idx = string_diff_index(" ".join(ls2['token']),result)
+          ls2 = ls2.drop(remove_idx) # update ls
+          
+          # update param_dict (change string to int/float if needed)
+          for key, value in param_dict.items():
+            if isinstance(value, list):
+              param_dict[key] = [float(x) if '.' in x else int(x) if x.isdigit() else x for x in value]
             else:
-              param_dict[key] = int(value) if value.isdigit() else value
-              
-        if(nlpi.silent is False):
-          print('[note] extracted param dictionary')
+              if '.' in value:
+                param_dict[key] = float(value)
+              else:
+                param_dict[key] = int(value) if value.isdigit() else value
+
+          print('[note] setting module_args parameters')
+          self.module_args.update(param_dict)
           print(param_dict)
-        
-        # update 
-        df_tinfo = df_tinfo.drop(removed_idx)
-        df_tinfo = df_tinfo.reset_index(drop=True)
-        
-        '''
-        
-        5. Set column labels again to identify subset columns that didnt have ner param token
-        
-          for storage, we can use generic function [filter_set_token]
-        
-        '''
       
-        def label_subset(tokens:str,column_id:list):
+        '''
+        ######################################################################
+        
+                            [3] SUBSET TOKEN PARSING
+
+          Having filtered all the [~] tokens, the next step is to check
+          for remaining subset cases, ie. when a column is referenced without
+          any parameter assignment
+        
+        ######################################################################
+        '''
           
-          # Add "-column" and "~" tokens before tokens based on column_id and ner_id
-          new_tokens = []
-          for token, col_id in zip(tokens, column_id):
-            if col_id != 'O':
-              new_tokens.append("-column")
-            new_tokens.append(token)
+        '''
+        
+        Label Subset Tokens
+        
+          We already checked for PARAM cases so the only remaining 
+          ones are [-column] by themselves 
+        
+        '''
+                  
+        def label_subset(ls:pd.DataFrame):
+          
+          ls = ls.copy()    
+          col_idx = ls[~ls['column'].isna()].index.tolist()
+          
+          # if there are column
+          if(len(col_idx) > 0):
             
-          # Join the tokens back into a string
-          output_string = ' '.join(new_tokens)
-          
-          return output_string
+            added_idx = [1 for i in range(len(col_idx))]
+            added_idx[0] = 0
+            
+            for ii in range(len(col_idx)):
+              
+              column_row_idx = col_idx[ii] + added_idx[ii]
+              
+              # add new row to multicolumn dataframe at index [data_row_idx]
+              new_row = pd.DataFrame([[None] * len(ls.columns)], index=[column_row_idx], columns=ls.columns) 
+              new_row['token'] = '-column'
+              new_row['type'] = 'uni'
+              new_row['ner_tags'] = 'O'
+              new_row['column'] = np.nan
+              ls = pd.concat([ls.iloc[:column_row_idx], new_row, ls.iloc[column_row_idx:]]) # merge the dataframe
+              ls = ls.reset_index(drop=True)
+              ls['index_id'] = ls.index.tolist()
+              
+          return ls
       
-        # required information
-        token_id = list(df_tinfo['token'])
-        column_id = list(df_tinfo['column'].fillna('O'))
+      
+        def merge_column_its_value(input_string:str):
+          
+          # Tokenize the input string
+          token_list = input_string.split()
+          
+          # step 1 : group together tokens which contain "-column" and its value
+          
+          grouped_tokens = []
+          current_group = []
+          for token in token_list:
+            if token == '-column':
+              current_group.append(token)
+            else:
+              if current_group:
+                current_group.append(token)
+                grouped_tokens.append(current_group)
+                current_group = []
+              else:
+                grouped_tokens.append([token])
+                
+          nested_list = grouped_tokens
+          
+          return nested_list
         
-        labelled_str = label_subset(token_id,column_id)
-        filtered_request,subset_parameters = filter_set_token(labelled_str)
-        
-        # determine which idx was removed
-        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
-        
-        # [UPDATE] update removed idx to exclude vocab tokens
-        removed_idx = [item for item in removed_idx if item not in lst_keep_tokens]
-        
-        if(nlpi.silent is False):
-          print('[note] extracted column/subset dictionary')
-          print(subset_parameters)
-        
-        # update 
-        df_tinfo = df_tinfo.drop(removed_idx)
-        df_tinfo = df_tinfo.reset_index(drop=True)
+        def merge_near_column_param(nested_list:list):
+          
+          # step 2 : Find and merge the lists that contain "-column" within a specified window
+          
+          merged_list = []
+          i = 0
+          
+          while i < len(nested_list):
+            if i < len(nested_list) - 2 and "-column" in nested_list[i] and "-column" in nested_list[i + 2]:
+              merged_list.append(nested_list[i] + nested_list[i + 1] + nested_list[i + 2])
+              i += 3
+            else:
+              merged_list.append(nested_list[i])
+              i += 1
+              
+          return merged_list
+
         
         '''
+        
+        Store the most common token to key & set its values
+        
+        '''
+        
+        def store_most_common_todict(list:list):
+          
+          try:
+            # nested list case
+            unnested_list = [sublist[0] if len(sublist) == 1 else sublist for sublist in list]
+            final_list = [item for sublist in unnested_list for item in (sublist if isinstance(sublist, list) else [sublist])]
+          except:
+            # just list
+            final_list = list
+            
+          # Find the most common token and its next token
+          token_counts = Counter(final_list)
+          most_common_token = token_counts.most_common(1)[0][0]
+          next_tokens = [final_list[i+1] for i in range(len(final_list)-1) if final_list[i] == most_common_token]
+          
+          # Store the results in a dictionary
+          results = {most_common_token: next_tokens if len(next_tokens) > 1 else next_tokens[0]}
+          return results
+        
+        '''
+        
+        Remove parameter values from input string 
+        
+          [note] called after the relevant data has been extracted
+        
+        '''
+        
+        def remove_column_parameter_values(input_string:str):
+          
+          # Define the pattern for tokenized values
+          pattern = r'(-column\s+)\w+'
+          
+          # Replace the words after "-column" with an empty string
+          processed_string = re.sub(pattern, r'\1', input_string)
+          processed_string = re.sub(r'\s{2,}', ' ', processed_string) # Remove extra spaces
+          
+          # Print the processed string
+          print("Processed string:", processed_string)
+        
+  
+        # label subset tokens adding [-column] to non parameter tokens
+        ls3 = label_subset(ls2)
+        
+        '''Extract Data (if tokens were found) '''
+        if not(ls3['token'].tolist() == ls2['token'].tolist()):
+          
+          input_string = " ".join(ls3['token'])
+          
+          '''
+        
+          eg.
+          ...
+          ['plot'],
+          ['of'],
+          ['-column', 'X']]
+        
+          '''
+          
+          nested_list = merge_column_its_value(input_string) # merge -column & its value into a list
+          
+          
+          '''
+        
+          if two sets of [-subset] are in close proximity, merge them
+          
+          eg.
+          ...
+          ['plot'],
+          ['of'],
+          ['-column', 'X','-column', 'Y']]
+          '''
+          
+          merged_list = merge_near_column_param(nested_list) # group neighbouring -column into one list
+          
+          # group together and create dictionaries of column parameters
+          
+          list_of_dicts = []
+          for lst in merged_list:
+            if('-column' in lst):
+              list_of_dicts.append(store_most_common_todict(lst))
+              
+          merged_list = []
+          for d in list_of_dicts:
+            for key in d:
+              if key in merged_list and d[key] == merged_list[key]:
+                merged_list.append(d[key])
+              else:
+                merged_list.append(d[key])
+                
+          # create parameter dictionary for 
+          subset_param = {'column':merged_list}
+            
+          # update [module_args]
+          self.module_args.update(subset_param)
+          
+          print('extracted [subset] parameters')
+          print(subset_param)
+        
+        # remove tokens 
+        remove_idx = string_diff_index(" ".join(ls3['token'])," ".join(ls2['token']))
+        ls3 = ls3.drop(remove_idx) # update ls (exclude data names)
+          
+        # update
+        df_tinfo = ls3
+      
+        '''
+        ######################################################################
         
         6. remove [token_remove] tokens
         
+        ######################################################################
         '''
         
-        # required information
-        token_id = list(df_tinfo['token'])
-        ner_id = list(df_tinfo['ner_tags'].fillna('O'))
-        
-        # remove [token_remove] tokens
-        def remove_tokens(tokens:list,ner_id:list):
-          result = [tokens[i] for i in range(len(tokens)) if ner_id[i].lower() not in ['b-token_remove', 'i-token_remove']]
-          return " ".join(result)
-      
-        filtered_request = remove_tokens(token_id,ner_id)
-        removed_idx = string_diff_index(" ".join(token_id),filtered_request)
-        
-        # update 
-        df_tinfo = df_tinfo.drop(removed_idx)
-        df_tinfo = df_tinfo.reset_index(drop=True)
+#       # required information
+#       token_id = list(df_tinfo['token'])
+#       ner_id = list(df_tinfo['ner_tags'].fillna('O'))
+#       
+#       # remove [token_remove] tokens
+#       def remove_tokens(tokens:list,ner_id:list):
+#         result = [tokens[i] for i in range(len(tokens)) if ner_id[i].lower() not in ['b-token_remove', 'i-token_remove']]
+#         return " ".join(result)
+#     
+#       filtered_request = remove_tokens(token_id,ner_id)
+#       removed_idx = string_diff_index(" ".join(token_id),filtered_request)
+#       
+#       # update 
+#       df_tinfo = df_tinfo.drop(removed_idx)
+#       df_tinfo = df_tinfo.reset_index(drop=True)
         
         '''
         
@@ -1679,55 +1916,48 @@ class nlpi(nlpm):
         
         '''
     
-        def preposition_filter(token_info:pd.DataFrame):
-          
-            prepositions = [
-            'about','above','across','after','against','along','among','around',
-            'as','at','before','behind','below','beneath','beside','between',
-            'beyond','by','down','during','for','from','in','inside','into',
-            'near','of','off','on','onto','out','outside','over','past','through',
-            'throughout','to','towards','under','underneath','until','up','with',
-            'within','set','using']
-          
-            tls = token_info.copy()
-          
-            last = None
-            found = True
-            while found == True:
-                for i,j in tls[::-1].iterrows():
-                    if(j['token'] not in prepositions):
-                        found = False
-                        last = i + 1
-                        break
-                  
-            if(last != None):
-                token_info = tls[0:last]
-                
-            return token_info
-                
-        # remove prepositions (update df_tinfo directly)
-        df_tinfo = preposition_filter(df_tinfo)
+#       def preposition_filter(token_info:pd.DataFrame):
+#         
+#           prepositions = [
+#           'about','above','across','after','against','along','among','around',
+#           'as','at','before','behind','below','beneath','beside','between',
+#           'beyond','by','down','during','for','from','in','inside','into',
+#           'near','of','off','on','onto','out','outside','over','past','through',
+#           'throughout','to','towards','under','underneath','until','up','with',
+#           'within','set','using']
+#         
+#           tls = token_info.copy()
+#         
+#           last = None
+#           found = True
+#           while found == True:
+#               for i,j in tls[::-1].iterrows():
+#                   if(j['token'] not in prepositions):
+#                       found = False
+#                       last = i + 1
+#                       break
+#                 
+#           if(last != None):
+#               token_info = tls[0:last]
+#               
+#           return token_info
+#               
+#       # remove prepositions (update df_tinfo directly)
+#       df_tinfo = preposition_filter(df_tinfo)
+  
+        '''
+        ######################################################################
+        
+                                 Filtered Request
+        
+        ######################################################################
+        '''
   
         filtered = " ".join(list(df_tinfo['token']))
         
         if(nlpi.silent is False):
           print('\n[note] filtered request:')
           print(filtered)
-      
-        '''
-        
-        Store data into [self.module_args]
-        
-        '''
-
-        try:
-          self.module_args['data'] = nlpi.data[data_parameters['data']]['data']
-          self.module_args['data_name'] = data_parameters['data']
-        except:
-          print('[note] no data source specified')
-          
-        self.module_args.update(param_dict)
-        self.module_args.update(subset_parameters)
       
         if(nlpi.silent is False):
           print('\n##################################################################\n')

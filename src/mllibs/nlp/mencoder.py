@@ -101,8 +101,6 @@ class encoder(nlpi):
         # preset value dictionary
         pre = {'ngram_range':(1,1),'min_df':1,'max_df':1.0}
 
-        print(args['subset'])
-
         if(args['subset'] != None):
         
             vectoriser = CountVectorizer(ngram_range=tuple(sfp(args,pre,'ngram_range')),

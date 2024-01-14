@@ -2,8 +2,10 @@ from sklearn.preprocessing import LabelEncoder
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser, PUNCTUATION_PATTERN
 from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger_train, merger, ner_predict
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
+from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
 import sklearn
 
 from torch.utils.data import DataLoader, Dataset
@@ -43,14 +45,16 @@ import time
 # parse JSON module data
 
 def parse_json(json_data):
-
-    lst_classes = []; lst_corpus = []; lst_info = []
+  
+    lst_classes = []; lst_corpus = []; lst_info = []; lst_corpus_sub = []
     for module in json_data['modules']:
         lst_corpus.append(module['corpus'])
+        lst_corpus_sub.append(module['corpus_sub'])
         lst_classes.append(module['name'])
         lst_info.append(module['info'])
-
+      
     return {'corpus':dict(zip(lst_classes,lst_corpus)),
+            'corpus_sub':dict(zip(lst_classes,lst_corpus_sub)),
               'info':dict(zip(lst_classes,lst_info))}
 
 # function to time exection time
@@ -81,6 +85,7 @@ class nlpm:
         self.task_dict = {} # stores the input task variation dictionary (prepare)
         self.modules = {} # stores model associate function class (prepare) 
         self.ner_identifier = {}  # NER tagger (inactive)
+        self.sub_models = {}      # task label subset classifier models
 
     @staticmethod
     def download_and_extract_zip(url, extract_path):
@@ -105,9 +110,51 @@ class nlpm:
     ###########################################################################
     '''
     
+    # helper function for subset model used in load
+              
+    @staticmethod
+    def create_corpus_sub_model(data:dict):
+      
+      # convert a dict keys(labels), values(corpus documents) into X,y
+      def convert_dict_toXy(data:dict):
+        
+        # Convert the dictionary to a list of tuples
+        data_list = [(key, value) for key, values in data.items() for value in values]
+        
+        # Create a DataFrame from the list
+        df = pd.DataFrame(data_list, columns=['label', 'text'])
+        
+        return df['text'],df['label']
+      
+      # prepare data
+      X,y = convert_dict_toXy(data)
+      
+      # Create a pipeline with CountVectorizer and RandomForestClassifier
+      pipeline = Pipeline([
+        ('vect', CountVectorizer(tokenizer=lambda x: x.split())),
+        ('clf', RandomForestClassifier())
+      ])
+      
+      # Fit the pipeline on the training data
+      pipeline.fit(X,y)
+      y_pred = pipeline.predict(X)
+      
+      # Print classification report
+      print(classification_report(y, y_pred))
+      return pipeline
+    
     # group together all module data & construct corpuses
           
     def load(self,modules:list):
+            
+        def merge_dict_w_lists(data:dict):
+          
+          # Create a list of dictionaries
+          list_of_dicts = [{key: values[i] if i < len(values) else None for key, values in data.items()} for i in range(max(map(len, data.values())))]
+          
+          # Create a dataframe from the list of dictionaries
+          df = pd.DataFrame(list_of_dicts)
+          return df
             
         print('[note] loading modules ...')
         
@@ -122,15 +169,33 @@ class nlpm:
 
         for module in modules:  
             
-            # get & store module functions
+            # store module instance
             self.modules[module.name] = module
             
-            # get dictionary with corpus
-            tdf_corpus = module.nlp_config['corpus']   
+            '''
+            
+            Create subset pipelines for activation function labels (right away)
+            
+            '''
+            
+            # nested dict (for each label : subset corpus
+            tdf_corpus_sub = module.nlp_config['corpus_sub']
 
-            # dictionary of corpus
+            dict_data = {}; sub_models = {}
+            for key,val in tdf_corpus_sub.items():
+              if(type(val) is dict):
+                self.sub_models[key] = self.create_corpus_sub_model(val)
+  
+            '''
+            
+            Prepare corpuses for activation functions
+            
+            '''
+                
+            # get dictionary with corpus
+            tdf_corpus = module.nlp_config['corpus']
             df_corpus = pd.DataFrame(dict([(key,pd.Series(value)) for key,value in tdf_corpus.items()]))
-        
+              
             # module task list
             dict_task_names[module.name] = list(df_corpus.columns)  # save order of module task names
 

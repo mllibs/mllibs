@@ -26,8 +26,9 @@ class eda_pplot(nlpi):
             self.json_data = json.load(f)
             self.nlp_config = parse_json(self.json_data)
         
-        default_colors_p = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252'] # my custom (plotly)
-        self.default_colors = default_colors_p
+#       default_colors_p = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252'] # my custom (plotly)
+        pallete = ["#4C72B0", "#DD8452", "#55A868", "#C44E52", "#8172B3", "#937860"]
+        self.default_colors = pallete
 
     # set plot parameters
 

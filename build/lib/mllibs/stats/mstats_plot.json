@@ -10,6 +10,7 @@
                 "compare histogram of two samples",
                 "two sample univariate distribution histogram"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_plot",
                "action":"show plot",
@@ -30,6 +31,7 @@
                 "compare kde plot of two samples",
                 "two sample kde plot comparison"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_plot",
                "action":"show plot",
@@ -52,6 +54,7 @@
                 "compare bootstrap histogram distributions",
                 "bootstrap sample comparison"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_plot",
                "action":"show plot",
@@ -74,6 +77,7 @@
                 "compare wild bootstrap histogram distributions",
                 "wild bootstrap sample comparison"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_plot",
                "action":"show plot",

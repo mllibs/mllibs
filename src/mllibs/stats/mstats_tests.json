@@ -10,6 +10,7 @@
                 "independent two sample ttest",
                 "compare means of two samples using independent ttest"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -32,6 +33,7 @@
                 "dependent ttest student test",
                 "compare means of two samples using dependent ttest"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -54,6 +56,7 @@
                 "single sample ttest",
                 "compare sample mean to population mean using ttest"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -74,6 +77,7 @@
                 "mann whitney test",
                 "two sample utest"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -95,6 +99,7 @@
                 "one sample ks test for normal distribution",
                 "ks test for normal distribution"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -116,6 +121,7 @@
                 "one sample ks test for uniform distribution",
                 "ks test for uniform distribution"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -136,6 +142,7 @@
                 "kolmogorov smirnov test for exponential",
                 "one sample ks test for exponential distribution"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -158,6 +165,7 @@
                 "lilliefors test",
                 "lilliefors statistical test"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -179,6 +187,7 @@
                 "shapiro wilk test",
                 "shapiro wilk statistical test"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -200,6 +209,7 @@
                 "chi2 category frequency test",
                 "chisquare test"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -223,6 +233,7 @@
                 "pingouin chisquare test",
                 "pingouin chi2 test"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -244,6 +255,7 @@
                 "jarque bera test",
                 "jarque bera normal distribution"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",
@@ -267,6 +279,7 @@
                 "one way analysis of variance",
                 "one way two sample anova test"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"stats_tests",
                "action":"stat test",

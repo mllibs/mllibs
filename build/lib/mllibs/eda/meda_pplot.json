@@ -13,6 +13,7 @@
                 "make plotly scatterplot",
                 "please create plotly scatterplot"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"eda_pplot",
                "action":"show plot",
@@ -37,6 +38,7 @@
                 "create plotly boxplot",
                 "create plotly box plot"
                 ],
+      "corpus_sub":"None",
       "info": {
                 "module":"eda_pplot",
                 "action":"show plot",
@@ -61,6 +63,7 @@
                 "create plotly histogram",
                 "create plotly histogram plot"
                 ],
+      "corpus_sub":"None",
       "info": {
                 "module":"eda_pplot",
                 "action":"show plot",
@@ -85,6 +88,7 @@
                 "create plotly lineplot",
                 "create plotly line plot"
                 ],
+      "corpus_sub":"None",
       "info": {
                 "module":"eda_pplot",
                 "action":"show plot",
@@ -109,6 +113,7 @@
                 "create plotly violinplot",
                 "create plotly violin plot"
                 ],
+      "corpus_sub":"None",
       "info": {
                 "module":"eda_pplot",
                 "action":"show plot",
@@ -128,6 +133,7 @@
                   "plotly bar plot",
                   "plotly barplot"
                 ],
+      "corpus_sub":"None",
       "info": {
                 "module":"eda_pplot",
                 "action":"show plot",
@@ -147,6 +153,7 @@
                 "plotly density heatmap",
                 "plotly count heatmap"
                 ],
+      "corpus_sub":"None",
       "info": {
                 "module":"eda_pplot",
                 "action":"show plot",

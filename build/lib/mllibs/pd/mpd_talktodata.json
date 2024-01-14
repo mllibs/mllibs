@@ -10,6 +10,7 @@
                 "print dataframe column names",
                 "show me the columns names"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"print list",
@@ -32,6 +33,7 @@
                 "what is the dataframe size",
                 "show the dataframe size"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"print list",
@@ -57,6 +59,7 @@
                 "show column value distribution",
                 "show the distribution of column"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"show text",
@@ -82,6 +85,7 @@
                 "missing data in col",
                 "col missing data"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"show text",
@@ -108,6 +112,7 @@
                 "show how much missing data there is in",
                 "show how much data is missing"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"show text",
@@ -132,6 +137,7 @@
                 "what is the percentage of data missing",
                 "what is the percentage of rows missing"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"display dataframe",
@@ -155,6 +161,7 @@
         "change the column type to dtype",
         "convert column type to dtype"
       ],
+      "corpus_sub":"None",
       "info": {
         "module":"pd_talktodata",
         "action":"modify dataframe",
@@ -178,6 +185,7 @@
         "change the column type to str",
         "convert column type to str"
       ],
+      "corpus_sub":"None",
       "info": {
         "module":"pd_talktodata",
         "action":"modify dataframe",
@@ -201,6 +209,7 @@
         "change the column type to integer",
         "change the column type to int"
       ],
+      "corpus_sub":"None",
       "info": {
         "module":"pd_talktodata",
         "action":"modify dataframe",
@@ -228,6 +237,7 @@
               "tabular statistics",
               "describe the data"
       ],
+      "corpus_sub":"None",
       "info": {
               "module":"pd_talktodata",
               "action":"table operation",
@@ -252,6 +262,7 @@
               "df info",
               "dataframe information"
               ],
+      "corpus_sub":"None",
       "info": {
               "module":"pd_talktodata",
               "action":"table operation",
@@ -277,6 +288,7 @@
               "show dataframe feature types",
               "show dataframe column types"
       ],
+      "corpus_sub":"None",
       "info": {
               "module":"pd_talktodata",
               "action":"table operation",
@@ -298,6 +310,7 @@
                "list dataframe columns", 
                "list dataframe features"
                 ],
+      "corpus_sub":"None",
       "info": {
               "module":"pd_talktodata",
               "action":"show list",
@@ -325,6 +338,7 @@
               "show correlation matrix",
               "show correlation of features"
                 ],
+      "corpus_sub":"None",
       "info": {
               "module":"pd_talktodata",
               "action":"show plot",
@@ -346,6 +360,7 @@
                 "list all column unique values",
                 "what are the unique column values"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"show text",
@@ -370,6 +385,7 @@
                 "brief dataframe preview",
                 "quick data preview"
               ],
+      "corpus_sub":"None",
       "info": {
                "module":"pd_talktodata",
                "action":"display dataframe",
