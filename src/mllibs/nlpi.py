@@ -619,8 +619,9 @@ class nlpi(nlpm):
         ltokens = custpunkttokeniser(self.command)
 
         # filter words
-        filter_words = ['and','all','a','as']
-        tokens = [x for x in ltokens if x not in filter_words]
+#       filter_words = ['and','all','a','as']
+#       tokens = [x for x in ltokens if x not in filter_words]
+        tokens = ltokens
         
         # remove punctuation
         def remove_punctuation(x):
@@ -1178,7 +1179,7 @@ class nlpi(nlpm):
         # Initialise arguments dictionary (critical entries)
         self.module_args = {'pred_task': None, 
                             'data': None,'data_name':None,
-                            'subset': None,
+                            'subset': None,'sub_task':None,
                             'features': None, 'target' : None}
 
         # (update) Activation Function Parameter Entries 
@@ -1547,7 +1548,7 @@ class nlpi(nlpm):
         def ner_column_parsing(request:str):
           
           # Remove "and" between two "-column" words
-          request = re.sub(r'(-column \w+) and (-column \w+)', r'\1 \2', request)
+#         request = re.sub(r'(-column \w+) and (-column \w+)', r'\1 \2', request)
           
           # Tokenize the request by splitting on whitespace
           tokens = request.split()
@@ -1649,7 +1650,7 @@ class nlpi(nlpm):
         # new tokens are added to [token_info] is modified 
         pls = label_params_names(ls) # label PARAMS tokens add [~]
         ls2 = label_params(pls)      # label PARAMS ([-column],[-value],[-string])
-        
+              
         '''
         [2.2] Extract Parameter Values & Filter names & values
         '''
@@ -1660,6 +1661,7 @@ class nlpi(nlpm):
           param_dict,result = ner_column_parsing(" ".join(ls2['token']))
           remove_idx = string_diff_index(" ".join(ls2['token']),result)
           ls2 = ls2.drop(remove_idx) # update ls
+          ls2 = ls2.reset_index(drop=True) # reset index
           
           # update param_dict (change string to int/float if needed)
           for key, value in param_dict.items():
@@ -1700,36 +1702,35 @@ class nlpi(nlpm):
           
           ls = ls.copy()    
           col_idx = ls[~ls['column'].isna()].index.tolist()
+          col_idx = list(map(lambda x: x - 1, col_idx))
           
           # if there are column
           if(len(col_idx) > 0):
             
-            added_idx = [1 for i in range(len(col_idx))]
-            added_idx[0] = 0
-            
-            for ii in range(len(col_idx)):
+            for num,ii in enumerate(col_idx):
               
-              column_row_idx = col_idx[ii] + added_idx[ii]
+              row = ii + num + 1
               
-              # add new row to multicolumn dataframe at index [data_row_idx]
-              new_row = pd.DataFrame([[None] * len(ls.columns)], index=[column_row_idx], columns=ls.columns) 
-              new_row['token'] = '-column'
-              new_row['type'] = 'uni'
-              new_row['ner_tags'] = 'O'
-              new_row['column'] = np.nan
-              ls = pd.concat([ls.iloc[:column_row_idx], new_row, ls.iloc[column_row_idx:]]) # merge the dataframe
-              ls = ls.reset_index(drop=True)
-              ls['index_id'] = ls.index.tolist()
-              
+              if(ls.loc[ii-1,'token'][0] != "~"):
+                
+                # add new row to multicolumn dataframe at index [data_row_idx]
+                new_row = pd.DataFrame([[None] * len(ls.columns)], index=[row], columns=ls.columns) 
+                new_row['token'] = '-column'
+                new_row['type'] = 'uni'
+                new_row['ner_tags'] = 'O'
+                new_row['column'] = np.nan
+                ls = pd.concat([ls.iloc[:row], new_row, ls.iloc[row:]]) # merge the dataframe
+                ls = ls.reset_index(drop=True)
+                ls['index_id'] = ls.index.tolist()
+                
           return ls
       
+        # step 1 : group together tokens which contain "-column" and its value
       
         def merge_column_its_value(input_string:str):
           
           # Tokenize the input string
           token_list = input_string.split()
-          
-          # step 1 : group together tokens which contain "-column" and its value
           
           grouped_tokens = []
           current_group = []
@@ -1748,9 +1749,9 @@ class nlpi(nlpm):
           
           return nested_list
         
+        # step 2 : Find and merge the lists that contain "-column" within a specified window
+        
         def merge_near_column_param(nested_list:list):
-          
-          # step 2 : Find and merge the lists that contain "-column" within a specified window
           
           merged_list = []
           i = 0
@@ -1808,14 +1809,14 @@ class nlpi(nlpm):
           processed_string = re.sub(pattern, r'\1', input_string)
           processed_string = re.sub(r'\s{2,}', ' ', processed_string) # Remove extra spaces
           
-          # Print the processed string
-          print("Processed string:", processed_string)
+          return processed_string
         
   
         # label subset tokens adding [-column] to non parameter tokens
         ls3 = label_subset(ls2)
         
-        '''Extract Data (if tokens were found) '''
+        '''Extract Data Only! (if tokens were found) '''
+      
         if not(ls3['token'].tolist() == ls2['token'].tolist()):
           
           input_string = " ".join(ls3['token'])
@@ -1830,8 +1831,8 @@ class nlpi(nlpm):
         
           '''
           
-          nested_list = merge_column_its_value(input_string) # merge -column & its value into a list
-          
+          # merge -column & its value into a list
+          nested_list = merge_column_its_value(input_string) 
           
           '''
         
@@ -1844,7 +1845,8 @@ class nlpi(nlpm):
           ['-column', 'X','-column', 'Y']]
           '''
           
-          merged_list = merge_near_column_param(nested_list) # group neighbouring -column into one list
+          # group neighbouring -column into one list
+          merged_list = merge_near_column_param(nested_list) 
           
           # group together and create dictionaries of column parameters
           
@@ -1869,9 +1871,14 @@ class nlpi(nlpm):
           
           print('extracted [subset] parameters')
           print(subset_param)
+          
+        # remove parameters, resultant string
         
-        # remove tokens 
-        remove_idx = string_diff_index(" ".join(ls3['token'])," ".join(ls2['token']))
+        # ls3 added [-column] tags
+        result = remove_column_parameter_values(" ".join(ls3['token']))
+        
+        # remove tokens (nope!)
+        remove_idx = string_diff_index(" ".join(ls3['token']),result)
         ls3 = ls3.drop(remove_idx) # update ls (exclude data names)
           
         # update
@@ -2034,6 +2041,10 @@ class nlpi(nlpm):
             # Store activation function information in module_args [pred_task]
             
             self.module_args['pred_task'] = self.task_name
+            try:
+              self.module_args['sub_task'] = self.module.sub_models[self.task_name].predict([filtered])
+            except:
+              pass
 
             # store task name information
             
