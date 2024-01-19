@@ -22,9 +22,11 @@ from mllibs.ner_activecolumn import ac_extraction
 from mllibs.ner_source import data_tokenfilter
 
 '''
+##############################################################################
 
-Interpreter class (nlpi)
+                            INTERPRETER CLASS 
 
+##############################################################################
 '''
  
 class nlpi(nlpm):
@@ -619,9 +621,9 @@ class nlpi(nlpm):
         ltokens = custpunkttokeniser(self.command)
 
         # filter words
-#       filter_words = ['and','all','a','as']
-#       tokens = [x for x in ltokens if x not in filter_words]
-        tokens = ltokens
+        filter_words = ['as']
+        tokens = [x for x in ltokens if x not in filter_words]
+#       tokens = ltokens
         
         # remove punctuation
         def remove_punctuation(x):
@@ -1426,7 +1428,7 @@ class nlpi(nlpm):
         '''
         ######################################################################
         
-                              [2] PARAMETER TOKEN PARSING
+                            [2] PARAMETER TOKEN PARSING
 
         [1] label_params_names : add [~] to PARAM tokens (token_info adjustment)
         
@@ -1464,81 +1466,45 @@ class nlpi(nlpm):
           
           ls = ls.copy()
           param_idx = ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])].index.tolist()
+          param_type = ls.loc[param_idx,'ttype']
           
           # if PARAM is present only!
           if(len(param_idx) > 0):
             
             print('[note] parameters found!')
-            
-            '''
-          
-            Parameter w/ DataFrame Columns
-          
-            '''
-            
-            col_idx = ls[~ls['column'].isna()].index.tolist()
-            col_idx = list(map(lambda x: x - 1, col_idx))
-            
-            # Insert blank rows at the specified index
-            for num,ii in enumerate(col_idx):
-              
-              row = ii + num + 1
-              new_row = pd.DataFrame(index=[row],columns=ls.columns)
-              new_row['token'] = '-column'
-              new_row['type'] = 'uni'
-              new_row['ner_tags'] = 'O'
-              new_row['column'] = np.nan
-              ls = pd.concat([ls.iloc[:row],new_row,ls.iloc[row:]]).reset_index(drop=True)
-              ls['index_id'] = ls.index.tolist()
-              
-            '''
-          
-            Parameter /w Value Tokens
-          
-            '''
-              
+            col_idx = ls[~ls['column'].isna()].index.tolist()    
             ls['value_token'] = ls['token'].str.contains(r'^[-+]?[0-9]*\.?[0-9]+$')
             val_idx = ls[ls['value_token']].index.tolist()
-            val_idx = list(map(lambda x: x - 1, val_idx))
-            
-            # Insert blank rows at the specified index
-            for num,ii in enumerate(val_idx):
-              
-              row = ii + num + 1
-              new_row = pd.DataFrame(index=[row],columns=ls.columns)
-              new_row['token'] = '-value'
-              new_row['type'] = 'uni'
-              new_row['ner_tags'] = 'O'
-              ls = pd.concat([ls.iloc[:row],new_row,ls.iloc[row:]]).reset_index(drop=True)
-              ls['index_id'] = ls.index.tolist()    
-              
-            '''
-          
-            Parameter w/ String Tokens
-          
-            '''
-              
-            # previous token is in ['mec',...]
             ls['str_param'] = ls['token'].shift(1).isin(['~mec','~dtype','~barmode'])
             str_idx = ls[ls['str_param']].index.tolist()
-            str_idx = list(map(lambda x: x - 1, str_idx))
             
-            # Insert blank rows at the specified index
-            for num,ii in enumerate(str_idx):
-              
-              row = ii + num + 1
-              new_row = pd.DataFrame(index=[row],columns=ls.columns)
-              new_row['token'] = '-string'
-              new_row['type'] = 'uni'
-              new_row['ner_tags'] = 'O'
-              ls = pd.concat([ls.iloc[:row],new_row,ls.iloc[row:]]).reset_index(drop=True)
-              ls['index_id'] = ls.index.tolist()     
-              
+            new_row_col = [None] * len(ls.columns) # Create a new row with NaN values
+            new_row_col[0] = '-column'
+            new_row_val = [None] * len(ls.columns) # Create a new row with NaN values
+            new_row_val[0] = '-value'
+            new_row_str = [None] * len(ls.columns) # Create a new row with NaN values
+            new_row_str[0] = '-string'
+            new_rows = []     # Create a list to hold the new dataframe rows
+            
+            # Iterate through the dataframe and add the new row after each row that contains ~ in the first column
+            for index, row in ls.iterrows():
+                new_rows.append(row.tolist())
+                if row[0].startswith('~') and index+1 in col_idx:
+                    new_rows.append(new_row_col)
+                if row[0].startswith('~') and index+1 in val_idx:
+                    new_rows.append(new_row_val)
+                if row[0].startswith('~') and index+1 in str_idx:
+                    new_rows.append(new_row_str)
+                  
+            # Create a new dataframe from the list of rows
+            ls = pd.DataFrame(new_rows, columns=ls.columns)
+            
           else:
             print('[note] no parameters found!')
             
           return ls
-      
+
+  
         '''
         
         Parsing of [-column] [-values] [-string]
@@ -1640,7 +1606,6 @@ class nlpi(nlpm):
           
           return new_dict," ".join(filtered_tokens)
       
-      
         '''
         [2.1] Create labels for PARAMETER & store in [token_info]
         '''
@@ -1700,28 +1665,23 @@ class nlpi(nlpm):
                   
         def label_subset(ls:pd.DataFrame):
           
-          ls = ls.copy()    
-          col_idx = ls[~ls['column'].isna()].index.tolist()
-          col_idx = list(map(lambda x: x - 1, col_idx))
+          self.ls = ls
           
-          # if there are column
-          if(len(col_idx) > 0):
-            
-            for num,ii in enumerate(col_idx):
-              
-              row = ii + num + 1
-              
-              if(ls.loc[ii-1,'token'][0] != "~"):
+          ls = ls.copy()
+          col_idx = ls[~ls['column'].isna()].index.tolist()    
+          
+          new_row_col = [None] * len(ls.columns) 
+          new_row_col[0] = '-column'
+          
+          new_rows = []
+          # Iterate through the dataframe and add the new row after each row that contains ~ in the first column
+          for index, row in ls.iterrows():
+            new_rows.append(row.tolist())
+            if not row[0].startswith('~') and index+1 in col_idx:
+              new_rows.append(new_row_col)
                 
-                # add new row to multicolumn dataframe at index [data_row_idx]
-                new_row = pd.DataFrame([[None] * len(ls.columns)], index=[row], columns=ls.columns) 
-                new_row['token'] = '-column'
-                new_row['type'] = 'uni'
-                new_row['ner_tags'] = 'O'
-                new_row['column'] = np.nan
-                ls = pd.concat([ls.iloc[:row], new_row, ls.iloc[row:]]) # merge the dataframe
-                ls = ls.reset_index(drop=True)
-                ls['index_id'] = ls.index.tolist()
+          # Create a new dataframe from the list of rows
+          ls = pd.DataFrame(new_rows, columns=ls.columns)
                 
           return ls
       
@@ -1729,13 +1689,15 @@ class nlpi(nlpm):
       
         def merge_column_its_value(input_string:str):
           
+          self.ls2 = input_string
+          
           # Tokenize the input string
           token_list = input_string.split()
-          
+      
           grouped_tokens = []
           current_group = []
-          for token in token_list:
-            if token == '-column':
+          for ii,token in enumerate(token_list):
+            if token == '-column' and token_list[ii-1][0] != '~':
               current_group.append(token)
             else:
               if current_group:
@@ -1746,7 +1708,7 @@ class nlpi(nlpm):
                 grouped_tokens.append([token])
                 
           nested_list = grouped_tokens
-          
+      
           return nested_list
         
         # step 2 : Find and merge the lists that contain "-column" within a specified window
@@ -1757,7 +1719,7 @@ class nlpi(nlpm):
           i = 0
           
           while i < len(nested_list):
-            if i < len(nested_list) - 2 and "-column" in nested_list[i] and "-column" in nested_list[i + 2]:
+            if i < len(nested_list) - 2 and ("-column" in nested_list[i] and len(nested_list[i]) == 2) and ("-column" in nested_list[i + 2] and len(nested_list[i + 2]) == 2):
               merged_list.append(nested_list[i] + nested_list[i + 1] + nested_list[i + 2])
               i += 3
             else:
@@ -1815,7 +1777,11 @@ class nlpi(nlpm):
         # label subset tokens adding [-column] to non parameter tokens
         ls3 = label_subset(ls2)
         
-        '''Extract Data Only! (if tokens were found) '''
+        '''
+        
+        Extract [subset] token data
+        
+        '''
       
         if not(ls3['token'].tolist() == ls2['token'].tolist()):
           
@@ -1852,7 +1818,7 @@ class nlpi(nlpm):
           
           list_of_dicts = []
           for lst in merged_list:
-            if('-column' in lst):
+            if('-column' in lst and len(lst) != 1):
               list_of_dicts.append(store_most_common_todict(lst))
               
           merged_list = []

@@ -109,7 +109,6 @@ class eda_splot(nlpi):
                 pass
               
             elif(args['sub_task'] == 'xy_col_column'):  
-              
               try:
                 args['x'] = args['column'][0][0]
                 args['y'] = args['column'][0][1]

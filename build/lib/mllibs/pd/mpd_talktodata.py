@@ -30,7 +30,7 @@ class pd_talktodata(nlpi):
         self.select = args['pred_task']
         
         if(self.select == 'dfcolumninfo'):
-            self.dfgroupby(args)
+            self.dfcolumninfo(args)
         if(self.select == 'dfsize'):
             self.dfsize(args)
         if(self.select == 'dfcolumn_distr'):
