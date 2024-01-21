@@ -1240,39 +1240,41 @@ class nlpi(nlpm):
             groups.append(temp_group)
             temp_group = []
             
-        temp_group.append(numbers[-1])
-        groups.append(temp_group)
-        
-        return groups
+        try:
+          temp_group.append(numbers[-1])
+          groups.append(temp_group)
+          return groups
+        except:
+          return None
       
       numbers = str_sidebyside(data)
       grouped_numbers = group_numbers(numbers)
       
-      for group in grouped_numbers:
-        
-        # check that all are from same dataset
-        lst_col_source = list(ls.loc[group,'column'])
-        column_names = list(ls.loc[group,'token'])
-        same_data_check = all(x == lst_col_source[0] for x in lst_col_source) 
-        
-        if(same_data_check):
+      if(grouped_numbers is not None):
+      
+        for group in grouped_numbers:
           
-          tac_name = f'tac_data{self.tac_id}'
-          self.tac_data[tac_name] = column_names
+          # check that all are from same dataset
+          lst_col_source = list(ls.loc[group,'column'])
+          column_names = list(ls.loc[group,'token'])
+          same_data_check = all(x == lst_col_source[0] for x in lst_col_source) 
           
-          ls = ls[~ls.index.isin(group)] # remove them
-          ls.loc[group[0],'token'] = f"tac_data{self.tac_id}" # needs to be unique
-          ls.loc[group[0],'ner_tags'] = 'O'
-          ls.loc[group[0],'column'] = lst_col_source[0]
-          ls.loc[group[0],'type'] = 'uni'
-          ls.loc[group[0],'ttype'] = 'str'
-          ls.loc[group[0],'ac'] = True
-          ls = ls.sort_index()
-          ls = ls.reset_index(drop=True)
-          ls['index_id'] = list(ls.index)
-
-          
-          self.tac_id += 1
+          if(same_data_check):
+            
+            tac_name = f'tac_data{self.tac_id}'
+            self.tac_data[tac_name] = column_names
+            
+            ls = ls[~ls.index.isin(group)] # remove them
+            ls.loc[group[0],'token'] = f"tac_data{self.tac_id}" # needs to be unique
+            ls.loc[group[0],'ner_tags'] = 'O'
+            ls.loc[group[0],'column'] = lst_col_source[0]
+            ls.loc[group[0],'type'] = 'uni'
+            ls.loc[group[0],'ttype'] = 'str'
+            ls.loc[group[0],'ac'] = True
+            ls = ls.sort_index()
+            ls = ls.reset_index(drop=True)
+            ls['index_id'] = list(ls.index)
+            self.tac_id += 1
           
       # update [self.token_info]
       self.token_info = ls
@@ -1304,7 +1306,7 @@ class nlpi(nlpm):
           
       self.ac_data = ac_data
       
-    # find the data associated with the ac name
+    # find the [data] associated with the [ac name]
       
     def find_ac(self,name):
       
@@ -1324,25 +1326,43 @@ class nlpi(nlpm):
       except:
         return None
       
-    # get the active column associated column names 
+    # get the [column names] associated with the active column name
       
     def ac_to_columnnames(self,ac_name:str):
       
       data_name = self.find_ac(ac_name)
       column_names = nlpi.data[data_name]['ac'][ac_name]
       return column_names
-
+  
+    # Having [self.token_info]
+    # active column names associated with data sources found in the 
+    # request are stored in [self.tac_data]
+    # extraction of data only only for [self.token_info]
+    
+    def ac_to_tac_storage(self):
+      
+      ls = self.token_info.copy()
+      
+      used_data = list(ls[~ls['data'].isna()]['token'])
+      self.get_current_ac()
+    
+      lst_ac_names = []
+      for data in used_data:
+        lst_ac_names.extend(nlpi.data[data]['ac'])
+      
+      dct_ac_mapper = {}
+      for ac_name in lst_ac_names:
+        dct_ac_mapper[ac_name] = self.ac_to_columnnames(ac_name)
+        
+      self.tac_data.update(dct_ac_mapper)
+      
     # given self.token_info, store available ac names
     # into a single reference list
-        
+      
     def store_data_ac(self):
       
       ls = self.token_info.copy()
       ls['ac'] = None
-      
-      # # get token data (idx)
-      # def get_td(idx):
-      #     return i.token_data[int(idx)]
       
       # data sources in current request
       used_data = list(ls[~ls['data'].isna()]['token'])
@@ -1376,6 +1396,9 @@ class nlpi(nlpm):
               self.module_args[key] = self.tac_data[value]
             
         if(type(value) == list):
+          
+          print('value')
+          print(value)
           
           if(len(value) > 1):
             print('[note] multiple active columns are not supported for subsets')
@@ -1469,7 +1492,11 @@ class nlpi(nlpm):
         
         self.make_tac()        # group together any multicolumns into temporary
                                # active columns
-        self.get_current_ac()  # store all available ac names in [self.ac_data]
+                                
+        self.ac_to_tac_storage() # store all the data source related ac names
+                                 # in [self.tac_data]
+        
+#       self.get_current_ac()  # store all available ac names in [self.ac_data] # repeated above
         self.store_data_ac() 
       
         '''
@@ -1851,6 +1878,16 @@ class nlpi(nlpm):
                 param_dict[key] = int(value) if value.isdigit() else value
 
           print('[note] setting module_args parameters')
+          
+          # !!! try to convert active column
+          
+          for key,value in param_dict.items():
+            
+            try:
+              param_dict[key] = self.tac_data[key]
+            except:
+              pass
+
           self.module_args.update(param_dict)
           print(param_dict)
       
@@ -2036,15 +2073,28 @@ class nlpi(nlpm):
                 merged_list.append(d[key])
               else:
                 merged_list.append(d[key])
-                
-          # create parameter dictionary for 
-          subset_param = {'column':merged_list}
-            
-          # update [module_args]
-          self.module_args.update(subset_param)
           
-          print('extracted [subset] parameters')
-          print(subset_param)
+          # !!! try to map active columns 
+          
+          def map_values(lst, dct):
+            if isinstance(lst, list):
+              return [map_values(item, dct) for item in lst]
+            else:
+              return dct.get(lst, lst)
+          
+          try:
+            merged_list = map_values(merged_list,self.tac_data)
+          except:
+            pass
+                    
+        # create parameter dictionary for 
+        subset_param = {'column':merged_list}
+        
+        print('extracted [subset] parameters')
+        print(subset_param)
+                    
+        # update [module_args]
+        self.module_args.update(subset_param)
           
         # remove parameters, resultant string
         
@@ -2126,12 +2176,10 @@ class nlpi(nlpm):
 #       # remove prepositions (update df_tinfo directly)
 #       df_tinfo = preposition_filter(df_tinfo)
       
-        '''
         
-        Convert active column names to actual column names
         
-        '''
-        self.recall_ac_names()
+#       Convert active column names to actual column names
+#       self.recall_ac_names()
   
         '''
         ######################################################################
