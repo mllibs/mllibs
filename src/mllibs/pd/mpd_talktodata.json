@@ -8,7 +8,8 @@
                 "print the column names",
                 "show the dataframe column names",
                 "print dataframe column names",
-                "show me the columns names"
+                "show me the columns names",
+                "what columns are available in data -data"
               ],
       "corpus_sub":"None",
       "info": {

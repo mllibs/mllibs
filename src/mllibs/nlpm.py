@@ -140,7 +140,7 @@ class nlpm:
       y_pred = pipeline.predict(X)
       
       # Print classification report
-      print(classification_report(y, y_pred))
+#     print(classification_report(y, y_pred))
       return pipeline
     
     # group together all module data & construct corpuses

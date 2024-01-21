@@ -68,7 +68,29 @@ class eda_pplot(nlpi):
         self.set_plotparameters()
 
         if(select == 'plscatter'):
+            
+            # subset treatment
+            if(args['sub_task'] == 'xy_column'):
+                try:
+                    args['x'] = args['column'][0][0]
+                    args['y'] = args['column'][0][1]
+                except:
+                    pass
+                    
+            elif(args['sub_task'] == 'xy_col_column'):
+                args['x'] = args['column'][0][0]
+                args['y'] = args['column'][0][1]
+                args['col'] = args['column'][1]
+                
+            elif(args['sub_task'] == 'xy_col_columnrow'):
+                args['x'] = args['column'][0][0]
+                args['y'] = args['column'][0][1]
+                args['col'] = args['column'][1][0] 
+                args['row'] = args['column'][1][1] 
+
+            # execute activation function
             self.plotly_scatterplot(args)
+            
         elif(select == 'plbox'):
             self.plotly_boxplot(args)
         elif(select == 'plhist'):

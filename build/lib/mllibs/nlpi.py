@@ -40,16 +40,21 @@ class nlpi(nlpm):
     
     # instantiation requires module
     def __init__(self,module=None):
-        self.module = module                  # collection of modules
-        self._make_task_info()                # create self.task_info
-        self.dsources = {}                    # store all data source keys
-        self.token_data = []                  # store all token data
-        nlpi.silent = True                    # by default don't display 
-        nlpi.activate = True
-        nlpi.lmodule = self.module            # class variable variation for module calls
-                    
-        # class plot parameters
-        nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None, 'stheme':None}
+      
+      self.module = module                  # collection of modules
+      self._make_task_info()                # create self.task_info
+      self.dsources = {}                    # store all data source keys
+      self.token_data = []                  # store all token data
+      nlpi.silent = True                    # by default don't display 
+      nlpi.activate = True
+      nlpi.lmodule = self.module            # class variable variation for module calls
+      
+      # temporary active function storage
+      self.tac_id = 0
+      self.tac_data = {}
+                  
+      # class plot parameters
+      nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None, 'stheme':None}
 
     '''
     ##############################################################################
@@ -229,11 +234,11 @@ class nlpi(nlpm):
             return dict(tuple(self.task_info.groupby('module')))[show]
      
     '''
-    ##############################################################################
+    ###########################################################################
 
     NER TAGGING OF INPUT REQUEST
        
-    ##############################################################################
+    ###########################################################################
     '''
 
     # in: self.tokens (required)
@@ -1144,7 +1149,7 @@ class nlpi(nlpm):
     # checks if input data requirement : has the data been set?
         
     def check_data_compatibility(self):
-
+    
         def type_to_str(inputs):
             if(isinstance(inputs,eval('pd.DataFrame')) == True):
                 return 'pd.DataFrame'
@@ -1178,30 +1183,221 @@ class nlpi(nlpm):
 
     def initialise_module_args(self):
 
-        # Initialise arguments dictionary (critical entries)
-        self.module_args = {'pred_task': None, 
-                            'data': None,'data_name':None,
-                            'subset': None,'sub_task':None,
-                            'features': None, 'target' : None}
+      # Initialise arguments dictionary (critical entries)
+      self.module_args = {'pred_task': None, 
+                          'data': None,'data_name':None,
+                          'subset': None,'sub_task':None,
+                          'features': None, 'target' : None}
 
-        # (update) Activation Function Parameter Entries 
-        data = list(self.task_info['arg_compat'])
-        data_filtered = [i for i in data if i != 'None']
-        nested = [i.split(' ') for i in data_filtered]
-        unique_args = set([element for sublist in nested for element in sublist])
+      # (update) Activation Function Parameter Entries 
+      data = list(self.task_info['arg_compat'])
+      data_filtered = [i for i in data if i != 'None']
+      nested = [i.split(' ') for i in data_filtered]
+      unique_args = set([element for sublist in nested for element in sublist])
 
-        for val in unique_args:
-            self.module_args[val] = None
+      for val in unique_args:
+          self.module_args[val] = None
           
+    ''' 
+    #######################################################################
+                
+              Group Multi Columns into Temporary Active Columns
+    
+        When user specifies multiple column names consecutively, the
+        columns are grouped together into a single gropup using temporary
+        active columns which are stored in the following:
+
+        [tac_data] : temporary storage for active columns for the instance
+                     variable session
+
+        [tac_id] : counter for dictionary storage 
+    
+    #######################################################################
+    '''
+    
+    def make_tac(self):
+      
+      ls = self.token_info.copy()
+      
+      # columns
+      data = list(ls['column'].fillna(0)) 
+      
+      # index of all b-param tokens
+      b_param_idx = list(ls[ls['ner_tags'] == 'B-PARAM'].index) # index of all b-param tokens
+      
+      # get side by side string indicies
+      def str_sidebyside(lst):
+        indices = [ii for ii in range(1, len(data)-1) if isinstance(data[ii], str) and (isinstance(data[ii-1], str) or isinstance(data[ii+1], str))]
+        return indices
+      
+      # group neighbouring numbers 
+      def group_numbers(numbers):
+        groups = []
+        temp_group = []
+        for i in range(len(numbers)-1):
+          temp_group.append(numbers[i])
+          if numbers[i+1] - numbers[i] != 1:
+            groups.append(temp_group)
+            temp_group = []
+            
+        temp_group.append(numbers[-1])
+        groups.append(temp_group)
+        
+        return groups
+      
+      numbers = str_sidebyside(data)
+      grouped_numbers = group_numbers(numbers)
+      
+      for group in grouped_numbers:
+        
+        # check that all are from same dataset
+        lst_col_source = list(ls.loc[group,'column'])
+        column_names = list(ls.loc[group,'token'])
+        same_data_check = all(x == lst_col_source[0] for x in lst_col_source) 
+        
+        if(same_data_check):
+          
+          tac_name = f'tac_data{self.tac_id}'
+          self.tac_data[tac_name] = column_names
+          
+          ls = ls[~ls.index.isin(group)] # remove them
+          ls.loc[group[0],'token'] = f"tac_data{self.tac_id}" # needs to be unique
+          ls.loc[group[0],'ner_tags'] = 'O'
+          ls.loc[group[0],'column'] = lst_col_source[0]
+          ls.loc[group[0],'type'] = 'uni'
+          ls.loc[group[0],'ttype'] = 'str'
+          ls.loc[group[0],'ac'] = True
+          ls = ls.sort_index()
+          ls = ls.reset_index(drop=True)
+          ls['index_id'] = list(ls.index)
+
+          
+          self.tac_id += 1
+          
+      # update [self.token_info]
+      self.token_info = ls
+            
+    ''' 
+    #######################################################################
+                
+                          Active Column Treatment
+    
+        [self.get_current_ac] dictionary of ac names that have been stored
+                              sets [self.ac_data]
+    
+    
+        [self.find_ac] find the data associated with the provided ac name
+        [self.ac_to_columnnames] get the column names for the proviced ac name 
+    
+    #######################################################################
+    '''
+              
+    # dictionary of ac names that have been stored
+    # sets [self.ac_data]
+    
+    def get_current_ac(self):
+      
+      ac_data = {}
+      for data_name in nlpi.data.keys():
+        if(isinstance(nlpi.data[data_name]['data'],pd.DataFrame)):
+          ac_data[data_name] = list(nlpi.data[data_name]['ac'].keys())
+          
+      self.ac_data = ac_data
+      
+    # find the data associated with the ac name
+      
+    def find_ac(self,name):
+      
+      data_name = None
+      for key,values in self.ac_data.items():
+        if(name in values):
+          data_name = key
+          
+      if(data_name is not None):
+        return data_name
+      else:
+        return None
+      
+    def find_tac(self,name):
+      try:
+        return self.tac_data[name]
+      except:
+        return None
+      
+    # get the active column associated column names 
+      
+    def ac_to_columnnames(self,ac_name:str):
+      
+      data_name = self.find_ac(ac_name)
+      column_names = nlpi.data[data_name]['ac'][ac_name]
+      return column_names
+
+    # given self.token_info, store available ac names
+    # into a single reference list
+        
+    def store_data_ac(self):
+      
+      ls = self.token_info.copy()
+      ls['ac'] = None
+      
+      # # get token data (idx)
+      # def get_td(idx):
+      #     return i.token_data[int(idx)]
+      
+      # data sources in current request
+      used_data = list(ls[~ls['data'].isna()]['token'])
+      
+      for data in used_data:
+        ac_names = self.ac_data[data]
+        idx_ac = list(ls[ls['token'].isin(ac_names)].index)
+        ls.loc[idx_ac,'ac'] = True
+        ls.loc[idx_ac,'column'] = data
+      
+      self.token_info = ls
+      
+    # search for active column names in stored [self.module_args]
+    # to be called before task activation, so they can be converted 
+    # to the correct column names
+      
+    def recall_ac_names(self):
+      
+      ls = self.token_info.copy()
+      
+      for key,value in self.module_args.items():
+        
+        if(type(value) == str):
+          
+          if(self.find_ac(value) is not None or self.find_tac(value) is not None):
+            
+            # try the two storage locations
+            try:
+              self.module_args[key] = self.ac_to_columnnames(value)
+            except:
+              self.module_args[key] = self.tac_data[value]
+            
+        if(type(value) == list):
+          
+          if(len(value) > 1):
+            print('[note] multiple active columns are not supported for subsets')
+          elif(len(value) == 1):
+            
+            # try the two storage locations
+            try:
+              self.module_args[key] = [self.ac_to_columnnames(value[0])]
+            except:
+              self.module_args[key] = self.tac_data[value[0]]
+              
+          else:
+            print('[note] something went wrong @recall_ac_names')
+            
+    
     '''
     #######################################################################
   
-  
-                             [ do Single Iteration ]
+                            [ do Single Iteration ]
 
-                               used with query, q 
-    
-    
+                              used with query, q 
+  
     #######################################################################
     '''
 
@@ -1261,6 +1457,20 @@ class nlpi(nlpm):
         self.find_keeptokens()
         
                                     # self.token_info['keep_token']
+        
+          
+        ''' 
+        #######################################################################
+
+        # Active Column Related
+
+        #######################################################################
+        '''
+        
+        self.make_tac()        # group together any multicolumns into temporary
+                               # active columns
+        self.get_current_ac()  # store all available ac names in [self.ac_data]
+        self.store_data_ac() 
       
         '''
         #######################################################################
@@ -1464,6 +1674,8 @@ class nlpi(nlpm):
         
         def label_params(ls:pd.DataFrame):
           
+          self.ls = ls
+          
           ls = ls.copy()
           param_idx = ls[ls['ner_tags'].isin(['B-PARAM','I-PARAM'])].index.tolist()
           param_type = ls.loc[param_idx,'ttype']
@@ -1665,8 +1877,6 @@ class nlpi(nlpm):
                   
         def label_subset(ls:pd.DataFrame):
           
-          self.ls = ls
-          
           ls = ls.copy()
           col_idx = ls[~ls['column'].isna()].index.tolist()    
           
@@ -1688,8 +1898,6 @@ class nlpi(nlpm):
         # step 1 : group together tokens which contain "-column" and its value
       
         def merge_column_its_value(input_string:str):
-          
-          self.ls2 = input_string
           
           # Tokenize the input string
           token_list = input_string.split()
@@ -1917,6 +2125,13 @@ class nlpi(nlpm):
 #               
 #       # remove prepositions (update df_tinfo directly)
 #       df_tinfo = preposition_filter(df_tinfo)
+      
+        '''
+        
+        Convert active column names to actual column names
+        
+        '''
+        self.recall_ac_names()
   
         '''
         ######################################################################

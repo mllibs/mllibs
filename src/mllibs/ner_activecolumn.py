@@ -69,11 +69,10 @@ def ac_extraction(tdf:pd.DataFrame, nlpi_data: dict):
     for i in lst_param_idx:
         lst_param_id.append(ls.iloc[i]['token'])
     
-    for pair in remove_idx:
-        ls = ls[~(ls.index_id.isin(pair))]
-        
-    ls = ls.reset_index(drop=True)
-    ls['index_id'] = list(ls.index)
+#   for pair in remove_idx:
+#       ls = ls[~(ls.index_id.isin(pair))]
+#   ls = ls.reset_index(drop=True)
+#   ls['index_id'] = list(ls.index)
     
     '''
 

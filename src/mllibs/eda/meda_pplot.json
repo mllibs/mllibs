@@ -11,9 +11,97 @@
                 "create bivariate scatter plot with plotly",
                 "create multivariate scatter plot with plotly",
                 "make plotly scatterplot",
-                "please create plotly scatterplot"
+                "please create plotly scatterplot",
+                "please create a plotly scatter plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+                "make a plotly scatterplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+                "create a plotly scatter plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+                "create a plotly scatter plot to visualise the relationship between ~x -column and ~y -column",
+                "make a plotly scatterplot to visualise the relationship between ~x -column and ~y -column",
+                "how can I visualise the relationship between ~x -column and ~y -column using a plotly scatter plot",
+                "can you help me generate a plotly scatter plot to display the connection between ~x -column and ~y -column",
+                "with a plotly scatterplot I want to visualise the association between ~x -column and ~y -column", 
+                "i want to plot a graph using plotly scatterplot to illustrate the relationship between ~x -column and ~y -column",
+                "i want to visually represent the connection between ~x -column and ~y -column using plotly scatterplot",
+                "i would like to plot a graph using plotly scatterplot to demonstrate the relationship between ~x -column and ~y -column",
+                "create a plotly scatterplot so I can visualise the correlation between ~x -column and ~y -column",
+                "please provide an example of using plotly scatterplot to depict the correlation between ~x -column and ~y -column",
+                "please show me how to create a plotly scatterplot to demonstrate the correlation between ~x -column and ~y -column",
+                "could you provide an example of using plotly scatterplot to depict the correlation between ~x -column and ~y -column",
+                "please show me how to create a plotly scatterplot to demonstrate the correlation between ~x -column and ~y -column"
               ],
       "corpus_sub":"None",
+      
+      "corpus_sub":
+      {
+        "param_defined":[
+          "please create a plotly scatter plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+          "make a plotly scatterplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+          "create a plotly scatter plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+          "create a plotly scatter plot to visualise the relationship between ~x -column and ~y -column",
+          "make a plotly scatterplot to visualise the relationship between ~x -column and ~y -column",
+          "how can I visualise the relationship between ~x -column and ~y -column using a plotly scatter plot",
+          "can you help me generate a plotly scatter plot to display the connection between ~x -column and ~y -column",
+          "with a plotly scatterplot I want to visualise the association between ~x -column and ~y -column", 
+          "i want to plot a graph using plotly scatterplot to illustrate the relationship between ~x -column and ~y -column",
+          "i want to visually represent the connection between ~x -column and ~y -column using plotly scatterplot",
+          "i would like to plot a graph using plotly scatterplot to demonstrate the relationship between ~x -column and ~y -column",
+          "create a plotly scatterplot so I can visualise the correlation between ~x -column and ~y -column",
+          "please provide an example of using plotly scatterplot to depict the correlation between ~x -column and ~y -column",
+          "please show me how to create a plotly scatterplot to demonstrate the correlation between ~x -column and ~y -column",
+          "could you provide an example of using plotly scatterplot to depict the correlation between ~x -column and ~y -column",
+          "please show me how to create a plotly scatterplot to demonstrate the correlation between ~x -column and ~y -column"
+        ],
+        "xy_column": [
+          "create a plotly scatterplot to visualise the relationship between -column and -column",
+          "make a plotly scatterplot to visualise the relationship between -column and -column",
+          "how can I visualise the relationship between -column and -column using a plotly scatterplot",
+          "can you help me generate a plotly scatter plot to display the connection between -column and -column",
+          "using plotly scatterplot I want to visualise the association between -column and -column",
+          "i want to plot a graph using plotly scatterplot to illustrate the relationship between -column and -column",
+          "i want to visually represent the connection between -column and -column using plotly scatter plot",
+          "i would like to plot a graph using a plotly scatterplot to demonstrate the relationship between -column and -column",
+          "create a plotly scatterplot so I can visualise the correlation between -column and -column",
+          "could you provide an example of using plotly scatterplot to depict the correlation between -column and -column",
+          "please show me how to create a scatter plot using plotly to demonstrate the correlation between -column and -column",
+          "could you provide an example of using plotly scatter plot to depict the correlation between -column and -column",
+          "please show me how to create a plotly scatterplot to demonstrate the correlation between -column and -column"
+        ],
+      
+        "xy_col_column":
+        [
+          "create a plotly scatterplot to visualise the relationship between -column and -column for each -column",
+          "make a plotly scatterplot to visualise the relationship between -column and -column for each -column",
+          "how can I visualise the relationship between -column and -column using a plotly scatterplot for each -column",
+          "can you help me generate a plotly scatter plot to display the connection between -column and -column for each -column",
+          "using plotly scatterplot I want to visualise the association between -column and -column for each -column",
+          "i want to plot a graph using plotly scatterplot to illustrate the relationship between -column and -column for each -column",
+          "i want to visually represent the connection between -column and -column using plotly scatter plot for each -column",
+          "i would like to plot a graph using a plotly scatterplot to demonstrate the relationship between -column and -column for each -column",
+          "create a plotly scatterplot so I can visualise the correlation between -column and -column for each -column",
+          "could you provide an example of using plotly scatterplot to depict the correlation between -column and -column for each -column",
+          "please show me how to create a scatter plot using plotly to demonstrate the correlation between -column and -column for each -column",
+          "could you provide an example of using plotly scatter plot to depict the correlation between -column and -column for each -column",
+          "please show me how to create a plotly scatterplot to demonstrate the correlation between -column and -column for each -column"
+        ],
+        
+        "xy_col_columnrow":
+        [
+          "create a plotly scatterplot to visualise the relationship between -column and -column for each -column and -column",
+          "make a plotly scatterplot to visualise the relationship between -column and -column for each -column for each -column and -column",
+          "how can I visualise the relationship between -column and -column using a plotly scatterplot for each -column for each -column and -column",
+          "can you help me generate a plotly scatter plot to display the connection between -column and -column for each -column for each -column and -column",
+          "using plotly scatterplot I want to visualise the association between -column and -column for each -column and -column",
+          "i want to plot a graph using plotly scatterplot to illustrate the relationship between -column and -column for each -column and -column",
+          "i want to visually represent the connection between -column and -column using plotly scatter plot for each -column and -column",
+          "i would like to plot a graph using a plotly scatterplot to demonstrate the relationship between -column and -column for each -column and -column",
+          "create a plotly scatterplot so I can visualise the correlation between -column and -column for each -column and -column",
+          "could you provide an example of using plotly scatterplot to depict the correlation between -column and -column for each -column and -column",
+          "please show me how to create a scatter plot using plotly to demonstrate the correlation between -column and -column for each -column and -column",
+          "could you provide an example of using plotly scatter plot to depict the correlation between -column and -column for each -column and -column",
+          "please show me how to create a plotly scatterplot to demonstrate the correlation between -column and -column for each -column and -column"
+        ]
+
+      },
       "info": {
                "module":"eda_pplot",
                "action":"show plot",
