@@ -121,11 +121,42 @@ class fourier_all(nlpi):
     # Fourier transformation and plot
 
     def sig_fourierplot(self,args:dict):
+        
+        # subset treatment 
+        def check_column_format(lst):
+            
+            if(len(lst) == 1):
+                return lst[0]
+            elif(len(lst) == 2):
+                print("[note] I'll group the specified columns together")
+                
+                # nested lists to single list
+                # taking into account str entries
+                grouped = []
+                for item in lst:
+                    if isinstance(item, list):
+                        grouped.extend(item)
+                    elif isinstance(item, str):
+                        grouped.append(item)
+                    else:
+                        grouped.append(item)
+
+                return grouped 
+            
+            else:
+                print('[note] please specify the columns you want to transform only')
+                return None
 
         def plot_cols(df:pd.DataFrame,cols:list):
+            
+            # check correctness of subset column format
+            cols = check_column_format(cols)
 
             # check if column is in dataframe
-            col_check = check_list_in_col(df,cols)
+            if(cols != None):
+                col_check = check_list_in_col(df,cols)
+            else:
+                col_check = False
 
             if(col_check):
                 

@@ -32,7 +32,10 @@
                 "the dataframe size",
                 "dataframe size",
                 "what is the dataframe size",
-                "show the dataframe size"
+                "show the dataframe size",
+                "please show the dataframe shape",
+                "what is the dataframe shape for -data",
+                "tell me the shape of the dataframe -data"
               ],
       "corpus_sub":"None",
       "info": {

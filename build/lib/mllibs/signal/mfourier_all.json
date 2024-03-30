@@ -66,7 +66,10 @@
                 "create and visualise the fft of column",
                 "create and visualise the fft of columns",
                 "visualise the FFT for columns",
-                "visualise the FFT for column"
+                "visualise the FFT for column",
+                "plot the fft of columns -column",
+                "plot the fast fourier transformations of columns -column",
+                "plot the fft of column -column"
               ],
       "corpus_sub":"None",
       "info": {

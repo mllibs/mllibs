@@ -9,7 +9,13 @@
               "plot column kde",
               "visualise column feature kernel density estimation",
               "visualise column kernel density estimation",
-              "visualise column kde"
+              "visualise column kde",
+              "for all columns create a seaborn kernel density plot using -data",
+              "generate a seaborn kernel density plot for all columns using the -data",
+              "use the -data to produce a seaborn kernel density plot for each column",
+              "create a seaborn kernel density plot for all columns based on the -data",
+              "make a seaborn kernel density plot for all columns utilising the -data",
+              "for all columns in -data create a kernel density plot set ~x -column"
               ],
       "corpus_sub":"None",
       "info": {
@@ -34,7 +40,11 @@
               "plot column box plot",
               "visualise column feature boxplot",
               "visualise column boxplot",
-              "visualise column box plot"
+              "visualise column box plot",
+              "visualise seaborn column boxplot for -data",
+              "plot seaborn column boxplot for -data",
+              "for all columns create a seaborn column boxplot for -data and set ~x -column",
+              "create a seaborn boxplot for columns -column in dataset -data"
                 ],
       "corpus_sub":"None",
       "info": {
@@ -59,7 +69,8 @@
               "plot column scatter plot",
               "visualise column feature scatterplot",
               "visualise column scatterplot",
-              "visualise column scatter plot"
+              "visualise column scatter plot",
+              "for all -data data and all columns create column seaborn scatterplot for parameter ~x -column"
                 ],
       "corpus_sub":"None",
       "info": {

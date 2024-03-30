@@ -174,7 +174,9 @@
                 "make plotly lineplot",
                 "make plotly line plot",
                 "create plotly lineplot",
-                "create plotly line plot"
+                "create plotly line plot",
+                "create a plotly lineplot using ~x -column and ~y -column data -data",
+                "visualise a plotly lineplot using ~x -column and ~y -column data -data"
                 ],
       "corpus_sub":"None",
       "info": {
