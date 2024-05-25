@@ -2,20 +2,11 @@ from sklearn.preprocessing import LabelEncoder
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser, PUNCTUATION_PATTERN
 from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger_train, merger, ner_predict
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
+from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
-import sklearn
-
-from torch.utils.data import DataLoader, Dataset
-from transformers import BertTokenizer, BertForSequenceClassification, AdamW
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-import torch.nn as nn
-import torch.optim as optim
-import torch
-import re
-
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel,sigmoid_kernel
 from sklearn.base import clone
@@ -33,22 +24,25 @@ import json
 import requests
 import zipfile
 import time
-# nltk.download('wordnet')
+import re
 
-# import zipfile
-# wordn = '/usr/share/nltk_data/corpora/wordnet.zip'
-# wordnt = '/usr/share/nltk_data/corpora/'
-
-# with zipfile.ZipFile(wordn,"r") as zip_ref:
-#      zip_ref.extractall(wordnt)
-
-# parse JSON module data
 
 def parse_json(json_data):
   
     lst_classes = []; lst_corpus = []; lst_info = []; lst_corpus_sub = []
     for module in json_data['modules']:
-        lst_corpus.append(module['corpus'])
+
+        # if we want to make the corpus from the subset corpus
+        if(module['corpus'] == "subset"):
+
+            temp_corpus = []
+            for key,value in module['corpus_sub'].items():
+                temp_corpus.extend(value)
+
+            lst_corpus.append(temp_corpus)
+        else:
+            lst_corpus.append(module['corpus'])
+
         lst_corpus_sub.append(module['corpus_sub'])
         lst_classes.append(module['name'])
         lst_info.append(module['info'])
@@ -69,13 +63,16 @@ def measure_execution_time(method):
         return result
     return wrapper
 
+
 '''
+###########################################################################
 
-NLPM class
+            NLPM class
 
-> Combine together all extension modules
-> Create machine learning models for task prediction
+            > Combine together all extension modules
+            > Create machine learning models for task prediction
 
+###########################################################################
 '''
 
 class nlpm:
@@ -86,21 +83,6 @@ class nlpm:
         self.modules = {} # stores model associate function class (prepare) 
         self.ner_identifier = {}  # NER tagger (inactive)
         self.sub_models = {}      # task label subset classifier models
-
-    @staticmethod
-    def download_and_extract_zip(url, extract_path):
-
-        # Send a GET request to the GitHub raw URL to download the ZIP file
-        response = requests.get(url)
-        
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Create a file-like object from the downloaded content
-            zip_file = io.BytesIO(response.content)
-            
-            # Extract the contents of the ZIP file to the specified extract path
-            with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-                zip_ref.extractall(extract_path)
 
     '''
     ###########################################################################
@@ -346,158 +328,19 @@ class nlpm:
         self.corpus_act = prepare_corpus('action_id') # action task dataframe
         self.corpus_top = prepare_corpus('topic_id') # topic task dataframe
         self.corpus_sub = prepare_corpus('subtopic_id') # subtopic tasks dataframe
-            
-    ''' 
-    
-    BERT CLASSIFIER RELATED CLASSES 
-    
+
     '''
 
-    # Transformer based classification model
-    # used for global activation function classification
-    # requires [self.corpus_gt]
+    RandomForest based classifier loop
+    Standard Random Forest + TF-IDF
 
-    # load global task transformer encoder classification model 
-    # from stored model on github
-
-    def load_trclassifier(self):
-
-        # define corpus
-        corpus = self.corpus_gt
-        classes = len(corpus['class'].unique())
-
-        '''
-
-        Load the base models
-
-        '''
-        model_name = 'prajjwal1/bert-mini'
-        # model_name = 'bert-base-uncased'
-        tokeniser = BertTokenizer.from_pretrained(model_name)
-        # model = BertForSequenceClassification.from_pretrained(model_name, 
-        #                                                       num_labels=classes)
-
-        # store tokeniser
-        self.tokeniser['gt'] = tokeniser
-
-        '''
-
-        Read Fine-Tuned Classifier Model
-
-        '''
-
-        if(os.path.exists('local_classifier')):
-            model = BertForSequenceClassification.from_pretrained('local_classifier',num_labels=classes)
-            print('[note] using cached model(s)')
-        else:
-            print('[note] downloading model(s)')
-            source = "https://github.com/mllibs/mllibs/raw/main/data/models/bert_classifier_model.zip" 
-            self.download_and_extract_zip(source,'local_classifier')
-            model = BertForSequenceClassification.from_pretrained('local_classifier',num_labels=classes)
-
-        # store model
-        self.model['gt'] = model
-
-    # train global task transformer encoder classification model 
-    # used on cloud only
-
-    def train_trclassifier(self):
-
-        # define corpus
-        corpus = self.corpus_gt
-        classes = len(corpus['class'].unique())
-
-        # Load the pre-trained BERT model and tokenizer
-
-        model_name = 'prajjwal1/bert-mini'
-        # model_name = 'bert-base-uncased'
-
-        tokeniser = BertTokenizer.from_pretrained(model_name)
-        model = BertForSequenceClassification.from_pretrained(model_name, num_labels=classes)
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        model.to(device)
-
-        # modify later !
-        le = LabelEncoder()
-        targets = le.fit_transform(df['task'])
-        data = {'corpus':list(df['text']),'labels':targets}
-
-        # create dataset for text classification
-        class CustomDataset(Dataset):
-            def __init__(self, texts, labels):
-                self.texts = texts
-                self.labels = labels
-
-            def __len__(self):
-                return len(self.texts)
-
-            def __getitem__(self, idx):
-                text = self.texts[idx]
-                label = self.labels[idx]
-                return {'text': text, 'label': label}
-
-        dataset = CustomDataset(list(data['corpus']),
-                                list(data['labels']))
-
-        # train bert model 
-        def train_bert(dataset,tokeniser,model):
-
-            # Define batch size and create data loader
-            batch_size = 10
-            dataloader = DataLoader(dataset, 
-                                    sampler=RandomSampler(dataset), 
-                                    batch_size=batch_size)
-
-            # Set up optimizer and learning rate scheduler
-            optimizer = AdamW(model.parameters(), lr=1e-5)
-            criterion = nn.CrossEntropyLoss()
-            total_steps = len(dataloader) * 2
-
-            # Train the model
-            model.train()
-            for epoch in range(200):
-                model.train()
-                total_correct = 0
-                total_samples = 0
-                for batch in dataloader:
-                
-                    inputs = tokeniser(batch['text'], padding=True, truncation=True, return_tensors='pt')
-                    inputs.to(device)
-                    labels = batch['label'].to(device)
-
-                    outputs = model(**inputs)
-                    loss = criterion(outputs.logits, labels)
-            
-                    optimizer.zero_grad()
-                    loss.backward()
-                    optimizer.step()
-
-                # Calculate accuracy
-                predicted_labels = torch.argmax(outputs.logits, dim=1)
-                total_correct += (predicted_labels == labels).sum().item()
-                total_samples += labels.size(0)
-
-            accuracy = total_correct / total_samples
-            print(f'Epoch {epoch+1} completed. Accuracy: {accuracy:.4f}')    
-
-        model = train_bert(dataset,tokeniser,model)
-
-        if(device is 'gpu'):
-            model.to('cpu')
-    
-        model.save_pretrained('bert_classifier_model')
-        self.model['gt'] = model
-        self.tokeniser['gt'] = tokeniser
-
-    # RandomForest based classifier loop
-    # Standard Random Forest + TF-IDF
+    '''
 
     # @measure_execution_time
     def mlloop(self,corpus:dict,module_name:str):
-        
+
         # Convert text to numeric representation         
         # vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x))  
-        stopwords = sklearn.feature_extraction.text.ENGLISH_STOP_WORDS
         # vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and']) 
         vect = CountVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and'])  
         vect.fit(corpus['text']) # input into vectoriser is a series
@@ -520,28 +363,13 @@ class nlpm:
         score = model.score(X,y)
         print(f"[note] training  [{module_name}] [{model}] [accuracy,{round(score,3)}]")
 
-    # BERT based classifier loop
-    # TF-IDF required to extract vocabulary
+    '''
 
-    def dlloop(self,corpus:dict,module_name:str):
-        
-        # Convert text to numeric representation         
-        vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x))
-        vect.fit(corpus['text']) # input into vectoriser is a series
-        vectors = vect.transform(corpus['text']) # sparse matrix
-        self.vectoriser[module_name] = vect  # store vectoriser 
-
-        # vocabulary of TFIDF
-        lvocab = list(vect.vocabulary_.keys())
-        lvocab.sort()
-        self.vocabulary[module_name] = lvocab
-
-        # preload model, store tokeniser,model
-        self.load_trclassifier()
-
-    # module selection model [ms]
-    # > module class models [module name] x n modules
+    module selection model [ms]
+    module class models [module name] x n modules
     
+    '''
+
     def setup(self,type='mlloop'):
 
         self.vectoriser = {} # stores vectoriser
@@ -553,10 +381,6 @@ class nlpm:
             self.mlloop(self.corpus_gt,'gt')
             self.train_ner_tagger()
             print('[note] models trained!')
-        if(type == 'load_bert'):
-            self.dlloop(self.corpus_gt,'gt')
-            self.train_ner_tagger()
-            print('[note] model loaded!')
             
           
     '''
@@ -641,38 +465,6 @@ class nlpm:
     Model Predictions 
     
     '''
-
-    # [bert] inference
-
-    def predict_gtask_bert(self,name:str,command:str):
-
-        # label encoder should be identical to training labelencoder
-        le = LabelEncoder()
-        df = self.corpus_gt
-        classes = len(df['class'].unique())
-        targets = le.fit_transform(df['task'])
-
-        model = self.model['gt'] 
-        tokeniser = self.tokeniser['gt'] 
-
-        # Tokenize the input text
-        inputs = tokeniser(command, 
-                           padding=True, 
-                           truncation=True, 
-                           return_tensors='pt')
-
-        # Perform inference using the model
-        with torch.no_grad():
-            outputs = model(**inputs)
-            logits = outputs.logits
-
-        # Get the predicted label
-        predicted_label = torch.argmax(logits, dim=1).item()
-
-        print(f"The predicted label for the input text is: {le.classes_[predicted_label]}")
-        output = le.classes_[predicted_label]
-            
-        return output
               
     # [sklearn] returns probability distribution (general)
 

@@ -1,0 +1,64 @@
+{
+  "modules": [
+    
+    {
+      "name": "gstat_stats",
+    "corpus": "subset",
+
+    "corpus_sub":
+
+                {
+
+                    "list_inputs": [
+                                      "please compare the statistics between samples -list and -list",
+                                      "compare various statistics of samples -list and -list",
+                                      "compare the statistics of different samples -list -list and -list",
+                                      "for different samples compare the statistics",
+                                      "please compare the various statistics for the datasets -list and -list",
+                                      "show the general statistics for -list -list and -list",
+                                      "compare the statistics for lists -list -list",
+                                      "please show the basic statistics of datasets -list -list and -list"
+                                    ],
+
+                    "dataframe_inputs": [
+                                      "show describe statistics for the dataframe -df",
+                                      "show statistics for -df",
+                                      "show dataframe statistics of -df",
+                                      "pandas describe for dataframe -df",
+                                      "pandas statistics of -df",
+                                      "pandas stats of -df",
+                                      "dataframe statistics of -df",
+                                      "compare the dataframe column statistics of -df"
+                                    ],
+
+                    "dataframe_subset" : [
+                      
+                                      "show the describe statistics of the dataframe -df of only columns -column -column",
+                                      "show the statistics of the dataframe -df for only -column and -column",
+                                      "compare the statistics of columns -column -column of dataframe -df",
+                                      "show the dataframe statistics for the dataframe but only for column -column",
+                                      "show the statistics for the column -column of the dataframe -df",
+                                      "show only the statistics for columns -column -column of dataframe -df",
+                                      "show the statistics for column -column of the dataframe -df"
+                                      
+                                      ]
+
+                }
+
+      ,
+      "info": {
+               "module":"stats_general",
+               "action":"compare list statistics",
+               "topic":"statistics",
+               "subtopic":"mean test",
+               "input_format":"mlist,mdf",
+               "description":"compare various statistics of different lists",
+               "output":"Stat Test",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    }
+
+  ]
+}
+

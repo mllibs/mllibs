@@ -4,16 +4,16 @@ from mllibs.list_helper import get_bracket_content
 '''
 ##############################################################################
 
-                        [  ACTIVE COLUMNS  ]
-                     
-                    Extraction of active column (s)
-               Active columns are defined by { brackets 
+                            [  ACTIVE COLUMNS  ]
+                         
+                        Extraction of active column (s)
+                   Active columns are defined by { brackets 
 
-- Identification of bracket indicies
-- Finding the nearest B-PARAM ner tag (to the left)
-- Removing all in between these indicies, starting from B-PARAM
+    - Identification of bracket indicies
+    - Finding the nearest B-PARAM ner tag (to the left)
+    - Removing all in between these indicies, starting from B-PARAM
 
-If columns { ac_name } > stored in self.module_args['subset']
+    If columns { ac_name } > stored in self.module_args['subset']
 
 ##############################################################################
 '''
@@ -68,6 +68,8 @@ def ac_extraction(tdf:pd.DataFrame, nlpi_data: dict):
     lst_param_id = []
     for i in lst_param_idx:
         lst_param_id.append(ls.iloc[i]['token'])
+
+    
     
 #   for pair in remove_idx:
 #       ls = ls[~(ls.index_id.isin(pair))]

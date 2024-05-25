@@ -10,7 +10,8 @@ from mllibs.nlpm import parse_json
 import pkg_resources
 import json
 from scipy.fft import fft, fftfreq
-import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 '''
 
@@ -69,7 +70,8 @@ class fourier_all(nlpi):
         # Calculate the magnitude of the FFT coefficients
         magnitude = np.abs(fft_result)
         
-        df = pd.DataFrame({'freq':freq_in_hz,'magnitude':magnitude})
+        df = pd.DataFrame({'freq':freq_in_hz,
+                           'magnitude':magnitude})
         df = df[df['freq'] > 0]
         return df
 
@@ -123,12 +125,16 @@ class fourier_all(nlpi):
     def sig_fourierplot(self,args:dict):
         
         # subset treatment 
-        def check_column_format(lst):
+
+        def check_column_format(lst:list):
             
             if(len(lst) == 1):
-                return lst[0]
+                return [lst[0]]
+
+            # more than one column is found 
             elif(len(lst) == 2):
-                print("[note] I'll group the specified columns together")
+                if(nlpi.silent == False):
+                    print("[note] I'll group the specified columns together")
                 
                 # nested lists to single list
                 # taking into account str entries
@@ -168,22 +174,35 @@ class fourier_all(nlpi):
             
                 if(len(lst_df) > 1):
                     merged_df = pd.concat(lst_df, ignore_index=True)
-                    color = 'case'
                 else:
                     merged_df = lst_df[0]
-                    color = None
-            
-                # Create a Plotly figure to visualize the FFT result with a logarithmic x-axis
-                
-                fig = px.line(merged_df,x='freq', y='magnitude',color=color,template='plotly_white',width=700)
-                fig.update_layout(
-                    title='FFT Transformation',
-                    xaxis_title='Frequency (Hz)',
-                    yaxis_title='Magnitude',
-                    # xaxis_type='log',  # Set x-axis to be logarithmic
-                    # yaxis_type='log'  # Set x-axis to be logarithmic
-                )
-                fig.show()
+
+                def seaborn_setstyle():
+                    sns.set_style("whitegrid", {
+                      "ytick.major.size": 0.1,
+                      "ytick.minor.size": 0.05,
+                      'grid.linestyle': '--'
+                    })
+
+                if(nlpi.pp['figsize'] == None):
+                    fsize = (10,5)
+                else:
+                    fsize = nlpi.pp['figsize']
+
+                seaborn_setstyle()
+
+                fig, ax = plt.subplots(figsize=fsize)
+                groups = dict(tuple(merged_df.groupby('case')))
+
+                for group,gdata in groups.items():   
+                    sns.lineplot(gdata,x='freq',y='magnitude',label=group,ax=ax)
+
+                ax.set_xlabel('Frequency (Hz)')
+                ax.set_ylabel('Magnitude')
+                ax.legend()
+                plt.tight_layout()
+                sns.despine(left=True,right=True,top=True,bottom=True)
+                plt.show()
 
             else:
                 print('[note] column not present in dataframe')

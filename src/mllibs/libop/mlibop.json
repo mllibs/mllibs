@@ -12,7 +12,9 @@
                 "show available data",
                 "what data is available",
                 "show me what data is available",
-                "tell me which data is available to me"
+                "tell me which data is available to me",
+                "what datasets have been loaded into nlpi",
+                "what datasets have been loaded"
               ],
       "corpus_sub":"None",
       "info": {
@@ -29,12 +31,41 @@
     },
 
     {
+      "name": "mlibop_convertlisttodf",
+    "corpus": 
+
+            [
+            "convert the lists -list -list and -list to a dataframe ",
+            "group together the lists -list -list -list into a dataframe",
+            "transform the lists -list -list -list into a dataframe",
+            "create a dataframe from lists -list -list -list -list",
+            "merge together -list -list -list into a single dataframe",
+            "turn the lists -list -list -list -list into a dataframe "
+            ]
+
+    ,
+      "corpus_sub":"None",
+
+      "info": {
+               "module":"libop",
+               "action":"show data",
+               "topic":"library operation",
+               "subtopic":"stored data",
+               "input_format":"None",
+               "description":"convert lists into a dataframe and store it as a new data source",
+               "output":"list",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
       "name": "mlibop_functions",
     "corpus": [
                 "show available functions",
+                "show the available activation functions",
                 "available activation functions",
-                "show functions list",
-                "show library functionality"
+                "which activation functions are available"
               ],
       "corpus_sub":"None",
       "info": {

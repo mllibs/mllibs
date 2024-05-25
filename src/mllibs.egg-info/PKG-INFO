@@ -22,16 +22,7 @@ Requires-Dist: nltk
 Requires-Dist: seaborn
 Requires-Dist: matplotlib
 Requires-Dist: scikit-learn
-Requires-Dist: gensim
-Requires-Dist: spacy
-Requires-Dist: torch
-Requires-Dist: tensorflow
-Requires-Dist: keras
 Requires-Dist: statsmodels
-Requires-Dist: pingouin
-Requires-Dist: arch
-Requires-Dist: transformers
-Requires-Dist: urllib3<2
 Requires-Dist: catboost
 
 <p align="center">

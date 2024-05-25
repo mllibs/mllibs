@@ -165,7 +165,7 @@ class eda_scplot(nlpi):
       n_cols = 3
       n_rows = math.ceil(len(columns)/n_cols)
       
-      if(nlpi.pp['figsize'] == None or nlpi.pp['figsize'][0] > 20):
+      if(nlpi.pp['figsize'] == None):
         fsize = (16, n_rows*5)
       else:
         fsize = nlpi.pp['figsize']

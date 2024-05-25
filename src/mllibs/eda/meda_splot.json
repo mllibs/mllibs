@@ -3,15 +3,47 @@
     
     {
       "name": "sscatterplot",
-    "corpus": [
-                "create seaborn scatter plot",
-                "make seaborn scatter plot",
-                "make seaborn scatterplot",
-                "create seaborn scatterplot",
-                "create scatterplot with seaborn",
-                "make seaborn scatterplot"
-              ],
-      "corpus_sub":"None",
+    "corpus": "subset",
+
+      "corpus_sub":
+      {
+        "param_defined":[
+          "please create a seaborn scatter plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+          "make a seaborn scatterplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+          "create a seaborn scatter plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+          "create a seaborn scatter plot to visualise the relationship between ~x -column and ~y -column",
+          "make a seaborn scatterplot to visualise the relationship between ~x -column and ~y -column",
+          "how can I visualise the relationship between ~x -column and ~y -column using a seaborn scatter plot",
+          "can you help me generate a seaborn scatter plot to display the connection between ~x -column and ~y -column",
+          "with a seaborn scatterplot I want to visualise the association between ~x -column and ~y -column", 
+          "i want to plot a graph using seaborn scatterplot to illustrate the relationship between ~x -column and ~y -column",
+          "i want to visually represent the connection between ~x -column and ~y -column using seaborn scatterplot",
+          "i would like to plot a graph using seaborn scatterplot to demonstrate the relationship between ~x -column and ~y -column",
+          "create a seaborn scatterplot so I can visualise the correlation between ~x -column and ~y -column",
+          "please provide an example of using seaborn scatterplot to depict the correlation between ~x -column and ~y -column",
+          "please show me how to create a seaborn scatterplot to demonstrate the correlation between ~x -column and ~y -column",
+          "could you provide an example of using seaborn scatterplot to depict the correlation between ~x -column and ~y -column",
+          "please show me how to create a seaborn scatterplot to demonstrate the correlation between ~x -column and ~y -column"
+        ],
+        "xy_column": [
+          "create a seaborn scatterplot to visualise the relationship between -column and -column",
+          "make a seaborn scatterplot to visualise the relationship between -column and -column",
+          "how can I visualise the relationship between -column and -column using a seaborn scatterplot",
+          "can you help me generate a seaborn scatter plot to display the connection between -column and -column",
+          "using seaborn scatterplot I want to visualise the association between -column and -column",
+          "i want to plot a graph using seaborn scatterplot to illustrate the relationship between -column and -column",
+          "i want to visually represent the connection between -column and -column using seaborn scatter plot",
+          "i would like to plot a graph using a seaborn scatterplot to demonstrate the relationship between -column and -column",
+          "create a seaborn scatterplot so I can visualise the correlation between -column and -column",
+          "could you provide an example of using seaborn scatterplot to depict the correlation between -column and -column",
+          "please show me how to create a scatter plot using seaborn to demonstrate the correlation between -column and -column",
+          "could you provide an example of using seaborn scatter plot to depict the correlation between -column and -column",
+          "please show me how to create a seaborn scatterplot to demonstrate the correlation between -column and -column"
+        ]
+
+    },
+
+
       "info": {
                "module":"eda_plot",
                "action":"action",
@@ -262,45 +294,7 @@
     
     {
       "name": "srelplot",
-      "corpus": [
-                  "create seaborn relplot",
-                  "make seaborn relplot",
-                  "create seaborn relation plot",
-                  "create seaborn relation plot",
-                  "make seaborn relation plot",
-                  "with -data please create a relplot using -column and -column",
-                  "create a seaborn relplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                  "make a seaborn relplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                  "create a seaborn relation plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                  "create a seaborn relplot to visualise the relationship between ~x -column and ~y -column",
-                  "make a seaborn relplot to visualise the relationship between ~x -column and ~y -column",
-                  "how can I visualise the relationship between ~x -column and ~y -column",
-                  "can you help me generate a seaborn relplot to display the connection between ~x -column and ~y -column",
-                  "using seaborn relplot I want to visualise the association between ~x -column and ~y -column",
-                  "i want to plot a graph using seaborn relplot to illustrate the relationship between ~x -column and ~y -column",
-                  "i want to visually represent the connection between ~x -column and ~y -column using seaborn relplot",
-                  "i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column",
-                  "create a seaborn relplot so I can visualise the correlation between ~x -column and ~y -column",
-                  "could you provide an example of using lmplot to depict the correlation between ~x -column and ~y -column",
-                  "please show me how to create a lmplot to demonstrate the correlation between ~x -column and ~y -column",
-                  "could you provide an example of using lmplot to depict the correlation between ~x -column and ~y -column",
-                  "please show me how to create a lmplot to demonstrate the correlation between ~x -column and ~y -column",
-                  "create a seaborn relplot setting parameters ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                  "create a seaborn relplot using parameters ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                  "create a seaborn relplot to visualise the relationship between -column and -column",
-                  "make a seaborn relplot to visualise the relationship between -column and -column",
-                  "how can I visualise the relationship between -column and -column",
-                  "can you help me generate a seaborn relplot to display the connection between -column and -column",
-                  "using seaborn relplot I want to visualise the association between -column and -column",
-                  "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column",
-                  "i want to visually represent the connection between -column and -column using seaborn relplot",
-                  "i would like to plot a graph using seaborn relplot to demonstrate the relationship between -column and -column",
-                  "create a seaborn relplot so I can visualise the correlation between -column and -column",
-                  "could you provide an example of using lmplot to depict the correlation between -column and -column",
-                  "please show me how to create a lmplot to demonstrate the correlation between -column and -column",
-                  "could you provide an example of using lmplot to depict the correlation between -column and -column",
-                  "please show me how to create a lmplot to demonstrate the correlation between -column and -column"
-                ],
+      "corpus": "subset",
       "corpus_sub":
         {
       "param_defined":[
@@ -355,7 +349,23 @@
                         "please show me how to create a lmplot to demonstrate the correlation between -column and -column for each -column",
                         "could you provide an example of using lmplot to depict the correlation between -column and -column for each -column",
                         "please show me how to create a lmplot to demonstrate the correlation between -column and -column for each -column"
-                       ] 
+                       ],
+
+        "xy_col_row" : [
+                        "create a seaborn relplot to visualise the relationship between -column and -column for each -column and -column",
+                        "make a seaborn relplot to visualise the relationship between -column and -column for each -column for each -column and -column",
+                        "how can I visualise the relationship between -column and -column using a seaborn relplot for each -column for each -column and -column",
+                        "can you help me generate a seaborn relplot to display the connection between -column and -column for each -column for each -column and -column",
+                        "using seaborn relplot I want to visualise the association between -column and -column for each -column and -column",
+                        "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column for each -column and -column",
+                        "i want to visually represent the connection between -column and -column using seaborn replot for each -column and -column",
+                        "i would like to plot a graph using a seaborn relplot to demonstrate the relationship between -column and -column for each -column and -column",
+                        "create a seaborn relplot so I can visualise the correlation between -column and -column for each -column and -column",
+                        "could you provide an example of using seaborn relplot to depict the correlation between -column and -column for each -column and -column",
+                        "please show me how to create a relplot using seaborn to demonstrate the correlation between -column and -column for each -column and -column",
+                        "could you provide an example of using seaborn relplot to depict the correlation between -column and -column for each -column and -column",
+                        "please show me how to create a seaborn relplot to demonstrate the correlation between -column and -column for each -column and -column"
+                        ]
           
         },
       "info": {

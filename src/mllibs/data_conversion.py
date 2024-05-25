@@ -95,3 +95,32 @@ def convert_series(data:pd.Series,output_type:str,name:str=None):
             return {data.name:list(data.values)}
         else:
             return {f'{name}':list(data.values)}
+
+
+
+def nlpilist_to_df(ddata:dict):
+
+    '''
+
+    Import a list of data names (from nlpi.data) to a DataFrame
+
+    module_args['data'] -> pd.DataFrame
+
+    '''
+
+    data_names = ddata['data'] # list of data names
+
+    def get_data(name:str):
+        return nlpi.data[name]['data']
+    
+    ldata = []; pass_id = True
+    for key in data_names:
+        if(isinstance(get_data(key),list)):
+            ldata.append(pd.Series(get_data(key), index=range(len(get_data(key))),name=key))
+        else:
+            print('[note] data not a list')
+
+    print(pass_id)
+
+    if(pass_id):
+        return pd.concat(ldata,axis=1)

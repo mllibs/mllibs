@@ -2,8 +2,9 @@
   "modules": [
     
     {
-      "name": "sig_fourier",
+      "name": "sig_fouriers",
     "corpus": [
+
                 "calculate the fourier transformation for column",
                 "compute the fourier transform for the specified column",
                 "generate the fourier transformation for the column",
@@ -12,25 +13,7 @@
                 "calculate the column fourier transformation",
                 "compute the fourier transform of column",
                 "generate the fourier transformation of the column",
-                "please generate the fft for column"
-              ],
-      "corpus_sub":"None",
-      "info": {
-               "module":"fourier_all",
-               "action":"reduce dimensions",
-               "topic":"dimensionality reduction",
-               "subtopic":"fourier transformation",
-               "input_format":"pd.DataFrame",
-               "description":"calculate the fast fourier transformation of a column",
-               "output":"pd.DataFrame",
-               "token_compat":"None",
-               "arg_compat":"column"
-              }
-    },
-
-    {
-      "name": "sig_fouriers",
-    "corpus": [
+                "please generate the fft for column",
                 "calculate the fourier transformation for columns",
                 "compute the fourier transform for the specified columns",
                 "generate the fourier transformation for the columns",
@@ -50,7 +33,7 @@
                "topic":"dimensionality reduction",
                "subtopic":"fourier transformation",
                "input_format":"pd.DataFrame",
-               "description":"calculate the fast fourier transformation of multiple column",
+               "description":"calculate the fast fourier transformation",
                "output":"pd.DataFrame",
                "token_compat":"None",
                "arg_compat":"column"

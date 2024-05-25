@@ -3,20 +3,27 @@
     
     {
       "name": "dp_hist",
-    "corpus": [
-                "compare univariate histogram distribution between two samples",
-                "compare histograms of samples",
-                "compare histogram distribution of two samples",
-                "compare histogram of two samples",
-                "two sample univariate distribution histogram"
+    "corpus": 
+              [
+                "compare univariate histogram distribution between two samples -data and -data",
+                "compare histograms of samples -data and -data",
+                "compare histogram distribution of two samples -data -data",
+                "compare histogram of two samples -data and -data",
+                "plot the histrogram distribution of two lists -data and -data",
+                "compare the histogram distribution of two samples -data and -data",
+                "compare the histograms of two samples -data -data ~nbins -value",
+                "visualise the histogram distribution of -data and -data",
+                "please plot the distribution of sample -data using histograms",
+                "plot the histogram distributions of samples -data and -data",
+                "compare the histograms of two samples -list and -list set ~nbins -value"
               ],
-      "corpus_sub":"None",
+      "corpus_sub": "None",
       "info": {
                "module":"stats_plot",
                "action":"show plot",
                "topic":"statistics",
                "subtopic":"compare distribution",
-               "input_format":"list,list",
+               "input_format":"mlist",
                "description":"Compare the univariate histogram distribution of two samples",
                "output":"figure",
                "token_compat":"None",
@@ -28,8 +35,13 @@
       "name": "dp_kde",
     "corpus": [
                 "compare univariate kernel density plots between two samples",
-                "compare kde plot of two samples",
-                "two sample kde plot comparison"
+                "compare kde plot of two samples -list and -list",
+                "visualise two samples kernel density plot of -list and -list",
+                "visualise the kernel density plot of -list and -list",
+                "compare the distribution of -list and -list using a kde plot",
+                "compare the distribution of two datasets -list and -list using a kernel density plot",
+                "visualise the univariate kernel density plot of -list and -list",
+                "plot the kde distributions of -list and -list"
               ],
       "corpus_sub":"None",
       "info": {
@@ -37,8 +49,58 @@
                "action":"show plot",
                "topic":"statistics",
                "subtopic":"compare distribution",
-               "input_format":"list,list",
+               "input_format":"mlist",
                "description":"Compare the univariate kernel density distribution of two samples",
+               "output":"figure",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "dp_box",
+    "corpus": [
+                "compare the boxplot distribution for different samples -list and -list",
+                "compare the univariate boxplot distribution of two samples -list and -list",
+                "visualise the boxplots for different samples -list and -list",
+                "compare the boxplot distribution of different samples -list -list and -list",
+                "please plot the boxplots for different data samples -data -list",
+                "please visualise the boxplot distributions for -list -list",
+                "having datasets -list and -list please plot the boxplot distributions",
+                "compare the boxplot distribution for datasets -list -list and -list"
+              ],
+      "corpus_sub":"None",
+      "info": {
+               "module":"stats_plot",
+               "action":"show plot",
+               "topic":"statistics",
+               "subtopic":"compare distribution",
+               "input_format":"mlist",
+               "description":"Compare the univariate boxplot distribution of two samples",
+               "output":"figure",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    },
+
+    {
+      "name": "dp_ecdf",
+    "corpus": [
+                "compare the cumulative distribution functions of samples -list and -list",
+                "please compare the ecdf of two samples of data -list and -list",
+                "having two datasets -list and -list compare the ecdf distribution",
+                "please compare the ecdf distribution of datasets -list -list and -list",
+                "plot the empirical cumulative distribution functions of datasets -list and -list",
+                "please plot the cumulative distribution functions for data -list and -list"
+              ],
+      "corpus_sub":"None",
+      "info": {
+               "module":"stats_plot",
+               "action":"show plot",
+               "topic":"statistics",
+               "subtopic":"compare distribution",
+               "input_format":"mlist",
+               "description":"Compare the univariate empirical cumulative distribution functions",
                "output":"figure",
                "token_compat":"None",
                "arg_compat":"None"
@@ -60,31 +122,8 @@
                "action":"show plot",
                "topic":"statistics",
                "subtopic":"compare distribution",
-               "input_format":"list,list",
+               "input_format":"mlist",
                "description":"Create bootstrap subsamples for two samples and plot the histogram distribution",
-               "output":"figure",
-               "token_compat":"None",
-               "arg_compat":"nbins nsamples"
-              }
-    },
-
-    {
-      "name": "dp_wildbootstrap",
-    "corpus": [
-                "create wild bootstrap samples for two samples",
-                "wild bootstrap samples of two samples",
-                "compare wild bootstrap histogram distribution of two samples",
-                "compare wild bootstrap histogram distributions",
-                "wild bootstrap sample comparison"
-              ],
-      "corpus_sub":"None",
-      "info": {
-               "module":"stats_plot",
-               "action":"show plot",
-               "topic":"statistics",
-               "subtopic":"compare distribution",
-               "input_format":"list,list",
-               "description":"Create wild bootstrap subsamples for two samples and plot the histogram distribution",
                "output":"figure",
                "token_compat":"None",
                "arg_compat":"nbins nsamples"

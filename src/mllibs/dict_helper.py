@@ -82,10 +82,21 @@ def convert_str_to_val(args:dict,key:str):
 
 '''
 
-Sort a dictionary by its values
+    Sort a dictionary by its values
 
 '''
 
 def sort_dict_by_value(data:dict):
     sorted_dict = dict(sorted(data.items(), key=lambda item: item[1]))
     return sorted_dict
+
+
+'''
+
+    Print Dictionary
+
+'''
+
+def print_dict(dct:dict):
+    for item, amount in dct.items():
+        print("{} ({})".format(item, amount))

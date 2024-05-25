@@ -1,0 +1,336 @@
+{
+  "modules": [
+    {
+      "name": "dfcolumninfo",
+      "corpus": [
+        "what are the columns in the dataframe -df",
+        "print the column names of dataframe -df",
+        "show the dataframe column names in -df",
+        "print dataframe column names for -df",
+        "show me the columns names in -df",
+        "what columns are available in dataframe -df",
+        "show the column names for the dataframe -df"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "print list",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "description": "print the dataframe column names",
+        "output": "print",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "dfsize",
+      "corpus": [
+        "show me the size of the dataframe -df",
+        "show the dataframe -df size",
+        "dataframe size",
+        "what is the dataframe size",
+        "show the dataframe -df size",
+        "please show the dataframe shape of -df",
+        "what is the dataframe shape for -df",
+        "tell me the shape of the dataframe -df",
+        ""
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "print list",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "description": "print the size of the dataframe",
+        "output": "print",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "dfcolumn_distr",
+      "corpus": "subset",
+      "corpus_sub": {
+        "subset": [
+          "show the column distribution in the dataframe for -column",
+          "show all the unique values in dataframe -df column -column",
+          "show the value_counts of column -column in the dataframe -df",
+          "show the value counts of -column in -df",
+          "show the distribution of column -column in -df",
+          "show the distribution of data in ~col -column in the dataframe -df",
+          "show the value_counts in -df for ~col -column -column",
+          "show the column distributions for the dataframe -df for column -column"
+        ],
+
+        "all": [
+          "show the distribution for all columns in dataframe -df",
+          "show the column distributions for the dataframe -df",
+          "show the column distributions in the -df",
+          "show the column distributions in the dataframe -df",
+          "show the value_counts for all columns in the -df",
+          "show the value_counts of all columns in the dataframe -df",
+          "show the column distribution for the dataframe -df"
+        ]
+      },
+      "info": {
+        "module": "pd_dfop",
+        "action": "show text",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "description": "show column distribution(s) in the dataframe",
+        "output": "print",
+        "token_compat": "None",
+        "arg_compat": "col"
+      }
+    },
+
+    {
+      "name": "dfna_all",
+      "corpus": [
+        "how much data is missing in the dataframe -df",
+        "show the missing data in all columns of dataframe -df",
+        "show all missing data in dataframe -df",
+        "show missing data of dataframe -df",
+        "does the dataframe -df contain missing rows",
+        "show the missing data in all columns of dataframe -df",
+        "are there any data missing in all columns",
+        "show how much missing data there is in the dataframe -df",
+        "show how much data is missing in the dataframe -df"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "show text",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "description": "show missing data all columns in the dataframe",
+        "output": "print",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "show_info",
+      "corpus": [
+        "for -df show basic information",
+        "show dataframe information of -df",
+        "show dataframe info for -df",
+        "show dataframe information for -df",
+        "info for -df",
+        "show the dataframe information for -df"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "table operation",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "output": "print",
+        "description": "show dataframe information (df.info())",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "dfcolumn_toint",
+      "corpus": [
+        "convert column to integer format",
+        "convert dataframe column to integer format",
+        "convert column to int",
+        "modify column type to integer",
+        "change the column type to integer",
+        "change the column type to int"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "modify dataframe",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe modification",
+        "input_format": "pd.DataFrame",
+        "description": "convert the dataframe column to integer format",
+        "output": "None",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "dfcolumn_dtype",
+      "corpus": [
+        "convert column to dtype format",
+        "convert dataframe column to dtype format",
+        "modify column type to dtype",
+        "change the column type to dtype",
+        "change the column type to dtype",
+        "convert column type to dtype"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "modify dataframe",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe modification",
+        "input_format": "pd.DataFrame",
+        "description": "convert the dataframe column to a specified format format",
+        "output": "None",
+        "token_compat": "None",
+        "arg_compat": "dtype"
+      }
+    },
+
+    {
+      "name": "dfcolumn_tostr",
+      "corpus": [
+        "convert column to string format",
+        "convert dataframe column to string format",
+        "modify column type to string",
+        "change the column type to string",
+        "change the column type to str",
+        "convert column type to str"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "modify dataframe",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe modification",
+        "input_format": "pd.DataFrame",
+        "description": "convert the dataframe column to string format",
+        "output": "None",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "show_dtypes",
+      "corpus": [
+        "show dataframe dtypes for the dataframe -df",
+        "show data types for the dataframe -df",
+        "print data types of the dataframe -df",
+        "print dtypes of the -df",
+        "show feature dtypes of -df",
+        "show dtypes of the columns in the dataframe -df",
+        "show dataframe feature types in dataframe -df",
+        "show dataframe column types of -df"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "table operation",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "output": "print",
+        "description": "show column data types dtypes for the dataframe",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "show_corr",
+      "corpus": [
+        "create correlation matrix for the dataframe -df",
+        "plot correlation matrix of dataframe -df",
+        "generate a correlation matrix for the dataframe -df",
+        "create correlation of dataframe -df",
+        "show feature correlation in the dataframe -df",
+        "genenerate correlation matrix for the dataframe -df",
+        "show correlation matrix in the dataframe -df",
+        "show correlation of features in -df"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "show plot",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "output": "print",
+        "description": "visualise linear correlation between features",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    },
+
+    {
+      "name": "dfcolumn_unique",
+      "corpus": "subset",
+      "corpus_sub": {
+        "one": [
+          "show the unique values in the dataframe column -column in the dataframe -df",
+          "show the unique values in -column in -df",
+          "list the unique column values in -df for column -column",
+          "for column -column show the unique values in dataframe -df",
+          "for -column show the unique values in -df"
+        ],
+
+        "few": [
+          "show the unique values in the dataframe columns -column -column in the dataframe -df",
+          "show the unique values in -column -column in -df",
+          "list the unique column values in -df for columns -column -column -column",
+          "for columns -column -column show the unique values in dataframe -df",
+          "for -column -column show the unique values in -df",
+          "show all the unique values columns -column -column in dataframe -df"
+        ],
+
+        "all": [
+          "show all unique values for all columns in the dataframe -df",
+          "show all the unique values in the dataframe -df",
+          "what are all the unique values in all columns for the dataframe -df",
+          "show all the unique values in -df",
+          "get all the unique values in all columns in dataframe -df",
+          "what are the unique values in the dataframe -df for all columns"
+        ]
+      },
+
+      "info": {
+        "module": "pd_dfop",
+        "action": "show text",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "description": "show all unique column values",
+        "output": "print",
+        "token_compat": "None",
+        "arg_compat": "column col"
+      }
+    },
+
+    {
+      "name": "df_preview",
+      "corpus": [
+        "show a preview of the dataset -df",
+        "show a preview of the dataframe -df",
+        "show me a preview of dataframe -df",
+        "show dataframe preview of -df",
+        "show a quick preview of dataframe -df",
+        "quick dataframe preview of -df"
+      ],
+      "corpus_sub": "None",
+      "info": {
+        "module": "pd_dfop",
+        "action": "display dataframe",
+        "topic": "exploratory data analysis",
+        "subtopic": "dataframe investigation",
+        "input_format": "pd.DataFrame",
+        "description": "show a preview of the dataframe",
+        "output": "print",
+        "token_compat": "None",
+        "arg_compat": "None"
+      }
+    }
+  ]
+}

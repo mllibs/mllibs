@@ -8,14 +8,5 @@ nltk
 seaborn
 matplotlib
 scikit-learn
-gensim
-spacy
-torch
-tensorflow
-keras
 statsmodels
-pingouin
-arch
-transformers
-urllib3<2
 catboost

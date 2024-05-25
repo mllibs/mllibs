@@ -1,6 +1,5 @@
 
 from mllibs.nlpi import nlpi
-import plotly.express as px
 import matplotlib.pyplot as plt
 import pandas as pd
 from collections import OrderedDict
@@ -35,6 +34,9 @@ class libop_general(nlpi):
             self.stored_data(args)
         if(select == 'mlibop_functions'):
             self.stored_functions(args)
+        if(select == 'mlibop_convertlisttodf'):
+            self.convert_list_to_df(args)
+
 
     '''
 
@@ -44,10 +46,9 @@ class libop_general(nlpi):
 
     '''
 
-    Show Stored Dataset Names
+    show stored dataset names
 
     '''
-    # (mlibop_sdata)
 
     def stored_data(self,args:dict):
 
@@ -55,19 +56,11 @@ class libop_general(nlpi):
         data_keys = list(nlpi.data.keys())
         print(data_keys)
 
-        # print('Each dataset stores ')
-        # try:
-        #     idx = data_keys[0]
-        #     print(list(nlpi.data[idx].keys()))
-        # except:
-        #     pass    
-
     '''
 
-    Show Activation Function Summary DataFrame
+    show activation function summary dataframe
 
     '''
-    # (mlibop_functions)
 
     def stored_functions(self,args:dict):  
         
@@ -75,3 +68,26 @@ class libop_general(nlpi):
         display(module_summary.head())
         print("[note] data stored in nlpi.memory_output; call .glr()['data']")
         nlpi.memory_output.append({'data':module_summary})
+
+    '''
+
+    convert stored lists into a dataframe 
+
+    '''
+
+    def convert_list_to_df(self,args:dict):
+ 
+        lst_data = []
+        for name in args['data']['list']:
+            ldata = nlpi.data[name]['data']
+            data = pd.DataFrame(ldata,columns=['data'])
+            data['sample'] = name
+            data['ids'] = range(len(data))
+            lst_data.append(data)
+
+        combined = pd.concat(lst_data)
+        combined = combined.reset_index(drop=True)
+        df_pivot = combined.pivot(index='ids',columns='sample', values='data')
+
+        nlpi.store_data(df_pivot,args['store_as'])
+

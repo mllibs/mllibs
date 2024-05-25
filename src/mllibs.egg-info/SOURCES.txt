@@ -10,6 +10,7 @@ src/mllibs/df_helper.py
 src/mllibs/dict_helper.py
 src/mllibs/interface.py
 src/mllibs/list_helper.py
+src/mllibs/module_helper.py
 src/mllibs/ner_activecolumn.py
 src/mllibs/ner_source.py
 src/mllibs/nerparser.py
@@ -30,7 +31,6 @@ src/mllibs/corpus/reference_database.csv
 src/mllibs/corpus/wordlist.10000.txt
 src/mllibs/eda/__init__.py
 src/mllibs/eda/meda_pplot.json
-src/mllibs/eda/meda_pplot.py
 src/mllibs/eda/meda_scplot.json
 src/mllibs/eda/meda_scplot.py
 src/mllibs/eda/meda_splot.json
@@ -48,12 +48,14 @@ src/mllibs/nlp/mtextnorm.py
 src/mllibs/pd/__init__.py
 src/mllibs/pd/mpd_df.json
 src/mllibs/pd/mpd_df.py
-src/mllibs/pd/mpd_talktodata.json
-src/mllibs/pd/mpd_talktodata.py
+src/mllibs/pd/mpd_dfop.json
+src/mllibs/pd/mpd_dfop.py
 src/mllibs/signal/__init__.py
 src/mllibs/signal/mfourier_all.json
 src/mllibs/signal/mfourier_all.py
 src/mllibs/stats/__init__.py
+src/mllibs/stats/mstats_general.json
+src/mllibs/stats/mstats_general.py
 src/mllibs/stats/mstats_plot.json
 src/mllibs/stats/mstats_plot.py
 src/mllibs/stats/mstats_tests.json
