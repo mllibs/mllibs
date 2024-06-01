@@ -176,7 +176,6 @@ def get_spdata(dicts:dict,req_id:str):
 
 def get_nested_list_and_indices(input_list:list):
 
-
 	'''
 
 	input
@@ -196,9 +195,10 @@ def get_nested_list_and_indices(input_list:list):
 		elif isinstance(item, str):
 			str_count += 1
 
-	if nested_count > 1:
+	if (nested_count > 1):
 		print('[note] too much information has been given')
-	elif nested_count <= 1:
+
+	elif(nested_count == 1):
 
 		for i, item in enumerate(input_list):
 			if isinstance(item, list) and len(item) == 2:
@@ -208,5 +208,11 @@ def get_nested_list_and_indices(input_list:list):
 				nested_index, rest_indices = get_nested_list_and_indices(item)
 				if nested_index is not None:
 					return nested_index, rest_indices
+
+	elif(nested_count == 0 and str_count > 0):
+
+		return None,list(range(len(input_list)))
+		
+	else:
 
 		return None, None

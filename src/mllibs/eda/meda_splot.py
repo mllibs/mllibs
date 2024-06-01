@@ -127,7 +127,7 @@ class eda_splot(nlpi):
 				# columns w/o parameter treatment
 				if(args['column'] != None):
 					group_col_idx,indiv_col_idx = get_nested_list_and_indices(args['column'])
-				
+
 					# group column names
 					group_col = args['column'][group_col_idx]
 
@@ -163,10 +163,14 @@ class eda_splot(nlpi):
 
 				# columns w/o parameter treatment
 				if(args['column'] != None):
+					
 					group_col_idx,indiv_col_idx = get_nested_list_and_indices(args['column'])
-				
-					# group column names
-					group_col = args['column'][group_col_idx]
+
+					# group column names (if they exist)
+					try:
+						group_col = args['column'][group_col_idx]
+					except:
+						pass
 
 					# non grouped column names
 					lst_indiv = []
@@ -206,9 +210,28 @@ class eda_splot(nlpi):
 					except:
 						pass
 
+				# parameters defined only
 				elif(args['sub_task'] == 'param_defined'):
 					pass
-				
+
+				# [-column] and [-column] and ~hue -column
+				elif(args['sub_task'] == 'param_xy_column'):
+					args['x'] = group_col[0]
+					args['y'] = group_col[1]
+
+				# [-column] and [-column] for all [-column] and ~hue -column
+				elif(args['sub_task'] == 'param_xy_col_column'):
+					args['x'] = group_col[0]
+					args['y'] = group_col[1]
+					args['col'] = lst_indiv[0]
+
+				elif(args['sub_task'] == 'param_defined_col'):
+					args['col'] = lst_indiv[0]
+
+				elif(args['sub_task'] == 'param_defined_col_row'):
+					args['col'] = lst_indiv[0]
+					args['row'] = lst_indiv[1]
+
 				# call relplot
 				self.srelplot(args)
 
@@ -261,7 +284,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
 		
@@ -287,7 +310,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		
 	'''
@@ -316,9 +339,9 @@ class eda_splot(nlpi):
 					edgecolor = args['mec'],
 					data = args['data'])
 		
-		sns.despine(left=True, bottom=True)
+		# sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
 		
@@ -347,7 +370,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		
 	'''
@@ -372,7 +395,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
 		
@@ -408,12 +431,12 @@ class eda_splot(nlpi):
 		
 		# check if string is in allowable parameter
 		if(barmode not in allow['barmode']):
-		  barmode = allow['barmode'][0]
-		  print('[note] allowable barmodes: [layer],[dodge],[stack],[fill]')
+			barmode = allow['barmode'][0]
+			print('[note] allowable barmodes: [layer],[dodge],[stack],[fill]')
 		  
 		if(args['x'] is None and args['y'] is None and args['column'] is not None):
-		  args['x'] = args['column']
-		  print('[note] please specify orientation [x][y]')
+			args['x'] = args['column']
+			print('[note] please specify orientation [x][y]')
 		
 		sns.histplot(
 					  x=args['x'], 
@@ -430,7 +453,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']): 
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
 		
@@ -455,7 +478,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
 		
@@ -518,7 +541,7 @@ class eda_splot(nlpi):
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
-		  plt.title(nlpi.pp['title'])
+			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
 

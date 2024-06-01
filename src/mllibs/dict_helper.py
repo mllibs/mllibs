@@ -1,3 +1,4 @@
+import pandas as pd
 
 def sfp(args:dict,preset:dict,key:str):
     
@@ -100,3 +101,38 @@ def sort_dict_by_value(data:dict):
 def print_dict(dct:dict):
     for item, amount in dct.items():
         print("{} ({})".format(item, amount))
+
+
+
+def convert_dict_toXy(data:dict):
+
+    '''
+    
+        convert a dict keys(labels), values(corpus documents) into X,y
+    
+    '''
+
+    # Convert the dictionary to a list of tuples
+    data_list = [(key, value) for key, values in data.items() for value in values]
+
+    # Create a DataFrame from the list
+    df = pd.DataFrame(data_list, columns=['label', 'text'])
+
+    return df['text'],df['label']
+
+
+def convert_dict_todf(data:dict):
+
+    '''
+    
+        convert a dict keys(labels), values(corpus documents) into df
+    
+    '''
+
+    # Convert the dictionary to a list of tuples
+    data_list = [(key, value) for key, values in data.items() for value in values]
+
+    # Create a DataFrame from the list
+    df = pd.DataFrame(data_list, columns=['label', 'text'])
+
+    return df

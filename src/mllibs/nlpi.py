@@ -1,11 +1,11 @@
 from mllibs.nlpm import nlpm
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import random
 import json
 import re
 from inspect import isfunction
-import seaborn as sns
 from mllibs.tokenisers import custpunkttokeniser
 from mllibs.ner_activecolumn import ac_extraction
 from mllibs.data_conversion import convert_to_list,convert_to_df
@@ -510,20 +510,20 @@ class nlpi(nlpm):
 		
 		dtype = []; names = []; shape = []; ac = []
 		for i in nlpi.data.keys():
-		    names.append(i)
-		    dtype.append(type(nlpi.data[i]['data']))
-		    if(isinstance(nlpi.data[i]['data'],list)):
-		        shape.append(len(nlpi.data[i]['data']))
-		    elif(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
-		        shape.append(nlpi.data[i]['data'].shape)
+			names.append(i)
+			dtype.append(type(nlpi.data[i]['data']))
+			if(isinstance(nlpi.data[i]['data'],list)):
+				shape.append(len(nlpi.data[i]['data']))
+			elif(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
+				shape.append(nlpi.data[i]['data'].shape)
 
-		    if(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
-		        if(len(nlpi.data[i]['ac']) == 0):
-		            ac.append(None)
-		        elif(len(nlpi.data[i]['ac']) > 0):
-		            ac.append(nlpi.data[i]['ac'])
-		    else:
-		        ac.append(None)
+			if(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
+				if(len(nlpi.data[i]['ac']) == 0):
+					ac.append(None)
+				elif(len(nlpi.data[i]['ac']) > 0):
+					ac.append(nlpi.data[i]['ac'])
+			else:
+				ac.append(None)
 
 		ldata = pd.DataFrame({'name':names,'dtype':dtype,'shape':shape,'ac':ac})
 		ldata.index = ldata['name']	
@@ -679,6 +679,7 @@ class nlpi(nlpm):
 		uni['index_id'] = uni.index
 		self.token_info = uni
 		self.token_info['type'] = 'uni'
+		self.token_info['ac'] = None
 		# self.token_info.index = self.token_info['token']
 		# del self.token_info['token']
 
@@ -951,38 +952,40 @@ class nlpi(nlpm):
 		# [store as] store as information and remove 
 		self.module_args['store_as'] = self.store_as
 
-
-		  
-	''' 
-	#######################################################################
-				
-			  Group Multi Columns into Temporary Active Columns
-	
-		When user specifies multiple column names consecutively, the
-		columns are grouped together into a single gropup using temporary
-		active columns which are stored in the following:
-
-		[tac_data] : temporary storage for active columns for the instance
-					 variable session
-
-		[tac_id] : counter for dictionary storage 
-	
-	#######################################################################
-	'''
 	
 	def make_tac(self):
+
+		''' 
+		#######################################################################
+					
+				Group Multi Columns into Temporary Active Columns
+		
+			When user specifies multiple column names consecutively, the
+			columns are grouped together into a single gropup using temporary
+			active columns which are stored in the following:
+
+			[tac_data] : temporary storage for active columns for the instance
+						variable session
+
+			[tac_id] : counter for dictionary storage 
+		
+		#######################################################################
+		'''
 	  
 		ls = self.token_info.copy()
 
 		# columns
 		data = list(ls['column'].fillna(0)) 
-
-		# index of all b-param tokens
-		b_param_idx = list(ls[ls['ner_tags'] == 'B-PARAM'].index)
 	  
 		# get side by side string indicies
 		def str_sidebyside(lst):
-			indices = [ii for ii in range(1, len(data)-1) if isinstance(data[ii], str) and (isinstance(data[ii-1], str) or isinstance(data[ii+1], str))]
+			indices = []
+			for i in range(len(lst)):
+				if isinstance(lst[i], str):
+					if i > 0 and isinstance(lst[i-1], str):
+						indices.append(i)
+					elif i < len(lst)-1 and isinstance(lst[i+1], str):
+						indices.append(i)
 			return indices
 	  
 		# group neighbouring numbers 
@@ -997,14 +1000,16 @@ class nlpi(nlpm):
 					temp_group = []
 				
 			try:
-			  temp_group.append(numbers[-1])
-			  groups.append(temp_group)
-			  return groups
+				temp_group.append(numbers[-1])
+				groups.append(temp_group)
+				return groups
 			except:
-			  return None
+				return None
 	  
 		numbers = str_sidebyside(data)
 		grouped_numbers = group_numbers(numbers)
+
+		# check if the neighbouring token belong to the same dataset
 	  
 		if(grouped_numbers is not None):
 		  
@@ -1034,10 +1039,6 @@ class nlpi(nlpm):
 			  
 		# update [self.token_info]
 		self.token_info = ls
-
-		print('tac_data')
-		print(self.token_info)
-		print(self.tac_data)
 
 			
 	''' 
@@ -1105,19 +1106,25 @@ class nlpi(nlpm):
 		data_name = self.find_ac(ac_name)
 		column_names = nlpi.data[data_name]['ac'][ac_name]
 		return column_names
-  
-	# Having [self.token_info]
 
 	# active column names associated with data sources found in the 
 	# request are stored in [self.tac_data]
 	# extraction of data only only for [self.token_info]
 	
 	def ac_to_tac_storage(self):
-	  
+
+		'''
+		
+		Transfer all active column names from ac_data into tac_data
+		
+		'''
+		
 		ls = self.token_info.copy()
 
 		used_data = list(ls[~ls['data'].isna()]['token'])
-		self.get_current_ac() # store self.ac_data
+
+		# get all current ac_data stored in nlpi.data, store in [self.ac_data]
+		self.get_current_ac()
 
 		lst_ac_names = []
 		for data in used_data:
@@ -1142,14 +1149,13 @@ class nlpi(nlpm):
 		'''
 	  
 		ls = self.token_info.copy()
-		ls['ac'] = None
 
 		# data sources in current request
 		used_data = list(ls[~ls['data'].isna()]['token'])
 	  
 		for data in used_data:
 			ac_names = self.ac_data[data] 
-			idx_ac = list(ls[ls['token'].isin(ac_names)].index)
+			idx_ac = list(ls[ls['token'].isin(ac_names) & (ls['ac'] != True)].index)
 			ls.loc[idx_ac,'ac'] = True
 			ls.loc[idx_ac,'column'] = data
 	  
@@ -1171,22 +1177,21 @@ class nlpi(nlpm):
 				
 					# try the two storage locations
 					try:
-					  self.module_args[key] = self.ac_to_columnnames(value)
+						self.module_args[key] = self.ac_to_columnnames(value)
 					except:
-					  self.module_args[key] = self.tac_data[value]
+						self.module_args[key] = self.tac_data[value]
 			
 			if(type(value) == list):
-		  
 				if(len(value) > 1):
 					print('[note] multiple active columns are not supported for subsets')
 				elif(len(value) == 1):
 			
 					# try the two storage locations
 					try:
-					  self.module_args[key] = [self.ac_to_columnnames(value[0])]
+						self.module_args[key] = [self.ac_to_columnnames(value[0])]
 					except:
-					  self.module_args[key] = self.tac_data[value[0]]
-			  
+						self.module_args[key] = self.tac_data[value[0]]
+			  	
 			else:
 				print('[note] something went wrong @recall_ac_names')
 			
@@ -1271,7 +1276,7 @@ class nlpi(nlpm):
 		''' 
 		#######################################################################
 
-		# Active Column Related Preparation
+		# Active Column Related
 
 		#######################################################################
 		'''
@@ -1282,12 +1287,12 @@ class nlpi(nlpm):
 		
 			self.make_tac()          # group together any multicolumns into temporary
 								     # active columns
-									
-			self.ac_to_tac_storage() # store all the column names of active column
-									 # in [self.tac_data] 
 
-									 # store self.ac_data
 			
+			# move all active columns names into [self.tac_data]	
+			self.ac_to_tac_storage() 
+									 
+									 	
 			self.store_data_ac()     # store token_info['ac']
 
 	  
@@ -1466,12 +1471,12 @@ class nlpi(nlpm):
 				print(data_parameters)
 
 			def switch_key_value_indict(odict:dict):
-			    new_dict = {}
-			    for key, values in odict.items():
-			        for value in values:
-			            new_dict[value] = key
+				new_dict = {}
+				for key, values in odict.items():
+					for value in values:
+						new_dict[value] = key
 			            
-			    return new_dict
+				return new_dict
 
 			self.module_args['data'] = data_parameters
 			self.module_args['data_name'] = switch_key_value_indict(data_parameters)
@@ -1730,7 +1735,11 @@ class nlpi(nlpm):
 
 			self.module_args.update(param_dict)
 			print(param_dict)
-				  
+
+			try:
+				self.params = param_dict
+			except:
+				pass
 
 		'''
 		######################################################################
@@ -1914,7 +1923,7 @@ class nlpi(nlpm):
 			list_of_dicts = []
 			for lst in merged_list:
 				if('-column' in lst and len(lst) != 1):
-			  		list_of_dicts.append(store_most_common_todict(lst))
+					list_of_dicts.append(store_most_common_todict(lst))
 
 
 			def map_values(lst, dct):
@@ -1932,17 +1941,16 @@ class nlpi(nlpm):
 					else:
 						merged_list.append(d[key])
 
-			# standardise merged_list
+			'''
+			
+				Substitute Active Columns 
+			
+			'''
 		  
-			# if isinstance(merged_list[0], list):
-			# 	merged_list = [item for sublist in merged_list for item in sublist]
-			# else:
-			# 	merged_list = merged_list
-
-			# try:
-			# 	merged_list = map_values(merged_list,self.tac_data)
-			# except:
-			# 	pass
+			try:
+				merged_list = map_values(merged_list,self.tac_data)
+			except:
+				pass
 					
 			# create parameter dictionary for 
 			subset_param = {'column':merged_list}
@@ -1956,6 +1964,11 @@ class nlpi(nlpm):
 		  
 		# remove parameters, resultant string
 
+		try:
+			self.params_subset = subset_param
+		except:
+			pass
+
 		# ls3 added [-column] tags
 		result = remove_column_parameter_values(" ".join(ls3['token']))
 
@@ -1965,6 +1978,14 @@ class nlpi(nlpm):
 	  
 		# update
 		df_tinfo = ls3
+
+		'''
+		///////////////////////////////////////////////////////////////
+		
+				Some final filtrations of input user request
+		
+		///////////////////////////////////////////////////////////////
+		'''
 	  	
 		# remove [token_remove] tokens
 	
@@ -1996,6 +2017,58 @@ class nlpi(nlpm):
 		if(nlpi.silent is False):
 			print('\n##################################################################\n')
 
+
+		def ac_adjustment():
+
+			'''
+			///////////////////////////////////////////////////////////////
+			
+			Adjust the input user request to take into account active column name size
+
+			Active columns can contain multiple column names, the ac treatment is to 
+			group columns and give them a temporary ac_name or 
+			
+			///////////////////////////////////////////////////////////////
+			'''
+
+			ti_tokens = list(self.token_info['token'])
+			tokens_request = self.module_args['request'].split(' ')
+
+			# list of active column tokens
+			ac_list = self.token_info[self.token_info['ac'] == True]['token'].tolist()
+
+			# index of active column name
+			idx_ac_list = []
+			for _ in ac_list:
+				idx_ac_list.append(ti_tokens.index(_))
+
+			len_idx_ac_list = len(self.tac_data[ac_list[0]])
+
+			n = len_idx_ac_list - 1  # number of times to duplicate the replaced ac name
+			index_to_duplicate = idx_ac_list[0]  # assume only one active column is used
+
+			# Check if the index is within the range of the list
+			if index_to_duplicate < len(tokens_request):
+				# Duplicate the element n times
+				element_to_duplicate = tokens_request[index_to_duplicate]
+				duplicated_elements = [element_to_duplicate] * n
+				
+				# Update the main list with duplicated elements
+				tokens_request.extend(duplicated_elements)
+				return ' '.join(tokens_request)
+
+			else:
+				return None
+
+		
+		# if active column is present in the tokens
+		if(any(list(self.token_info['ac'])) == True):
+
+			ac_adjusted_request = ac_adjustment()
+
+			if(ac_adjusted_request is not None):
+				filtered = ac_adjusted_request
+
 		'''
 		#######################################################################
   
@@ -2022,7 +2095,8 @@ class nlpi(nlpm):
 							Iterative Step Loop Preparation
 		
 		#######################################################################
-		'''      
+
+		''' 
 			
 		if(self.task_name is not None):
 
@@ -2043,7 +2117,7 @@ class nlpi(nlpm):
 				print(f"[note] found sub_task [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
 
 			except:
-			  pass
+				pass
 
 			# store task name information
 			self.module_args['task_info'] = self.task_info.loc[self.task_name]
