@@ -685,36 +685,6 @@ class nlpi(nlpm):
 
 	'''
 
-	Keeper Tokens in main request
-
-		Find which tokens should be kept and not removed
-		find all NER tokens (eg. [PARAM]/[SOURCE]) and check 
-		if it overlaps with the largest dictionary vocab segment 
-		(ie. words which are contained in the training vectoriser dictionary)
-
-		create [keep_token] information in mtoken_info
-
-	'''
-
-	def find_keeptokens(self):
-
-		my_list = list(self.token_info['vocab'])
-		  
-		result = [[i for i, _ in group] for key, group in groupby(enumerate(my_list), key=lambda x: x[1]) if key is True]
-		longest_subset = set(max(result,key=len))
-
-		# ner tags which are not O (eg. PARAM/SOURCE)
-		notO = [ i for i,j in enumerate(list(self.token_info['ner_tags'])) if j != 'O' ]
-		notO_set = set(notO)
-
-		# find overlap between [PARAM] & [SOURCE]
-		overlap_idx = longest_subset & notO_set
-
-		self.token_info['keep_token'] = False
-		self.token_info.loc[list(overlap_idx),'keep_token'] = True
-
-	'''
-
 	Retreive Module Parameters & update "ner_tags"
 
 	'''
@@ -830,12 +800,6 @@ class nlpi(nlpm):
 		for i in param_id:
 			ls.loc[i+1,'token_argv'] = True
 
-		# not correct way due to multicolumn input support
-		# self.token_info['token_argv'] = self.token_info['token_arg'].shift(1)
-
-		# Add Global Task Vocabulary token information
-		lst = list(self.module.vectoriser['gt'].vocabulary_.keys())
-		ls['vocab'] = ls['token'].isin(lst)
 		self.token_info = ls
 			  
 	
@@ -1268,10 +1232,6 @@ class nlpi(nlpm):
 		self.set_token_arg_compatibility()  # determine function argument compatibility
 		
 									# self.token_info['arg_compat']
-									
-		self.find_keeptokens()
-		
-									# self.token_info['keep_token']
 		
 		  
 		''' 
@@ -1315,9 +1275,7 @@ class nlpi(nlpm):
 		
 		# df_tinfo - will be used to remove rows that have been filtered
 		df_tinfo = self.token_info.copy()
-		vocab_tokens = df_tinfo[(df_tinfo['vocab'] == True)]
-		lst_keep_tokens = vocab_tokens['index_id']
-	  
+
 		# extract and store active column (from older ner)
 		tmod_args,df_tinfo = ac_extraction(df_tinfo,nlpi.data)
 		self.module_args.update(tmod_args)

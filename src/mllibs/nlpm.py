@@ -72,18 +72,25 @@ def measure_execution_time(method):
 	return wrapper
 
 
-'''
-###########################################################################
-
-			NLPM class
-
-			> Combine together all extension modules
-			> Create machine learning models for task prediction
-
-###########################################################################
-'''
-
 class nlpm:
+
+
+	'''
+	###########################################################################
+
+				NLPM class
+
+				> Combine together all extension modules
+				> Create machine learning models for task prediction
+
+	###########################################################################
+				
+
+		create_corpus_sub_model  : sub_task model (requires X,y)
+
+
+
+	'''
 	
 	def __init__(self):
 		print('\n[note] initialising nlpm, please load modules using .load(list)')
@@ -374,12 +381,11 @@ class nlpm:
 
 	'''
 
-					RandomForest based classifier loop
-					Standard Random Forest + TF-IDF
+				RandomForest based classifier loop
+				Standard Random Forest + TF-IDF
 
 	'''
 
-	# @measure_execution_time
 	def mlloop(self,corpus:dict,module_name:str):
 
 		# Convert text to numeric representation         
@@ -389,13 +395,7 @@ class nlpm:
 		vect.fit(corpus['text']) # input into vectoriser is a series
 		vectors = vect.transform(corpus['text']) # sparse matrix
 		self.vectoriser[module_name] = vect  # store vectoriser 
-
-		# vocabulary of TFIDF
-		lvocab = list(vect.vocabulary_.keys())
-		lvocab.sort()
-		self.vocabulary[module_name] = lvocab
 		
-		# X = np.asarray(vectors.todense())
 		X = vectors
 		y = corpus['class'].values.astype('int')
 
@@ -405,6 +405,7 @@ class nlpm:
 		self.model[module_name] = model # store model
 		score = model.score(X,y)
 		print(f"[note] training  [{module_name}] [{model}] [accuracy,{round(score,3)}]")
+
 
 	'''
 
@@ -418,7 +419,7 @@ class nlpm:
 		self.vectoriser = {} # stores vectoriser
 		self.model = {}      # storage for models
 		self.tokeniser = {}  # store tokeniser 
-		self.vocabulary = {} # vectoriser vocabulary
+
 					
 		if(type == 'mlloop'):
 			self.mlloop(self.corpus_gt,'gt')
