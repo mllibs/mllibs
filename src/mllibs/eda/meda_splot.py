@@ -177,6 +177,10 @@ class eda_splot(nlpi):
 				elif(sub_task == 'param_defined'):
 					pass
 
+				# column is not needed anymore
+				keys_to_remove = ["column"]
+				args = {key: value for key, value in args.items() if key not in keys_to_remove}
+
 				self.sscatterplot(args)
 
 		elif(select == 'srelplot'):
@@ -355,7 +359,7 @@ class eda_splot(nlpi):
 			del args['mec']
 		if(nlpi.pp['figsize']):
 			args['height'] = nlpi.pp['figsize'][0]
-			
+
 		g = sns.relplot(**args)
 		
 		sns.despine(left=True,bottom=True,right=True,top=True)

@@ -110,15 +110,16 @@ class nlpm:
 		
 		'''
 
-		# vocabulary = ['-column','-df','-list']
-		# vocabulary.extend(self.token_mparams)
+		vocabulary = ['-column','-list']
+		vocabulary.extend(self.token_mparams)
 		# stop_words = ['a','the']
 
 		# Create a pipeline with CountVectorizer and RandomForestClassifier
 		pipeline = Pipeline([
-		('vect', TfidfVectorizer(tokenizer=lambda x: x.split(),ngram_range=(1,3),stop_words=['a','the'])),
-		('clf', GradientBoostingClassifier())
+			('vect', CountVectorizer(tokenizer=lambda x: x.split(),ngram_range=(1,1),stop_words=['a','the'],vocabulary=vocabulary)),
+			('clf', GradientBoostingClassifier())
 		])
+
 
 		# Fit the pipeline on the training data
 		pipeline.fit(X,y)
