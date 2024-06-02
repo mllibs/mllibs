@@ -380,7 +380,7 @@
                         "make a seaborn relplot to visualise the relationship between ~x -column and ~y -column for each -column and for each -column",
                         "how can I visualise the relationship between ~x -column and ~y -column for different -column and different -column",
                         "can you help me generate a seaborn relplot to display the connection between ~x -column and ~y -column for different -column and varying -column",
-                        "for varying -column using seaborn relplot I want to visualise the association between ~x -column and ~y -column for each -column and each -column",
+                        "using seaborn relplot I want to visualise the association between ~x -column and ~y -column for each -column and each -column",
                         "for each -column i want to plot a graph using seaborn relplot to illustrate the relationship between ~x -column and ~y -column for each -column",
                         "i want to visually represent the connection between ~x -column and ~y -column using seaborn relplot for each -column for each -column",
                         "for each category -column and different -column i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column",

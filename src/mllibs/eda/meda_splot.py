@@ -180,33 +180,21 @@ class eda_splot(nlpi):
 			args['data'] = get_data('df','sdata')
 			if(args['data'] is not None):
 
-				def get_invi_group(column:list):
-
-					'''
+				# columns w/o parameter treatment
+				if(column != None):
 					
-						extracts from module_args['column'] the nested list (group_col) and rest (lst_indiv)
-					
-					'''
+					group_col_idx,indiv_col_idx = get_nested_list_and_indices(column)
 
-					# columns w/o parameter treatment
-					if(column != None):
-						
-						group_col_idx,indiv_col_idx = get_nested_list_and_indices(column)
+					# group column names (if they exist)
+					try:
+						group_col = column[group_col_idx]
+					except:
+						pass
 
-						# group column names (if they exist)
-						try:
-							group_col = column[group_col_idx]
-						except:
-							pass
-
-						# non grouped column names
-						lst_indiv = []
-						for idx in indiv_col_idx:
-							lst_indiv.append(column[idx])
-
-					return lst_indiv,group_col
-				
-				lst_indiv,group_col = get_invi_group(column)
+					# non grouped column names
+					lst_indiv = []
+					for idx in indiv_col_idx:
+						lst_indiv.append(column[idx])
 
 				'''
 
@@ -349,11 +337,10 @@ class eda_splot(nlpi):
 
 	def srelplot(self,args:dict):
 			
-		palette = self.set_palette(args)
-		args['palette'] = palette
-
 		self.seaborn_setstyle()
-		
+		if('hue' in args):
+			palette = self.set_palette(args)
+			args['palette'] = palette
 		if('mew' in args):
 			args['linewidth'] = args['mew']
 			del args['mew']
@@ -361,11 +348,20 @@ class eda_splot(nlpi):
 			args['edgecolor'] = args['mec']
 			del args['mec']
 
-		sns.relplot(**args)
+		if(nlpi.pp['figsize']):
+			height = nlpi.pp['figsize'][0]
+		else:
+			height = None
+
+		g = sns.relplot(**args,height=height)
 		
-		sns.despine(left=True, bottom=True, right=True,top=True)
+		sns.despine(left=True,bottom=True,right=True,top=True)
+
 		if(nlpi.pp['title']):
-			plt.title(nlpi.pp['title'])
+			plt.subplots_adjust(top=0.90)
+			g.fig.suptitle(nlpi.pp['title'])
+			plt.tight_layout()
+			
 		plt.show()
 		nlpi.resetpp()
 		
