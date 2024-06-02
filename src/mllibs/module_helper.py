@@ -216,3 +216,20 @@ def get_nested_list_and_indices(input_list:list):
 	else:
 
 		return None, None
+	
+
+'''
+
+	Measure Function Execution Time
+
+'''
+
+def measure_execution_time(method):
+	def wrapper(*args, **kwargs):
+		start_time = time.time()
+		result = method(*args, **kwargs)
+		end_time = time.time()
+		execution_time = end_time - start_time
+		print(f"Execution time of {method.__name__}: {execution_time} seconds")
+		return result
+	return wrapper

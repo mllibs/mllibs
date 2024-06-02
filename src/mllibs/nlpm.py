@@ -59,18 +59,6 @@ def parse_json(json_data):
 			'corpus_sub':dict(zip(lst_classes,lst_corpus_sub)),
 			  'info':dict(zip(lst_classes,lst_info))}
 
-# function to time exection time
-
-def measure_execution_time(method):
-	def wrapper(*args, **kwargs):
-		start_time = time.time()
-		result = method(*args, **kwargs)
-		end_time = time.time()
-		execution_time = end_time - start_time
-		print(f"Execution time of {method.__name__}: {execution_time} seconds")
-		return result
-	return wrapper
-
 
 class nlpm:
 
@@ -365,17 +353,11 @@ class nlpm:
 			
 			return df_melted
 
-		'''
-		
-							Save Corpuses
-		
-		'''
-
-		self.corpus_ms = prepare_corpus('module_id') # modue selection dataframe
+		# self.corpus_ms = prepare_corpus('module_id') # modue selection dataframe
 		self.corpus_gt = prepare_corpus('gtask_id')  # global task dataframe
-		self.corpus_act = prepare_corpus('action_id') # action task dataframe
-		self.corpus_top = prepare_corpus('topic_id') # topic task dataframe
-		self.corpus_sub = prepare_corpus('subtopic_id') # subtopic tasks dataframe
+		# self.corpus_act = prepare_corpus('action_id') # action task dataframe
+		# self.corpus_top = prepare_corpus('topic_id') # topic task dataframe
+		# self.corpus_sub = prepare_corpus('subtopic_id') # subtopic tasks dataframe
 
 		
 
@@ -392,9 +374,9 @@ class nlpm:
 		# vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x))  
 		# vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and']) 
 		vect = CountVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and'])  
-		vect.fit(corpus['text']) # input into vectoriser is a series
+		vect.fit(corpus['text']) 
 		vectors = vect.transform(corpus['text']) # sparse matrix
-		self.vectoriser[module_name] = vect  # store vectoriser 
+		self.vectoriser[module_name] = vect  
 		
 		X = vectors
 		y = corpus['class'].values.astype('int')
@@ -416,11 +398,10 @@ class nlpm:
 
 	def setup(self,type='mlloop'):
 
-		self.vectoriser = {} # stores vectoriser
-		self.model = {}      # storage for models
-		self.tokeniser = {}  # store tokeniser 
-
-					
+		self.vectoriser = {} 
+		self.model = {}      
+		self.tokeniser = {}   
+	
 		if(type == 'mlloop'):
 			self.mlloop(self.corpus_gt,'gt')
 			self.train_ner_tagger()
@@ -435,23 +416,7 @@ class nlpm:
 	###########################################################################
 	'''
 
-	# @measure_execution_time
 	def train_ner_tagger(self):
-
-		'''
-		
-		Load Models & Encoder
-		
-		'''
-
-		# # f = pkgutil.get_data('mllibs', 'corpus/ner_modelparams_annot.csv')
-		# path = pkg_resources.resource_filename('mllibs', '/corpus/ner_modelparams_annot.csv')
-		# df = pd.read_csv(path,delimiter=',')
-		# parser = Parser()
-		# model,encoder = ner_model(parser,df)
-
-		# self.ner_identifier['model'] = model
-		# self.ner_identifier['encoder'] = encoder
 
 		'''
 		
@@ -488,6 +453,12 @@ class nlpm:
 		self.ner_identifier['dict'] = dict_vectorizer
 
 	def inference_ner_tagger(self,tokens:list):
+
+		'''
+		
+			Method for classifying (NER) a list of strings
+		
+		'''
 
 		# ner classification model
 		model = self.ner_identifier['model']
