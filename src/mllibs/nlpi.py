@@ -2011,13 +2011,6 @@ class nlpi(nlpm):
 		filtered = " ".join(list(df_tinfo['token']))
 		self.module_args['request'] = filtered
 
-		if(nlpi.silent is False):
-			print('\n[note] filtered request:')
-			print(filtered)
-
-		if(nlpi.silent is False):
-			print('\n##################################################################\n')
-
 
 		def ac_adjustment():
 
@@ -2032,13 +2025,11 @@ class nlpi(nlpm):
 			///////////////////////////////////////////////////////////////
 			'''
 
-			ti_tokens = list(self.token_info['token'])
-			tokens_request = self.module_args['request'].split(' ')
+			ti_tokens = list(self.token_info['token'])  # tokens 
+			tokens_request = self.module_args['request'].split(' ') # request tokens
+			ac_list = self.token_info[self.token_info['ac'] == True]['token'].tolist() # list of active column tokens
 
-			# list of active column tokens
-			ac_list = self.token_info[self.token_info['ac'] == True]['token'].tolist()
-
-			# index of active column name
+			# index of active column name in [ti_tokens]
 			idx_ac_list = []
 			for _ in ac_list:
 				idx_ac_list.append(ti_tokens.index(_))
@@ -2046,21 +2037,27 @@ class nlpi(nlpm):
 			len_idx_ac_list = len(self.tac_data[ac_list[0]])
 
 			n = len_idx_ac_list - 1  # number of times to duplicate the replaced ac name
-			index_to_duplicate = idx_ac_list[0]  # assume only one active column is used
+			index_to_duplicate = idx_ac_list  # assume only one active column is used
 
-			# Check if the index is within the range of the list
-			if index_to_duplicate < len(tokens_request):
-				# Duplicate the element n times
-				element_to_duplicate = tokens_request[index_to_duplicate]
-				duplicated_elements = [element_to_duplicate] * n
-				
-				# Update the main list with duplicated elements
-				tokens_request.extend(duplicated_elements)
-				return ' '.join(tokens_request)
+			try:
 
-			else:
+				def duplicate_entry_n_times(main_list, index_list, n):
+
+					# Duplicate the entry in the main list n times and insert 'and' token
+					for index in index_list:
+						entry_to_duplicate = main_list[index]
+						duplicated_entries = [entry_to_duplicate] * n
+						entries_with_and = ['and'] + duplicated_entries
+						main_list[index+1:index+1] = entries_with_and
+
+					return main_list
+
+				# Duplicate the entry in the main list n times, add 'and' token, and insert after the specified index
+				result_list = duplicate_entry_n_times(tokens_request, index_to_duplicate, n)
+				return ' '.join(result_list)
+			
+			except:
 				return None
-
 		
 		# if active column is present in the tokens
 		if(any(list(self.token_info['ac'])) == True):
@@ -2069,6 +2066,14 @@ class nlpi(nlpm):
 
 			if(ac_adjusted_request is not None):
 				filtered = ac_adjusted_request
+
+		if(nlpi.silent is False):
+			print('\n[note] filtered request:')
+			print(filtered)
+
+		if(nlpi.silent is False):
+			print('\n##################################################################\n')
+
 
 		'''
 		#######################################################################

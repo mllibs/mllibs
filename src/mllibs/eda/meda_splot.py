@@ -82,6 +82,12 @@ class eda_splot(nlpi):
 		sub_task = args['sub_task']
 		column = args['column']
 
+		'''
+
+			Filter [module_args] to include only input parameters
+		
+		'''
+
 		# remove everything but parameters
 		keys_to_remove = ["task_info", "request",'pred_task','data_name','sub_task','dtype_req']
 		args = {key: value for key, value in args.items() if key not in keys_to_remove}
@@ -168,7 +174,6 @@ class eda_splot(nlpi):
 						args['y'] = group_col[1]
 					except:
 						pass
-
 				elif(sub_task == 'param_defined'):
 					pass
 
@@ -273,40 +278,40 @@ class eda_splot(nlpi):
 	
 	'''
 	
-	Seaborn Scatter Plot [sns.scatterplot]
+	Seaborn Scatter Plot [scatterplot]
 	  
 	'''
 	  
 	def sscatterplot(self,args:dict):
 		  
-		palette = self.set_palette(args)
 		self.seaborn_setstyle()
-		
-		params = {
-				  'data':args['data'],
-				  'x':args['x'],
-				  'y':args['y'],
-				  'hue':args['hue'],
-				  'alpha':args['alpha'],
-				  'linewidth':args['mew'],
-				  'edgecolor':args['mec'],
-				  's':args['s'],
-				  'palette':palette
-				  }
+		if('hue' in args):
+			palette = self.set_palette(args)
+			args['palette'] = palette
+		if('mew' in args):
+			args['linewidth'] = args['mew']
+			del args['mew']
+		if('mec' in args):
+			args['edgecolor'] = args['mec']
+			del args['mec']
+		if(nlpi.pp['figsize']):
+			figsize = nlpi.pp['figsize']
+		else:
+			figsize = None
 		  
-		sns.scatterplot(**params)
+		plt.figure(figsize=figsize)
+		sns.scatterplot(**args)
 		
-		sns.despine(left=True, bottom=True)
+		sns.despine(left=True,bottom=True,right=True,top=True)
 		if(nlpi.pp['title']):
 			plt.title(nlpi.pp['title'])
+			plt.tight_layout()
 		plt.show()
 		nlpi.resetpp()
 		
 	'''
 	
-	Seaborn scatter plot with Linear Model
-
-	  like relplot has [col] [row] options
+	Seaborn scatter plot with Linear Model [lmplot]
 	  
 	'''
 		
@@ -322,16 +327,17 @@ class eda_splot(nlpi):
 				   data=args['data']
 				  )
 		
-		sns.despine(left=True, bottom=True)
+		sns.despine(left=True,bottom=True,right=True,top=True)
 		if(nlpi.pp['title']):
-			plt.title(nlpi.pp['title'])
+			plt.subplots_adjust(top=0.90)
+			g.fig.suptitle(nlpi.pp['title'])
+			plt.tight_layout()
 		plt.show()
 		
 	'''
 	
 	Seaborn Relation Plot
 
-	  main use to plot variation of scatterplot using [col] and [row] subsets
 	
 	'''
 
@@ -347,13 +353,10 @@ class eda_splot(nlpi):
 		if('mec' in args):
 			args['edgecolor'] = args['mec']
 			del args['mec']
-
 		if(nlpi.pp['figsize']):
-			height = nlpi.pp['figsize'][0]
-		else:
-			height = None
-
-		g = sns.relplot(**args,height=height)
+			args['height'] = nlpi.pp['figsize'][0]
+			
+		g = sns.relplot(**args)
 		
 		sns.despine(left=True,bottom=True,right=True,top=True)
 
@@ -361,7 +364,7 @@ class eda_splot(nlpi):
 			plt.subplots_adjust(top=0.90)
 			g.fig.suptitle(nlpi.pp['title'])
 			plt.tight_layout()
-			
+
 		plt.show()
 		nlpi.resetpp()
 		
