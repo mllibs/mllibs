@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.metrics.pairwise import linear_kernel,sigmoid_kernel
@@ -110,14 +110,14 @@ class nlpm:
 		
 		'''
 
-		vocabulary = ['-column','-df','-list']
-		vocabulary.extend(self.token_mparams)
-		stop_words = ['a','the']
+		# vocabulary = ['-column','-df','-list']
+		# vocabulary.extend(self.token_mparams)
+		# stop_words = ['a','the']
 
 		# Create a pipeline with CountVectorizer and RandomForestClassifier
 		pipeline = Pipeline([
-		('vect', CountVectorizer(tokenizer=lambda x: x.split(),ngram_range=(1,3),stop_words=stop_words,vocabulary=vocabulary)),
-		('clf', RandomForestClassifier())
+		('vect', TfidfVectorizer(tokenizer=lambda x: x.split(),ngram_range=(1,3),stop_words=['a','the'])),
+		('clf', GradientBoostingClassifier())
 		])
 
 		# Fit the pipeline on the training data

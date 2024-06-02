@@ -67,9 +67,28 @@ class eda_splot(nlpi):
 
 	def sel(self,args:dict):
 				
+		'''
+		
+				Start of Activation Function Selection 
+
+				input : args (module_args)
+		
+		'''
+
+		# set l,global parameters
 		select = args['pred_task']
 		self.data_name = args['data_name']
 		self.info = args['task_info']['description']
+		sub_task = args['sub_task']
+		column = args['column']
+
+		# remove everything but parameters
+		keys_to_remove = ["task_info", "request",'pred_task','data_name','sub_task','dtype_req']
+		args = {key: value for key, value in args.items() if key not in keys_to_remove}
+
+		# update module_args (keep only non None)
+		filtered_module_args = {key: value for key, value in args.items() if value is not None}
+		args = filtered_module_args
 
 		# get data 
 		def get_data(dtype_id:str,case_id:str,names_id=False):
@@ -125,16 +144,16 @@ class eda_splot(nlpi):
 			if(args['data'] is not None):
 
 				# columns w/o parameter treatment
-				if(args['column'] != None):
-					group_col_idx,indiv_col_idx = get_nested_list_and_indices(args['column'])
+				if(column != None):
+					group_col_idx,indiv_col_idx = get_nested_list_and_indices(column)
 
 					# group column names
-					group_col = args['column'][group_col_idx]
+					group_col = column[group_col_idx]
 
 					# non grouped column names
 					lst_indiv = []
 					for idx in indiv_col_idx:
-						lst_indiv.append(args['column'][idx])
+						lst_indiv.append(column[idx])
 
 				'''
 
@@ -143,14 +162,14 @@ class eda_splot(nlpi):
 				'''
 
 				# [-column] and [-column]
-				if(args['sub_task'] == 'xy_column'):
+				if(sub_task == 'xy_column'):
 					try:
 						args['x'] = group_col[0]
 						args['y'] = group_col[1]
 					except:
 						pass
 
-				elif(args['sub_task'] == 'param_defined'):
+				elif(sub_task == 'param_defined'):
 					pass
 
 				self.sscatterplot(args)
@@ -161,21 +180,33 @@ class eda_splot(nlpi):
 			args['data'] = get_data('df','sdata')
 			if(args['data'] is not None):
 
-				# columns w/o parameter treatment
-				if(args['column'] != None):
+				def get_invi_group(column:list):
+
+					'''
 					
-					group_col_idx,indiv_col_idx = get_nested_list_and_indices(args['column'])
+						extracts from module_args['column'] the nested list (group_col) and rest (lst_indiv)
+					
+					'''
 
-					# group column names (if they exist)
-					try:
-						group_col = args['column'][group_col_idx]
-					except:
-						pass
+					# columns w/o parameter treatment
+					if(column != None):
+						
+						group_col_idx,indiv_col_idx = get_nested_list_and_indices(column)
 
-					# non grouped column names
-					lst_indiv = []
-					for idx in indiv_col_idx:
-						lst_indiv.append(args['column'][idx])
+						# group column names (if they exist)
+						try:
+							group_col = column[group_col_idx]
+						except:
+							pass
+
+						# non grouped column names
+						lst_indiv = []
+						for idx in indiv_col_idx:
+							lst_indiv.append(column[idx])
+
+					return lst_indiv,group_col
+				
+				lst_indiv,group_col = get_invi_group(column)
 
 				'''
 
@@ -184,7 +215,7 @@ class eda_splot(nlpi):
 				'''
 
 				# [-column] and [-column]
-				if(args['sub_task'] == 'xy_column'):
+				if(sub_task == 'xy_column'):
 					try:
 						args['x'] = group_col[0]
 						args['y'] = group_col[1]
@@ -192,7 +223,7 @@ class eda_splot(nlpi):
 						pass
 				  
 				# [-column] and [-column] for all [-column]
-				elif(args['sub_task'] == 'xy_col_column'):  
+				elif(sub_task == 'xy_col_column'):  
 					try:
 						args['x'] = group_col[0]
 						args['y'] = group_col[1]
@@ -201,7 +232,7 @@ class eda_splot(nlpi):
 						pass
 
 				# [-column] and [-column] for all [-column] and for all [-column]
-				elif(args['sub_task'] == 'xy_col_row'):  
+				elif(sub_task == 'xy_col_row'):  
 					try:
 						args['x'] = group_col[0]
 						args['y'] = group_col[1]
@@ -210,27 +241,22 @@ class eda_splot(nlpi):
 					except:
 						pass
 
-				# parameters defined only
-				elif(args['sub_task'] == 'param_defined'):
+				# parameters defined only [~x,~y]
+				elif(sub_task == 'param_defined'):
 					pass
 
-				# [-column] and [-column] and ~hue -column
-				elif(args['sub_task'] == 'param_xy_column'):
-					args['x'] = group_col[0]
-					args['y'] = group_col[1]
-
-				# [-column] and [-column] for all [-column] and ~hue -column
-				elif(args['sub_task'] == 'param_xy_col_column'):
-					args['x'] = group_col[0]
-					args['y'] = group_col[1]
+				# parameters defined [~x,~y] for all [-column]
+				elif(sub_task == 'param_defined_col'):
 					args['col'] = lst_indiv[0]
 
-				elif(args['sub_task'] == 'param_defined_col'):
-					args['col'] = lst_indiv[0]
-
-				elif(args['sub_task'] == 'param_defined_col_row'):
+				# parameters defined [~x,~y] for all [-column] and for all [-column]
+				elif(sub_task == 'param_defined_col_row'):
 					args['col'] = lst_indiv[0]
 					args['row'] = lst_indiv[1]
+
+				# column is not needed anymore
+				keys_to_remove = ["column"]
+				args = {key: value for key, value in args.items() if key not in keys_to_remove}
 
 				# call relplot
 				self.srelplot(args)
@@ -324,22 +350,20 @@ class eda_splot(nlpi):
 	def srelplot(self,args:dict):
 			
 		palette = self.set_palette(args)
+		args['palette'] = palette
+
 		self.seaborn_setstyle()
 		
-		sns.relplot(x = args['x'], 
-					y = args['y'],
-					col = args['col'],
-					row = args['row'],
-					hue = args['hue'], 
-					col_wrap = args['col_wrap'],
-					palette = palette,
-					alpha = args['alpha'],
-					s = args['s'],
-					linewidth = args['mew'],
-					edgecolor = args['mec'],
-					data = args['data'])
+		if('mew' in args):
+			args['linewidth'] = args['mew']
+			del args['mew']
+		if('mec' in args):
+			args['edgecolor'] = args['mec']
+			del args['mec']
+
+		sns.relplot(**args)
 		
-		# sns.despine(left=True, bottom=True)
+		sns.despine(left=True, bottom=True, right=True,top=True)
 		if(nlpi.pp['title']):
 			plt.title(nlpi.pp['title'])
 		plt.show()
@@ -434,8 +458,8 @@ class eda_splot(nlpi):
 			barmode = allow['barmode'][0]
 			print('[note] allowable barmodes: [layer],[dodge],[stack],[fill]')
 		  
-		if(args['x'] is None and args['y'] is None and args['column'] is not None):
-			args['x'] = args['column']
+		if(args['x'] is None and args['y'] is None and column is not None):
+			args['x'] = column
 			print('[note] please specify orientation [x][y]')
 		
 		sns.histplot(

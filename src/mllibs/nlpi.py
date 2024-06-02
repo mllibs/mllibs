@@ -451,8 +451,8 @@ class nlpi(nlpm):
 
 	'''
 
-	# Predict Module Task, set [task_name], [module_name]
-	# Two Step Prediction (predict module) then (predict module task)
+	Predict Module Task, set [task_name], [module_name]
+	Two Step Prediction (predict module) then (predict module task)
 
 	'''
 
@@ -937,7 +937,8 @@ class nlpi(nlpm):
 						  'data': None,'data_name':None,
 						  'subset': None,'sub_task':None,
 						  'features': None, 'target' : None,
-						  'dtype_req':None, 'store_as':None}
+						  'dtype_req':None, 'store_as':None,
+						  'column':None}
 
 		# (update) Activation Function Parameter Entries 
 		data = list(self.task_info['arg_compat'])

@@ -298,9 +298,9 @@
       "corpus_sub":
         {
       "param_defined":[
-                        "create a seaborn relplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                        "make a seaborn relplot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                        "create a seaborn relation plot using ~x -column and ~y -column ~hue -column ~col -column ~row -column",
+                        "create a seaborn relplot using ~x -column and ~y -column",
+                        "make a seaborn relplot using ~x -column and ~y -column",
+                        "create a seaborn relation plot using ~x -column and ~y -column",
                         "create a seaborn relplot to visualise the relationship between ~x -column and ~y -column",
                         "make a seaborn relplot to visualise the relationship between ~x -column and ~y -column",
                         "how can I visualise the relationship between ~x -column and ~y -column",
@@ -310,12 +310,8 @@
                         "i want to visually represent the connection between ~x -column and ~y -column using seaborn relplot",
                         "i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column",
                         "create a seaborn relplot so I can visualise the correlation between ~x -column and ~y -column",
-                        "could you provide an example of using lmplot to depict the correlation between ~x -column and ~y -column",
-                        "please show me how to create a lmplot to demonstrate the correlation between ~x -column and ~y -column",
-                        "could you provide an example of using lmplot to depict the correlation between ~x -column and ~y -column",
-                        "please show me how to create a lmplot to demonstrate the correlation between ~x -column and ~y -column",
-                        "create a seaborn relplot setting parameters ~x -column and ~y -column ~hue -column ~col -column ~row -column",
-                        "create a seaborn relplot using parameters ~x -column and ~y -column ~hue -column ~col -column ~row -column"
+                        "create a seaborn relplot setting parameters ~x -column and ~y -column",
+                        "create a seaborn relplot using parameters ~x -column and ~y -column"
                        ], 
                         
           "xy_column": [
@@ -327,11 +323,7 @@
                         "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column",
                         "i want to visually represent the connection between -column and -column using seaborn relplot",
                         "i would like to plot a graph using seaborn relplot to demonstrate the relationship between -column and -column",
-                        "create a seaborn relplot so I can visualise the correlation between -column and -column",
-                        "could you provide an example of using lmplot to depict the correlation between -column and -column",
-                        "please show me how to create a lmplot to demonstrate the correlation between -column and -column",
-                        "could you provide an example of using lmplot to depict the correlation between -column and -column",
-                        "please show me how to create a lmplot to demonstrate the correlation between -column and -column"
+                        "create a seaborn relplot so I can visualise the correlation between -column and -column"
                       ],
                         
           "xy_col_column":
@@ -344,11 +336,7 @@
                         "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column for each -column",
                         "i want to visually represent the connection between -column and -column using seaborn relplot for each -column",
                         "i would like to plot a graph using seaborn relplot to demonstrate the relationship between -column and -column for each -column",
-                        "create a seaborn relplot so I can visualise the correlation between -column and -column for each -column",
-                        "could you provide an example of using lmplot to depict the correlation between -column and -column for each -column",
-                        "please show me how to create a lmplot to demonstrate the correlation between -column and -column for each -column",
-                        "could you provide an example of using lmplot to depict the correlation between -column and -column for each -column",
-                        "please show me how to create a lmplot to demonstrate the correlation between -column and -column for each -column"
+                        "create a seaborn relplot so I can visualise the correlation between -column and -column for each -column"
                        ],
 
         "xy_col_row" : [
@@ -367,93 +355,39 @@
                         "please show me how to create a seaborn relplot to demonstrate the correlation between -column and -column for each -column and -column"
                         ],
 
-        "param_xy_column" :
+      "param_defined_col":[
+                        "create a seaborn relplot using ~x -column and ~y -column for each -column",
+                        "make a seaborn relplot using ~x -column and ~y -column for different -column",
+                        "create a seaborn relation plot using ~x -column and ~y -column dividing by different -column",
+                        "create a seaborn relplot to visualise the relationship between ~x -column and ~y -column for different -column",
+                        "make a seaborn relplot to visualise the relationship between ~x -column and ~y -column for each -column",
+                        "how can I visualise the relationship between ~x -column and ~y -column for different -column",
+                        "can you help me generate a seaborn relplot to display the connection between ~x -column and ~y -column for different -column",
+                        "for varying -column using seaborn relplot I want to visualise the association between ~x -column and ~y -column",
+                        "i want to plot a graph using seaborn relplot to illustrate the relationship between ~x -column and ~y -column for each -column",
+                        "i want to visually represent the connection between ~x -column and ~y -column using seaborn relplot for each -column",
+                        "for each category -column i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column",
+                        "for each category -column create a seaborn relplot so I can visualise the correlation between ~x -column and ~y -column",
+                        "create a seaborn relplot setting parameters ~x -column and ~y -column for different categories -column",
+                        "create a seaborn relplot using parameters ~x -column and ~y -column for each -column"
+                       ],
 
-                        [
-                          "create a seaborn relplot to visualise the relationship between -column and -column set the ~hue -column",
-                          "make a seaborn relplot to visualise the relationship between -column and -colum set the ~hue -column",
-                          "how can I visualise the relationship between -column and -column also set the ~hue to -column",
-                          "can you help me generate a seaborn relplot to display the connection between -column and -column set the ~hue -column",
-                          "using seaborn relplot I want to visualise the association between -column and -column setting the ~hue -column",
-                          "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column and set the ~hue -column",
-                          "i want to visually represent the connection between -column and -column using seaborn relplot setting the ~hue to -column",
-                          "i would like to plot a graph using seaborn relplot to demonstrate the relationship between -column and -column set the ~hue -column",
-                          "create a seaborn relplot so I can visualise the correlation between -column and -column and set the ~hue to -column",
-                          "could you provide an example of using lmplot to depict the correlation between -column and -column set the ~hue to -column",
-                          "please show me how to create a lmplot to demonstrate the correlation between -column and -column set the ~hue -column",
-                          "could you provide an example of using lmplot to depict the correlation between -column and -column set the ~hue -column",
-                          "please show me how to create a lmplot to demonstrate the correlation between -column and -column set the ~hue -column"
-                        ],
-
-        "param_xy_col_column" : 
-
-                        [
-                          "create a seaborn relplot to visualise the relationship between -column and -column for each -column and setting the ~hue -column",
-                          "make a seaborn relplot to visualise the relationship between -column and -column for each -column set the ~hue -column",
-                          "how can I visualise the relationship between -column and -column for each -column set ~hue -column",
-                          "can you help me generate a seaborn relplot to display the connection between -column and -column for each -column and use ~hue -column",
-                          "using seaborn relplot I want to visualise the association between -column and -column for each -column setting the ~hue -column",
-                          "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column for each -column ~hue -column",
-                          "i want to visually represent the connection between -column and -column using seaborn relplot for each -column using ~hue -column",
-                          "i would like to plot a graph using seaborn relplot to demonstrate the relationship between -column and -column for each -column set the ~hue to -column",
-                          "create a seaborn relplot so I can visualise the correlation between -column and -column for each -column set ~hue -column",
-                          "could you provide an example of using lmplot to depict the correlation between -column and -column for each -column setting ~hue -column",
-                          "please show me how to create a lmplot to demonstrate the correlation between -column and -column for each -column setting the ~hue -column",
-                          "could you provide an example of using lmplot to depict the correlation between -column and -column for each -column",
-                          "please show me how to create a lmplot to demonstrate the correlation between -column and -column for each -column"
-                        ],
-
-        "param_xy_row_col_column" : 
-
-                        [
-                          "create a seaborn relplot to visualise the relationship between -column and -column for each -column and -column setting the ~hue -column",
-                          "make a seaborn relplot to visualise the relationship between -column and -column for each -column for each -column and -column setting the ~hue -column",
-                          "how can I visualise the relationship between -column and -column using a seaborn relplot for each -column for each -column and -column setting the ~hue -column",
-                          "can you help me generate a seaborn relplot to display the connection between -column and -column for each -column for each -column and -column setting the ~hue -column",
-                          "using seaborn relplot I want to visualise the association between -column and -column for each -column and -column using ~hue -column",
-                          "i want to plot a graph using seaborn relplot to illustrate the relationship between -column and -column for each -column and -column set the ~hue -column",
-                          "i want to visually represent the connection between -column and -column using seaborn replot for each -column and -column setting ~hue -column",
-                          "i would like to plot a graph using a seaborn relplot to demonstrate the relationship between -column and -column for each -column and -column and set the ~hue -column",
-                          "create a seaborn relplot so I can visualise the correlation between -column and -column for each -column and -column ~hue -column",
-                          "could you provide an example of using seaborn relplot to depict the correlation between -column and -column for each -column and -column setting the ~hue -column",
-                          "please show me how to create a relplot using seaborn to demonstrate the correlation between -column and -column for each -column and -column set the ~hue to -column",
-                          "could you provide an example of using seaborn relplot to depict the correlation between -column and -column for each -column and -column set the ~hue -column",
-                          "please show me how to create a seaborn relplot to demonstrate the correlation between -column and -column for each -column and -column setting the ~hue -column"
-                        ],
-
-        "param_defined_col" : 
-
-                        [
-                          "create a seaborn relplot set ~x -column ~y -column for each -column",
-                          "make a seaborn relplot to visualise the relationship ~x -column ~y -column for every -column",
-                          "visualise the relationship between ~x -column and ~y -column for each -column",
-                          "generate a seaborn relplot to display the relation between ~x -column and ~y for -column",
-                          "plot the seaborn relplot for the parameters ~x -column and ~y -column for each -column",
-                          "for all -column plot a seaborn relplot for the parameters ~x -column ~y -column for every -column category",
-                          "create a seaborn relplot set ~x -column ~y -column for each -column setting the ~hue -column",
-                          "make a seaborn relplot to visualise the relationship ~x -column ~y -column for every -column set the ~hue -column",
-                          "visualise the relationship between ~x -column and ~y -column for each -column set ~hue -column",
-                          "generate a seaborn relplot to display the relation between ~x -column and ~y for -column ~hue -column",
-                          "plot the seaborn relplot for the parameters ~x -column and ~y -column for each -column set ~hue -column",
-                          "for all -column plot a seaborn relplot for the parameters ~x -column ~y -column for every -column category as set ~hue to -column"
-                        ],
-
-        "param_defined_col_row" : 
-
-                        [
-                          "create a seaborn relplot set ~x -column ~y -column for each -column and for every -column",
-                          "make a seaborn relplot to visualise the relationship ~x -column ~y -column for every -column as well as for every -column",
-                          "visualise the relationship between ~x -column and ~y -column for each -column and for each -column",
-                          "generate a seaborn relplot to display the relation between ~x -column and ~y for -column and every -column",
-                          "plot the seaborn relplot for the parameters ~x -column and ~y -column for each -column and for every -column",
-                          "for all -column plot a seaborn relplot for the parameters ~x -column ~y -column for every -column category for very -column",
-                          "create a seaborn relplot set ~x -column ~y -column for each -column and for every -column as well as setting ~hue to -column",
-                          "make a seaborn relplot to visualise the relationship ~x -column ~y -column for every -column as well as for every -column set ~hue -column",
-                          "visualise the relationship between ~x -column and ~y -column for each -column and for each -column setting ~hue -column",
-                          "generate a seaborn relplot to display the relation between ~x -column and ~y for -column and every -column define ~hue as -column",
-                          "plot the seaborn relplot for the parameters ~x -column and ~y -column for each -column and for every -column defining ~hue as -column",
-                          "for all -column plot a seaborn relplot for the parameters ~x -column ~y -column for every -column category for very -column ~hue -column"
-                        ]       
+      "param_defined_col_row":[
+                        "create a seaborn relplot using ~x -column and ~y -column for each -column and for different -column",
+                        "make a seaborn relplot using ~x -column and ~y -column for different -column and for varying -column",
+                        "create a seaborn relation plot using ~x -column and ~y -column dividing by different -column and for different -column",
+                        "create a seaborn relplot to visualise the relationship between ~x -column and ~y -column for different -column and for -column",
+                        "make a seaborn relplot to visualise the relationship between ~x -column and ~y -column for each -column and for each -column",
+                        "how can I visualise the relationship between ~x -column and ~y -column for different -column and different -column",
+                        "can you help me generate a seaborn relplot to display the connection between ~x -column and ~y -column for different -column and varying -column",
+                        "for varying -column using seaborn relplot I want to visualise the association between ~x -column and ~y -column for each -column and each -column",
+                        "for each -column i want to plot a graph using seaborn relplot to illustrate the relationship between ~x -column and ~y -column for each -column",
+                        "i want to visually represent the connection between ~x -column and ~y -column using seaborn relplot for each -column for each -column",
+                        "for each category -column and different -column i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column",
+                        "for each category -column and for each -column create a seaborn relplot so I can visualise the correlation between ~x -column and ~y -column",
+                        "create a seaborn relplot setting parameters ~x -column and ~y -column for different categories -column and -column",
+                        "create a seaborn relplot using parameters ~x -column and ~y -column for each -column and for each -column"
+                       ]
 
         },
       "info": {
@@ -467,8 +401,6 @@
                             "param_defined":"only parameters have been defined ~x ~y ~hue ~col ~row ~col_wrap",
                             "xy_column":"two columns set -column and -column, convert into ~x and ~y",
                             "xy_col_column":"two columns set -column and -column & for each column add -column (ie. set ~col)",
-                            "param_xy_column":"two columns set -column and -column (define ~x,~y) & set secondary parameters (~hue)",
-                            "param_xy_col_column":"two columns set -column and -column (define ~x,~y) & for each -column (define ~col) & set secondary parameters (~hue)",
                             "param_xy_row_col_column":"two columns set -column and -column (define ~x,~y) & for each -column (define ~col) & for each -column (define ~row) & set secondary parameters (~hue)",
                             "param_defined_col": "parameters defined ~x ~y, for each -column (defined ~col)",
                             "param_defined_col_row": "parameters defined ~x ~y, for each -column (defined ~col) and each -column (defined ~row)"
@@ -476,8 +408,6 @@
         "case_subset": {"param_defined":"param",
                         "xy_column": "column",
                         "xy_col_column": "column",
-                        "param_xy_column": "param column",
-                       "param_xy_col_column": "param column",
                        "param_xy_row_col_column" : "param column",
                       "param_defined_col" : "param column",
                       "param_defined_col_row" : "param column"},
