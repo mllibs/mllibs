@@ -368,25 +368,32 @@ class nlpm:
 
 	'''
 
-	def mlloop(self,corpus:dict,module_name:str):
 
-		# Convert text to numeric representation         
-		# vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x))  
-		# vect = TfidfVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and']) 
-		vect = CountVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),stop_words=['all','a','as','and'])  
-		vect.fit(corpus['text']) 
-		vectors = vect.transform(corpus['text']) # sparse matrix
-		self.vectoriser[module_name] = vect  
-		
-		X = vectors
-		y = corpus['class'].values.astype('int')
 
-		model_rf = RandomForestClassifier()
-		model = clone(model_rf)
-		model.fit(X,y)
-		self.model[module_name] = model # store model
-		score = model.score(X,y)
-		print(f"[note] training  [{module_name}] [{model}] [accuracy,{round(score,3)}]")
+	def mlloop(self,corpus:pd.DataFrame,module_name:str):
+
+		X = corpus['text']
+		y = corpus['class']
+
+		# Create a pipeline with CountVectorizer and RandomForestClassifier
+		pipeline = Pipeline([
+			('vect', CountVectorizer(tokenizer=lambda x: nltk_wtokeniser(x),
+									 ngram_range=(1,1),
+									 stop_words=['all','a','as','and'])),
+			('clf', RandomForestClassifier())
+		])
+
+		# Fit the pipeline on the training data
+		pipeline.fit(X,y)
+		y_pred = pipeline.predict(X)
+
+		# Print classification report
+		# print(classification_report(y, y_pred))
+		score = pipeline.score(X,y)
+		print(f"[note] training  [gt_model] [accuracy,{round(score,3)}]")
+
+		self.gt = pipeline
+
 
 
 	'''
@@ -396,14 +403,15 @@ class nlpm:
 	
 	'''
 
-	def setup(self,type='mlloop'):
-
-		self.vectoriser = {} 
-		self.model = {}      
-		self.tokeniser = {}   
+	def setup(self,type='mlloop'):   
 	
 		if(type == 'mlloop'):
 			self.mlloop(self.corpus_gt,'gt')
+
+#			self.ner_identifier['model'] = model
+#			self.ner_identifier['tfidf'] = tfidf_vectorizer#
+#			self.ner_identifier['dict'] = dict_vectorizer
+
 			self.train_ner_tagger()
 			print('[note] models trained!')
 			
@@ -480,19 +488,11 @@ class nlpm:
 	Model Predictions 
 	
 	'''
-			  
-	# [sklearn] returns probability distribution (general)
-
-	def test(self,name:str,command:str):
-		test_phrase = [command]
-		Xt_encode = self.vectoriser[name].transform(test_phrase)
-		y_pred = self.model[name].predict_proba(Xt_encode)
-		return y_pred
 
 	# [sklearn] predict global task
 
 	def predict_gtask(self,name:str,command:str):
-		pred_per = self.test(name,command)     # percentage prediction for all classes
+		pred_per = self.gt.predict_proba([command])
 		val_pred = np.max(pred_per)            # highest probability value
 
 		# (a) with decision threshold setting
@@ -513,54 +513,24 @@ class nlpm:
 
 		return pred_name,val_pred
 	
-	# [sklearn] predict module
-
-	def predict_module(self,name:str,command:str):
-		pred_per = self.test(name,command)     # percentage prediction for all classes
-		val_pred = np.max(pred_per)            # highest probability value
-		if(val_pred > 0.7):
-			idx_pred = np.argmax(pred_per)         # index of highest prob         
-			pred_name = self.label[name][idx_pred] # get the name of the model class
-			print(f"[note] found relevant module [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
-		else:
-			print(f'[note] no module passed decision threshold')
-			pred_name = None
-
-		return pred_name,val_pred
-
-	# [sklearn] predict task
-
-	def predict_task(self,name:str,command:str):
-		pred_per = self.test(name,command)     # percentage prediction for all classes
-		val_pred = np.max(pred_per)            # highest probability value
-		if(val_pred > 0.7):
-			idx_pred = np.argmax(pred_per)                    # index of highest prob         
-			pred_name = self.label[name][idx_pred] # get the name of the model class
-			print(f"[note] found relevant activation function [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
-		else:
-			print(f'[note] no activation function passed decision threshold')
-			pred_name = None
-
-		return pred_name,val_pred
-	
 	# for testing only
 
-	def dtest(self,corpus:str,command:str):
+	# def dtest(self,corpus:str,command:str):
 		
-		print('available models')
-		print(self.model.keys())
+	# 	print('available models')
+	# 	print(self.model.keys())
 		
-		prediction = self.test(corpus,command)[0]
-		if(corpus in self.label):
-			label = list(self.label[corpus])
-		else:
-			label = list(self.corpus_mt[corpus])
+	# 	prediction = self.test(corpus,command)[0]
+	# 	if(corpus in self.label):
+	# 		label = list(self.label[corpus])
+	# 	else:
+	# 		label = list(self.corpus_mt[corpus])
 			
-		df_pred = pd.DataFrame({'label':label,
-						   'prediction':prediction})
-		df_pred.sort_values(by='prediction',ascending=False,inplace=True)
-		df_pred = df_pred.iloc[:5,:]
-		display(df_pred)
+	# 	df_pred = pd.DataFrame({'label':label,
+	# 					   'prediction':prediction})
+	# 	df_pred.sort_values(by='prediction',ascending=False,inplace=True)
+	# 	df_pred = df_pred.iloc[:5,:]
+	# 	display(df_pred)
 		
 	'''
 	

@@ -232,42 +232,6 @@ class nlpi(nlpm):
 			return self.task_info
 		else:
 			return dict(tuple(self.task_info.groupby('module')))[show]
-	 
-	'''
-	###########################################################################
-
-	NER TAGGING OF INPUT REQUEST
-	   
-	###########################################################################
-	'''
-
-	# in: self.tokens (required)
-	# self.token_split
-	# self.token_split_id
-	
-	def ner_split(self):
-
-		model = self.module.model['token_ner']
-		vectoriser = self.module.vectoriser['token_ner']
-		X2 = vectoriser.transform(self.tokens).toarray()
-
-		# predict and update self.token_info
-		predict = model.predict(X2)
-		pd_predict = pd.Series(predict,
-							   name='ner_tag',
-							   index=self.tokens).to_frame()
-
-		ner_tags = pd.DataFrame({'token':self.tokens,'tag':predict})
-
-		idx = list(ner_tags[ner_tags['tag'] != 4].index)
-		l = list(ner_tags['tag'])
-
-		token_split = [list(x) for x in np.split(self.tokens, idx) if x.size != 0]
-		token_nerid = [list(x) for x in np.split(l, idx) if x.size != 0]
-		
-		self.token_split = token_split
-		self.token_split_id = token_nerid
-
 	   
 	''' 
 	###########################################################################
@@ -2042,13 +2006,6 @@ class nlpi(nlpm):
   
 		#######################################################################
 		'''      
-
-		# 1] predict module
-
-		# self.task_name, self.module_name prediction
-		# self.pred_module_module_task(text) 
-
-		# 2] global activation function task prediction
 
 		self.pred_gtask(filtered)      # directly predict [self.task_name]
 
