@@ -101,7 +101,7 @@ class eda_splot(nlpi):
 
 			'''
 
-			Get the data (names_id == False) or just return names if (names_id == True)
+				Get the data (names_id == False) or just return names if (names_id == True)
 
 			'''
 

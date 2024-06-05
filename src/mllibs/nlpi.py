@@ -410,63 +410,8 @@ class nlpi(nlpm):
 
 	def pred_gtask(self,text:str):
 		self.task_name,_ = self.module.predict_gtask('gt',text)
-		# having [task_name] find its module
 		self.module_name = self.find_module(self.task_name) 
 
-	'''
-
-	Predict Module Task, set [task_name], [module_name]
-	Two Step Prediction (predict module) then (predict module task)
-
-	'''
-
-	def pred_module_module_task(self,text:str):
-		
-		# > predict module [module.test_name('ms')]
-		# > predict module task 
-
-		# self.module.module_task_name (all tasks in module)
-
-		# Determine which module to activate
-		def get_module(text:str):
-			ms_name,ms_name_p = self.module.predict_module('ms',text)
-			return ms_name,ms_name_p
-
-		# Given [ms_name] (predicted module)
-		# Determine which task to activate 
-
-		def get_module_task(ms_name:str,text:str):
-			t_pred,t_pred_p = self.module.predict_task(ms_name,text)  
-			return t_pred,t_pred_p
-
-		def predict_module_task(text):
-
-			# predict module [ms_name], activation task [t_pred,t_name]
-			ms_name,ms_name_p = get_module(text)
-
-			if(ms_name is not None):
-				
-
-				# if module passed selection threshold
-				t_pred,t_pred_p = get_module_task(ms_name,text)
-
-				if(t_pred is not None):
-
-					# store predictions
-					self.task_name = t_pred
-					self.module_name = ms_name
-
-				else:
-					self.task_name = None
-					self.module_name = None
-
-			else:
-				self.task_name = None
-				self.module_name = None
-
-		# MAIN PREDICTION
-		predict_module_task(text)
-	   
 
 	# print all the current data sources and relevant information
 

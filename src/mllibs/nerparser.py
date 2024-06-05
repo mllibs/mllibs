@@ -4,14 +4,12 @@ import regex as re
 import numpy as np
 import pandas as pd    
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from mllibs.tokenisers import custpunkttokeniser,nltk_wtokeniser
-import itertools
 from string import punctuation
-from catboost import CatBoostClassifier
 
 '''
 
@@ -283,9 +281,9 @@ def tfidf(tokens:list,vectoriser=None):
 '''
 ############################################################
 
-dicttransformers approach to NER
+                dicttransformers approach to NER
 
-        created for each token in list
+                  created for each token in list
 
 ############################################################
 '''
@@ -304,8 +302,6 @@ def dicttransformer(tokens:list,vectoriser=None):
         X = vectoriser.transform(token_features) # also sparse
         return X,None
         
-    
-
     return X,vectoriser
 
 '''
@@ -321,18 +317,21 @@ def merger_train(X1,X2,y):
     X_vect1 = pd.DataFrame(np.asarray(X1.todense()))
     X_vect2 = pd.DataFrame(np.asarray(X2.todense()))
     data = pd.concat([X_vect1,X_vect2],axis=1)
+    data.fillna(0.0,inplace=True)
     data = data.values
     
-    try:
-        # Load the model from the file
-        model = CatBoostClassifier(silent=True)
-        model.load_model('ner_catboost.bin')
-        print('[note] using cached ner catboost model')
-    except:
-        model = CatBoostClassifier(silent=True)
-        model.fit(data,y)
-        model.save_model('ner_catboost.bin')
-        
+    # # try:
+    # #     # Load the model from the file
+    # #     model = CatBoostClassifier(silent=True)
+    # #     model.load_model('ner_catboost.bin')
+    # #     print('[note] using cached ner catboost model')
+    # # except:
+    # #     model = CatBoostClassifier(silent=True)
+    # #     model.fit(data,y)
+    # #     model.save_model('ner_catboost.bin')
+
+    model = GradientBoostingClassifier()
+    model.fit(data,y)
     return data,model
 
 # merge tf-idf & dict features & train model
@@ -343,6 +342,7 @@ def merger(X1,X2):
     X_vect1 = pd.DataFrame(np.asarray(X1.todense()))
     X_vect2 = pd.DataFrame(np.asarray(X2.todense()))
     data = pd.concat([X_vect1,X_vect2],axis=1)
+    data.fillna(0.0,inplace=True)
     data = data.values # convert to numpy
 
     return data
@@ -373,11 +373,3 @@ def predict_label_missprediction(X, tokens, labels, model):
     print(classification_report(labels, y_pred))
     print(confusion_matrix(labels, y_pred))
     return mispredictions
-
-# just predict (inference)
-
-def ner_predict(X,tokens,model):
-    y_pred = model.predict(X)
-    return list(itertools.chain(*y_pred))
-    #display(pd.DataFrame({'y':tokens,
-    #                      'yp':list(itertools.chain(*y_pred))}).T)

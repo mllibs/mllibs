@@ -1,7 +1,9 @@
 from sklearn.preprocessing import LabelEncoder
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser, PUNCTUATION_PATTERN
-from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger_train, merger, ner_predict
+from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger
 from mllibs.dict_helper import convert_dict_toXy,convert_dict_todf
+from catboost import CatBoostClassifier
+import itertools
 
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
@@ -452,8 +454,32 @@ class nlpm:
 
 		X_vect1,tfidf_vectorizer = tfidf(tokens)            # imported function
 		X_vect2,dict_vectorizer = dicttransformer(tokens)   # imported function
-		X_all,model = merger_train(X_vect1,X_vect2,labels) # imported function
-		# predict_label(X_all,tokens,labels,model)
+
+		# convert to non-sparse 
+		X_vect1 = pd.DataFrame(np.asarray(X_vect1.todense()))
+		X_vect2 = pd.DataFrame(np.asarray(X_vect2.todense()))
+		data = pd.concat([X_vect1,X_vect2],axis=1)
+		data.fillna(0.0,inplace=True)
+
+		self.tdata = data
+		self.tfidf = tfidf_vectorizer
+		self.dictv = dict_vectorizer
+		self.vlabels = labels
+
+		data = data.values
+    
+		# try:
+		#     # Load the model from the file
+		#     model = CatBoostClassifier(silent=True)
+		#     model.load_model('ner_catboost.bin')
+		#     print('[note] using cached ner catboost model')
+		# except:
+		# model = CatBoostClassifier(silent=True)
+		# model.fit(data,labels)
+		# model.save_model('ner_catboost.bin')
+
+		model = RandomForestClassifier()
+		model.fit(data,labels)
 
 		# self.ner_identifier['X_all'] = X_all
 		self.ner_identifier['model'] = model
@@ -464,7 +490,7 @@ class nlpm:
 
 		'''
 		
-			Method for classifying (NER) a list of strings
+			Inference on User Request : Method for classifying (NER) a list of strings
 		
 		'''
 
@@ -479,9 +505,14 @@ class nlpm:
 		X_vect2,_ = dicttransformer(tokens,dict_vectorizer)
 		X_all = merger(X_vect1,X_vect2)
 
-		# store prediction
-		self.ner_identifier['y_pred'] = ner_predict(X_all,tokens,model)
+		# predict
+		y_pred = model.predict(X_all)
 
+		# print(list(itertools.chain(*y_pred)))
+		# self.ner_identifier['y_pred'] = list(itertools.chain(*y_pred))
+		self.ner_identifier['y_pred'] = y_pred
+		#display(pd.DataFrame({'y':tokens,
+		#                      'yp':list(itertools.chain(*y_pred))}).T)
 			 
 	'''
 	
@@ -511,6 +542,13 @@ class nlpm:
 		pred_name = self.label[name][idx_pred] # get the name of the model class
 		print(f"[note] found relevant global task [{pred_name}] w/ [{round(val_pred,2)}] certainty!")
 
+		self.gt_stats = pd.DataFrame({'classes':list(self.gt.classes_),
+						'pp':list(pred_per[0])}).sort_values(by='pp',ascending=False)
+		
+		mapper = {index: value for index, value in enumerate(self.label['gt'])}
+		self.gt_stats['classes'] = self.gt_stats['classes'].map(mapper)
+
+
 		return pred_name,val_pred
 	
 	# for testing only
@@ -532,16 +570,3 @@ class nlpm:
 	# 	df_pred = df_pred.iloc[:5,:]
 	# 	display(df_pred)
 		
-	'''
-	
-	Remove Cached Models
-	
-	'''
-	  
-	def reset_models(self):
-		file_path = 'ner_catboost.bin'
-		if os.path.exists(file_path):
-			os.remove(file_path)
-			print(f"[note] The file {file_path} has been successfully deleted.")
-		else:
-			print(f"[note] The file {file_path} does not exist.")
