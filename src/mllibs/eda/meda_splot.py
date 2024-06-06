@@ -143,6 +143,7 @@ class eda_splot(nlpi):
 		
 		'''
 
+		###################################################################################
 		if(select == 'sscatterplot'):
 
 			# get single dataframe
@@ -183,6 +184,7 @@ class eda_splot(nlpi):
 
 				self.sscatterplot(args)
 
+		###################################################################################
 		elif(select == 'srelplot'):
 
 			# get single dataframe
@@ -260,7 +262,8 @@ class eda_splot(nlpi):
 
 			else:
 				print('[note] no dataframe data sources specified')
-			
+
+		###################################################################################
 		elif(select == 'sboxplot'):
 			self.sboxplot(args)
 		elif(select == 'sresidplot'):
