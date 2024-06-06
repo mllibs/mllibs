@@ -23,7 +23,6 @@ Requires-Dist: seaborn
 Requires-Dist: matplotlib
 Requires-Dist: scikit-learn
 Requires-Dist: statsmodels
-Requires-Dist: catboost
 
 <p align="center">
     <img src="https://i.imgur.com/XDJsh28.png">

@@ -9,4 +9,3 @@ seaborn
 matplotlib
 scikit-learn
 statsmodels
-catboost

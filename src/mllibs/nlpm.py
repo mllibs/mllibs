@@ -2,13 +2,10 @@ from sklearn.preprocessing import LabelEncoder
 from mllibs.tokenisers import nltk_wtokeniser,nltk_tokeniser, PUNCTUATION_PATTERN
 from mllibs.nerparser import Parser,ner_model, tfidf, dicttransformer, merger
 from mllibs.dict_helper import convert_dict_toXy,convert_dict_todf
-from catboost import CatBoostClassifier
-import itertools
 
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.pipeline import Pipeline
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier
 from sklearn.metrics import classification_report
 from sklearn.metrics.pairwise import cosine_similarity
@@ -20,7 +17,6 @@ import numpy as np
 import pandas as pd
 import pkgutil
 import pkg_resources
-import nltk
 import io
 import os
 import csv
@@ -370,8 +366,6 @@ class nlpm:
 
 	'''
 
-
-
 	def mlloop(self,corpus:pd.DataFrame,module_name:str):
 
 		X = corpus['text']
@@ -460,28 +454,11 @@ class nlpm:
 		X_vect2 = pd.DataFrame(np.asarray(X_vect2.todense()))
 		data = pd.concat([X_vect1,X_vect2],axis=1)
 		data.fillna(0.0,inplace=True)
-
-		self.tdata = data
-		self.tfidf = tfidf_vectorizer
-		self.dictv = dict_vectorizer
-		self.vlabels = labels
-
 		data = data.values
-    
-		# try:
-		#     # Load the model from the file
-		#     model = CatBoostClassifier(silent=True)
-		#     model.load_model('ner_catboost.bin')
-		#     print('[note] using cached ner catboost model')
-		# except:
-		# model = CatBoostClassifier(silent=True)
-		# model.fit(data,labels)
-		# model.save_model('ner_catboost.bin')
 
 		model = RandomForestClassifier()
 		model.fit(data,labels)
 
-		# self.ner_identifier['X_all'] = X_all
 		self.ner_identifier['model'] = model
 		self.ner_identifier['tfidf'] = tfidf_vectorizer
 		self.ner_identifier['dict'] = dict_vectorizer
@@ -508,7 +485,6 @@ class nlpm:
 		# predict
 		y_pred = model.predict(X_all)
 
-		# print(list(itertools.chain(*y_pred)))
 		# self.ner_identifier['y_pred'] = list(itertools.chain(*y_pred))
 		self.ner_identifier['y_pred'] = y_pred
 		#display(pd.DataFrame({'y':tokens,

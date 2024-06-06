@@ -319,16 +319,6 @@ def merger_train(X1,X2,y):
     data = pd.concat([X_vect1,X_vect2],axis=1)
     data.fillna(0.0,inplace=True)
     data = data.values
-    
-    # # try:
-    # #     # Load the model from the file
-    # #     model = CatBoostClassifier(silent=True)
-    # #     model.load_model('ner_catboost.bin')
-    # #     print('[note] using cached ner catboost model')
-    # # except:
-    # #     model = CatBoostClassifier(silent=True)
-    # #     model.fit(data,y)
-    # #     model.save_model('ner_catboost.bin')
 
     model = GradientBoostingClassifier()
     model.fit(data,y)
