@@ -265,7 +265,16 @@ class eda_splot(nlpi):
 
 		###################################################################################
 		elif(select == 'sboxplot'):
-			self.sboxplot(args)
+
+			args['data'] = get_data('df','sdata')
+			if(args['data'] is not None):
+				self.sboxplot(args)
+			else:
+				print('[note] no dataframe data sources specified')
+
+
+
+
 		elif(select == 'sresidplot'):
 			self.sresidplot(args)
 		elif(select == 'sviolinplot'):
@@ -383,25 +392,21 @@ class eda_splot(nlpi):
 		
 	def sboxplot(self,args:dict):
 		
-		palette = self.set_palette(args)
 		self.seaborn_setstyle()
-		
-		if(args['bw'] is None):
-			bw = 0.8
-		else:
-			bw = eval(args['bw'])
-		
-		sns.boxplot(x=args['x'], 
-					y=args['y'],
-					hue=args['hue'],
-					width=bw,
-					palette=palette,
-					data=args['data'])
+		try:
+			if('hue' in args):
+				palette = self.set_palette(args)
+				args['palette'] = palette
+		except:
+			pass
+
+		sns.boxplot(**args)
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
 			plt.title(nlpi.pp['title'])
 		plt.show()
+		nlpi.resetpp()
 		
 	'''
 	

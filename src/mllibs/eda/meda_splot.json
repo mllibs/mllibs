@@ -93,13 +93,20 @@
     {
       "name": "sboxplot",
       "corpus": [
-        "seaborn boxplot",
-        "seaborn box plot",
-        "seaborn boxplot",
-        "make seaborn boxplot",
-        "make seaborn box plot",
-        "create seaborn boxplot",
-        "create seaborn box plot"
+        "create a seaborn boxplot using ~x -column and ~y -column",
+        "generate a seaborn boxplot with ~x -column and ~y -column",
+        "plot a seaborn boxplot using ~x -column and ~y -column",
+        "create a seaborn box plot using ~x -column and ~y -column",
+        "generate a seaborn box plot with ~x -column and ~y -column",
+        "plot a seaborn box plot using ~x -column and ~y -column",
+        "make a seaborn boxplot using ~x -column and ~y -columm",
+        "create a seaborn boxplot using ~x -column and ~y -column setting the ~hue -column",
+        "generate a seaborn boxplot with ~x -column and ~y -column and set the ~hue to -column",
+        "plot a seaborn boxplot using ~x -column and ~y -column ~hue -column",
+        "create a seaborn box plot using ~x -column and ~y -column set ~hue -column",
+        "generate a seaborn box plot with ~x -column and ~y -column with ~hue -column",
+        "plot a seaborn box plot using ~x -column and ~y -column using ~hue",
+        "make a seaborn boxplot using ~x -column and ~y -columm using ~hue"
       ],
       "corpus_sub":"None",
       "info": {

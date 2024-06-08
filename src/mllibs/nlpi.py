@@ -415,29 +415,38 @@ class nlpi(nlpm):
 
 	# print all the current data sources and relevant information
 
-	def sources(self):
+	def sources(self,name:str=None):
 		
-		dtype = []; names = []; shape = []; ac = []
-		for i in nlpi.data.keys():
-			names.append(i)
-			dtype.append(type(nlpi.data[i]['data']))
-			if(isinstance(nlpi.data[i]['data'],list)):
-				shape.append(len(nlpi.data[i]['data']))
-			elif(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
-				shape.append(nlpi.data[i]['data'].shape)
+		if(name is None):
 
-			if(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
-				if(len(nlpi.data[i]['ac']) == 0):
+			dtype = []; names = []; shape = []; ac = []
+			for i in nlpi.data.keys():
+				names.append(i)
+				dtype.append(type(nlpi.data[i]['data']))
+				if(isinstance(nlpi.data[i]['data'],list)):
+					shape.append(len(nlpi.data[i]['data']))
+				elif(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
+					shape.append(nlpi.data[i]['data'].shape)
+
+				if(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
+					if(len(nlpi.data[i]['ac']) == 0):
+						ac.append(None)
+					elif(len(nlpi.data[i]['ac']) > 0):
+						ac.append(nlpi.data[i]['ac'])
+				else:
 					ac.append(None)
-				elif(len(nlpi.data[i]['ac']) > 0):
-					ac.append(nlpi.data[i]['ac'])
-			else:
-				ac.append(None)
 
-		ldata = pd.DataFrame({'name':names,'dtype':dtype,'shape':shape,'ac':ac})
-		ldata.index = ldata['name']	
+			ldata = pd.DataFrame({'name':names,'dtype':dtype,'shape':shape,'ac':ac})
+			ldata.index = ldata['name']	
 
-		return ldata
+			return ldata
+		
+		else:
+
+			try:
+				return nlpi.data[name]['data']
+			except:
+				print('[note] please input the correct name')
 
 
 
