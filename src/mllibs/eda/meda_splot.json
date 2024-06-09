@@ -123,6 +123,41 @@
     },
 
     {
+      "name": "sviolinplot",
+    "corpus": [
+                "create a seaborn violinplot using ~x -column and ~y -column",
+                "generate a seaborn violinplot with ~x -column and ~y -column",
+                "plot a seaborn violinplot using ~x -column and ~y -column",
+                "create a seaborn violin plot using ~x -column and ~y -column",
+                "generate a seaborn violin plot with ~x -column and ~y -column",
+                "plot a seaborn violin plot using ~x -column and ~y -column",
+                "make a seaborn violinplot using ~x -column and ~y -columm",
+                "create a seaborn violinplot using ~x -column and ~y -column setting the ~hue -column",
+                "generate a seaborn violinplot with ~x -column and ~y -column and set the ~hue to -column",
+                "plot a seaborn violinplot using ~x -column and ~y -column ~hue -column",
+                "create a seaborn violin plot using ~x -column and ~y -column set ~hue -column",
+                "generate a seaborn violin plot with ~x -column and ~y -column with ~hue -column",
+                "plot a seaborn violin plot using ~x -column and ~y -column using ~hue",
+                "make a seaborn violinplot using ~x -column and ~y -columm using ~hue"
+              ],
+    "corpus_sub":"None",
+    "info": {
+              "module":"eda_plot",
+              "action":"show plot",
+              "topic":"exploratory data analysis",
+              "subtopic":"plot figure",
+              "input_format":"pd.DataFrame",
+              "description":"Create a seaborn violin plot",
+              "output":"None",
+              "token_compat":"None",
+              "arg_compat":"x y hue"
+            }
+  },
+
+
+
+
+    {
         "name": "sresidplot",
       "corpus": [
                 "create residual plot",
@@ -144,48 +179,24 @@
               }
     },
 
-    {
-        "name": "sviolinplot",
-      "corpus": [
-                "create violin plot",
-                "create violinplot",
-                "create seaborn violin plot",
-                "create seaborn violinplot",
-                "make violin plot",
-                "make violinplot"
-                ],
-      "corpus_sub":"None",
-      "info": {
-                "module":"eda_plot",
-                "action":"show plot",
-                "topic":"exploratory data analysis",
-                "subtopic":"plot figure",
-                "input_format":"pd.DataFrame",
-                "description":"Create a seaborn violin plot",
-                "output":"None",
-                "token_compat":"None",
-                "arg_compat":"x y hue"
-              }
-    },
-
 
     {
         "name": "shistplot",
       "corpus": [
-                "create histogram plot using seaborn",
-                "with seaborn create a histogram plot",
-                "create a histogram figure using seaborn",
-                "create seaborn histogram plot",
-                "create seaborn histogram",
-                "make seaborn histogram plot",
-                "create a histogram using seaborn",
-                "generate a histogram plot with seaborn",
-                "plot a histogram using seaborn",
-                "use seaborn to visualise a histogram",
-                "produce a histogram plot using seaborn",
-                "utilise seaborn for creating a histogram",
-                "construct a histogram plot with seaborn",
-                "display data distribution with a seaborn histogram plot"
+                "create a seaborn histogram using ~x -column",
+                "generate a seaborn histogram with ~x -column",
+                "plot a seaborn histogram using ~x -column",
+                "create a seaborn histogram plot using ~x -column",
+                "generate a seaborn histogram plot with ~x -column",
+                "plot a seaborn histogram plot using ~x -column",
+                "make a seaborn histogram using ~x -column",
+                "create a seaborn histogram using ~x -column and setting the ~hue -column",
+                "generate a seaborn histogram with ~x -column and set the ~hue to -column",
+                "plot a seaborn histogram using ~x -column and ~hue -column",
+                "create a seaborn histogram plot using ~x -column and set ~hue -column",
+                "generate a seaborn histogram plot with ~x -column and with ~hue -column",
+                "plot a seaborn histogram plot using ~x -column and using ~hue",
+                "make a seaborn histogram using ~x -column and using ~hue"
                 ],
       "corpus_sub":"None",
       "info": {

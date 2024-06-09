@@ -272,17 +272,28 @@ class eda_splot(nlpi):
 			else:
 				print('[note] no dataframe data sources specified')
 
+		###################################################################################
+		elif(select == 'sviolinplot'):
 
+			args['data'] = get_data('df','sdata')
+			if(args['data'] is not None):
+				self.sviolinplot(args)
+			else:
+				print('[note] no dataframe data sources specified')
 
+		###################################################################################
+		elif(select == 'shistplot'):
+			args['data'] = get_data('df','sdata')
+			if(args['data'] is not None):
+				self.shistplot(args)
+			else:
+				print('[note] no dataframe data sources specified')
+
+		elif(select == 'skdeplot'):
+			self.skdeplot(args)
 
 		elif(select == 'sresidplot'):
 			self.sresidplot(args)
-		elif(select == 'sviolinplot'):
-			self.sviolinplot(args)
-		elif(select == 'shistplot'):
-			self.shistplot(args)
-		elif(select == 'skdeplot'):
-			self.skdeplot(args)
 		elif(select == 'slmplot'):
 			self.slmplot(args)
 		elif(select == 'spairplot'):
@@ -400,6 +411,16 @@ class eda_splot(nlpi):
 		except:
 			pass
 
+		if(nlpi.pp['figsize']):
+			figsize = nlpi.pp['figsize']
+			plt.figure(figsize=figsize)
+		if(nlpi.pp['width']):
+			args['width'] = nlpi.pp['width']
+		if(nlpi.pp['fill'] != None):
+			args['fill'] = nlpi.pp['fill']
+		if(nlpi.pp['s']):
+			args['fliersize'] = nlpi.pp['s']
+
 		sns.boxplot(**args)
 		
 		sns.despine(left=True, bottom=True)
@@ -416,23 +437,28 @@ class eda_splot(nlpi):
 		
 	def sviolinplot(self,args:dict):
 		
-		palette = self.set_palette(args)
 		self.seaborn_setstyle()
-			
-		sns.violinplot(x=args['x'], 
-					   y=args['y'],
-					   hue=args['hue'],
-					   palette=palette,
-					   data=args['data'],
-					   inner="quart",
-					   split=True
-					   )   
+		try:
+			if('hue' in args):
+				palette = self.set_palette(args)
+				args['palette'] = palette
+		except:
+			pass
+
+		if(nlpi.pp['figsize']):
+			figsize = nlpi.pp['figsize']
+			plt.figure(figsize=figsize)
+		if(nlpi.pp['fill'] != None):
+			args['fill'] = nlpi.pp['fill']
+
+		sns.violinplot(**args)
 		
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']):
 			plt.title(nlpi.pp['title'])
 		plt.show()
 		nlpi.resetpp()
+
 		
 	@staticmethod
 	def sresidplot(args:dict):
@@ -454,41 +480,29 @@ class eda_splot(nlpi):
 	def shistplot(self,args:dict):
 		
 		self.seaborn_setstyle()
-	
-		# default parameters (pre) & allowable parameters (allow)
-		pre = {'nbins':'auto','barmode':'stack'}
-		allow = {'barmode':['layer','dodge','stack','fill']}
+		try:
+			if('hue' in args):
+				palette = self.set_palette(args)
+				args['palette'] = palette
+		except:
+			pass
+
+		if(nlpi.pp['figsize']):
+			figsize = nlpi.pp['figsize']
+			plt.figure(figsize=figsize)
+		if(nlpi.pp['fill'] != None):
+			args['fill'] = nlpi.pp['fill']
 		
-		# set default parameter if not set
-		nbins = sfp(args,pre,'nbins')
-		barmode = sfp(args,pre,'barmode')
-		palette = self.set_palette(args)
-		
-		# check if string is in allowable parameter
-		if(barmode not in allow['barmode']):
-			barmode = allow['barmode'][0]
-			print('[note] allowable barmodes: [layer],[dodge],[stack],[fill]')
-		  
-		if(args['x'] is None and args['y'] is None and column is not None):
-			args['x'] = column
-			print('[note] please specify orientation [x][y]')
-		
-		sns.histplot(
-					  x=args['x'], 
-					  y=args['y'],
-					  hue=args['hue'],
-					  alpha = args['alpha'],
-					  linewidth=args['mew'],
-					  edgecolor=args['mec'],
-					  data=args['data'],
-					  palette=palette,
-					  bins=nbins,
-					  multiple=barmode
-		)
-		
+		sns.histplot(**args)
+
 		sns.despine(left=True, bottom=True)
 		if(nlpi.pp['title']): 
 			plt.title(nlpi.pp['title'])
+		if(nlpi.pp['xrange']):
+			plt.xlim(nlpi.pp['xrange']) 
+		if(nlpi.pp['yrange']):
+			plt.ylim(nlpi.pp['yrange']) 
+
 		plt.show()
 		nlpi.resetpp()
 		
@@ -501,7 +515,6 @@ class eda_splot(nlpi):
 	def skdeplot(self,args:dict):
 		  
 		palette = self.set_palette(args)
-			
 		self.seaborn_setstyle()
 		
 		sns.kdeplot(x=args['x'],

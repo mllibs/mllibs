@@ -8,6 +8,7 @@
         "show the dataframe column names in -df",
         "print dataframe column names for -df",
         "show me the columns names in -df",
+        "what columns exist in the dataset -df",
         "what columns are available in dataframe -df",
         "show the column names for the dataframe -df"
       ],

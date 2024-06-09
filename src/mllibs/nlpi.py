@@ -55,8 +55,11 @@ class nlpi(nlpm):
 		self.tac_data = {}
 				  
 		# class plot parameters
-		nlpi.pp = {'title':None,'template':None,'background':None,'figsize':None, 
-				 'stheme':None, 'fill': True,'legend':True,'bw':1}
+		nlpi.pp_init = {'title':None,'template':None,'background':None,'figsize':None, 
+				  'stheme':None, 'fill': None,'legend':True, 'width':None, 's':None,
+				  'xrange':None,'yrange':None}
+
+		nlpi.pp = nlpi.pp_init
 
 	'''
 	###########################################################################
@@ -77,9 +80,7 @@ class nlpi(nlpm):
 
 	@classmethod
 	def resetpp(cls):
-		nlpi.pp = {'title':None,'template':None,'background':None,
-				   'figsize':None, 'stheme':None, 'fill': True, 
-				   'legend':True,'bw':1}
+		nlpi.pp = nlpi.pp_init
 
 	# Check all available data sources, update dsources dictionary
 	def check_dsources(self):
