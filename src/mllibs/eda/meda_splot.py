@@ -22,9 +22,11 @@ palette = ['#b4d2b1', '#568f8b', '#1d4a60', '#cd7e59', '#ddb247', '#d15252']
 palette_rgb = [hex_to_rgb(x) for x in palette]
 
 '''
+////////////////////////////////////////////////////////////////////////////////
 
-Standard seaborn library visualisations
+		 		Standard seaborn library visualisations
 
+////////////////////////////////////////////////////////////////////////////////
 '''
 
 class eda_splot(nlpi):

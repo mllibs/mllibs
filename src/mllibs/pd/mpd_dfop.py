@@ -8,10 +8,13 @@ import pkg_resources
 import json
 import numpy as np
 
+
 '''
+////////////////////////////////////////////////////////////////////////////////
 
-Data Exploration via Natural Language
+		 	Pandas DataFrame Data Exploration via Natural Language
 
+////////////////////////////////////////////////////////////////////////////////
 '''
 
 # sample module class structure
@@ -32,10 +35,20 @@ class pd_dfop(nlpi):
 
 		self.select = args['pred_task']
 
-		if(self.select == 'dfcolumninfo'):
-			self.dfcolumninfo(args)
+		if(self.select == 'show_info'):
+			self.show_info(args)
+		if(self.select == 'df_preview'):
+			self.df_preview(args)
 		if(self.select == 'dfsize'):
 			self.dfsize(args)
+		if(self.select == 'show_dtypes'):
+			self.show_dtypes(args)
+		if(self.select == 'dfcolumninfo'):
+			self.dfcolumninfo(args)
+		if(self.select == 'show_corr'):
+			self.show_correlation(args)
+
+
 		if(self.select == 'dfcolumn_distr'):
 
 			'''
@@ -54,12 +67,6 @@ class pd_dfop(nlpi):
 
 		if(self.select == 'dfna_all'):
 			self.dfna_all(args)
-		if(self.select == 'show_info'):
-			self.show_info(args)
-		if(self.select == 'show_dtypes'):
-			self.show_dtypes(args)
-		if(self.select == 'show_corr'):
-			self.show_correlation(args)
 		if(self.select == 'dfcolumn_unique'):
 
 			'''
@@ -83,21 +90,8 @@ class pd_dfop(nlpi):
 				print_dict(unique)
 				nlpi.memory_output.append({'data':unique})
 				
-		if(self.select == 'df_preview'):
-			self.df_preview(args)
-		if(self.select == 'show_stats'):
-			self.show_statistics(args)
 		if(self.select == 'dfna_column'):
 			self.dfna_column(args)
-
-		# convert column types
-
-		# if(self.select == 'dfcolumn_tostr'):
-		#     self.dfcolumn_tostr(args)
-		# if(self.select == 'dfcolumn_toint'):
-		#     self.dfcolumn_toint(args)
-		# if(self.select == 'dfcolumn_dtype'):
-		#     self.dfcolumn_dtype(args)
 
 	'''
 
