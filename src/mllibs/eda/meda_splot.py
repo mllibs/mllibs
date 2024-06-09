@@ -193,6 +193,8 @@ class eda_splot(nlpi):
 
 				# columns w/o parameter treatment
 				if(column != None):
+
+					print('pass')
 					
 					group_col_idx,indiv_col_idx = get_nested_list_and_indices(column)
 
@@ -206,6 +208,7 @@ class eda_splot(nlpi):
 					lst_indiv = []
 					for idx in indiv_col_idx:
 						lst_indiv.append(column[idx])
+
 
 				'''
 
@@ -569,8 +572,9 @@ class eda_splot(nlpi):
 			pass
 
 		args['diag_kind'] = 'kde'
-
 		diag_kws = {}; plot_kws = {}
+		diag_kws.update({'linewidth':1.25})
+
 		if(nlpi.pp['mew'] != None): 
 			lw = {'linewidth':nlpi.pp['mew']}; diag_kws.update(lw)
 		elif('mew' in args): 
@@ -580,10 +584,10 @@ class eda_splot(nlpi):
 
 		if(nlpi.pp['mec'] != None):
 			 edgecolor = {'edgecolor':nlpi.pp['mec']}
-			 plot_kws.update(edgecolor); diag_kws.update(edgecolor)
+			 plot_kws.update(edgecolor)
 		elif('mec' in args): 
 			edgecolor = {'edgecolor':args['mec']}; 
-			plot_kws.update(edgecolor); diag_kws.update(edgecolor)
+			plot_kws.update(edgecolor)
 			del args['mec']
 
 		if(nlpi.pp['fill'] != None): fill = {'fill':nlpi.pp['fill']}; diag_kws.update(fill)
@@ -600,7 +604,7 @@ class eda_splot(nlpi):
 
 		if(nlpi.pp['figsize']):
 			args['height'] = nlpi.pp['figsize'][0]
-			
+
 		sns.pairplot(**args)   
 		sns.despine(left=True, bottom=True)
 		plt.show()

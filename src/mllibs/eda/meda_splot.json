@@ -369,7 +369,21 @@
                         "i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column",
                         "create a seaborn relplot so I can visualise the correlation between ~x -column and ~y -column",
                         "create a seaborn relplot setting parameters ~x -column and ~y -column",
-                        "create a seaborn relplot using parameters ~x -column and ~y -column"
+                        "create a seaborn relplot using parameters ~x -column and ~y -column",
+                        "create a seaborn relplot using ~x -column and ~y -column ~col -column",
+                        "make a seaborn relplot using ~x -column and ~y -column and ~col -column",
+                        "create a seaborn relation plot using ~x -column and ~y -column and ~col -column",
+                        "create a seaborn relplot to visualise the relationship between ~x -column and ~y -column set the ~col -column",
+                        "make a seaborn relplot to visualise the relationship between ~x -column and ~y -column setting ~col to -column",
+                        "how can I visualise the relationship between ~x -column and ~y -column ~col -column",
+                        "can you help me generate a seaborn relplot to display the connection between ~x -column and ~y -column and ~col -column",
+                        "using seaborn relplot I want to visualise the association between ~x -column and ~y -column and ~col -column",
+                        "i want to plot a graph using seaborn relplot to illustrate the relationship between ~x -column and ~y -column setting ~col -column",
+                        "i want to visually represent the connection between ~x -column and ~y -column using seaborn relplot ~col -column",
+                        "i would like to plot a graph using seaborn relplot to demonstrate the relationship between ~x -column and ~y -column ~col -column",
+                        "create a seaborn relplot so I can visualise the correlation between ~x -column and ~y -column ~col -column",
+                        "create a seaborn relplot setting parameters ~x -column and ~y -column setting the ~col -column",
+                        "create a seaborn relplot using parameters ~x -column and ~y -column with ~col -column"
                        ], 
                         
           "xy_column": [

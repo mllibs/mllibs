@@ -215,6 +215,8 @@ class nlpi(nlpm):
 	def load_sample_data(self):
 		nlpi.store_data(sns.load_dataset('flights'),'flights')
 		nlpi.store_data(sns.load_dataset('penguins'),'penguins')
+		nlpi.store_data(sns.load_dataset('iris'),'iris')
+		nlpi.store_data(sns.load_dataset('healthexp'),'healthexp')
 		nlpi.store_data(sns.load_dataset('taxis'),'taxis')
 		nlpi.store_data(sns.load_dataset('titanic'),'titanic')
 		nlpi.store_data(sns.load_dataset('mpg'),'dmpg')
