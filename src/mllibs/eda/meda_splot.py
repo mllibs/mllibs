@@ -289,15 +289,29 @@ class eda_splot(nlpi):
 			else:
 				print('[note] no dataframe data sources specified')
 
+		###################################################################################
 		elif(select == 'skdeplot'):
-			self.skdeplot(args)
+
+			args['data'] = get_data('df','sdata')
+			if(args['data'] is not None):
+				self.skdeplot(args)
+			else:
+				print('[note] no dataframe data sources specified')
+
+		###################################################################################
+		elif(select == 'spairplot'):
+
+			args['data'] = get_data('df','sdata')
+			if(args['data'] is not None):
+				self.spairplot(args)
+			else:
+				print('[note] no dataframe data sources specified')
+
 
 		elif(select == 'sresidplot'):
 			self.sresidplot(args)
 		elif(select == 'slmplot'):
 			self.slmplot(args)
-		elif(select == 'spairplot'):
-			self.spairplot(args)
 		elif(select == 'slineplot'):
 			self.slineplot(args)
 		elif(select == 'sheatmap'):
@@ -364,7 +378,6 @@ class eda_splot(nlpi):
 	'''
 	
 	Seaborn Relation Plot
-
 	
 	'''
 
@@ -501,7 +514,7 @@ class eda_splot(nlpi):
 		if(nlpi.pp['xrange']):
 			plt.xlim(nlpi.pp['xrange']) 
 		if(nlpi.pp['yrange']):
-			plt.ylim(nlpi.pp['yrange']) 
+			plt.lim(nlpi.pp['yrange']) 
 
 		plt.show()
 		nlpi.resetpp()
@@ -514,56 +527,81 @@ class eda_splot(nlpi):
 
 	def skdeplot(self,args:dict):
 		  
-		palette = self.set_palette(args)
 		self.seaborn_setstyle()
+		try:
+			if('hue' in args):
+				palette = self.set_palette(args)
+				args['palette'] = palette
+		except:
+			pass
+
+		if(nlpi.pp['figsize']):
+			figsize = nlpi.pp['figsize']
+			plt.figure(figsize=figsize)
+		if(nlpi.pp['fill'] != None):
+			args['fill'] = nlpi.pp['fill']
 		
-		sns.kdeplot(x=args['x'],
-					y=args['y'],
-					hue = args['hue'],
-					palette=palette,
-					fill=nlpi.pp['fill'],
-					data = args['data'])
-		
+		sns.kdeplot(**args)
+
 		sns.despine(left=True, bottom=True)
-		if(nlpi.pp['title']):
+		if(nlpi.pp['title']): 
 			plt.title(nlpi.pp['title'])
+		if(nlpi.pp['xrange']):
+			plt.xlim(nlpi.pp['xrange']) 
+		if(nlpi.pp['yrange']):
+			plt.lim(nlpi.pp['yrange']) 
+
 		plt.show()
 		nlpi.resetpp()
 		
-	def seaborn_pairplot(self,args:dict):
+	def spairplot(self,args:dict):
    
-		num,cat = split_types(args['data'])
+		# select only numeric columns 
+		num,_ = split_types(args['data'])
 			
-		if(args['hue'] is not None):
-			hueloc = args['hue']
-			num = pd.concat([num,args['data'][args['hue']]],axis=1) 
-			subgroups = len(args['data'][args['hue']].value_counts())
-			if(type(nlpi.pp['stheme']) is list):
-				palette = nlpi.pp['stheme'][:subgroups]
-			else:
-				palette = nlpi.pp['stheme']
-		else:
-			hueloc = None
-			palette = nlpi.pp['stheme']
-		
+		self.seaborn_setstyle()
+		try:
+			if('hue' in args):
+				palette = self.set_palette(args)
+				args['palette'] = palette
+			args['data'] = pd.concat([num,args['data']['hue']],axis=1)
+		except:
+			pass
+
+		args['diag_kind'] = 'kde'
+
+		diag_kws = {}; plot_kws = {}
+		if(nlpi.pp['mew'] != None): 
+			lw = {'linewidth':nlpi.pp['mew']}; diag_kws.update(lw)
+		elif('mew' in args): 
+			lw = {'linewidth':args['mew']}; diag_kws.update(lw)
+			linewidth = {'linewidth':args['mew']}; plot_kws.update(linewidth)
+			del args['mew']
+
+		if(nlpi.pp['mec'] != None):
+			 edgecolor = {'edgecolor':nlpi.pp['mec']}
+			 plot_kws.update(edgecolor); diag_kws.update(edgecolor)
+		elif('mec' in args): 
+			edgecolor = {'edgecolor':args['mec']}; 
+			plot_kws.update(edgecolor); diag_kws.update(edgecolor)
+			del args['mec']
+
+		if(nlpi.pp['fill'] != None): fill = {'fill':nlpi.pp['fill']}; diag_kws.update(fill)
+		elif('fill' in args): fill = {'fill':args['fill']}; diag_kws.update(fill); del args['fill']
+		if(nlpi.pp['alpha'] != None): alpha = {'alpha':nlpi.pp['alpha']}; plot_kws.update(alpha)
+		elif('alpha' in args): alpha = {'alpha':args['alpha']}; plot_kws.update(alpha)
+		if(nlpi.pp['s'] != None): s = {'s':nlpi.pp['s']}; plot_kws.update(s)
+		elif('s' in args): s = {'s':args['s']}; plot_kws.update(s); del args['s']
+
+		if(len(plot_kws) != 0):
+			args['plot_kws'] = plot_kws
+		if(len(diag_kws) != 0):
+			args['diag_kws'] = diag_kws
+
+		if(nlpi.pp['figsize']):
+			args['height'] = nlpi.pp['figsize'][0]
 			
-		sns.set_style("whitegrid", {
-			"ytick.major.size": 0.1,
-			"ytick.minor.size": 0.05,
-			'grid.linestyle': '--'
-		 })
-			 
-		sns.pairplot(num,
-					 hue=hueloc,
-					 corner=True,
-					 palette=palette,
-					 diag_kws={'linewidth':nlpi.pp['mew'],
-							   'fill':args['fill']},
-					 plot_kws={'edgecolor':args['mec'],
-							   'linewidth':args['mew'],
-							   'alpha':args['alpha'],
-							   's':args['s']})   
-		
+		sns.pairplot(**args)   
 		sns.despine(left=True, bottom=True)
 		plt.show()
 		nlpi.resetpp()

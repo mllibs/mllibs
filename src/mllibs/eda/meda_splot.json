@@ -196,7 +196,21 @@
                 "create a seaborn histogram plot using ~x -column and set ~hue -column",
                 "generate a seaborn histogram plot with ~x -column and with ~hue -column",
                 "plot a seaborn histogram plot using ~x -column and using ~hue",
-                "make a seaborn histogram using ~x -column and using ~hue"
+                "make a seaborn histogram using ~x -column and using ~hue",
+                "create a seaborn histogram using ~x -column",
+                "generate a seaborn histogram with ~x -column",
+                "plot a seaborn histogram using ~x -column ~y -column",
+                "create a seaborn histogram plot using ~x -column and ~y -column",
+                "generate a seaborn histogram plot with ~x -column and ~y -column",
+                "plot a seaborn histogram plot using ~x -column and ~y -column",
+                "make a seaborn histogram using ~x -column and ~y -column",
+                "create a seaborn histogram using ~x -column and ~y -column setting the ~hue -column",
+                "generate a seaborn histogram with ~x -column and ~y -column and set the ~hue to -column",
+                "plot a seaborn histogram using ~x -column ~y -column and ~hue -column",
+                "create a seaborn histogram plot using ~x -column ~y -column and set ~hue -column",
+                "generate a seaborn histogram plot with ~x -column and ~y -column and with ~hue -column",
+                "plot a seaborn histogram plot using ~x -column ~y -column and using ~hue -column",
+                "make a seaborn histogram using ~x -column ~y -column and using ~hue -column"
                 ],
       "corpus_sub":"None",
       "info": {
@@ -208,23 +222,41 @@
                 "description":"Create a seaborn histogram plot",
                 "output":"None",
                 "token_compat":"None",
-                "arg_compat":"x y hue nbins barmode"
+                "arg_compat":"x y hue nbins binwidth"
               }
     },
 
     {
         "name": "skdeplot",
       "corpus": [
-                "create kde plot",
-                "create kernel density estimation plot",
-                "make seaborn kde plot",
-                "create seaborn kde plot",
-                "make seaborn kde plot",
-                "plot seaborn kde figure",
-                "make seaborn kde figure",
-                "create seaborn kernel density plot",
-                "please create a seaborn kde plot",
-                "make a kde plot using seaborn"
+              "create a seaborn kdeplot using ~x -column",
+              "generate a seaborn kdeplot with ~x -column",
+              "plot a seaborn kdeplot using ~x -column",
+              "create a seaborn kdeplot plot using ~x -column",
+              "generate a seaborn kdeplot plot with ~x -column",
+              "plot a seaborn kdeplot plot using ~x -column",
+              "make a seaborn kdeplot using ~x -column",
+              "create a seaborn kdeplot using ~x -column and setting the ~hue -column",
+              "generate a seaborn kdeplot with ~x -column and set the ~hue to -column",
+              "plot a seaborn kdeplot using ~x -column and ~hue -column",
+              "create a seaborn kdeplot plot using ~x -column and set ~hue -column",
+              "generate a seaborn kdeplot plot with ~x -column and with ~hue -column",
+              "plot a seaborn kdeplot plot using ~x -column and using ~hue",
+              "make a seaborn kdeplot using ~x -column and using ~hue",
+              "create a seaborn kdeplot using ~x -column",
+              "generate a seaborn kdeplot with ~x -column",
+              "plot a seaborn kdeplot using ~x -column ~y -column",
+              "create a seaborn kdeplot plot using ~x -column and ~y -column",
+              "generate a seaborn kdeplot plot with ~x -column and ~y -column",
+              "plot a seaborn kdeplot plot using ~x -column and ~y -column",
+              "make a seaborn kdeplot using ~x -column and ~y -column",
+              "create a seaborn kdeplot using ~x -column and ~y -column setting the ~hue -column",
+              "generate a seaborn kdeplot with ~x -column and ~y -column and set the ~hue to -column",
+              "plot a seaborn kdeplot using ~x -column ~y -column and ~hue -column",
+              "create a seaborn kdeplot plot using ~x -column ~y -column and set ~hue -column",
+              "generate a seaborn kdeplot plot with ~x -column and ~y -column and with ~hue -column",
+              "plot a seaborn kdeplot plot using ~x -column ~y -column and using ~hue -column",
+              "make a seaborn kdeplot using ~x -column ~y -column and using ~hue -column"
                 ],
       "corpus_sub":"None",
       "info": {
@@ -233,7 +265,7 @@
                 "topic":"exploratory data analysis",
                 "subtopic":"plot figure",
                 "input_format":"pd.DataFrame",
-                "description":"Create a seaborn kernel density estimation plot (kde)",
+                "description":"Create a seaborn kernel density estimation plot (KDE)",
                 "output":"None",
                 "token_compat":"None",
                 "arg_compat":"x y hue"
@@ -247,7 +279,15 @@
                 "bivariate pairplot",
                 "bivariate seaborn pairplot",
                 "multivariate seaborn pairplot",
-                "multivariate pairplot"
+                "multivariate pairplot",
+                "create a seaborn pairplot",
+                "seaborn pairplot and ~hue -column",
+                "bivariate pairplot set ~hue -column",
+                "bivariate seaborn pairplot setting ~hue to -column",
+                "multivariate seaborn pairplot set ~hue to -column",
+                "multivariate pairplot set ~hue -column",
+                "create a seaborn pairplot ~hue -column",
+                "create a seaborn pairplot setting ~hue -column"
                 ],
       "corpus_sub":"None",
       "info": {

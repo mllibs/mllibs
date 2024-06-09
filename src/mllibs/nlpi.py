@@ -38,6 +38,11 @@ class nlpi(nlpm):
 	memory_stack = []        # memory stack of task information
 	memory_output = []       # memory output
 	model = {}               # store models
+
+	# class plot parameters
+	pp_init = {'title':None,'template':None,'background':None,'figsize':None, 
+				'stheme':None, 'fill': None,'legend':True, 'width':None, 's':None,
+				'xrange':None,'yrange':None, 'mew': None, 'mec': None, 'alpha':None}
 	
 	# instantiation requires module
 	def __init__(self,module=None):
@@ -53,13 +58,7 @@ class nlpi(nlpm):
 		# temporary active function storage
 		self.tac_id = 0
 		self.tac_data = {}
-				  
-		# class plot parameters
-		nlpi.pp_init = {'title':None,'template':None,'background':None,'figsize':None, 
-				  'stheme':None, 'fill': None,'legend':True, 'width':None, 's':None,
-				  'xrange':None,'yrange':None}
-
-		nlpi.pp = nlpi.pp_init
+		nlpi.pp = nlpi.pp_init.copy()
 
 	'''
 	###########################################################################
@@ -80,7 +79,7 @@ class nlpi(nlpm):
 
 	@classmethod
 	def resetpp(cls):
-		nlpi.pp = nlpi.pp_init
+		nlpi.pp = nlpi.pp_init.copy()
 
 	# Check all available data sources, update dsources dictionary
 	def check_dsources(self):
