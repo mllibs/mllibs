@@ -60,18 +60,6 @@
     {
       "name": "slmplot",
       "corpus": [
-        "create seaborn regression plot",
-        "create seaborn regression model",
-        "create seaborn regression estimation",
-        "make seaborn regression plot",
-        "make seaborn regression estimation",
-        "make seaborn regression model",
-        "plot seaborn regression model",
-        "plot seaborn estimation",
-        "fit seaborn regression estimation plot",
-        "fit regression estimation plot",
-        "make seaborn regression estimation figure",
-        "visualise seaborn regression figure",
         "create seaborn lmplot",
         "make seaborn lmplot",
         "plot seaborn lmplot"

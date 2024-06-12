@@ -92,8 +92,21 @@ class nlpi(nlpm):
 		if(data_name in nlpi.data):
 			if(type(lst) == list):
 				nlpi.data[data_name]['ac'][ac_name] = lst
+				print(f'[note] active function {ac_name} has been set for {data_name}')
 			else:
 				print('[note] please use list for subset definition')
+
+	# [data storage] store the target variable for data source
+
+	def store_target(self,data_name:str,target_name:str):
+
+		if(data_name in nlpi.data):
+			if(isinstance(target_name,str)):
+				nlpi.data[data_name]['target'] = target_name
+				print(f'[note] target variable has been set for {data_name}')
+			else:
+				print('[note] please use a string to define the target variable')
+
 
 	'''
 	###########################################################################
@@ -421,7 +434,7 @@ class nlpi(nlpm):
 		
 		if(name is None):
 
-			dtype = []; names = []; shape = []; ac = []
+			dtype = []; names = []; shape = []; ac = []; target = []
 			for i in nlpi.data.keys():
 				names.append(i)
 				dtype.append(type(nlpi.data[i]['data']))
@@ -438,7 +451,15 @@ class nlpi(nlpm):
 				else:
 					ac.append(None)
 
-			ldata = pd.DataFrame({'name':names,'dtype':dtype,'shape':shape,'ac':ac})
+				if(isinstance(nlpi.data[i]['data'],pd.DataFrame)):
+					if(isinstance(nlpi.data[i]['target'],str)):
+						target.append(nlpi.data[i]['target'])
+					else:
+						target.append(None)		
+				else:
+					target.append(None)
+
+			ldata = pd.DataFrame({'name':names,'dtype':dtype,'shape':shape,'ac':ac,'target':target})
 			ldata.index = ldata['name']	
 
 			return ldata

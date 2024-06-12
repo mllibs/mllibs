@@ -35,12 +35,12 @@
     "corpus": 
 
             [
-            "convert the lists -list -list and -list to a dataframe ",
+            "convert the lists -list -list and -list to a dataframe",
             "group together the lists -list -list -list into a dataframe",
             "transform the lists -list -list -list into a dataframe",
             "create a dataframe from lists -list -list -list -list",
             "merge together -list -list -list into a single dataframe",
-            "turn the lists -list -list -list -list into a dataframe "
+            "turn the lists -list -list -list -list into a dataframe"
             ]
 
     ,
@@ -79,8 +79,29 @@
                "token_compat":"None",
                "arg_compat":"None"
               }
-    }
+    },
 
+    {
+      "name": "set_model_target",
+    "corpus": [
+                "set -column as the target variable for data",
+                "define -column as the model target variable for data",
+                "set target variable as -column for data",
+                "define the target variable for data -df as -column"
+              ],
+      "corpus_sub":"None",
+      "info": {
+               "module":"libop",
+               "action":"store in nlpi.data",
+               "topic":"library operation",
+               "subtopic":"activation function data",
+               "input_format":"None",
+               "description":"store colum name of existing in nlpi.data as the target variable",
+               "output":"None",
+               "token_compat":"None",
+               "arg_compat":"None"
+              }
+    }
 
   ]
 }

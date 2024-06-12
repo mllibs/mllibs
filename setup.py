@@ -10,6 +10,7 @@ setup(packages=find_packages(where="src"),
                                "stats/*.json",
                                "signal/*.json",
                                "pd/*.json",
+                               "ml/*.json",
                                "*.json",
                                "models/*.pickle"]
       })

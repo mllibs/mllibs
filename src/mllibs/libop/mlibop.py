@@ -29,6 +29,7 @@ class libop_general(nlpi):
                 
         self.args = args
         select = args['pred_task']
+        self.data_name = args['data_name'] # {'name':'type'}
         
         if(select == 'mlibop_sdata'):
             self.stored_data(args)
@@ -36,6 +37,8 @@ class libop_general(nlpi):
             self.stored_functions(args)
         if(select == 'mlibop_convertlisttodf'):
             self.convert_list_to_df(args)
+        if(select == 'set_model_target'):
+            self.set_model_target(args)
 
 
     '''
@@ -44,24 +47,15 @@ class libop_general(nlpi):
 
     '''
 
-    '''
-
-    show stored dataset names
-
-    '''
-
+    # show the dataframe
     def stored_data(self,args:dict):
 
         print('[note] currently stored data: ')
         data_keys = list(nlpi.data.keys())
         print(data_keys)
 
-    '''
 
-    show activation function summary dataframe
-
-    '''
-
+    # show activation function summary dataframe
     def stored_functions(self,args:dict):  
         
         module_summary = nlpi.lmodule.mod_summary
@@ -69,12 +63,7 @@ class libop_general(nlpi):
         print("[note] data stored in nlpi.memory_output; call .glr()['data']")
         nlpi.memory_output.append({'data':module_summary})
 
-    '''
-
-    convert stored lists into a dataframe 
-
-    '''
-
+    # convert stored lists into dataframe
     def convert_list_to_df(self,args:dict):
  
         lst_data = []
@@ -90,4 +79,17 @@ class libop_general(nlpi):
         df_pivot = combined.pivot(index='ids',columns='sample', values='data')
 
         nlpi.store_data(df_pivot,args['store_as'])
+
+    def set_model_target(self,args:dict):
+
+        '''
+        
+            store column as the target variable
+        
+        '''
+
+        data_names = list(self.data_name.keys()) # should be one
+        data_name = data_names[0]
+
+        nlpi.data[data_name]['target'] = args['column'][0]
 
