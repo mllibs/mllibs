@@ -1,0 +1,247 @@
+{
+  "modules": [
+
+      {
+        "name": "show_info",
+        "corpus": [
+                  "for -df show basic information",
+                  "show dataframe information of -df",
+                  "show dataframe info for -df",
+                  "show dataframe information for -df",
+                  "show the info for -df",
+                  "show the dataframe information for -df"
+                  ],
+        "corpus_sub": "None",
+        "info": {
+          "module": "pd_dfop",
+          "topic": "exploratory data analysis",
+          "description": "show dataframe information df.info()",
+          "data_compat": "df",
+          "arg_compat": "None",
+          "main_format":["-df"]
+        }
+      },
+	  
+    {
+      "name": "df_preview",
+      "corpus": [
+		          "show a preview of the dataset -df",
+                  "show a preview of the dataframe -df",
+                  "show me a preview of dataframe -df",
+                  "show dataframe preview of -df",
+                  "show a quick preview of dataframe -df",
+                  "quick dataframe preview of -df"
+     			 ],
+      "corpus_sub":"None",
+      "info": {
+        "module":"pd_dfop",
+        "topic":"exploratory data analysis",
+        "description":"show dataframe preview",
+        "data_compat":"df",
+        "arg_compat":"None",
+        "main_format":["-df"]
+      }
+    },
+	
+    {
+      "name": "df_describe",
+      "corpus": [
+		        "show the dataframe statistics of the dataset -df",
+                "show dataframe statistics of dataframe -df",
+                "describe the dataframe -df statistics",
+                "can you show the dataframe statistics of -df",
+                "display the dataframe statistics -df"
+     			 ],
+      "corpus_sub":"None",
+      "info": {
+        "module":"pd_dfop",
+        "topic":"exploratory data analysis",
+        "description":"show dataframe statistics",
+        "data_compat":"df",
+        "arg_compat":"None",
+        "main_format":["-df"]
+      }
+    },
+	
+    {
+      "name": "df_shape",
+      "corpus": [
+                    "show me the size of the dataframe -df",
+                    "show the dataframe -df size",
+                    "dataframe size",
+                    "what is the dataframe size",
+                    "show the dataframe -df size",
+                    "please show the dataframe shape of -df",
+                    "what is the dataframe shape for -df",
+                    "tell me the shape of the dataframe -df"		  
+     			 ],
+      "corpus_sub":"None",
+      "info": {
+        "module":"pd_dfop",
+        "topic":"exploratory data analysis",
+        "description":"show the dataframe size",
+        "data_compat":"df",
+        "arg_compat":"None",
+        "main_format":["-df"]
+      }
+    },
+	
+    {
+      "name": "df_type",
+      "corpus": [
+                    "show dataframe dtypes for the dataframe -df",
+                    "show data types for the dataframe -df",
+                    "print data types of the dataframe -df",
+                    "print dtypes of the -df",
+                    "show feature dtypes of -df",
+                    "show dtypes of the columns in the dataframe -df",
+                    "show dataframe feature types in dataframe -df",
+                    "show dataframe column types of -df",
+					"what are thr datatyped in the dataframe -df"		
+     			 ],
+      "corpus_sub":"None",
+      "info": {
+        "module":"pd_dfop",
+        "topic":"exploratory data analysis",
+        "description":"show the dataframe column types",
+        "data_compat":"df",
+        "arg_compat":"None",
+        "main_format":["-df"]
+        
+      }
+    },
+	
+    {
+      "name": "df_columns",
+      "corpus": [
+                  "what are the columns in the dataframe -df",
+                  "print the column names of dataframe -df",
+                  "show the dataframe column names in -df",
+                  "print dataframe column names for -df",
+                  "show me the columns names in -df",
+                  "what columns exist in the dataset -df",
+                  "what columns are available in dataframe -df",
+                  "show the column names for the dataframe -df",
+                  "show the columns that are present in the dataframe -df"
+     			 ],
+      "corpus_sub":"None",
+      "info": {
+        "module":"pd_dfop",
+        "topic":"exploratory data analysis",
+        "description":"show the dataframe column names",
+        "data_compat":"df",
+        "arg_compat":"None",
+        "main_format":["-df"]
+      }
+    },
+	
+    {
+      "name": "df_corr",
+      "corpus": [
+                    "create correlation matrix for the dataframe -df",
+                    "plot correlation matrix of dataframe -df",
+                    "generate a correlation matrix for the dataframe -df",
+                    "create correlation of dataframe -df",
+                    "show feature correlation in the dataframe -df",
+                    "genenerate correlation matrix for the dataframe -df",
+                    "show correlation matrix in the dataframe -df",
+                    "show correlation of features in -df"		  
+     			 ],
+      "corpus_sub":"None",
+      "info": {
+        "module":"pd_dfop",
+        "topic":"exploratory data analysis",
+        "description":"show the dataframe correlation matrix",
+        "data_compat":"df",
+        "arg_compat":"None",
+        "main_format":["-df"]
+      }
+    },
+	
+    {
+      "name": "dfcolumn_distr",
+      "corpus": "subset",
+      "corpus_sub": {
+                        "one": [
+                                  "show the column distribution in the dataframe for -column",
+                                  "show the value_counts of column -column in the dataframe -df",
+                                  "show the value counts of -column in -df",
+                                  "show the distribution of column -column in -df",
+                                  "show the column distributions for the dataframe -df for column -column"
+                                  ],
+                          
+                    "multiple": [
+                                "show the column distributions for -columns in -df",
+                                "show column distributions of -columns in the -df",
+                                "show the value_counts for columns -columns in dataframe -df",
+                                "show the value counts of columns -columns in -df"
+                              ],
+
+                        "all": [
+                                "show the distribution for all columns in dataframe -df",
+                                "show the column distributions for the dataframe -df",
+                                "show the column distributions in the -df",
+                                "show the column distributions in the dataframe -df",
+                                "show the value_counts for all columns in the -df",
+                                "show the value_counts of all columns in the dataframe -df",
+                                "show the column distribution for the dataframe -df",
+                                "show the column distributions for all columns in -df"
+                                ]
+      },
+      "info": {
+                "module": "pd_dfop",
+                "topic": "exploratory data analysis",
+                "description": "show column distribution(s) in the dataframe",
+                "data_compat": "df",
+                "arg_compat": "None",
+                "main_format": {
+                                "one":["-df -column"],
+                                "multiple":["-df -columns"],
+                                "all":["-df"]
+                                }
+              }
+    },
+
+    {
+      "name": "dfcolumn_unique",
+      "corpus": "subset",
+      "corpus_sub": {
+        "one": [
+                  "show the unique column values in -column in the dataframe -df",
+                  "return the column unique values for column -column in dataframe -df",
+                  "show the column unique values for column -column in dataframe -df",
+                  "show the unique values in column -column for dataframe -df"
+                  ],
+				  
+		"multiple": [
+                "show the column unique values for columns -columns in dataframe -df",
+                "show for columns -columns in the dataframe -df the unique column values",
+                "show the column unique values in columns -columns in -df",
+                "return the unique column values in columns -columns in -df"
+				      ],
+
+        "all": [
+                "show the unique values in all the columns in -df",
+                "return the unique column values in the dataframe -df",
+                "show the unique column values in -df",
+                "show the unique values in all the columns in the dataframe -df"
+                ]
+      },
+      "info": {
+                "module": "pd_dfop",
+                "topic": "exploratory data analysis",
+                "description": "show column unique values in the dataframe",
+                "data_compat": "df",
+                "arg_compat": "None",
+                "main_format": {
+                                "one":["-df -column"],
+                                "multiple":["-df -columns"],
+                                "all":["-df"]
+                                }
+              }
+    }
+
+
+  ]
+
+}

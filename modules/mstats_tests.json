@@ -1,0 +1,215 @@
+
+{
+    "modules": [
+  
+                {
+                "name": "its_ttest",
+                "corpus": [
+                            "create a two sample idependent ttest using -list and -list",
+                            "create a two sample independent ttest from -list and -list",
+                            "compare the means of two datasets -list and -list using independent student ttest",
+                            "idependent students ttest using -list and -list",
+                            "compare the means of two lists -list and -list using indepentent student ttest",
+                            "two sample independent ttest -list and -list",
+                            "independent two sample independent ttest using -list and -list",
+                            "compare means of two samples using independent ttest -list and -list",
+                            "for two datasets -list and -list calculate the independent ttest",
+                            "for two lists -list and -list evaluate the two sample independent students ttest",
+                            "compare the means of two datasets -list and -list using an independent two sample students ttest",
+                            "compare the means of -list and -list using independent student ttest",
+                            "calculate the p-value for an independent student ttest of data -list and -list"
+                            ],
+                "corpus_sub": "None",
+                "info": {
+                            "module": "stats_tests",
+                            "topic": "statistical tests",
+                            "description": "independent two sample student's t-test (data can be of different length)",
+                            "data_compat": "dlist",
+                            "arg_compat": "None",
+                            "main_format":["-list -list"]
+                        }
+                },
+
+                {
+                    "name": "d_ttest",
+                    "corpus": [
+                                "compare the means of two lists -list and -list using dependent student ttest",
+                                "conduct a two sample paired ttest using -list and -list",
+                                "do a paired ttest for data -list and -list",
+                                "create a dependent paired student ttest using -list and -list",
+                                "do a dependent ttest student test for -list and -list",
+                                "compare means of two samples using dependent ttest for data -list and -list",
+                                "compare the means of two datasets -list and -list using a dependent ttest",
+                                "two sample dependent ttest for datasets -list and -list",
+                                "do a dependent ttest of -list and -list",
+                                "evaluate the p-value for the dependent ttest for -list and -list"
+                                ],
+                    "corpus_sub": "None",
+                    "info": {
+                                "module": "stats_tests",
+                                "topic": "statistical tests",
+                                "description": "dependent two sample student's t-test (data must be of same length)",
+                                "data_compat": "dlist",
+                                "arg_compat": "None",
+                                "main_format":["-list -list"]
+                            }
+                    },
+
+                    {
+                        "name": "os_ttest",
+                        "corpus": [
+                                    "do a one sample ttest for -list setting the ~popmean -value",
+                                    "one sample ttest of data -list set ~popmean -value",
+                                    "conduct a single sample ttest of data -list setting ~popmean to -value",
+                                    "do a single sample ttest with of -list and compare with ~popmean of -value",
+                                    "single sample ttest of data using -list and set ~popmean -value",
+                                    "compare sample mean of -list to population mean ~popmean -value using ttest",
+                                    "single sample ttest of on -list setting the ~popmean -value"
+                                  ],
+                        "corpus_sub": "None",
+                        "info": {
+                                    "module": "stats_tests",
+                                    "topic": "statistical tests",
+                                    "description": "one sample student t-test comparing the means to a population mean (popmean)",
+                                    "data_compat": "list",
+                                    "arg_compat": "popmean",
+                                    "main_format":["-list ~popmean -value"]
+                                }
+                    },
+					
+					
+                {
+                    "name": "u_test",
+                    "corpus": [
+				                "mann whitney utest -list and -list",
+				                "mann whitney test using -list and -list",
+				                "two sample utest using -list and -list",
+				                "conduct the mann whitney test using data -list and -list",
+				                "perform the Mann Whitney u-test using data -list and -list",
+				                "conduct the utest using -list and -list",
+				                "man whitney utest on -list and -list",
+				                "evaluate the pvalue for the utest using -list and -list"
+                                ],
+                    "corpus_sub": "None",
+                    "info": {
+                                "module": "stats_tests",
+                                "topic": "statistical tests",
+                                "description": "Mann-Whitney test (u-test) is a nonparametric statistical test used to determine whether there is a significant difference between the distributions of two independent samples",
+                                "data_compat": "dlist",
+                                "arg_compat": "None",
+                                "main_format":["-list -list"]
+                            }
+                    },
+					
+					 {
+					      "name": "ksmirnov_tests",
+					      "corpus": "subset",
+					      "corpus_sub": {
+					        "normal": [
+					                "kolmogorov smirnov test for normality for data -list",
+					                "kolmogorov smirnov statistical test for normality for data -list",
+					                "perform ks statistical test for normality of dataset -list",
+					                "kolmogorov smirnov test for normal distribution using -list",
+					                "perform the kolmogorov smirnov test for normality using -list",
+					                "one sample ks test for normal distribution",
+					                "ks test for normal distribution",
+					                "perform the ks test checking for normality on dataset -list",
+					                "for the dataset -list check for normality using the ks test",
+					                "check -list for normality test using ks test"			
+					                ],
+									  
+							"uniform": [
+									"kolmogorov smirnov test for uniformity for data -list",
+					                "kolmogorov smirnov statistical test for uniformity for data -list",
+					                "perform ks statistical test for uniformity of dataset -list",
+					                "kolmogorov smirnov test for uniform distribution using -list",
+					                "perform the kolmogorov smirnov test for uniformity using -list",
+					                "one sample ks test for uniform distribution using data -list",
+					                "ks test for uniformity distribution of data -list",
+					                "perform the ks test checking for uniform on dataset -list",
+					                "for the dataset -list check for uniformity using the ks test",
+					                "check dataset -list if it is of uniform nature using ks test",
+					                "for a given dataset -list check if it of uniform nature using the kolmogorov smirnov test"
+									],
+					
+					        "exponential": [
+					                "kolmogorov smirnov test for exponentiality for data -list",
+					                "kolmogorov smirnov statistical test for exponentiality for data -list",
+					                "perform ks statistical test for exponentiality of dataset -list",
+					                "kolmogorov smirnov test for exponential distribution using -list",
+					                "perform the kolmogorov smirnov test for exponentiality using -list",
+					                "one sample ks test for exponential distribution using data -list",
+					                "ks test for exponential distribution of data -list",
+					                "perform the ks test checking for exponentiality on dataset -list",
+					                "for the dataset -list check for exponentiality using the ks test",
+					                "check dataset -list if it is of exponential nature using ks test",
+					                "for a given dataset -list check it is of exponential nature using the kolmogorov smirnov test"
+					                ]
+					      },
+					      "info": {
+					                "module": "stats_tests",
+					                "topic": "statistical tests",
+					                "description": "Kolmogorov Smirnov Tests of a sample for normality, uniformity and exponentiality",
+					                "data_compat": "list",
+					                "arg_compat": "None",
+					                "main_format": {
+					                                "normal":["-list"],
+					                                "uniform":["-list"],
+					                                "exponential":["-list"]
+					                                }
+					              }
+					    },
+
+                        {
+                            "name": "shapiro_wilk",
+                            "corpus": [
+                                        "shapiro wilk test for normal distribution using data -list",
+                                        "shapiro wilk test for normal for the dataset -list",
+                                        "please do the shapiro wilk test for normal distribution for dataset -list",
+                                        "shapiro wilk test on sample -list",
+                                        "shapiro wilk test of sample -list",
+                                        "conduct the shapiro wilk test on data -list",
+                                        "please do the shapiro wilk test for -list",
+                                        "perform the shapiro wilk statistical test on dataset -list",
+                                        "check if the dataset -list is normally distributed using the shapiro wilk statistical test",
+                                        "shapiro wilk statistical test on -list",
+                                        "perform the shapiro wilk test of normality for -list",
+                                        "check if the data -list is normally distributed using the shapiro wilk test",
+                                        "do the shapiro wilk test of normality for data -list",
+                                        "check if sample -list is normally distributed using the shapiro wilk test"
+                                        ],
+                            "corpus_sub": "None",
+                            "info": {
+                                        "module": "stats_tests",
+                                        "topic": "statistical tests",
+                                        "description": "Shapiro-Wilk test is a statistical test used to determine if a given sample of data comes from a normally distributed population",
+                                        "data_compat": "list",
+                                        "arg_compat": "None",
+                                        "main_format":["-list"]
+                                    }
+                        },
+
+                        {
+                            "name": "one_anova",
+                            "corpus": [
+                                        "perform a one way anova test using samples -list and -list",
+                                        "conduct an analysis of variance test for samples -list and -list",
+                                        "anova test for two samples of data -list and -list",
+                                        "one way anova test of samples -list and -list",
+                                        "for samples -list -list please do a one way analysis of variance test",
+                                        "conduct a one way analysis of variance test on -list and -list",
+                                        "one way two sample anova test for -list -list"
+                                        ],
+                            "corpus_sub": "None",
+                            "info": {
+                                        "module": "stats_tests",
+                                        "topic": "statistical tests",
+                                        "description": "One-way ANOVA (Analysis of Variance) test, which is used to determine if there are any statistically significant differences between the means of multiple samples of data",
+                                        "data_compat": "mlist",
+                                        "arg_compat": "None",
+                                        "main_format":["-list -list","-list -list -list","-list -list -list -list"]
+                                    }
+                        }
+
+                ]   
+}
