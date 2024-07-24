@@ -1,7 +1,7 @@
 
 import pandas as pd
 from ner_parser import Parser
-from tokenisers import punktokeniser, custpunkttokeniser
+from src.tokenisers import punktokeniser, custpunkttokeniser
 import difflib
 import re
 

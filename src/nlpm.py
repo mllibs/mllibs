@@ -1,8 +1,8 @@
 import pandas as pd
 from ner_parser import Parser, dicttransformer, tfidf, merger
-from dict_helper import convert_dict_toXy,convert_dict_todf
-from tokenisers import PUNCTUATION_PATTERN
-from tokenisers import punktokeniser, custpunkttokeniser
+from src.dict_helper import convert_dict_toXy,convert_dict_todf
+from src.tokenisers import PUNCTUATION_PATTERN
+from src.tokenisers import punktokeniser, custpunkttokeniser
 from sklearn.preprocessing import LabelEncoder
 from sklearn.pipeline import Pipeline
 from sklearn.ensemble import RandomForestClassifier,GradientBoostingClassifier

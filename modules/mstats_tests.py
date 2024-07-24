@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import warnings; warnings.filterwarnings('ignore')
-from nlpm import parse_json
+from src.nlpm import parse_json
 from scipy import stats
 from scipy.stats import kstest, shapiro, chisquare, jarque_bera, f_oneway
 import json

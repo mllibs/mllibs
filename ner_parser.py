@@ -7,7 +7,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-from tokenisers import punktokeniser, custpunkttokeniser, PUNCTUATION_PATTERN
+from src.tokenisers import punktokeniser, custpunkttokeniser, PUNCTUATION_PATTERN
 from string import punctuation
 
 # Tokenisation patten

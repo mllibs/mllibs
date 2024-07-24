@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-from data_storage import data, check_data_compat
-from user_request import user_request
-from nlpm import nlpm
-from module import modules
+from src.data_storage import data, check_data_compat
+from src.user_request import user_request
+from src.nlpm import nlpm
+from src.module import modules
 from modules.mpd_dfop import pd_dfop
 from modules.mstats_tests import stats_tests
 from modules.mstats_plot import stats_plot

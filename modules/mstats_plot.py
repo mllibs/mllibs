@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import warnings; warnings.filterwarnings('ignore')
-from nlpm import parse_json
+from src.nlpm import parse_json
 import json
 import os
 import matplotlib.pyplot as plt
