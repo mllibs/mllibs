@@ -9,8 +9,6 @@
 
 </h5>
 
-Update!
-
 ### **About mllibs**
 
 Some key points about the library:
