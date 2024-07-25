@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import warnings; warnings.filterwarnings('ignore')
-from src.nlpm import parse_json
+from mllibs.nlpm import parse_json
 import json
 import os
+import pkg_resources
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -12,7 +13,7 @@ class stats_plot:
 	
 	def __init__(self):
 		self.name = 'stats_plot'
-		path = 'modules/mstats_plot.json'    
+		path = pkg_resources.resource_filename('mllibs','/modules/mstats_plot.json') 
 		with open(path, 'r') as f:
 			self.json_data = json.load(f)
 			self.nlp_config = parse_json(self.json_data)

@@ -1,13 +1,9 @@
 import pandas as pd
 import numpy as np
-from src.data_storage import data, check_data_compat
-from src.user_request import user_request
-from src.nlpm import nlpm
-from src.module import modules
-from modules.mpd_dfop import pd_dfop
-from modules.mstats_tests import stats_tests
-from modules.mstats_plot import stats_plot
-
+from mllibs.data_storage import data, check_data_compat
+from mllibs.user_request import user_request
+from mllibs.nlpm import nlpm
+from mllibs.module import modules
 import warnings; warnings.filterwarnings('ignore')
 
 
@@ -269,87 +265,3 @@ class nlpi:
 	# add data to data sources 
 	def add(self,data,name:str):
 			self.data.add_data(data,name)
-
-
-
-
-
-def main():
-	
-	iris = pd.read_csv('iris.csv')
-	titanic = pd.read_csv('titanic.csv')
-
-	i = nlpi() 
-	i.add_modules() # add modules (create corpuses)
-	i.add(iris,'iris') # add data to nlpi instance
-	i.add(titanic,'titanic')
-
-	sample1 = list(np.random.normal(scale=1, size=200))
-	sample2 = list(np.random.rand(10))
-	sample3 = list(np.random.exponential(scale=1, size=200))
-
-	i.add(sample1,'sample1')
-	i.add(sample3,'sample3')
-
-	"""
-	
-	Module: Pandas DataFrame Operations
-	
-	"""
-
-	# req = 'show a preview of the dataframe titanic'
-	# req = 'describe the statistics of dataframe titanic'
-	# req = 'show the shape of the dataframe titanic'
-	# req = 'show the data types in the dataframe titanic'
-	# req = 'show the columns that are present in the dataframe titanic'
-	# req = 'show the correlation in titanic'
-
-	# req = 'for all columns show the column distribution of for dataframe titanic'
-	# req = 'for columns embarked and sex calculate the column distribution in titanic'
-	# req = 'for column embarked calculate the column distribution in titanic'
-
-	# req = 'for all the columns show the unique values in dataframe titanic'
-	# req = 'for columns embarked and sex show the unique column values in titanic'
-	# req = 'for the column embarked show the column unique values in the dataframe titanic'
-
-	# req = 'show the missing data in the column embarked in the dataframe titanic'
-	# req = 'show the missing data in the columns embarked and sex in titanic'
-	# req = 'show the missing data in the dataframe titanic'
-
-	"""
-	
-	Module : Statistical tests
-	
-	"""
-
-	# req = 'evaluate the two sample independent students test using sample1 and sample3'
-	# req = 'evaluate the dependent two sample ttest using samples sample1 and sample3'
-	# req = 'one sample ttest on sample1 and compare to popmean of 0.12'
-	#req = 'do a utest using sample1 and sample3'
-	# req = "do the mann whitney utest for sample1 and sample3"
-
-	# req = "check if the distribution follows a normal distribution using the kolmogorov smirnov test for sample1"
-	# req = "having sample1 check if the distribution of the data follows a uniform distribution using the kolmogorov smirnov test"
-	# req = "check if the data sample1 follows exponential distribution using the kolmogorov smirnov test"
-	# req = "shapiro wilk test for normality for sample1"
-	# req = "one way anova test on samples sample1 and sample3"
-	
-	"""
-	
-	Module : Statistical Plots
-	
-	"""
-	
-	# req = "show the histogram for samples sample1 and sample3"
-	req = "show the histograms of samples sample1 sample3 set nbins = 30"
-	req = "show the kernel density plot for samples sample1 and sample3"
-	req = "show a visualisation of boxplots for samples sample1 and sample3"
-
-
-	
-	i.query(req)
-	# print(i.glr())
-
-
-if __name__ == '__main__':
-	main()

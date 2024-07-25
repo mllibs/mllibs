@@ -2,9 +2,9 @@
 import pandas as pd
 import numpy as np
 import warnings; warnings.filterwarnings('ignore')
-from src.nlpm import parse_json
+from mllibs.nlpm import parse_json
+import pkg_resources
 from scipy import stats
-from scipy.stats import kstest, shapiro, chisquare, jarque_bera, f_oneway
 import json
 import os
 
@@ -12,7 +12,7 @@ class stats_tests:
 	
 	def __init__(self):
 		self.name = 'stats_tests'
-		path = 'modules/mstats_tests.json'    
+		path = pkg_resources.resource_filename('mllibs','/modules/mstats_tests.json')
 		with open(path, 'r') as f:
 			self.json_data = json.load(f)
 			self.nlp_config = parse_json(self.json_data)

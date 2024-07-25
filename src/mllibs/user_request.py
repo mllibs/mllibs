@@ -1,7 +1,6 @@
 
 import pandas as pd
-from ner_parser import Parser
-from src.tokenisers import punktokeniser, custpunkttokeniser
+from mllibs.tokenisers import punktokeniser, custpunkttokeniser
 import difflib
 import re
 

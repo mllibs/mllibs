@@ -2,7 +2,8 @@
 import pandas as pd
 import numpy as np
 import warnings; warnings.filterwarnings('ignore')
-from src.nlpm import parse_json
+from mllibs.nlpm import parse_json
+import pkg_resources
 import json
 import os
 
@@ -17,7 +18,7 @@ class pd_dfop:
 	
 	def __init__(self):
 		self.name = 'pd_dfop'
-		path = 'modules/mpd_dfop.json'    
+		path = pkg_resources.resource_filename('mllibs','/modules/mpd_dfop.json') 
 		with open(path, 'r') as f:
 			self.json_data = json.load(f)
 			self.nlp_config = parse_json(self.json_data)
