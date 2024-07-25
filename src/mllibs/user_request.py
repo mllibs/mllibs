@@ -160,7 +160,7 @@ class user_request:
 				token_spans[key] = None
 			
 		# define patterns for matching
-		pattern_af = "(for each|for every|each|every|of|for|for column|for columns|for the column|in the column|in|columns) -column"
+		pattern_af = "(for each|for every|each|every|of|for|for column|for columns|for the column|in the column|in|columns|in column) -column"
 		
 		patterns = []
 		pattern_after = pattern_af

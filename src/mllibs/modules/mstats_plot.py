@@ -45,7 +45,14 @@ class stats_plot:
 			self.dp_kde(args)
 		elif(self.select == 'plot_box'):
 			self.dp_box(args)
-		
+
+	"""
+	=========================================================
+
+	Activation Functions
+	
+	=========================================================
+	"""
 			
 	def dp_hist(self,args:dict):
 

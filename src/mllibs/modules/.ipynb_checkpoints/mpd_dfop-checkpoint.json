@@ -239,51 +239,6 @@
                                 "all":["-df"]
                                 }
               }
-    },
-
-    {
-      "name": "df_na",
-      "corpus": "subset",
-      "corpus_sub": {
-        "one": [
-                  "show the missing data in -column of dataframe -df",
-                  "show the missing data in dataframe -df column -column",
-                  "show the data that is missing in dataframe -df in column -column",
-                  "show missng data in column -column in -df",
-                  "show the missing data in column -column of -df",
-                  "show missing data of column -column in -df",
-                  "display the missing data in -column of -df"
-                  ],
-				  
-		"multiple": [
-                "show the missing data in columns -columns in the dataframe -df",
-                "display the missing data in columns -columns of -df",
-                "show the data that is missing in columns -columns of -df",
-                "show the missing data in -columns in -df",
-                "show the data that is missing in -columns of -df"
-				      ],
-
-        "all": [
-                "show the missing data in dataframe -df",
-                "show the data that is missing in dataframe -df",
-                "show the missing data of -df",
-                "show the data missing in dataframe -df",
-                "show the missing data of -df",
-                "show missing data in the dataset -df"
-                ]
-      },
-      "info": {
-                "module": "pd_dfop",
-                "topic": "exploratory data analysis",
-                "description": "show the data that is missing in dataframe",
-                "data_compat": "df",
-                "arg_compat": "None",
-                "main_format": {
-                                "one":["-df -column"],
-                                "multiple":["-df -columns"],
-                                "all":["-df"]
-                                }
-              }
     }
 
 

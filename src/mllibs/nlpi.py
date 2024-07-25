@@ -47,6 +47,7 @@ class nlpi:
 		self.modules = modules()
 		self.models = nlpm(self.modules)
 		self.request = user_request(self.data,self.modules)
+		self.test_mode = False
 		self.module_args = {}
 		self.iter = -1
 		self.memory = {}
@@ -61,7 +62,11 @@ class nlpi:
 		print('\n> Query information \n')
 		print('> ',self.query_request)
 		print('> ',' '.join(self.request.mtokens))
-		self.step_iteration()
+
+		if(self.test_mode == False):
+			self.step_iteration()
+		else:
+			print('> no iteration activated')
 
 	def parse_request(self):
 
@@ -253,6 +258,7 @@ class nlpi:
 	# add library modules (preset or list of instances)
 	def add_modules(self,modules:list=None):
 		
+		# preset
 		if(modules is None):
 			self.modules.load([pd_dfop(),
 					  		   stats_tests(),
