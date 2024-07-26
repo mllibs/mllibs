@@ -15,6 +15,12 @@ def split_types(df:pd.DataFrame):
     return list(numeric.columns),list(categorical.columns)
 
 class pd_dfop:
+
+	"""
+	
+	Module for DataFrame Operations
+	
+	"""
 	
 	def __init__(self):
 		self.name = 'pd_dfop'
