@@ -26,8 +26,10 @@
                             "arg_compat": "nbins",
                             "main_format":["-list","-list -list","-list -list -list","-list -list -list -list",
 								"-list ~nbins -value","-list -list ~nbins -value","-list -list -list ~nbins -value",
-								"-list -list -list -list ~nbins -value"]
-                        }
+								"-list -list -list -list ~nbins -value"],
+                            "arg_replace" : {"nbins":["number of bins","bin number"]}
+                        }                       
+                
                 },
 				
 				{

@@ -30,6 +30,7 @@ class modules:
 		self.storage = {}
 		self.task_dict = {}
 		self.label = {} #  storing model label (text not numeric)
+		self.param_rearg = {}
 		
 	def load(self,modules:list):
 			
@@ -113,6 +114,19 @@ class modules:
 
 		'''
 		
+		Store all modules with Parameter Expressions
+		
+		'''
+
+		for module in modules:
+			for af,val in module.nlp_config['info'].items():
+				try:
+					self.param_rearg[af] = module.nlp_config['info'][af]['arg_replace']
+				except:
+					pass
+
+		'''
+		
 		Extract unique input parameters that one can use in a user request
 		
 		'''
@@ -122,8 +136,8 @@ class modules:
 			for af,val in module.nlp_config['info'].items():
 				if(module.nlp_config['info'][af]['arg_compat'] != 'None'):
 					lst_temp.extend(module.nlp_config['info'][af]['arg_compat'].split())
-		
-		# module parameter tokens
+
+		# acceptable module parameter tokens
 		self.token_mparams = list(set(" ".join(lst_temp).split(' ')))
 		
 		# task information options

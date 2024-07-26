@@ -18,23 +18,54 @@ class user_request:
 	def __init__(self,data,modules):
 		self.data = data  					# data class instance
 		self.modules = modules				# module class instance
-		
 		self.token_info = dict()				# user request token information 	
 		self.extracted_data = {}
 		self.extracted_column = {}
 		self.extracted_column_list = []
 		self.extracted_params = {}
 
-	def store_tokens(self,request:str):
+	
+	def string_replacement(self):
+
+		"""
 		
+		Replace String Before Main Parsing
+		
+		"""
+
+		# replace parameter preset patterns with parameter
+		for function,vals in self.modules.param_rearg.items():
+			for param_id,re_expressions in vals.items():
+				# for all regular expressions of param
+				for express in re_expressions:
+					replaced = re.sub(express,param_id,self.string)
+					if(replaced != self.string):
+						print(f'> query updated {express} -> {param_id}')
+						self.string = replaced
+
+		
+
+	def store_tokens(self,request:str):
+
+		"""
+		
+		String Query & Modifications
+		
+		"""
+
+		# store the user query in string format
+		self.string = request
+
+		# replace user string query with alternative variations
+		self.string_replacement()
+
 		'''
 		
 		Tokenise User Request
 		
 		'''
-		
-		self.string = request
-		self.tokens = custpunkttokeniser(request)
+
+		self.tokens = custpunkttokeniser(self.string)
 		self.add_column_token_info({'token':self.tokens})
 
 	def evaluate(self):
