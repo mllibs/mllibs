@@ -48,25 +48,34 @@ class nlpi:
 		self.models = nlpm(self.modules)
 		self.request = user_request(self.data,self.modules)
 		self.test_mode = False
-		self.module_args = {}
+		self.module_args = {}  # dictionary passed to activation function
 		self.iter = -1
 		self.memory = {}
 		
 	# main user request
-	def query(self,query_request:str,verbose=False):
-		self.verbose = verbose
+	def query(self,query_request:str):
+
+		"""
+
+		Main User Query Method 
+
+		"""
+
 		self.query_request = query_request # user request in string format
-		self.parse_request()
-		self.inference_request()
+		self.parse_request()	# extract information from user request
+		self.inference_request() # use query to predict activation function
 		
 		print('\n> Query information \n')
 		print('> ',self.query_request)
 		print('> ',' '.join(self.request.mtokens))
 
+
 		if(self.test_mode == False):
 			self.step_iteration()
 		else:
-			print('> no iteration activated')
+			print('> [test mode] no iteration activated')
+
+
 
 	def parse_request(self):
 
@@ -104,13 +113,14 @@ class nlpi:
 		self.module_args['column'] = self.request.extracted_column
 		self.module_args['column_list'] = self.request.extracted_column_list
 		
+
 	def inference_request(self):
 		
-		'''
+		"""
 		
 		Global Activation Task Prediction 
 		
-		'''
+		"""
 		
 		print('\n> Model predictions\n')
 
@@ -251,26 +261,31 @@ class nlpi:
 			print('> pre iteration checks not passed')
 			print(f"data: {self.check_data}, format: {self.check_format}")
 
-	# get the last result
-	def glr(self):
-		return self.memory[self.iter]['result']
+		self.request.reset_iter_storage()
 		
 	# add library modules (preset or list of instances)
 	def add_modules(self,modules:list=None):
+
+		"""
 		
-		# preset
+		Add Addition Modules 
+		
+		"""
+		
+		# preset modules
 		if(modules is None):
 			self.modules.load([pd_dfop(),
 					  		   stats_tests(),
 							   stats_plot()])
 		else:
 			self.modules.load(modules)	
-			
-		#print(self.modules.corpus_gt)
-		#print(self.modules.task_dict)	
 	
 		self.train_models()
 	
 	# add data to data sources 
 	def add(self,data,name:str):
-			self.data.add_data(data,name)
+		self.data.add_data(data,name)
+
+	# get the last result
+	def glr(self):
+		return self.memory[self.iter]['result']

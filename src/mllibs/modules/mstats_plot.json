@@ -15,19 +15,22 @@
 		                "visualise the histogram distribution of -list and -list",
 		                "please plot the distribution of sample -list using histograms",
 		                "plot the histogram distributions of samples -list and -list",
-		                "compare the histograms of two samples -list and -list set ~nbins -value"
+		                "compare the histograms of two samples -list and -list set ~nbins -value",
+                        "show the histogram for samples -list and -list setting the ~nbins to -value"
 							],
                 "corpus_sub": "None",
                 "info": {
                             "module": "stats_plot",
                             "topic": "statistical visualisation",
-                            "description": "visualise 1d histogram plots for lists",
+                            "description": "visualise univariate histogram plots for lists",
                             "data_compat": "alist",
-                            "arg_compat": "nbins",
+                            "arg_compat": "nbins fill",
                             "main_format":["-list","-list -list","-list -list -list","-list -list -list -list",
 								"-list ~nbins -value","-list -list ~nbins -value","-list -list -list ~nbins -value",
 								"-list -list -list -list ~nbins -value"],
-                            "arg_replace" : {"nbins":["number of bins","bin number"]}
+
+                            "param_partial" : {"nbins":["number of bins"," bin number"," bins"]},
+                            "param_full" : {"fill False":["remove the fill","remove fill"]}
                         }                       
                 
                 },

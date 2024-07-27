@@ -7,44 +7,55 @@ import re
 
 class user_request:
 
-	'''
+	"""
 	########################################################################
 	
 	                           User Request Class
 	
 	########################################################################
-	'''
+	"""
 
 	def __init__(self,data,modules):
 		self.data = data  					# data class instance
 		self.modules = modules				# module class instance
+		self.reset_iter_storage()
+
+	def reset_iter_storage(self):
 		self.token_info = dict()				# user request token information 	
 		self.extracted_data = {}
-		self.extracted_column = {}
-		self.extracted_column_list = []
-		self.extracted_params = {}
+		self.extracted_column = {}              # storage for extracted column data
+		self.extracted_column_list = []         # storage for extracted column data
+		self.extracted_params = {}             # storage for extracted paramters
 
-	
 	def string_replacement(self):
 
 		"""
 		
-		Replace String Before Main Parsing
+		Replace String Before Main Request Parsing
 		
 		"""
+
+		request = self.string; updates = []
 
 		# replace parameter preset patterns with parameter
 		for function,vals in self.modules.param_rearg.items():
 			for param_id,re_expressions in vals.items():
 				# for all regular expressions of param
 				for express in re_expressions:
-					replaced = re.sub(express,param_id,self.string)
-					if(replaced != self.string):
-						print(f'> query updated {express} -> {param_id}')
-						self.string = replaced
+					replaced = re.sub(express," "+param_id,request)
+					if(replaced.split(' ') != request.split(' ')):
+						updates.append(f'> query updated ({express}) -> ({param_id})')
+						request = replaced
 
+		# notify about user request string updates
+		if(len(updates) > 0):
+			print('> User request string updates')
+			for update in updates:
+				print(update)
+
+		# update string
+		self.string = request
 		
-
 	def store_tokens(self,request:str):
 
 		"""
@@ -69,19 +80,14 @@ class user_request:
 		self.add_column_token_info({'token':self.tokens})
 
 	def evaluate(self):
-		
-		'''
-		
-		user request token length data extraction 
-		
-		'''
+	
 		
 		# data related token info extraction
 		self.data_in_tokens = [True if i in self.data.show_data_names() else False for i in self.tokens] 
 		self.dtype_in_tokens = [self.data.dtype[i] if i in self.data.show_data_names() else None for i in self.tokens]
 		self.add_column_token_info({'data_id':self.data_in_tokens})
 		self.add_column_token_info({'dtype':self.dtype_in_tokens}) # data token type
-	
+
 		# add dataframe column
 		self.check_tokens_for_pdf_columns() # self.column_in_tokens
 		self.add_column_token_info({'col_id':self.column_in_tokens}) 
@@ -90,30 +96,64 @@ class user_request:
 		# -column -column -> -column, -column
 		self.adjust_column_series()
 
-		# self.find_neighbouring_tokens()  # self.grouped_token_id
-		self.column_name_groupings()     # self.grouped_column_idx/names
-							         # grouped based on [and],[,] tokens 
+		'''
+		
+		Group Column Names (column_name_groupings)
+		Replace Column names with [-columns] in [token_info]
+
+		'''
+
+		# self.find_neighbouring_tokens()  # [grouped_token_id]
+		self.column_name_groupings()       # [grouped_column_idx]/[names]
+							               # grouped based on [and],[,] tokens 
 
 		self.ac_tokens = [None for i in range(len(self.tokens))]
 		self.token_info['ac_id'] = self.ac_tokens
 		if(self.grouped_column_idx is not None):
-			self.replace_tokens_to_columns() # use [grouped_column_idx] to adjust token_info
 
-		# add module parameter tags
+			# use [grouped_column_idx] to adjust token_info 
+			# also add ac_id into [token_info]
+			self.replace_tokens_to_columns() 
+
+		# self.show_token_info()
+
+
+		'''
+		
+		Tag Preset Activation Function Parameters with ~
+		
+		'''
+		
 		self.preset_param_tagger()    # module preset parameter tagger
 		self.add_column_token_info({'preset_param':self.param_preset_tags})
 		
+		'''
+		
+		Define Token Type and store in ttype
+		
+		'''
+
 		# define token types (mainly for -value)
 		self.set_token_type()
 		self.add_column_token_info({'ttype':self.ttype_in_tokens}) # set token type
 		
+		'''
+		
+		Create Generalised Token Variant of [tokens]
+		
+		'''
+
 		# generalise tokens
 		self.generalise_tokens()
 		self.add_column_token_info({'mtoken':self.mtokens})
 		
 		'''
 		
-		Data Parameter and Column Extractions
+		Token [Parameter] and [Column] Extractions
+
+			[extracted_params] 
+			[extracted_column]
+			[extracted_column_list]
 		
 		'''
 		
@@ -122,14 +162,9 @@ class user_request:
 		
 		# extract PARAM parameters
 		self.param_extraction() 
-		# print(self.extracted_params)
 		
 		# extract general column references
-		self.column_extraction() 	
-		# print(self.extracted_column)
-		# print(self.extracted_column_list)
-		
-		# print(self.show_token_info())
+		self.column_extraction() 
 	
 	def data_extraction(self):
 
@@ -302,8 +337,9 @@ class user_request:
 			for i in match:
 				pattern_matches[i.span()] = i.group()
 				
+		# display if pattern matches found
 		if(len(pattern_matches) > 0):
-			print('\n> Pattern references found \n')
+			print('\n> Pattern matches found \n')
 			print(pattern_matches)
 				
 		# find tuple spans in dictionary of token spans
@@ -352,12 +388,15 @@ class user_request:
 			print(self.extracted_params)
 	
 	'''
-	
+	===========================================================
+
 	Parameter Token/Value Extraction
 	
 	label_params_names : label tag names with [~]
-	label_params : replace string token names, floats, integers with [-] identifier
+	label_params : replace string token names, floats, 
+	integers with [-] identifier
 	
+	===========================================================
 	'''
 
 	@staticmethod
@@ -491,8 +530,11 @@ class user_request:
 
 		[-column] [x] [-column] -> [-columns]
 		
-		[grouped_column_idx] token indicies 
-		[grouped_column_names] token names
+		Find -column tokens which are close to each other
+		and store them 
+
+		create [grouped_column_idx] token indicies 
+		create [grouped_column_names] token names
 		
 		"""
 
@@ -533,19 +575,48 @@ class user_request:
 			
 			self.grouped_column_idx = merge_nested_lists(lst_groups)
 			self.grouped_column_names = [[idx_to_token.get(item) for item in sublist] for sublist in self.grouped_column_idx]
-				
 			print(self.grouped_column_names)
 			
 		else:
 			self.grouped_column_idx = None
 			self.grouped_column_names = None
+
+
+	def range_groupings(self):
+
+		"""
+		
+		Group range token values (a,b) format
+		
+		create [grouped_range_idx] : centre index lst
+		create [grouped_range_idxs] : all indicies in [[],[],...]
+		create [grouped_range_values] : converted range tuples [(),(),...]
+
+		"""
+
+		tokens = self.tokens
+
+		# identify [,] and [(] and [)] tokens & store
+		grouped_indices = []; grouped_centres = []
+		for i in range(2, len(tokens) - 2):
+			if ((tokens[i-2] == '(' and tokens[i+2] == ')') and tokens[i] in [',','and']):
+				grouped_centres.append(i)
+				grouped_indices.append([i-2,i-1,i,i+1,i+2])
+
+		ranges = []
+		for group in grouped_indices:
+			ranges.append(eval(''.join([tokens[i] for i in group])))
+
+		self.grouped_range_idx = grouped_centres # centre index lst
+		self.grouped_range_idxs = grouped_indices # all indicies in [[],[],...]
+		self.grouped_range_values = ranges # converted range tuples [(),(),...]
 			
 		
-	'''
+	"""
 	
 	[Token Information Related]
 	
-	'''
+	"""
 
 	# add new column to token_info        
 	def add_column_token_info(self,column:dict):
@@ -603,6 +674,8 @@ class user_request:
 		"""
 		
 		Replace grouped multiple [-column] with [-columns]
+
+		using [grouped_column_idx] [grouped_column_names]
 		
 		"""
 		
@@ -641,6 +714,8 @@ class user_request:
 
 		# remove -remove tokens from token_info
 		self.remove_idx_token_info(idx_remove)
+
+
 
 	@staticmethod
 	def string_diff_index(ref_string:str,string:str):

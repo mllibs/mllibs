@@ -62,6 +62,8 @@ class stats_plot:
 
 		"""
 		
+		fig, ax = plt.subplots(figsize=(10,4))
+		
 		# input requires any number of lists
 		if(self.data_format == 'alist'):
 			lsts = self.data['list']
@@ -78,21 +80,26 @@ class stats_plot:
 		combined = pd.concat(lst_ldata)
 		combined = combined.reset_index(drop=True)
 
-		if(args['nbins'] is not None):
-			bins = args['nbins']
-		else:
-			bins = 100 
+
+
+		# preset argument dictionary
+		preset = {'data':combined,'ax':ax,
+				  'bins':100,'fill':True,'alpha':1.0,
+   				  'hue':'sample','x':'data'}
+		
+		# update extracted parameter values
+		for param,value in self.params.items():
+			if(param == 'nbins'):
+				preset['bins'] = value
+			else:
+				preset[param] = value
+
+
 
 		# plot the histograms
-
-		fig, ax = plt.subplots(figsize=(10,4))
 		sns.despine(left=True,right=True,top=True,bottom=True)
 		plt.grid(linestyle='--', linewidth=0.5,alpha=0.2)
-		
-		sns.histplot(combined,x='data',hue='sample',bins=bins,
-					 alpha=0.5,edgecolor='k',linewidth=1,
-					 ax=ax)
-
+		sns.histplot(**preset)
 		ax.set_xlabel('Value')
 		ax.set_ylabel('Frequency')
 		ax.set_title('Univariate Distribution')

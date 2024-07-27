@@ -120,8 +120,17 @@ class modules:
 
 		for module in modules:
 			for af,val in module.nlp_config['info'].items():
+				self.param_rearg[af] = dict()
+
+				# partial string replacement cases
 				try:
-					self.param_rearg[af] = module.nlp_config['info'][af]['arg_replace']
+					self.param_rearg[af].update(module.nlp_config['info'][af]['param_partial'])
+				except:
+					pass
+
+				# full string replacement cases
+				try:
+					self.param_rearg[af].update(module.nlp_config['info'][af]['param_full'])
 				except:
 					pass
 
