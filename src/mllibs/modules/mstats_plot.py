@@ -80,8 +80,6 @@ class stats_plot:
 		combined = pd.concat(lst_ldata)
 		combined = combined.reset_index(drop=True)
 
-
-
 		# preset argument dictionary
 		preset = {'data':combined,'ax':ax,
 				  'bins':100,'fill':True,'alpha':1.0,
@@ -94,11 +92,9 @@ class stats_plot:
 			else:
 				preset[param] = value
 
-
-
-		# plot the histograms
+		sns.set_style('whitegrid')
 		sns.despine(left=True,right=True,top=True,bottom=True)
-		plt.grid(linestyle='--', linewidth=0.5,alpha=0.2)
+		plt.grid(linestyle='--', linewidth=0.5,alpha=0)
 		sns.histplot(**preset)
 		ax.set_xlabel('Value')
 		ax.set_ylabel('Frequency')

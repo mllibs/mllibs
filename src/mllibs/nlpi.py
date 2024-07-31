@@ -138,11 +138,11 @@ class nlpi:
 		self.module_args['pred_task'] = self.pred_task
 		self.module_args['pred_info'] = self.pred_info
 		
-		'''
+		"""
 		
 		Subset Prediction (if exists)
 		
-		'''
+		"""
 		
 		if(self.pred_task in self.models.sub_models):
 			
@@ -261,6 +261,7 @@ class nlpi:
 			print('> pre iteration checks not passed')
 			print(f"data: {self.check_data}, format: {self.check_format}")
 
+		# reset storage data 
 		self.request.reset_iter_storage()
 		
 	# add library modules (preset or list of instances)

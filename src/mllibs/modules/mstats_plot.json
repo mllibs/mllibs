@@ -24,12 +24,13 @@
                             "topic": "statistical visualisation",
                             "description": "visualise univariate histogram plots for lists",
                             "data_compat": "alist",
-                            "arg_compat": "nbins fill",
+                            "arg_compat": "nbins fill fsize",
                             "main_format":["-list","-list -list","-list -list -list","-list -list -list -list",
 								"-list ~nbins -value","-list -list ~nbins -value","-list -list -list ~nbins -value",
 								"-list -list -list -list ~nbins -value"],
 
-                            "param_partial" : {"nbins":["number of bins"," bin number"," bins"]},
+                            "param_partial" : {"nbins":["number of bins"," bin number"," bins"],
+                                              "fsize":["figure size","size of the figure"]},
                             "param_full" : {"fill False":["remove the fill","remove fill"]}
                         }                       
                 

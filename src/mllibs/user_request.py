@@ -79,9 +79,59 @@ class user_request:
 		self.tokens = custpunkttokeniser(self.string)
 		self.add_column_token_info({'token':self.tokens})
 
+	def replace_tokens_to_range(self):
+
+		"""
+		
+		Using [grouped_range_idx] (indicies of range tokens)
+			  [grouped_range_values] (extracted range tuple)
+
+			  replace the tokens with one token and store the 
+			  tuple range data in column range_val
+		
+		"""
+
+		for ii,(group,names) in enumerate(zip(self.grouped_range_idxs,self.grouped_range_values)):
+			
+			# replace the first index of the group
+			tgroup = group.copy()
+			self.replace_values_to_token_info({
+											'token':{group[0]:'-range'},
+											'data_id':{group[0]:False}, 
+											'dtype':{group[0]:None},
+											'col_id':{group[0]:None},
+											'ac_id': {group[0]:None},
+											'range_val': {group[0]:names}
+											})
+											
+			tgroup.pop(0)
+
+		# 	# add -remove idx tags to the remaining indicies
+			for idx in tgroup:
+
+				modify = {
+							'token':{idx:'-remove'},
+							'data_id':{idx:False}, 
+							'dtype':{idx:None},
+							'col_id':{idx:None},
+							'ac_id':{idx:None},
+							'range_val':{idx:None}
+						}
+
+				self.replace_values_to_token_info(modify)
+
+		# find the indicies to be removed
+		idx_remove = []
+		for ii,token in enumerate(self.tokens):
+			if(token == '-remove'):
+				idx_remove.append(ii)
+
+		# remove -remove tokens from token_info
+		self.remove_idx_token_info(idx_remove)
+
+
 	def evaluate(self):
 	
-		
 		# data related token info extraction
 		self.data_in_tokens = [True if i in self.data.show_data_names() else False for i in self.tokens] 
 		self.dtype_in_tokens = [self.data.dtype[i] if i in self.data.show_data_names() else None for i in self.tokens]
@@ -92,16 +142,38 @@ class user_request:
 		self.check_tokens_for_pdf_columns() # self.column_in_tokens
 		self.add_column_token_info({'col_id':self.column_in_tokens}) 
 		
-		# add [,] in between -column if it is missing
-		# -column -column -> -column, -column
+		""" 
+		
+		Adjust [-column] that are listed sequentially 
+		
+		"""
+
+		# add token [,] in between [-column] if it is missing
+		# -column -column -> -column [,] -column
 		self.adjust_column_series()
 
-		'''
+		"""
+		
+		Extract range tokens (a,b) and store in [range_val] column 
+		of [token_info]
+		
+		"""
+
+		# find range tokens in [token_info], get their index & extract data
+		self.range_groupings()
+
+		# set the link between range_tokens and [range_val] "column" in token_info
+		self.range_tokens = [None for i in range(len(self.tokens))]
+		self.token_info['range_val'] = self.range_tokens
+		if(self.grouped_range_idx is not None):
+			self.replace_tokens_to_range()
+
+		"""
 		
 		Group Column Names (column_name_groupings)
 		Replace Column names with [-columns] in [token_info]
 
-		'''
+		"""
 
 		# self.find_neighbouring_tokens()  # [grouped_token_id]
 		self.column_name_groupings()       # [grouped_column_idx]/[names]
@@ -129,7 +201,7 @@ class user_request:
 		
 		'''
 		
-		Define Token Type and store in ttype
+		Define Token Type and store in [ttype] column of [token_info]
 		
 		'''
 
@@ -139,7 +211,7 @@ class user_request:
 		
 		'''
 		
-		Create Generalised Token Variant of [tokens]
+		Create Generalised Token Variant of [tokens] column of [token_info]
 		
 		'''
 
@@ -168,11 +240,11 @@ class user_request:
 	
 	def data_extraction(self):
 
-		'''
+		"""
 		
 		Extract Data Tokens
 		
-		'''
+		"""
 		
 		data_token_idx = [ii for ii,i in enumerate(self.dtype_in_tokens) if i != None] # find all data tokens idx
 		data_name = [self.tokens[idx] for idx in data_token_idx] # data name
@@ -309,14 +381,14 @@ class user_request:
 		token_spans = {}
 		for key,value in mtoken_spans.items():
 
-			token_name = self.tokens[value]
 			gtoken_name = self.mtokens[value]
-			ac_name = self.ac_tokens[value]
 				
 			if(gtoken_name.startswith('~')):
 				token_spans[key] = self.mtokens[value]
 			elif(gtoken_name == '-columns'):
 				token_spans[key] = self.ac_tokens[value]
+			elif(gtoken_name == '-range'):
+				token_spans[key] = self.range_tokens[value]
 			else:
 				token_spans[key] = self.tokens[value]
 			
@@ -372,13 +444,18 @@ class user_request:
 				param_value = results[1]
 				
 				# check types
-				float_check = self.isfloat(param_value)
-				int_check = self.isint(param_value)
+				if(isinstance(param_value,str)):
 				
-				if(float_check):
-					param_value = float(param_value)
-				elif(int_check):
-					param_value = int(param_value)
+					float_check = self.isfloat(param_value)
+					int_check = self.isint(param_value)
+
+					if(float_check):
+						param_value = float(param_value)
+					elif(int_check):
+						param_value = int(param_value)
+
+				elif(isinstance(param_value,tuple)):
+					pass
 					
 				# store parameter
 				self.extracted_params[param_name] = param_value
@@ -462,6 +539,8 @@ class user_request:
 				temp[ii] = '~' + temp[ii]
 				
 		self.mtokens = temp
+
+
 		
 	def check_tokens_for_pdf_columns(self):
 
@@ -603,13 +682,15 @@ class user_request:
 				grouped_centres.append(i)
 				grouped_indices.append([i-2,i-1,i,i+1,i+2])
 
-		ranges = []
-		for group in grouped_indices:
-			ranges.append(eval(''.join([tokens[i] for i in group])))
+		if(len(grouped_centres) > 0):
 
-		self.grouped_range_idx = grouped_centres # centre index lst
-		self.grouped_range_idxs = grouped_indices # all indicies in [[],[],...]
-		self.grouped_range_values = ranges # converted range tuples [(),(),...]
+			ranges = []
+			for group in grouped_indices:
+				ranges.append(eval(''.join([tokens[i] for i in group])))
+
+			self.grouped_range_idx = grouped_centres # centre index lst
+			self.grouped_range_idxs = grouped_indices # all indicies in [[],[],...]
+			self.grouped_range_values = ranges # converted range tuples [(),(),...]
 			
 		
 	"""
