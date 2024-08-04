@@ -36,12 +36,16 @@ class user_request:
 		"""
 
 		request = self.string; updates = []
+		print(self.modules.param_rearg.items())
 
 		# replace parameter preset patterns with parameter
 		for function,vals in self.modules.param_rearg.items():
+
 			for param_id,re_expressions in vals.items():
+
 				# for all regular expressions of param
 				for express in re_expressions:
+
 					replaced = re.sub(express," "+param_id,request)
 					if(replaced.split(' ') != request.split(' ')):
 						updates.append(f'> query updated ({express}) -> ({param_id})')
@@ -229,14 +233,9 @@ class user_request:
 		
 		'''
 		
-		# extract and store the token data
-		self.data_extraction()
-		
-		# extract PARAM parameters
-		self.param_extraction() 
-		
-		# extract general column references
-		self.column_extraction() 
+		self.data_extraction() # extract and store the token data
+		self.param_extraction() # extract PARAM parameters
+		self.column_extraction() # extract general column references
 	
 	def data_extraction(self):
 

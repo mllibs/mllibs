@@ -25,7 +25,6 @@
                             "description": "visualise univariate histogram plots for lists",
                             "data_compat": "alist",
                             "arg_compat": "nbins fill fsize",
-
                             "main_format":[
                                 "-list","-list ~fsize -range",
                                 "-dlist","-dlist ~fsize -range",
@@ -36,7 +35,7 @@
 
                             "param_partial" : {"nbins":["number of bins"," bin number"," bins"],
                                               "fsize":["figure size","size of the figure"]},
-                            "param_full" : {"fill to False":["remove the fill","remove fill","fill to none"]}
+                            "param_full" : {"fill False":["remove the fill","remove fill"]}
                         }                       
                 
                 },

@@ -83,25 +83,21 @@ class stats_plot:
 		combined = pd.concat(lst_ldata)
 		combined = combined.reset_index(drop=True)
 
-		# preset function argument dictionary 
+		# preset argument dictionary
 		preset = {'data':combined,'ax':ax,
 				  'bins':100,'fill':True,'alpha':1.0,
    				  'hue':'sample','x':'data'}
 		
 		# update extracted parameter values
 		for param,value in self.params.items():
-
-			# only specific parameters get passed to function
-			if(param in preset.keys()):
-				if(param == 'nbins'):
-					preset['bins'] = value
-				else:
-					preset[param] = value
+			if(param == 'nbins'):
+				preset['bins'] = value
+			else:
+				preset[param] = value
 
 		sns.set_style('whitegrid')
 		sns.despine(left=True,right=True,top=True,bottom=True)
 		plt.grid(linestyle='--', linewidth=0.5,alpha=0)
-
 		sns.histplot(**preset)
 		ax.set_xlabel('Value')
 		ax.set_ylabel('Frequency')

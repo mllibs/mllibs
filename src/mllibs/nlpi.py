@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import re
 from mllibs.data_storage import data, check_data_compat
 from mllibs.user_request import user_request
 from mllibs.nlpm import nlpm
@@ -201,14 +202,23 @@ class nlpi:
 		# can be dictionary : for subset or list (general)
 		main_format = self.module_args['pred_info']['main_format']
 		
-		include_tokens = ['-column','-df','-columns','-list','-value']
+		include_tokens = ['-column','-df','-columns','-list','-value','-range']
 		for param in self.modules.token_mparams:
 			include_tokens.append('~' + param)	
 
 		# query compatibility; check keep only critical tags from request
 		to_check_format = [i for i in self.request.mtokens if i in include_tokens]
 		to_check_format.sort()
-		
+
+		# adjust to generalised format 
+		case_id = to_check_format.count('-list')
+		text = ' '.join(to_check_format)
+
+		if(case_id > 2):
+			to_check_format = re.sub(r'(-list\s+){2,}', '-mlist ', text)
+		elif(case_id == 2):
+			to_check_format = re.sub(r'(-list ){2}', '-dlist ', text)
+
 		if(isinstance(main_format,dict)):
 
 			# (a) subset defined in dictionary format
@@ -220,12 +230,23 @@ class nlpi:
 				# subset_check_format -> list like main_format
 				subset_check_format = main_format[self.module_args['sub_task']]
 
+				# loop through and check compatibility
 				for format in subset_check_format:
 					lst_format = format.split(' ')
 					lst_format.sort()
+					str_format = ' '.join(lst_format)
 
-					if(lst_format == to_check_format):
+					if(str_format == to_check_format):
 						self.check_format = True
+					
+				if(self.check_format == False):
+					print('> Format Problem!')
+					print('\naccepted formats:')
+					print(subset_check_format)
+					print('\nprovided format:')
+					print(to_check_format)
+					
+					
 
 		elif(isinstance(main_format,list)):
 
@@ -234,9 +255,23 @@ class nlpi:
 			for format in main_format:
 				lst_format = format.split(' ')
 				lst_format.sort()
+				str_format = ' '.join(lst_format)
 
-				if(lst_format == to_check_format):
+				if(str_format == to_check_format):
 					self.check_format = True
+
+			if(self.check_format == False):
+
+				print('> Activation Function Format Problem!')
+				print('\naccepted formats:')
+
+				for case in main_format:
+					tokens = case.split(' ')
+					tokens.sort()
+					print(' '.join(tokens))
+				print('\nprovided format:')
+				print(to_check_format)
+				print('\n')
 					
 	
 	# go through iteration	

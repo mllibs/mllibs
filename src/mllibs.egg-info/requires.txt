@@ -1,0 +1,11 @@
+requests
+setuptools
+wheel
+numpy
+pandas
+scipy
+nltk
+seaborn
+matplotlib
+scikit-learn
+statsmodels
