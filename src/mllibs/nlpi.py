@@ -53,6 +53,11 @@ class nlpi:
 		self.iter = -1
 		self.memory = {}
 		
+
+
+
+
+		
 	# main user request
 	def query(self,query_request:str):
 
@@ -82,7 +87,7 @@ class nlpi:
 
 		"""
 		
-		Parse user request : Extract Data From Request
+		PARSE USER REQUEST
 		
 		"""
 	
@@ -115,11 +120,16 @@ class nlpi:
 		self.module_args['column_list'] = self.request.extracted_column_list
 		
 
+
+
+
+
+
 	def inference_request(self):
 		
 		"""
 		
-		Global Activation Task Prediction 
+		INFERENCE FUNCTION
 		
 		"""
 		
@@ -159,13 +169,11 @@ class nlpi:
 		# print(self.request.extracted_data['storage_name'])
 		# print(self.request.extracted_data['storage'])
 
-
-	# train models used in nlpi
 	def train_models(self):
 
 		"""
 		
-		Train Models used in nlpi
+		TRAIN MACHINE LEARNING MODELS
 		
 		"""
 
@@ -176,12 +184,14 @@ class nlpi:
 		for key,corpus in self.modules.corpus_subset.items():
 			self.models.sub_models[key] = self.models.create_subset_model(corpus)
 
-	# pre-execution checks for activation function 
+
+
+
 	def pre_iteration_checks(self):
 
 		"""
 		
-		check if extracted data corresponds to ac input requirement
+		DATA FORMAT CORRESPONDS TO ACTIVATION FUNCTION CHECK
 		
 		"""
 
@@ -215,9 +225,9 @@ class nlpi:
 		text = ' '.join(to_check_format)
 
 		if(case_id > 2):
-			to_check_format = re.sub(r'(-list\s+){2,}', '-mlist ', text)
+			to_check_format = re.sub(r'(-list(?: -list){2,})', '-mlist', text)
 		elif(case_id == 2):
-			to_check_format = re.sub(r'(-list ){2}', '-dlist ', text)
+			to_check_format = re.sub(r'(-list -list)', '-dlist', text)
 
 		if(isinstance(main_format,dict)):
 
@@ -274,8 +284,18 @@ class nlpi:
 				print('\n')
 					
 	
-	# go through iteration	
+
+
+
+
+
 	def step_iteration(self):
+
+		"""
+		
+			ITERATIVE STEP 
+		
+		"""
 		
 		self.iter += 1
 		self.memory[self.iter] = {'data':None,'param':None,'column':None,'output':None}

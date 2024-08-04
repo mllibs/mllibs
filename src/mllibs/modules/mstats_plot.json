@@ -11,12 +11,13 @@
 		                "compare histogram of two samples -list and -list",
 		                "plot the histrogram distribution of two lists -list and -list",
 		                "compare the histogram distribution of two samples -list and -list",
-		                "compare the histograms of two samples -list -list ~nbins -value",
+		                "compare the histograms of two samples -list -list ~bins -value",
 		                "visualise the histogram distribution of -list and -list",
 		                "please plot the distribution of sample -list using histograms",
 		                "plot the histogram distributions of samples -list and -list",
-		                "compare the histograms of two samples -list and -list set ~nbins -value",
-                        "show the histogram for samples -list and -list setting the ~nbins to -value"
+		                "compare the histograms of two samples -list and -list set ~bins -value",
+                        "show the histogram for samples -list and -list setting the ~bins to -value",
+                        "show the histogram plot for -list and -list"
 							],
                 "corpus_sub": "None",
                 "info": {
@@ -24,19 +25,19 @@
                             "topic": "statistical visualisation",
                             "description": "visualise univariate histogram plots for lists",
                             "data_compat": "alist",
-                            "arg_compat": "nbins fill fsize",
+                            "arg_compat": "bins fill fsize",
 
                             "main_format":[
                                 "-list","-list ~fsize -range",
                                 "-dlist","-dlist ~fsize -range",
                                 "-mlist","-mlist ~fsize -range",
-								"-list ~nbins -value","-list ~nbins -value ~fsize -range",
-                                "-dlist ~nbins -value","-dlist ~nbins -value ~fsize -range",
-                                "-mlist ~nbins -value","-mlist ~nbins -value ~fsize -range"],
+								"-list ~bins -value","-list ~bins -value ~fsize -range",
+                                "-dlist ~bins -value","-dlist ~bins -value ~fsize -range",
+                                "-mlist ~bins -value","-mlist ~bins -value ~fsize -range"],
 
-                            "param_partial" : {"nbins":["number of bins"," bin number"," bins"],
+                            "param_partial" : {"bins":[" number of bins"," bin number"," bins"],
                                               "fsize":["figure size","size of the figure"]},
-                            "param_full" : {"fill to False":["remove the fill","remove fill","fill to none"]}
+                            "param_full" : {"fill False":["remove the fill","remove fill","fill to none"]}
                         }                       
                 
                 },
@@ -67,15 +68,15 @@
 				{
                 "name": "plot_box",
                 "corpus": [	
-		                "compare the boxplot distribution for different samples -list and -list",
-		                "compare the univariate boxplot distribution of two samples -list and -list",
-		                "visualise the boxplots for different samples -list and -list",
-		                "compare the boxplot distribution of different samples -list -list and -list",
-		                "please plot the boxplots for different data samples -data -list",
-		                "please visualise the boxplot distributions for -list -list",
-		                "having datasets -list and -list please plot the boxplot distributions",
-		                "compare the boxplot distribution for datasets -list -list and -list",
-						"show a visualisation of boxplots for samples -list and -list"				
+                            "compare the boxplot distribution for different samples -list and -list",
+                            "compare the univariate boxplot distribution of two samples -list and -list",
+                            "visualise the boxplots for different samples -list and -list",
+                            "compare the boxplot distribution of different samples -list -list and -list",
+                            "please plot the boxplots for different data samples -data -list",
+                            "please visualise the boxplot distributions for -list -list",
+                            "having datasets -list and -list please plot the boxplot distributions",
+                            "compare the boxplot distribution for datasets -list -list and -list",
+                            "show a visualisation of boxplots for samples -list and -list"				
 							],
                 "corpus_sub": "None",
                 "info": {

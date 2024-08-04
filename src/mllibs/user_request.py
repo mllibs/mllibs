@@ -36,7 +36,6 @@ class user_request:
 		"""
 
 		request = self.string; updates = []
-		print(self.modules.param_rearg.items())
 
 		# replace parameter preset patterns with parameter
 		for function,vals in self.modules.param_rearg.items():
@@ -156,6 +155,9 @@ class user_request:
 		# -column -column -> -column [,] -column
 		self.adjust_column_series()
 
+
+
+
 		"""
 		
 		Extract range tokens (a,b) and store in [range_val] column 
@@ -172,12 +174,17 @@ class user_request:
 		if(self.grouped_range_idx is not None):
 			self.replace_tokens_to_range()
 
+
+
+
 		"""
 		
 		Group Column Names (column_name_groupings)
 		Replace Column names with [-columns] in [token_info]
 
 		"""
+
+
 
 		# self.find_neighbouring_tokens()  # [grouped_token_id]
 		self.column_name_groupings()       # [grouped_column_idx]/[names]
@@ -187,6 +194,7 @@ class user_request:
 		self.token_info['ac_id'] = self.ac_tokens
 		if(self.grouped_column_idx is not None):
 
+			print('pass!')
 			# use [grouped_column_idx] to adjust token_info 
 			# also add ac_id into [token_info]
 			self.replace_tokens_to_columns() 
@@ -194,11 +202,13 @@ class user_request:
 		# self.show_token_info()
 
 
-		'''
+
+
+		"""
 		
 		Tag Preset Activation Function Parameters with ~
 		
-		'''
+		"""
 		
 		self.preset_param_tagger()    # module preset parameter tagger
 		self.add_column_token_info({'preset_param':self.param_preset_tags})
@@ -690,6 +700,12 @@ class user_request:
 			self.grouped_range_idx = grouped_centres # centre index lst
 			self.grouped_range_idxs = grouped_indices # all indicies in [[],[],...]
 			self.grouped_range_values = ranges # converted range tuples [(),(),...]
+
+		else:
+			self.grouped_range_idx = None
+			self.grouped_range_idxs = None
+			self.grouped_range_values = None
+
 			
 		
 	"""

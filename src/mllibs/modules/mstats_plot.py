@@ -90,22 +90,14 @@ class stats_plot:
 		
 		# update extracted parameter values
 		for param,value in self.params.items():
-
-			# only specific parameters get passed to function
-			if(param in preset.keys()):
-				if(param == 'nbins'):
-					preset['bins'] = value
-				else:
-					preset[param] = value
+			if(param not in ['fsize']):
+				preset[param] = value
 
 		sns.set_style('whitegrid')
-		sns.despine(left=True,right=True,top=True,bottom=True)
-		plt.grid(linestyle='--', linewidth=0.5,alpha=0)
 
 		sns.histplot(**preset)
 		ax.set_xlabel('Value')
 		ax.set_ylabel('Frequency')
-		ax.set_title('Univariate Distribution')
 		plt.show()
 
 
