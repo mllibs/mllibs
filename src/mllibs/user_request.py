@@ -30,8 +30,8 @@ class user_request:
 	def string_replacement(self):
 
 		"""
-		
-		Replace String Before Main Request Parsing
+
+		REPLACE PARTS OF THE INPUT USER REQUEST BEFORE PARSE
 		
 		"""
 
@@ -45,7 +45,7 @@ class user_request:
 				# for all regular expressions of param
 				for express in re_expressions:
 
-					replaced = re.sub(express," "+param_id,request)
+					replaced = re.sub(express,param_id,request)
 					if(replaced.split(' ') != request.split(' ')):
 						updates.append(f'> query updated ({express}) -> ({param_id})')
 						request = replaced
@@ -58,12 +58,16 @@ class user_request:
 
 		# update string
 		self.string = request
+
+
+
+
 		
 	def store_tokens(self,request:str):
 
 		"""
 		
-		String Query & Modifications
+		STRING REPLACEMENT & TOKENISATION
 		
 		"""
 
@@ -75,7 +79,7 @@ class user_request:
 
 		'''
 		
-		Tokenise User Request
+		TOKENISE USER REQUEST
 		
 		'''
 
@@ -133,6 +137,30 @@ class user_request:
 		self.remove_idx_token_info(idx_remove)
 
 
+	def replace_tokens_to_logical(self):
+
+		tokens = self.tokens
+
+		logical_indicies = []; logical_values = []
+		for i in range(len(tokens)):
+			if(tokens[i] in ['True','False']):
+				logical_indicies.append(i)
+				logical_values.append(self.tokens[i])
+
+		if(len(logical_indicies) > 0):
+
+			for group,names in zip(logical_indicies,logical_values):
+				
+				self.replace_values_to_token_info({
+												'token':{group:'-logical'},
+												'data_id':{group:False}, 
+												'dtype':{group:None},
+												'col_id':{group:None},
+												'ac_id': {group:None},
+												'range_val':{group:None},
+												'logic_id': {group:names}
+												})
+											
 	def evaluate(self):
 	
 		# data related token info extraction
@@ -174,6 +202,10 @@ class user_request:
 		if(self.grouped_range_idx is not None):
 			self.replace_tokens_to_range()
 
+		# logical token replacement
+		self.logic_tokens = [None for i in range(len(self.tokens))]
+		self.token_info['logic_id'] = self.logic_tokens
+		self.replace_tokens_to_logical()
 
 
 
@@ -193,8 +225,6 @@ class user_request:
 		self.ac_tokens = [None for i in range(len(self.tokens))]
 		self.token_info['ac_id'] = self.ac_tokens
 		if(self.grouped_column_idx is not None):
-
-			print('pass!')
 			# use [grouped_column_idx] to adjust token_info 
 			# also add ac_id into [token_info]
 			self.replace_tokens_to_columns() 
@@ -232,6 +262,10 @@ class user_request:
 		# generalise tokens
 		self.generalise_tokens()
 		self.add_column_token_info({'mtoken':self.mtokens})
+
+
+		print('passed!')
+		self.label_string_params()
 		
 		'''
 		
@@ -246,6 +280,8 @@ class user_request:
 		self.data_extraction() # extract and store the token data
 		self.param_extraction() # extract PARAM parameters
 		self.column_extraction() # extract general column references
+
+		
 	
 	def data_extraction(self):
 
@@ -275,11 +311,11 @@ class user_request:
 		
 	def column_extraction(self):
 		
-		'''
+		"""
 		
 		Extract column only expressions; column references without parameters
 		
-		'''
+		"""
 		
 		mtokens = self.mtokens # generalised tokens
 		mtokens_string = ' '.join(self.mtokens) # up to date self.string
@@ -366,12 +402,19 @@ class user_request:
 			return False
 		else:
 			return True
-			
-	def param_extraction(self):
-		
+
+
+
+
+
+
+	def label_string_params(self):
+
 		"""
 		
-		Extracted specified parameters using regular expression
+		Having GENERALISED the tokens [self.mtokens]
+
+		We want to find -string pattern matches to update self.mtokens
 		
 		"""
 		
@@ -387,30 +430,20 @@ class user_request:
 			mtoken_spans[(start_idx,end_idx)] = ii
 			start_idx = end_idx + 1
 
+		# span to index conversion
 		token_spans = {}
 		for key,value in mtoken_spans.items():
-
-			gtoken_name = self.mtokens[value]
-				
-			if(gtoken_name.startswith('~')):
-				token_spans[key] = self.mtokens[value]
-			elif(gtoken_name == '-columns'):
-				token_spans[key] = self.ac_tokens[value]
-			elif(gtoken_name == '-range'):
-				token_spans[key] = self.range_tokens[value]
-			else:
-				token_spans[key] = self.tokens[value]
-			
-		# define patterns for matching
-		pattern_bef = r"(set to|equal to|as|stored as)"
-		pattern_af = r"(as|equal|=|:|to|of)"
+			token_spans[key] = value
 		
-		patterns = []
-		pattern_before = r'-\w+ ' + pattern_bef + r' ~\w+'
-		pattern_after = r'~\w+ ' + pattern_af + r' -\w+'
+		'''
+		
+		Need to add specific matches
+		
+		'''
 
-		patterns.append(pattern_before)
-		patterns.append(pattern_after)
+		patterns = []
+		pattern_extra = r"(~element )(.?){0,}(\w)+"
+		patterns.append(pattern_extra)
 			
 		pattern_matches = {}
 		for pattern in patterns:
@@ -439,6 +472,112 @@ class user_request:
 			
 			# for all regular expression matches
 			for span,token in pattern_matches.items():
+
+				tuples_list = [span]
+				results = get_values_in_range(tuples_list,token_spans)
+
+				print('results',results)
+
+				# del results[1:-1] # keep only first and last token
+
+
+
+
+
+
+
+
+			
+
+
+
+	def param_extraction(self):
+		
+		"""
+		
+		EXTRACT PARAMETERS FROM USER REQUEST
+		
+		"""
+		
+		mtokens = self.mtokens # generalised tokens
+		tokens = self.tokens # main tokens
+		mtokens_string = ' '.join(self.mtokens) # up to date self.string
+
+		mtoken_spans = {}	
+		start_idx = 0
+		for ii,token in enumerate(mtokens):
+			start_idx = mtokens_string.find(token, start_idx)
+			end_idx = start_idx + len(token) - 1  # Adjust end index to be inclusive
+			mtoken_spans[(start_idx,end_idx)] = ii
+			start_idx = end_idx + 1
+
+		token_spans = {}
+		for key,value in mtoken_spans.items():
+
+			gtoken_name = self.mtokens[value]
+				
+			if(gtoken_name.startswith('~')):
+				token_spans[key] = self.mtokens[value]
+			elif(gtoken_name == '-columns'):
+				token_spans[key] = self.ac_tokens[value]
+			elif(gtoken_name == '-range'):
+				token_spans[key] = self.range_tokens[value]
+			elif(gtoken_name == '-logical'):
+				token_spans[key] = self.logic_tokens[value]
+			else:
+				token_spans[key] = self.tokens[value]
+
+
+
+			
+		# define patterns for matching
+		pattern_bef = r"(set to|equal to|as|stored as)"
+		pattern_af = r"(as|equal|=|:|to|of)"
+		
+		patterns = []
+		pattern_before = r'-\w+ ' + pattern_bef + r' ~\w+'  # -value ... ~param
+		pattern_after = r'~\w+ ' + pattern_af + r' -\w+'   # ~param ... -value
+		pattern_mid = r'~\w+ -\w+' # ~param -value 
+
+		# special cases
+		pattern_extra = r"(~element )(.?){0,}(\w)+"
+
+		patterns.append(pattern_before)
+		patterns.append(pattern_after)
+		patterns.append(pattern_mid)
+		patterns.append(pattern_extra)
+			
+		pattern_matches = {}
+		for pattern in patterns:
+			match = list(re.finditer(pattern, mtokens_string))
+			for i in match:
+				pattern_matches[i.span()] = i.group()
+				
+		# display if pattern matches found
+		if(len(pattern_matches) > 0):
+			print('\n> Pattern matches found \n')
+			print(pattern_matches)
+
+
+
+				
+		# find tuple spans in dictionary of token spans
+		def get_values_in_range(tuples_list, dictionary):
+			result = []
+			for span in tuples_list:
+				start, end = span
+				for key in dictionary:
+					key_start, key_end = key
+					if (key_start >= start and key_end <= end) or (key_start <= start and key_end >= end):
+						result.append(dictionary[key])
+			return result
+		
+		# if matches are found, extract parameters	
+		if(len(pattern_matches)>0):
+			
+			# for all regular expression matches
+			for span,token in pattern_matches.items():
+
 				tuples_list = [span]
 				results = get_values_in_range(tuples_list,token_spans)
 				del results[1:-1] # keep only first and last token
@@ -451,27 +590,48 @@ class user_request:
 				
 				param_name = results[0][1:]
 				param_value = results[1]
-				
-				# check types
-				if(isinstance(param_value,str)):
-				
-					float_check = self.isfloat(param_value)
-					int_check = self.isint(param_value)
 
-					if(float_check):
-						param_value = float(param_value)
-					elif(int_check):
-						param_value = int(param_value)
+				# special cases for -string parameter values
 
-				elif(isinstance(param_value,tuple)):
-					pass
+				if(param_name == "element"):
+					if(param_value in ['steps','bars']):
+						pass
+					else:
+						param_value = 'steps'
+
+				else:
+
+					# check types
+					if(isinstance(param_value,str)):
+
+						logic_check = isinstance(eval(param_value),bool)
+						float_check = self.isfloat(param_value)
+						int_check = self.isint(param_value)
+		
+						if(logic_check == True):
+							param_value = eval(param_value)
+						else:
+							if(float_check == True):
+								param_value = float(param_value)
+							elif(int_check == True):
+								param_value = int(param_value)
+
+					elif(isinstance(param_value,tuple)):
+						pass
 					
 				# store parameter
 				self.extracted_params[param_name] = param_value
+				print(self.extracted_params)
 				
 		if(len(pattern_matches)>0):
 			print('extracted parameters')
 			print(self.extracted_params)
+
+
+
+
+
+
 	
 	'''
 	===========================================================
@@ -528,7 +688,10 @@ class user_request:
 		
 		"""
 		
-		Generalise tokens so they can be used for classification
+		GENERALISE TOKENS -> MTOKEN
+
+		generalisation doesn't apply to -string
+
 		
 		"""
 
@@ -710,7 +873,7 @@ class user_request:
 		
 	"""
 	
-	[Token Information Related]
+	TOKEN_INFO RELATED OPERATIONS
 	
 	"""
 
@@ -765,6 +928,14 @@ class user_request:
 												'col_id':{ii+1:None}
 												})
 				
+
+
+
+
+
+
+
+
 	def replace_tokens_to_columns(self):
 
 		"""

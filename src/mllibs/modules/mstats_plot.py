@@ -19,12 +19,11 @@ class stats_plot:
 			self.nlp_config = parse_json(self.json_data)
 		self.result = None
 
-
 	def sel(self,args:dict):
 		
 		"""
 		
-		Activation Function Selection
+		ACTIVATION FUNCTION SELECTION
 		
 		"""
 		
@@ -86,7 +85,7 @@ class stats_plot:
 		# preset function argument dictionary 
 		preset = {'data':combined,'ax':ax,
 				  'bins':100,'fill':True,'alpha':1.0,
-   				  'hue':'sample','x':'data'}
+   				  'hue':'sample','x':'data',"element":'step'}
 		
 		# update extracted parameter values
 		for param,value in self.params.items():
@@ -103,11 +102,11 @@ class stats_plot:
 
 	def dp_kde(self,args:dict):
 
-		'''
+		"""
 
 		Plot the Kernel Density Univariate Distribution
 
-		'''
+		"""
 
         # [when lists] combine all dictionaries into one dataframe
 		
@@ -144,11 +143,11 @@ class stats_plot:
 
 	def dp_box(self,args:dict):
 
-		'''
+		"""
 
 		Plot the Boxplot Univariate Distribution
 
-		'''
+		"""
 
 		# input requires any number of lists
 		if(self.data_format == 'alist'):
@@ -177,5 +176,4 @@ class stats_plot:
 
 		ax.set_xlabel('Subset')
 		ax.set_ylabel('Value')
-		ax.set_title('Univariate Distribution')
 		plt.show()

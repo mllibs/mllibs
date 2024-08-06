@@ -9,11 +9,12 @@ from mllibs.modules.mpd_dfop import pd_dfop
 from mllibs.modules.mstats_tests import stats_tests
 from mllibs.modules.mstats_plot import stats_plot
 import warnings; warnings.filterwarnings('ignore')
+import itertools
 
 
 class nlpi:
 	
-	'''
+	"""
 	########################################################################
 
 	Main Assembly Class 
@@ -39,7 +40,7 @@ class nlpi:
 			.grouped_col_names : group together df column names 
 	
 	########################################################################
-	'''
+	"""
 	
 	def __init__(self):
 		
@@ -57,7 +58,7 @@ class nlpi:
 
 
 
-		
+
 	# main user request
 	def query(self,query_request:str):
 
@@ -210,10 +211,58 @@ class nlpi:
 
 		# activation function acceptable formats 
 		# can be dictionary : for subset or list (general)
-		main_format = self.module_args['pred_info']['main_format']
+
+	
+
+
+
+		"""
 		
-		include_tokens = ['-column','-df','-columns','-list','-value','-range']
-		for param in self.modules.token_mparams:
+		(1) CREATE INPUT FORMAT REQUIREMENT LIST [main_format]
+		
+		"""
+
+
+		data_format = self.module_args['pred_info']['data_format'] 
+		param_format = self.module_args['pred_info']['param_format']
+
+		# Get the keys from param_format
+		keys = list(param_format.keys())
+
+		# Generate all combinations of keys (including single and multiple key entries)
+		all_combinations = []
+		for r in range(1, len(keys) + 1):
+			combinations = itertools.combinations(keys, r)
+			all_combinations.extend(combinations)
+
+		# Create a list to hold the final results
+		tmain_format = []
+
+		# Add each combination to each data_format entry
+		for entry in data_format:
+			for combo in all_combinations:
+				# Create a string representation of the combination including both key and value
+				combo_string = " ".join([f"{key} {param_format[key]}" for key in combo])
+				tmain_format.append(f"{entry} {combo_string}")
+
+		
+		main_format = []
+		for entry in tmain_format:
+			for key in keys:
+				entry = re.sub(key,'~' + key,entry)
+				main_format.append(entry)
+
+
+
+
+		"""
+		
+		(2) USER REQUEST INPUT FORMAT ADJUSTMENTS
+		
+		"""
+
+		include_tokens = ['-column','-df','-columns','-list','-value','-range','-logical']
+		for param in self.modules.c:
 			include_tokens.append('~' + param)	
 
 		# query compatibility; check keep only critical tags from request
@@ -228,6 +277,15 @@ class nlpi:
 			to_check_format = re.sub(r'(-list(?: -list){2,})', '-mlist', text)
 		elif(case_id == 2):
 			to_check_format = re.sub(r'(-list -list)', '-dlist', text)
+
+
+
+
+		"""
+		
+		(3) CHECK IF THE FORMATS MATCH
+		
+		"""
 
 		if(isinstance(main_format,dict)):
 
@@ -256,8 +314,6 @@ class nlpi:
 					print('\nprovided format:')
 					print(to_check_format)
 					
-					
-
 		elif(isinstance(main_format,list)):
 
 			# (b) general activation function format
@@ -330,7 +386,7 @@ class nlpi:
 		
 		# preset modules
 		if(modules is None):
-			self.modules.load([pd_dfop(),
+			self.modules.load([
 					  		   stats_tests(),
 							   stats_plot()])
 		else:

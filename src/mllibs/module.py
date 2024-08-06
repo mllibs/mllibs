@@ -120,6 +120,7 @@ class modules:
 
 		for module in modules:
 			for af,val in module.nlp_config['info'].items():
+
 				self.param_rearg[af] = dict()
 
 				# partial string replacement cases
@@ -136,15 +137,20 @@ class modules:
 
 		'''
 		
-		Extract unique input parameters that one can use in a user request
+		EXTRACT FROM ALL FUNCTIONS THE UNIQUE PARAMETER NAMES
 		
 		'''
 
 		lst_temp = []
 		for module in modules:
 			for af,val in module.nlp_config['info'].items():
-				if(module.nlp_config['info'][af]['arg_compat'] != 'None'):
-					lst_temp.extend(module.nlp_config['info'][af]['arg_compat'].split())
+
+				try:
+					function_params = list(module.nlp_config['info'][af]['param_format'].keys())
+					if(function_params != "None"):
+						lst_temp.extend(function_params)
+				except:
+					pass
 
 		# acceptable module parameter tokens
 		self.token_mparams = list(set(" ".join(lst_temp).split(' ')))

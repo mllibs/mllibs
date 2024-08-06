@@ -26,7 +26,8 @@
                             "description": "independent two sample student's t-test (data can be of different length)",
                             "data_compat": "dlist",
                             "arg_compat": "None",
-                            "main_format":["-list -list"]
+                            "main_format":["-list -list"],
+                            "param_format":"None"
                         }
                 },
 
@@ -51,7 +52,8 @@
                                 "description": "dependent two sample student's t-test (data must be of same length)",
                                 "data_compat": "dlist",
                                 "arg_compat": "None",
-                                "main_format":["-list -list"]
+                                "main_format":["-list -list"],
+                                "param_format":"None"
                             }
                     },
 
@@ -73,7 +75,8 @@
                                     "description": "one sample student t-test comparing the means to a population mean (popmean)",
                                     "data_compat": "list",
                                     "arg_compat": "popmean",
-                                    "main_format":["-list ~popmean -value"]
+                                    "main_format":["-list ~popmean -value"],
+                                    "param_format":"None"
                                 }
                     },
 					
@@ -96,8 +99,8 @@
                                 "topic": "statistical tests",
                                 "description": "Mann-Whitney test (u-test) is a nonparametric statistical test used to determine whether there is a significant difference between the distributions of two independent samples",
                                 "data_compat": "dlist",
-                                "arg_compat": "None",
-                                "main_format":["-list -list"]
+                                "data_format":["-dlist"],
+                                "param_format": "None"
                             }
                     },
 					
@@ -151,12 +154,15 @@
 					                "topic": "statistical tests",
 					                "description": "Kolmogorov Smirnov Tests of a sample for normality, uniformity and exponentiality",
 					                "data_compat": "list",
-					                "arg_compat": "None",
-					                "main_format": {
+					                "data_format": {
 					                                "normal":["-list"],
 					                                "uniform":["-list"],
 					                                "exponential":["-list"]
-					                                }
+					                                },
+
+                                    "param_format": "None"
+
+
 					              }
 					    },
 
@@ -184,8 +190,8 @@
                                         "topic": "statistical tests",
                                         "description": "Shapiro-Wilk test is a statistical test used to determine if a given sample of data comes from a normally distributed population",
                                         "data_compat": "list",
-                                        "arg_compat": "None",
-                                        "main_format":["-list"]
+                                        "data_format":["-list"],
+                                        "param_format":"None"
                                     }
                         },
 
@@ -206,8 +212,8 @@
                                         "topic": "statistical tests",
                                         "description": "One-way ANOVA (Analysis of Variance) test, which is used to determine if there are any statistically significant differences between the means of multiple samples of data",
                                         "data_compat": "mlist",
-                                        "arg_compat": "None",
-                                        "main_format":["-list -list","-list -list -list","-list -list -list -list"]
+                                        "data_format":["-dlist","-mlist"],
+                                        "param_format":"None"
                                     }
                         }
 
