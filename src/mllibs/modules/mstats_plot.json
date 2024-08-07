@@ -37,7 +37,9 @@
 
                             "param_partial" : {"bins":["bin number","bins"],
                                               "fsize":["figure size","size of the figure"]},
-                            "param_full" : {"fill False":["remove the fill","remove fill","fill to none","dont use fill"]}
+                            "param_full" : {"fill False":["remove the fill","remove fill","fill to none","dont use fill"]},
+
+                            "string_param": {"element":["bars","step","poly"]}
                         }                       
                 
                 },

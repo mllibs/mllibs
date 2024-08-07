@@ -434,6 +434,8 @@ class user_request:
 		token_spans = {}
 		for key,value in mtoken_spans.items():
 			token_spans[key] = value
+
+		print(token_spans)
 		
 		'''
 		
