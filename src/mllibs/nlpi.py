@@ -261,8 +261,8 @@ class nlpi:
 		
 		"""
 
-		include_tokens = ['-column','-df','-columns','-list','-value','-range','-logical']
-		for param in self.modules.c:
+		include_tokens = ['-column','-df','-columns','-list','-value','-range','-logical','-string']
+		for param in self.modules.token_mparams:
 			include_tokens.append('~' + param)	
 
 		# query compatibility; check keep only critical tags from request

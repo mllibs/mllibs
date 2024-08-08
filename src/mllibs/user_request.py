@@ -263,8 +263,6 @@ class user_request:
 		self.generalise_tokens()
 		self.add_column_token_info({'mtoken':self.mtokens})
 
-
-		print('passed!')
 		self.label_string_params()
 		
 		'''
@@ -421,76 +419,25 @@ class user_request:
 		mtokens = self.mtokens # generalised tokens
 		tokens = self.tokens # main tokens
 		mtokens_string = ' '.join(self.mtokens) # up to date self.string
+		replace_idx = [ii for ii,i in enumerate(self.mtokens) if i in self.modules.param_acceptstr_list]
 
-		mtoken_spans = {}	
-		start_idx = 0
-		for ii,token in enumerate(mtokens):
-			start_idx = mtokens_string.find(token, start_idx)
-			end_idx = start_idx + len(token) - 1  # Adjust end index to be inclusive
-			mtoken_spans[(start_idx,end_idx)] = ii
-			start_idx = end_idx + 1
+		if(len(replace_idx) > 0):
 
-		# span to index conversion
-		token_spans = {}
-		for key,value in mtoken_spans.items():
-			token_spans[key] = value
-
-		print(token_spans)
-		
-		'''
-		
-		Need to add specific matches
-		
-		'''
-
-		patterns = []
-		pattern_extra = r"(~element )(.?){0,}(\w)+"
-		patterns.append(pattern_extra)
-			
-		pattern_matches = {}
-		for pattern in patterns:
-			match = list(re.finditer(pattern, mtokens_string))
-			for i in match:
-				pattern_matches[i.span()] = i.group()
+			for group in replace_idx:
 				
-		# display if pattern matches found
-		if(len(pattern_matches) > 0):
-			print('\n> Pattern matches found \n')
-			print(pattern_matches)
-				
-		# find tuple spans in dictionary of token spans
-		def get_values_in_range(tuples_list, dictionary):
-			result = []
-			for span in tuples_list:
-				start, end = span
-				for key in dictionary:
-					key_start, key_end = key
-					if (key_start >= start and key_end <= end) or (key_start <= start and key_end >= end):
-						result.append(dictionary[key])
-			return result
-		
-		# if matches are found, extract parameters	
-		if(len(pattern_matches)>0):
-			
-			# for all regular expression matches
-			for span,token in pattern_matches.items():
-
-				tuples_list = [span]
-				results = get_values_in_range(tuples_list,token_spans)
-
-				print('results',results)
-
-				# del results[1:-1] # keep only first and last token
-
-
-
-
-
-
-
-
-			
-
+				self.replace_values_to_token_info({
+												'token':{group:tokens[group]},
+												'data_id':{group:False}, 
+												'dtype':{group:None},
+												'col_id':{group:None},
+												'ac_id': {group:None},
+												'range_val':{group:None},
+												'logic_id': {group:None},
+												'ac_id': {group:None},
+												'preset_param': {group:None},
+												'ttype' : {group:'str'},
+												'mtoken': {group:'-string'}
+												})
 
 
 	def param_extraction(self):
@@ -526,6 +473,8 @@ class user_request:
 				token_spans[key] = self.range_tokens[value]
 			elif(gtoken_name == '-logical'):
 				token_spans[key] = self.logic_tokens[value]
+			elif(gtoken_name == '-string'):
+				token_spans[key] = self.tokens[value]
 			else:
 				token_spans[key] = self.tokens[value]
 
@@ -541,13 +490,9 @@ class user_request:
 		pattern_after = r'~\w+ ' + pattern_af + r' -\w+'   # ~param ... -value
 		pattern_mid = r'~\w+ -\w+' # ~param -value 
 
-		# special cases
-		pattern_extra = r"(~element )(.?){0,}(\w)+"
-
 		patterns.append(pattern_before)
 		patterns.append(pattern_after)
 		patterns.append(pattern_mid)
-		patterns.append(pattern_extra)
 			
 		pattern_matches = {}
 		for pattern in patterns:
@@ -559,10 +504,7 @@ class user_request:
 		if(len(pattern_matches) > 0):
 			print('\n> Pattern matches found \n')
 			print(pattern_matches)
-
-
-
-				
+	
 		# find tuple spans in dictionary of token spans
 		def get_values_in_range(tuples_list, dictionary):
 			result = []

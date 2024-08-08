@@ -92,6 +92,8 @@ class stats_plot:
 			if(param not in ['fsize']):
 				preset[param] = value
 
+		print(preset)
+
 		sns.set_style('whitegrid')
 
 		sns.histplot(**preset)

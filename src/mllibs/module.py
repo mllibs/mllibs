@@ -30,7 +30,8 @@ class modules:
 		self.storage = {}
 		self.task_dict = {}
 		self.label = {} #  storing model label (text not numeric)
-		self.param_rearg = {}
+		self.param_rearg = {}     # store replacement strings for parameters 
+		self.param_acceptstr = {}  # store accepted string formats for parameters
 		
 	def load(self,modules:list):
 			
@@ -114,7 +115,7 @@ class modules:
 
 		'''
 		
-		Store all modules with Parameter Expressions
+		STORE MODULES WITH STRING REPLACEMENT PARAMETERS
 		
 		'''
 
@@ -134,6 +135,28 @@ class modules:
 					self.param_rearg[af].update(module.nlp_config['info'][af]['param_full'])
 				except:
 					pass
+
+		
+		'''		
+		STORE MODULES WITH ACCEPTED ACTIVATION FUNCTION STRING PARAMETERS
+		
+		'''
+
+		str_params = []
+		for module in modules:
+			for af,val in module.nlp_config['info'].items():
+
+				self.param_acceptstr[af] = dict()
+
+				try:
+					self.param_acceptstr[af].update(module.nlp_config['info'][af]['string_param'])
+					for param,value in module.nlp_config['info'][af]['string_param'].items():
+						str_params.extend(value)
+				except:
+					pass
+
+		self.param_acceptstr_list = str_params
+		
 
 		'''
 		
